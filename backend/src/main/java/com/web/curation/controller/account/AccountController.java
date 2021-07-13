@@ -44,7 +44,7 @@ public class AccountController {
 
         String email2 = email.toLowerCase().charAt(0) + email.substring(1);
         Optional<User> userOpt = userDao.findUserByEmailAndPassword(email2, password);
-        System.out.println(email);
+//        System.out.println(email);
         ResponseEntity response = null;
 
         if (userOpt.isPresent()) {
