@@ -13,6 +13,7 @@
           v-model="email"
           v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
           @keyup.enter="Login"
+          autocapitalize="off"
           id="email"
           placeholder="이메일을 입력하세요."
           type="text"
@@ -38,7 +39,7 @@
         @click="onLogin"
         :disabled="!isSubmit"
         :class="{disabled : !isSubmit}"
-      >로그인</button>
+      >로그인</button> 
 
       <div class="sns-login">
         <div class="text">
@@ -56,6 +57,7 @@
         </div>
         <div class="wrap">
           <p>비밀번호를 잊으셨나요?</p>
+          <router-link to="/user/findpwd" class="btn--text">비밀번호 찾기</router-link>
         </div>
         <div class="wrap">
           <p>아직 회원이 아니신가요?</p>
@@ -78,6 +80,19 @@ export default {
   components: {
     KakaoLogin,
     GoogleLogin
+  },
+  data: () => {
+    return {
+      email: "",
+      password: "",
+      passwordSchema: new PV(),
+      error: {
+        email: false,
+        passowrd: false
+      },
+      isSubmit: false,
+      component: this
+    };
   },
   created() {
     this.component = this;
@@ -102,6 +117,7 @@ export default {
   },
   methods: {
     checkForm() {
+      console.log(EmailValidator.validate(this.email));
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
       else this.error.email = false;
@@ -112,7 +128,7 @@ export default {
       )
         this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
       else this.error.password = false;
-
+      
       let isSubmit = true;
       Object.values(this.error).map(v => {
         if (v) isSubmit = false;
@@ -134,7 +150,7 @@ export default {
           data,
           res => {
             //통신을 통해 전달받은 값 콘솔에 출력
-            //console.log(res);
+            // console.log(res);
 
             //요청이 끝나면 버튼 활성화
             this.isSubmit = true;
@@ -149,19 +165,6 @@ export default {
       }
     }
   },
-  data: () => {
-    return {
-      email: "",
-      password: "",
-      passwordSchema: new PV(),
-      error: {
-        email: false,
-        passowrd: false
-      },
-      isSubmit: false,
-      component: this
-    };
-  }
 };
 </script>
 

@@ -66,6 +66,11 @@
   margin-top: 5px;
 }
 
+.user#login .btn--login.disabled {
+  background: #CCCCCC;
+  cursor: default;
+}
+
 .user#login .text {
   width: 100%;
   float: left;

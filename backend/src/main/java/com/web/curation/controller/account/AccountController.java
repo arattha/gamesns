@@ -42,9 +42,7 @@ public class AccountController {
     public Object login(@RequestParam(required = true) final String email,
             @RequestParam(required = true) final String password) {
 
-        String email2 = email.toLowerCase().charAt(0) + email.substring(1);
-        Optional<User> userOpt = userDao.findUserByEmailAndPassword(email2, password);
-        System.out.println(email);
+        Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
         ResponseEntity response = null;
 
         if (userOpt.isPresent()) {
@@ -65,7 +63,6 @@ public class AccountController {
     public Object signup(@Valid @RequestBody SignupRequest request) {
         // 이메일, 닉네임 중복처리 필수
         // 회원가입단을 생성해 보세요.
-//        System.out.println(request);
 
         User user = new User();
         user.setEmail(request.getEmail());
@@ -85,7 +82,7 @@ public class AccountController {
 
                 return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
             }
-//            System.out.println(u);
+            System.out.println(u);
         }
 
         // 중복된 값이 없으므로 회원가입이 가능
