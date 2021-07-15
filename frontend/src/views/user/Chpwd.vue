@@ -161,6 +161,7 @@ export default {
             this.$router.push("/");
           },
           (error) => {
+            if(error) this.$router.push("/error");
             this.isSubmit = true;
           }
         );

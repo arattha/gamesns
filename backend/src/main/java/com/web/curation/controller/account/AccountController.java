@@ -54,7 +54,7 @@ public class AccountController {
     }
 
     @PostMapping("/account/signup")
-    @ApiOperation(value = "가입하기")
+    @ApiOperation(value = "변경하기")
 
     public Object signup(@Valid @RequestBody SignupRequest request) {
         // 이메일, 닉네임 중복처리 필수
@@ -94,9 +94,7 @@ public class AccountController {
     @ApiOperation(value = "가입하기")
 
     public Object chpwd(@Valid @RequestBody ChpwdRequest request) {
-        // 이메일, 닉네임 중복처리 필수
-        // 회원가입단을 생성해 보세요.
-        System.out.println(request);
+
         Optional<User> user = userDao.findUserByEmail(request.getEmail());
         System.out.println(user);
         final BasicResponse result = new BasicResponse();

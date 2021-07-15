@@ -178,6 +178,7 @@ export default {
             this.$router.push("/user/joinSC");
           },
           error => {
+            if(error) this.$router.push("/error");
             this.isSubmit = true;
           }
         );

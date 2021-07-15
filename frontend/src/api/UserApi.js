@@ -31,7 +31,9 @@ const requestSignUp = (data,callback,errorCallback) => {
             callback();
         })
         .catch((msg) => {
-            if(msg.response.status == 401){
+            if(!msg.response){
+                errorCallback(true);
+            } else if(msg.response.status == 401){
                 alert("이미 존재하는 이메일입니다.");
             } else{
                 alert("회원가입에 실패했습니다.");
@@ -41,15 +43,23 @@ const requestSignUp = (data,callback,errorCallback) => {
 }
 
 const requestChPwd = (data,callback,errorCallback) => {
+    
     http
         .put("/account/chpwd", data)
         .then(() => {
             alert("비밀번호가 변경되었습니다.");
             callback();
         })
-        .catch(() => {
-            alert("비밀번호 변경에 실패했습니다.");
-            errorCallback();
+        .catch((err) => {
+            if(err.response.status == 403){
+                alert("이메일에 맞는 회원 정보가 없습니다.");  
+                errorCallback();  
+            } else if(err.response){
+                alert("비밀번호 변경에 실패했습니다.");    
+                errorCallback();
+            } else {
+                errorCallback(true);
+            }
         })
 }
 
