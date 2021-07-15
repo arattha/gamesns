@@ -6,22 +6,18 @@ import javax.validation.Valid;
 
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
+import com.web.curation.model.user.ChpwdRequest;
 import com.web.curation.model.user.SignupRequest;
 import com.web.curation.model.user.User;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -93,5 +89,33 @@ public class AccountController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PutMapping("/account/chpwd")
+    @ApiOperation(value = "가입하기")
+
+    public Object chpwd(@Valid @RequestBody ChpwdRequest request) {
+        // 이메일, 닉네임 중복처리 필수
+        // 회원가입단을 생성해 보세요.
+        System.out.println(request);
+        Optional<User> user = userDao.findUserByEmail(request.getEmail());
+        System.out.println(user);
+        final BasicResponse result = new BasicResponse();
+
+        if(user.isPresent()){
+            User tmpUser = user.get();
+            tmpUser.setPassword(request.getPassword());
+
+            userDao.save(tmpUser);
+            result.status = true;
+            result.data = "success";
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+
+        result.status = true;
+        result.data = "fail";
+
+        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+    }
+
 
 }

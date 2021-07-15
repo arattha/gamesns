@@ -32,9 +32,23 @@ const requestSignUp = (data,callback,errorCallback) => {
         })
 }
 
+const requestChPwd = (data,callback,errorCallback) => {
+    http
+        .put("/account/chpwd", data)
+        .then(() => {
+            alert("비밀번호가 변경되었습니다.");
+            callback();
+        })
+        .catch(() => {
+            alert("비밀번호 변경에 실패했습니다.");
+            errorCallback();
+        })
+}
+
 const UserApi = {
     requestLogin:(data,callback,errorCallback)=>requestLogin(data,callback,errorCallback),
-    requestSignUp:(data,callback,errorCallback)=>requestSignUp(data,callback,errorCallback)
+    requestSignUp:(data,callback,errorCallback)=>requestSignUp(data,callback,errorCallback),
+    requestChPwd:(data,callback,errorCallback)=>requestChPwd(data,callback,errorCallback)
 }
 
 export default UserApi

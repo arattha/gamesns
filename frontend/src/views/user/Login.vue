@@ -63,6 +63,10 @@
           <p>아직 회원이 아니신가요?</p>
           <router-link to="/user/join" class="btn--text">가입하기</router-link>
         </div>
+        <div class="wrap">
+          <p>비밀번호를 변경하시겠어요?</p>
+          <router-link to="/user/chpwd" class="btn--text">비밀번호 변경하기</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -155,7 +159,7 @@ export default {
             //요청이 끝나면 버튼 활성화
             this.isSubmit = true;
 
-            this.$router.push("/main");
+            this.$router.push("/feed/main");
           },
           error => {
             //요청이 끝나면 버튼 활성화
