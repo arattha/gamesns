@@ -6,6 +6,7 @@ import JoinSC from './views/user/JoinSuccess.vue'
 import ChPwd from './views/user/Chpwd.vue'
 import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
+import NotFound from './views/error/PageNotFound.vue'
 
 export default [
 
@@ -39,5 +40,14 @@ export default [
         path : '/components',
         name : 'Components',
         component : Components
+    },
+    {
+        path : '/404',
+        name : "notFound",
+        component : NotFound
+    },
+    {
+        path : '/:pathMatch(.*)*',
+        redirect : '/404'
     }
 ]

@@ -26,9 +26,13 @@ const requestSignUp = (data,callback,errorCallback) => {
             alert("회원가입에 성공했습니다.");
             callback();
         })
-        .catch(() => {
-            alert("회원가입에 실패했습니다.");
-            errorCallback();
+        .catch((msg) => {
+            if(msg.response.status == 401){
+                alert("이미 존재하는 이메일입니다.");
+            } else{
+                alert("회원가입에 실패했습니다.");
+                errorCallback();
+            }
         })
 }
 
