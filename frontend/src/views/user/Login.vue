@@ -162,8 +162,11 @@ export default {
             this.$router.push("/feed/main");
           },
           error => {
+            if(error) this.$router.push("/error");
+            
             //요청이 끝나면 버튼 활성화
             this.isSubmit = true;
+            
           }
         );
       }

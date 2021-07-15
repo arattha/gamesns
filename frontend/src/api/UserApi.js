@@ -13,9 +13,13 @@ const requestLogin = (data,callback,errorCallback) => {
             alert("로그인 되었습니다.");
             callback();
         })
-        .catch(() => {
-            alert("아이디나 비밀번호가 맞지 않습니다.");
-            errorCallback();
+        .catch((err) => {
+            if(!err.response){
+                errorCallback(true);
+            } else {
+                alert("아이디나 비밀번호가 맞지 않습니다.");
+                errorCallback();
+            }
         })
 }
 

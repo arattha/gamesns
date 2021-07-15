@@ -7,6 +7,7 @@ import ChPwd from './views/user/Chpwd.vue'
 import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
 import NotFound from './views/error/PageNotFound.vue'
+import ErrorP from './views/error/Error.vue'
 
 export default [
 
@@ -40,6 +41,11 @@ export default [
         path : '/components',
         name : 'Components',
         component : Components
+    },
+    {
+        path : '/error',
+        name : "error",
+        component : ErrorP
     },
     {
         path : '/404',
