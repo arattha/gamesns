@@ -52,6 +52,7 @@
     - url 에 이동할 수 없는 페이지를 입력하면 자동으로 PageNotFound.vue 를 보여줌
 2. Error
     - Error 상황 시 보여줄 vue 파일 생성(./views/error/Error.vue)
+        - 3팀은 Error 상황은 네트워크 오류(net::ERR_CONNECTION_REFUSED 백엔드와의 통신) 로 통일했습니다.
     - Network 오류 시 Error.vue 를 보여줌
 
 <br /><br />
