@@ -1,7 +1,10 @@
 package com.web.curation.controller;
 
+import com.web.curation.dao.reply.ReplyDao;
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
+import com.web.curation.model.reply.Reply;
+import com.web.curation.model.reply.ReplyRequest;
 import com.web.curation.model.user.ChpwdRequest;
 import com.web.curation.model.user.SignupRequest;
 import com.web.curation.model.user.User;
@@ -27,109 +30,31 @@ import java.util.Optional;
 public class ReplyController {
 
     @Autowired
-    UserDao userDao;
+    ReplyDao replyDao;
 
-    @GetMapping("/follow/follower")
-    @ApiOperation(value = "팔로워리스트")
-    public Object follower(@RequestParam(required = true) final String email,
-            @RequestParam(required = true) final String password) {
-
-        Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
-        ResponseEntity response = null;
-
-        if (userOpt.isPresent()) {
-            final BasicResponse result = new BasicResponse();
-            result.status = true;
-            result.data = "success";
-            response = new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-
-        return response;
-    }
-
-    @GetMapping("/follow/following")
-    @ApiOperation(value = "팔로잉리스트")
-    public Object following(@RequestParam(required = true) final String email,
-                        @RequestParam(required = true) final String password) {
-
-        Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
-        ResponseEntity response = null;
-
-        if (userOpt.isPresent()) {
-            final BasicResponse result = new BasicResponse();
-            result.status = true;
-            result.data = "success";
-            response = new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-
-        return response;
-    }
-
-    @PostMapping("/account/signup")
-    @ApiOperation(value = "변경하기")
-
-    public Object signup(@Valid @RequestBody SignupRequest request) {
-        // 이메일, 닉네임 중복처리 필수
-        // 회원가입단을 생성해 보세요.
-
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-//        System.out.println(user);
-
+    @PostMapping("/reply")
+    @ApiOperation(value = "댓글등록")
+    public Object create(@Valid @RequestBody ReplyRequest request) {
         final BasicResponse result = new BasicResponse();
 
-        // 전체 사용자 목록 가져오기
-        List<User> list = userDao.findAll();
-        for(User u : list){
-            // 이메일 중복 확인
-            if(u.getEmail().equals(user.getEmail())){
-                result.status = true;
-                result.data = "fail";
-                result.object = u;
+        Reply reply = new Reply();
+        reply.setContent(request.getContent());
+        reply.setBid(request.getBid());
+        reply.setUid(request.getUid());
+        reply.setNickname(request.getNickname());
 
-                return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
-            }
-            System.out.println(u);
+        try {
+            replyDao.save(reply);
+
+            result.status = true;
+            result.data = "success";
+        } catch (Exception e) {
+            System.out.println(e);
+
+            result.status = false;
+            result.data = "failed";
         }
-
-        // 중복된 값이 없으므로 회원가입이 가능
-        result.status = true;
-        result.data = "success";
-
-        userDao.save(user);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-    @PutMapping("/account/chpwd")
-    @ApiOperation(value = "가입하기")
-
-    public Object chpwd(@Valid @RequestBody ChpwdRequest request) {
-
-        Optional<User> user = userDao.findUserByEmail(request.getEmail());
-        System.out.println(user);
-        final BasicResponse result = new BasicResponse();
-
-        if(user.isPresent()){
-            User tmpUser = user.get();
-            tmpUser.setPassword(request.getPassword());
-
-            userDao.save(tmpUser);
-            result.status = true;
-            result.data = "success";
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-
-        result.status = true;
-        result.data = "fail";
-
-        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-    }
-
-
 }
