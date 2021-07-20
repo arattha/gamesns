@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FollowingDao extends JpaRepository<Following, String> {
 
-    List<Following> findFollowingByUid(String uid);
+    List<Following> findFollowingByFrom(long uid);
 }

@@ -19,11 +19,11 @@ public class Board {
     private Long bid;
     private Long uid;
 
-    private String content;
+    private String contents;
     private String img;
 
     private int likes;
-    private int comment;
+    //private int comment;
     private int share;
 
     @Column(insertable = false)
