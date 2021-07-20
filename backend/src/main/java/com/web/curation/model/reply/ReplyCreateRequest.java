@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @Valid
-public class ReplyRequest {
+public class ReplyCreateRequest {
     @ApiModelProperty(required = true)
     @NotNull
     Long bid;

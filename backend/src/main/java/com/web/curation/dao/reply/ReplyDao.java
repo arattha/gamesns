@@ -3,5 +3,8 @@ package com.web.curation.dao.reply;
 import com.web.curation.model.reply.Reply;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReplyDao extends JpaRepository<Reply, String> {
+import java.util.Optional;
+
+public interface ReplyDao extends JpaRepository<Reply, Long> {
+    Optional<Reply> findReplyByRid(Long rid);
 }
