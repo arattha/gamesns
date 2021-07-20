@@ -16,13 +16,17 @@ import java.time.LocalDateTime;
 public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cid;
+    private Long rid;
     // user id
     private Long uid;
     // board id
     private Long bid;
 
+    private String nickname;
+
     private String content;
+
+    private int cnt;
 
     @Column(insertable = false)
     private LocalDateTime regDate;
