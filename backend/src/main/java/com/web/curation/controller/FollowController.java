@@ -1,7 +1,9 @@
 package com.web.curation.controller;
 
+import com.web.curation.dao.follow.FollowDao;
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
+import com.web.curation.model.follow.Follower;
 import com.web.curation.model.user.ChpwdRequest;
 import com.web.curation.model.user.SignupRequest;
 import com.web.curation.model.user.User;
@@ -29,24 +31,26 @@ public class FollowController {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    FollowDao followerDao;
+
     @GetMapping("/follow/follower")
     @ApiOperation(value = "팔로워리스트")
-    public Object follower(@RequestParam(required = true) final String email,
-            @RequestParam(required = true) final String password) {
+    public Object follower(@RequestParam(required = true) final String uid) {
 
-        Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
-        ResponseEntity response = null;
+        Optional<User> user = userDao.findUserByUid(uid);
 
-        if (userOpt.isPresent()) {
+        if(user.isPresent()) {
+            List<Follower> FList = followerDao.findFollowerByUid(uid);
+
+            return new ResponseEntity<>(FList, HttpStatus.OK);
+        } else {
             final BasicResponse result = new BasicResponse();
             result.status = true;
             result.data = "success";
-            response = new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
-        return response;
     }
 
     @GetMapping("/follow/following")
