@@ -14,12 +14,6 @@ public class ReplyUpdateRequest {
     Long rid;
     @ApiModelProperty(required = true)
     @NotNull
-    Long bid;
-    @ApiModelProperty(required = true)
-    @NotNull
-    Long uid;
-    @ApiModelProperty(required = true)
-    @NotNull
     String nickname;
     @ApiModelProperty(required = true)
     @NotNull
