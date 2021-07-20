@@ -1,4 +1,4 @@
-package com.web.curation.controller.board;
+package com.web.curation.controller;
 
 import com.web.curation.dao.board.BoardDao;
 import com.web.curation.model.BasicResponse;

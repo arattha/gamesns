@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,12 +25,10 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String uid;
+    private Long uid;
 
-    @JsonIgnore
-    private String password;
-    private String email;
+    private String nickname;
+    private Byte pimg;
 
     @Column(insertable = false, updatable = false)
     private LocalDateTime createDate;

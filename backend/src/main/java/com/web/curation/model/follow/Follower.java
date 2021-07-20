@@ -1,5 +1,6 @@
-package com.web.curation.model.list;
+package com.web.curation.model.follow;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,19 +10,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Following {
+public class Follower {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String fid;
+    private Long fid;
 
-    private String from;
-    private String to;
+    private Long from;
+    private Long to;
 
 }

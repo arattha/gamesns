@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
 public class AddBoard {
     @ApiModelProperty(required = true)
     @NotNull
-    String uid;
+    Long uid;
     @ApiModelProperty(required = true)
     @NotNull
     String content;

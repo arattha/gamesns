@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String bid;
-    private String uid;
+    private Long bid;
+    private Long uid;
 
     private String content;
     private String img;

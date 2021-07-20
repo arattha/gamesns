@@ -1,4 +1,4 @@
-package com.web.curation.model.board;
+package com.web.curation.model.reply;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Comment {
+public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String cid;
+    private Long cid;
     // user id
-    private String uid;
+    private Long uid;
     // board id
-    private String bid;
+    private Long bid;
 
     private String content;
 

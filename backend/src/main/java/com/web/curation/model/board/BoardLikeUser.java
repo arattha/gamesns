@@ -17,8 +17,9 @@ public class BoardLikeUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String uid;
-    private String bid;
+    // 좋아요를 누른 사람
+    private Long uid;
+    private Long bid;
 
 }
 
