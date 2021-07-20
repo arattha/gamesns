@@ -1,13 +1,9 @@
 package com.web.curation.controller;
 
 import com.web.curation.dao.reply.ReplyDao;
-import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.reply.Reply;
-import com.web.curation.model.reply.ReplyRequest;
-import com.web.curation.model.user.ChpwdRequest;
-import com.web.curation.model.user.SignupRequest;
-import com.web.curation.model.user.User;
+import com.web.curation.model.reply.ReplyCreateRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -17,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -34,7 +28,7 @@ public class ReplyController {
 
     @PostMapping("/reply")
     @ApiOperation(value = "댓글등록")
-    public Object create(@Valid @RequestBody ReplyRequest request) {
+    public Object create(@Valid @RequestBody ReplyCreateRequest request) {
         final BasicResponse result = new BasicResponse();
 
         Reply reply = new Reply();
