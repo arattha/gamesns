@@ -5,7 +5,6 @@ import com.web.curation.dao.follow.FollowingDao;
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.board.AddBoard;
 import com.web.curation.model.board.Board;
-import com.web.curation.model.follow.Following;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,11 +15,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
+import java.io.IOException;
+import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -33,7 +38,6 @@ public class BoardController {
 
     @Autowired
     BoardDao boardDao;
-    
     @Autowired
     FollowingDao followingDao;
     
@@ -42,51 +46,43 @@ public class BoardController {
     public Object bList(@RequestParam(required = true) final long uid,
     		@RequestParam(required = false) String bid){
     	
-    	List<Following> following = followingDao.findFollowingByFrom(uid);
-    	long longbid = 0;
+    	long longbid;
+    	if(bid == null) longbid = Long.MAX_VALUE;//없으면 최대값
+    	else longbid = Long.parseLong(bid);//있으면 해당 bid 밑으로
     	
-    	Pageable paging = PageRequest.of(0, 10);
+    	Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
     	
-    	if(bid == null) longbid = Long.MAX_VALUE;
-    	else longbid = Long.parseLong(bid);
+    	List<Board> board;
     	
-    	List<Board> board = boardDao.findBoardByFollowFeed(longbid, uid,paging);
-    	
+    	if(followingDao.findFollowingByFrom(uid).size() > 0) {//내가 follow 하는 사람의 리스트
+    		board = boardDao.findFollowFeedByUid(longbid, uid, paging);
+    	}
+    	else {
+    		board = boardDao.findFollowFeed(longbid, paging);
+    	}
     	
         return new ResponseEntity<>(board, HttpStatus.OK);
-
     }
 
     @PostMapping("/board")
     @ApiOperation(value="추가하기")
-    public Object addBoard(@Valid @RequestBody AddBoard newBoard){
+    public Object addBoard(@Valid @RequestBody AddBoard newBoard, @RequestParam("img") MultipartFile multipartFile){
         Board board = new Board();
         board.setUid(newBoard.getUid());
-        board.setImg(newBoard.getImg());
+        board.set
+        //Map<String,Object> hmap = new HashMap<String,Object>();
+        //hmap.put("img", multipartFile.getBytes());
         
-        List<Board> arr = new ArrayList<Board>();
-        
-        long u1 = 0;
-        long u2 = 1;
-        long u3 = 2;
-        for (int i = 0; i < 20; i++) {
-        	Board temp1 = new Board();
-        	temp1.setUid(u1);
-        	temp1.setImg(newBoard.getImg());
-        	temp1.setContents("contents "+i);
-        	Board temp2 = new Board();
-        	temp2.setUid(u2);
-        	temp2.setImg(newBoard.getImg());
-        	temp2.setContents("contents "+i);
-        	Board temp3 = new Board();
-        	temp3.setUid(u3);
-        	temp3.setImg(newBoard.getImg());
-        	temp3.setContents("contents "+i);
-			arr.add(temp1);
-			arr.add(temp2);
-			arr.add(temp3);
+        try {
+			board.setImg(multipartFile.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-        boardDao.saveAll(arr);
+        
+        //List<Board> arr = new ArrayList<Board>();
+        
+        boardDao.save(board);
         
         
         final BasicResponse result = new BasicResponse();

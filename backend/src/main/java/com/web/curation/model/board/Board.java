@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,7 +22,9 @@ public class Board {
     private Long uid;
 
     private String contents;
-    private String img;
+    
+    @Lob
+    private byte[] img;
 
     private int likes;
     //private int comment;

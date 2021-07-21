@@ -18,7 +18,5 @@ public class AddBoard {
     @ApiModelProperty(required = true)
     @NotNull
     String content;
-    @ApiModelProperty(required = true)
-    String img;
 
 }
