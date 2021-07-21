@@ -10,4 +10,5 @@ public interface UserDao extends JpaRepository<User, Long> {
 
     Optional<User> findUserByUid(Long uid);
 
+    Optional<User> findUserByNickname(String nickname);
 }
