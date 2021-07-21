@@ -21,21 +21,26 @@
       :on-success=onSuccess
       :on-failure=onFailure
       />
+      <button @click="logout">logout</button>
     </div>
   </div>
 </template>
 
 <script>
 import KakaoLogin from 'vue-kakao-login'
+import UserApi from '../../api/UserApi';
 
+let token = "";
 let onSuccess = (data) => {
   console.log(data);
+  token = data.access_token;
   console.log("success")
 }
 let onFailure = (data) => {
   console.log(data)
   console.log("failure")
 }
+
  
 export default {
   name: 'App',
@@ -44,7 +49,21 @@ export default {
   },
   methods: {
     onSuccess,
-    onFailure
+    onFailure,
+    logout() {
+        let data = {
+          access_token: token
+        };
+      UserApi.logout(
+        data,
+        (res) => {
+
+        },
+        (error) => {
+
+        }
+      )
+    }
   }
 }
 </script>

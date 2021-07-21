@@ -8,19 +8,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
-import com.fasterxml.jackson.core.JsonParseException;
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
-import com.web.curation.model.user.ChpwdRequest;
 import com.web.curation.model.user.ImgRequest;
 import com.web.curation.model.user.SignupRequest;
 import com.web.curation.model.user.User;
 
-import io.swagger.annotations.Api;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -30,10 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springfox.documentation.spring.web.json.Json;
 
-import java.util.List;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -47,25 +37,30 @@ public class AccountController {
     @Autowired
     UserDao userDao;
 
-    @GetMapping("/kakaoLogin")
-    @ApiOperation(value = "kakaoLogin")
-    public HashMap<String, String> klogin(@RequestParam String access_token) {
-        return getUserInfo(access_token);
+    @GetMapping("/kakaoLogout")
+    @ApiOperation(value = "kakaoLogout")
+    public Object klogout(@RequestParam String access_token) {
+        kakaoLogout(access_token);
+
+        return "index";
+
     }
 
-    @GetMapping("/account/login")
-    @ApiOperation(value = "로그인")
-    public Object login(@RequestParam(required = true) final Long uid) {
+    @GetMapping("/kakaoLogin")
+    @ApiOperation(value = "kakaoLogin")
+    public Object klogin(@RequestParam String access_token) {
 
-        Optional<User> userOpt = userDao.findUserByUid(uid);
+        String uid = getUserInfo(access_token).get("id");
 
-        if (userOpt.isPresent()) {
-            final BasicResponse result = new BasicResponse();
-            result.status = true;
-            result.data = "success";
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        Optional<User> userOpt = userDao.findUserByUid(Long.parseLong(uid));
+        System.out.println("uid : " + uid);
+
+        if(userOpt.isPresent()) {
+            // 회원정보가 있으면 회원정보와 함께 OK
+            return new ResponseEntity<>(userOpt.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            // 회원정보가 없으면 uid 와 함께 NOT_FOUND
+            return new ResponseEntity<>(uid, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -134,12 +129,37 @@ public class AccountController {
 
             JSONObject parser = new JSONObject(result);
             System.out.println(parser);
-            System.out.println(parser.get("kakao_account"));
+//            System.out.println(parser.get("kakao_account"));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return userInfo;
+    }
+
+    public void kakaoLogout(String access_Token){
+        String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String result = "";
+            String line = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
