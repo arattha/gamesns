@@ -49,10 +49,11 @@ public class AccountController {
     @GetMapping("/kakaoLogin")
     @ApiOperation(value = "kakaoLogin")
     public Object klogin(@RequestParam String access_token) {
+        System.out.println("access_token : " + access_token);
+        Long uid = new Long(getUserInfo(access_token));
+        System.out.println("orgin : " + uid);
 
-        String uid = getUserInfo(access_token).get("id");
-
-        Optional<User> userOpt = userDao.findUserByUid(Long.parseLong(uid));
+        Optional<User> userOpt = userDao.findUserByUid(uid);
         System.out.println("uid : " + uid);
 
         if(userOpt.isPresent()) {
@@ -107,8 +108,8 @@ public class AccountController {
         }
     }
 
-    public HashMap<String, String> getUserInfo(String access_Token){
-        HashMap<String, String> userInfo = new HashMap<>();
+    public int getUserInfo(String access_Token){
+
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
         try{
@@ -128,13 +129,14 @@ public class AccountController {
             }
 
             JSONObject parser = new JSONObject(result);
-            System.out.println(parser);
-//            System.out.println(parser.get("kakao_account"));
+            System.out.println(parser.get("id"));
+
+            return (int) parser.get("id");
 
         } catch (IOException e) {
             e.printStackTrace();
+            return 0;
         }
-        return userInfo;
     }
 
     public void kakaoLogout(String access_Token){
