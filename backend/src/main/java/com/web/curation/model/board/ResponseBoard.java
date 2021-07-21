@@ -1,5 +1,8 @@
 package com.web.curation.model.board;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.web.curation.model.file.ImgFile;
 
@@ -7,19 +10,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-import java.sql.Blob;
-import java.time.LocalDateTime;
-
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Board {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ResponseBoard {
+	
     private Long bid;
     private Long uid;
 
@@ -28,6 +24,17 @@ public class Board {
     private int likes;
     private int share;
     
-    @Column(insertable = false)
+    private List<ImgFile> imgFiles;
+    
+    public ResponseBoard(Board board, List<ImgFile> imgFiles) {
+		this.bid = board.getBid();
+		this.uid = board.getUid();
+		this.contents = board.getContents();
+		this.likes = board.getLikes();
+		this.share = board.getShare();
+		this.imgFiles = imgFiles;
+		this.createDate = board.getCreateDate();
+	}
+
     private LocalDateTime createDate;
 }

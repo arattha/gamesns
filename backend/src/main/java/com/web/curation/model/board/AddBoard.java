@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.web.multipart.MultipartFile;
+
 @Valid
 @Data
 @ToString
@@ -18,5 +20,8 @@ public class AddBoard {
     @ApiModelProperty(required = true)
     @NotNull
     String content;
-
+    
+    @ApiModelProperty(required = false)
+    MultipartFile[] multipartFiles;
+    
 }
