@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -73,11 +74,13 @@ public class BoardController {
     		boardList = boardDao.findFollowFeed(longbid, paging);
     	}
     	List<ResponseBoard> resboard = new ArrayList<>();
+    	
     	for (Board board : boardList) {
     		resboard.add(new ResponseBoard(board,imgFileDao.findImgFileByBid(board.getBid())));
 		}
     	
         return new ResponseEntity<>(resboard, HttpStatus.OK);
+        
     }
     
     @PostMapping(value="/board")
@@ -118,5 +121,80 @@ public class BoardController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PutMapping(value="/board/{bid}")
+    @ApiOperation(value="수정하기")
+    public Object modifyBoard(@PathVariable("bid") long bid ,AddBoard newBoard) throws IllegalStateException, IOException{
 
+        //Board> boardBid = boardDao.findByBid(bid);
+        Board board = boardDao.findBoardByBid(bid);
+        board.setUid(newBoard.getUid());
+        board.setContents(newBoard.getContent());
+        System.out.println(board);
+        String fileName;
+        
+        
+        List<ImgFile> imgList = imgFileDao.findImgFileByBid(bid);//연관된 파일 삭제
+        imgFileDao.deleteAll(imgList);
+        
+        for (ImgFile imgFile : imgList) {
+			File file = new File(imgFile.getFile_base_url());//연관된 파일 삭제
+			file.delete();
+		}
+        
+        
+        MultipartFile[] multipartFiles = newBoard.getMultipartFiles();
+        
+        for (int i = 0; i < multipartFiles.length; i++) {//재등록
+        	
+        	MultipartFile multipartFile = multipartFiles[i];
+        	UUID uuid = UUID.randomUUID();
+        	
+        	fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
+        	multipartFile.transferTo(new File("D:\\upload"+"\\"+fileName));
+        	String base_url = "D:\\upload"+"\\"+fileName;
+        	
+        	ImgFile file = new ImgFile();//이미지 파일 세팅
+        	file.setFile_name(fileName);
+        	file.setFile_base_url(base_url);
+        	file.setFile_size(Long.toString(multipartFile.getSize()));
+        	file.setBid(board.getBid());
+        	
+        	imgFileDao.save(file);
+		}
+        
+        board = boardDao.save(board);
+        
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    
+    @DeleteMapping(value="/board/{bid}")
+    @ApiOperation(value="삭제하기")
+    public Object deleteBoard(@PathVariable("bid") long bid) throws IllegalStateException, IOException{
+    	
+    	final BasicResponse result = new BasicResponse();
+    	
+    	List<ImgFile> imgList = imgFileDao.findImgFileByBid(bid);//연관된 파일 삭제
+        
+        for (ImgFile imgFile : imgList) {
+			File file = new File(imgFile.getFile_base_url());//연관된 파일 삭제
+			if(file.exists()) file.delete();
+		}
+        boardDao.delete(boardDao.findBoardByBid(bid));
+//    	try {
+//    		boardDao.deleteById(bid);//cascade로 제거.
+//    		result.status = true;
+//            result.data = "success";
+//		} catch (Exception e) {
+//			result.status = false;
+//	        result.data = "failed";
+//		}
+    	result.status = true;
+        result.data = "success";
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    
 }

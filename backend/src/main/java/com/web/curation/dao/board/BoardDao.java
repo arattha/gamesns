@@ -23,4 +23,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
     		"where b.bid < :bid " +  
     		"order by b.createDate desc")
     List<Board> findFollowFeed(@Param("bid") long bid, Pageable limitTen);
+    
+    Board findBoardByBid(long bid);
+    
 }
