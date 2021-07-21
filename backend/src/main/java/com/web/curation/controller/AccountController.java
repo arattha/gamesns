@@ -1,6 +1,7 @@
 package com.web.curation.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -49,12 +51,10 @@ public class AccountController {
     @GetMapping("/kakaoLogin")
     @ApiOperation(value = "kakaoLogin")
     public Object klogin(@RequestParam String access_token) {
-        System.out.println("access_token : " + access_token);
+
         Long uid = new Long(getUserInfo(access_token));
-        System.out.println("orgin : " + uid);
 
         Optional<User> userOpt = userDao.findUserByUid(uid);
-        System.out.println("uid : " + uid);
 
         if(userOpt.isPresent()) {
             // 회원정보가 있으면 회원정보와 함께 OK
@@ -83,18 +83,32 @@ public class AccountController {
 
     // myPage 에서 회원 정보 수정
 
+    // 처음에 기본이미지로 저장된 이미지를 수정
     @PutMapping("/account/imgPut")
     @ApiOperation(value="이미지 삽입")
-    public Object imgPut(@RequestBody ImgRequest request) {
+    public Object imgPut(@RequestBody ImgRequest request,
+                         MultipartFile multipartFile) throws IllegalStateException, IOException {
 
         Optional<User> userOpt = userDao.findUserByUid(request.getUid());
 
         final BasicResponse result = new BasicResponse();
 
+        String filePath = "a";
+        String originPath;
+        String originalFileExtension;
+        String storedFileName;
+        File file = new File(filePath);
+
+
+
         if(userOpt.isPresent()) {
 
             User user = userOpt.get();
             user.setPimg(request.getPImg());
+
+            // uid 와 img
+
+            multipartFile.getOriginalFilename();
 
             userDao.save(user);
 
@@ -108,6 +122,7 @@ public class AccountController {
         }
     }
 
+    // 카카오톡 access_token 으로 사용자 id 받기
     public int getUserInfo(String access_Token){
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -139,6 +154,7 @@ public class AccountController {
         }
     }
 
+    // 카카오톡 로그아웃
     public void kakaoLogout(String access_Token){
         String reqURL = "https://kapi.kakao.com/v1/user/unlink";
         try {
