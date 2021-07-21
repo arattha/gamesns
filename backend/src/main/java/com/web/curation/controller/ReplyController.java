@@ -125,4 +125,37 @@ public class ReplyController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @DeleteMapping("/reply")
+    @ApiOperation(value = "댓글삭제")
+    public Object delete(@RequestBody final Long rid, @RequestParam final String nickname) {
+        final BasicResponse result = new BasicResponse();
+
+        // 만약 조회하고자하는 댓글이 db에 없거나
+        // 제거하고자하는 닉네임과 기존 댓글을 작성한 닉네임이 다를 경우에
+        // 비정상적으로 처리됬음을 알리기위함
+        result.status = false;
+        result.data = "failed";
+
+        // rid로 댓글을 검색하여 결과를 반환
+        Optional<Reply> tempReply = replyDao.findReplyByRid(rid);
+
+        // rid로 검색한 결과가 있을 경우에만 수행
+        if (tempReply.isPresent()) {
+            // rid로 검색한 댓글을 받아온다
+            Reply reply = tempReply.get();
+
+            // 만약 수정하고자 하는 닉네임과 기존 댓글을 작성한 닉네임이 같은 경우에만 수행
+            if (reply.getNickname().equals(nickname)) {
+                // 업데이트
+                replyDao.delete(reply);
+
+                // 처리가 정상적으로 처리됬음을 알려준다.
+                result.status = true;
+                result.data = "success";
+            }
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
