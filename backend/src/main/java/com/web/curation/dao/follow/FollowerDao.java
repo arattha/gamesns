@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FollowerDao extends JpaRepository<Follower, String> {
+public interface FollowerDao extends JpaRepository<Follower, Long> {
 
-    List<Follower> findFollowerByUid(String uid);
+    List<Follower> findFollowerByFrom(Long from);
 }

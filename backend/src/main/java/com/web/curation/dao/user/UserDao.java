@@ -6,8 +6,8 @@ import java.util.Optional;
 import com.web.curation.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserDao extends JpaRepository<User, String> {
+public interface UserDao extends JpaRepository<User, Long> {
 
-    Optional<User> findUserByUid(String uid);
+    Optional<User> findUserByUid(Long uid);
 
 }
