@@ -34,14 +34,28 @@ let token = "";
 let onSuccess = (data) => {
   console.log(data);
   token = data.access_token;
-  console.log("success")
+
+  let data2 = {
+    access_token: token
+  };
+
+  UserApi.requestkakaoLogin(data2,
+  (res) => {
+    console.log("success");
+    this.$router.push('/feed/main');
+  },
+  (error) => {
+    console.log("fail!!!!!!!!!!!!!!");
+    this.$router.push('/error');
+  }
+  )
 }
 let onFailure = (data) => {
   console.log(data)
   console.log("failure")
 }
 
- 
+
 export default {
   name: 'App',
   components: {
