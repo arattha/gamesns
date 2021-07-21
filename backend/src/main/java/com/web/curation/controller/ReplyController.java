@@ -8,10 +8,7 @@ import com.web.curation.model.reply.ReplyUpdateRequest;
 import com.web.curation.service.ReplyService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -112,7 +109,7 @@ public class ReplyController {
 
         try {
             // 현재 페이지의 댓글들의 정보를 얻어온다.
-            Page<Reply> curPage = replyService.getReplyListByPages(bid, lastRid,2);
+            Slice<Reply> curPage = replyService.getReplyListByPages(bid, lastRid,2);
 
             // 만약 아무것도 얻어오지 못했다면 이는 잘못된 처리이므로
             // curPage를 반환값에 담지 않게한다.

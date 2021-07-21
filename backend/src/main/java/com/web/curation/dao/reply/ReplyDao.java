@@ -3,6 +3,7 @@ package com.web.curation.dao.reply;
 import com.web.curation.model.reply.Reply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -15,5 +16,5 @@ public interface ReplyDao extends JpaRepository<Reply, Long> {
     Optional<Page<Reply>> findByBid(Long bid, Pageable pageable);
     
     // bid로 검색하면서 rid입력으로 주어진 rid보다 큰 값을 pageable 속성에 맞게 검색  
-    Page<Reply> findByBidAndRidGreaterThan(Long bid, Long rid, Pageable pageable);
+    Slice<Reply> findByBidAndRidGreaterThan(Long bid, Long rid, Pageable pageable);
 }
