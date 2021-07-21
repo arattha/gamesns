@@ -3,10 +3,7 @@ package com.web.curation.service;
 import com.web.curation.dao.reply.ReplyDao;
 import com.web.curation.model.reply.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,7 +14,7 @@ public class ReplyService {
     ReplyDao replyDao;
 
     // 얻어오고자하는 댓글의 페이지를 얻어와 해당 페이지가 있는지를 검사
-    public Page<Reply> getReplyListByPages(Long bid, Long lastRid, int size) {
+    public Slice<Reply> getReplyListByPages(Long bid, Long lastRid, int size) {
         Pageable pageRequest = PageRequest.of(0, size, Sort.Direction.ASC, "regDate");
         return replyDao.findByBidAndRidGreaterThan(bid, lastRid, pageRequest);
     }
