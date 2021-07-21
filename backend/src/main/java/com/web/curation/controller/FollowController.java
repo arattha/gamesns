@@ -38,12 +38,12 @@ public class FollowController {
 
     @GetMapping("/follow/follower")
     @ApiOperation(value = "팔로워리스트")
-    public Object follower(@RequestParam(required = true) final String uid) {
+    public Object follower(@RequestParam(required = true) final Long from) {
 
-        Optional<User> user = userDao.findUserByUid(uid);
+        Optional<User> user = userDao.findUserByUid(from);
 
         if(user.isPresent()) {
-            List<Follower> FList = followerDao.findFollowerByUid(uid);
+            List<Follower> FList = followerDao.findFollowerByFrom(from);
 
             return new ResponseEntity<>(FList, HttpStatus.OK);
         } else {
@@ -57,12 +57,12 @@ public class FollowController {
 
     @GetMapping("/follow/following")
     @ApiOperation(value = "팔로잉리스트")
-    public Object following(@RequestParam(required = true) final String uid) {
+    public Object following(@RequestParam(required = true) final Long to) {
 
-        Optional<User> user = userDao.findUserByUid(uid);
+        Optional<User> user = userDao.findUserByUid(to);
 
         if(user.isPresent()) {
-            List<Following> FList = followingDao.findFollowingByUid(uid);
+            List<Following> FList = followingDao.findFollowingByTo(to);
 
             return new ResponseEntity<>(FList, HttpStatus.OK);
         } else {
