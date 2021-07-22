@@ -5,7 +5,7 @@
     box-sizing: content-box;
     box-shadow: 0 0 0 1px #ddd;
     color: #000;
-    float: left;
+    // float: left;
     border-radius: 5px;
     overflow: hidden;
     .img {
@@ -17,7 +17,7 @@
         @include wrap;
         box-sizing: border-box;
         padding: 12px;
-        float: left;
+        // float: left;
         //width: calc(100% - 36px);
         .title {
             @include ellipsisMulti(2);
@@ -54,22 +54,44 @@
 
 .feed-item {
     @include wrap;
+    padding: 0;
     margin-bottom: 30px;
-    border-bottom: 1px solid $grey;
+    background-color: white;
     padding-bottom: 20px;
+    border: 1px solid #dcdcdc;
+    .top {
+        display: flex;
+        padding: 10px 15px 10px 15px;
+        border-bottom: 1px solid #dcdcdc;
+    }
     .profile-image {
         float: left;
+        height: 35px;
+        width: 35px;
+    }
+    .ellipsis {
+        display: flex;
+        img {
+            align-self: center;
+            height: 20px;
+            width: 20px;
+        }
     }
     .user-info, .content {
         width: calc(100% - 50px);
-        float: right; 
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-right: 0px;
     }
     .user-info {
+        display: flex;
         .user-name {
             float: left;
+            display: flex;
             //font-weight: $f600;
             button {
                 font-weight: $f600;
+                align-items: center;
             }
             span {
                 margin-left: 10px;
@@ -83,8 +105,9 @@
         }
     }
     .content {
+        margin-top: 10px;
         p {
-            display: -webkit-box;
+            // display: -webkit-box;
             word-wrap:break-word; 
             line-height: 1.5em;
             margin: 5px 0 10px;
@@ -95,10 +118,23 @@
             float: right;
         }
     }
-    .feed-card {
-        width:calc(100% - 50px);
-        float:right;
-        //max-width: $c100;
+    .image {
+        display: flex;
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
+    .content-card {
+        display: flex;
+        justify-content: center;
+        // margin-left: 30px;
+        // margin-right: 30px;
+        .feed-card {
+            width: calc(100% - 50px);
+            // display: inline-block;
+            //max-width: $c100;
+        }
     }
     .btn-group {
         margin: 15px 0;
