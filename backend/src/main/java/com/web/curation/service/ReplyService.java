@@ -73,4 +73,30 @@ public class ReplyService {
 
         return flag;
     }
+
+    public boolean delete(Long rid, String nickname) {
+        boolean flag = false;
+
+        // rid로 댓글을 검색하여 결과를 반환
+        Optional<Reply> tempReply = replyDao.findReplyByRid(rid);
+
+        // rid로 검색한 결과가 있을 경우에만 수행
+        if (tempReply.isPresent()) {
+            // rid로 검색한 댓글을 받아온다
+            Reply reply = tempReply.get();
+
+            // 만약 수정하고자 하는 닉네임과 기존 댓글을 작성한 닉네임이 같은 경우에만 수행
+            if (reply.getNickname().equals(nickname)) {
+                try {
+                    // 업데이트
+                    replyDao.delete(reply);
+                    flag = true;
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }
+
+        return flag;
+    }
 }
