@@ -1,13 +1,17 @@
 <template>
-  <div class="container" >
+  <div class="container">
     <div class="login-box" style="padding-top: 70px;">
       <div class="logo-box">
-        <img src="@/assets/images/logo.png" alt="" style="width: 90%; height: auto;">
+        <img src="@/assets/images/logo.png" alt="" style="width: 90%; height: auto;" />
       </div>
 
       <div>
-        <h3 style="color: #FFB937	; margin-bottom: 30px;
-        ">간편 로그인</h3>
+        <h3
+          style="color: #FFB937   ; margin-bottom: 30px;
+        "
+        >
+          간편 로그인
+        </h3>
       </div>
       <!-- <div class=" naver_login">
         <img src="@/assets/images/naver.png" class="login_bars" alt="">
@@ -16,65 +20,66 @@
         <img src="@/assets/images/kakao.png" class="login_bars" alt="">
       </div> -->
       <div class="login-btn">
-
-        <KakaoLogin
-        api-key="4166630b8a0719cc4a5abf3edd87e8fd"
-        :on-success=onSuccess
-        :on-failure=onFailure
-        />
+        <img src="@/assets/images/kakao.png" style="width: 300px ; " @click="login" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import KakaoLogin from 'vue-kakao-login'
 import UserApi from '../../api/UserApi';
 
 export default {
   name: 'App',
-  components: {
-    KakaoLogin
-  },
+  components: {},
   methods: {
+    login() {
+      const CLIENT_ID = process.env.VUE_APP_KAKAO_ID;
+      const REDIRECT_URI = process.env.VUE_APP_KAKAO_URI;
+
+      window.location.replace(
+        'https://kauth.kakao.com/oauth/authorize?client_id=' +
+          CLIENT_ID +
+          '&redirect_uri=' +
+          REDIRECT_URI +
+          '&response_type=code'
+      );
+    },
     onSuccess: function(e) {
+      let data = {
+        access_token: e.access_token,
+      };
 
-        let data = {
-          access_token: e.access_token
-        };
-
-        UserApi.requestkakaoLogin(data,
+      UserApi.requestkakaoLogin(
+        data,
         (res) => {
-          console.log("success");
+          console.log('success');
           this.$router.push('/feed/main');
         },
         (error) => {
-          console.log("need signup");
+          console.log('need signup');
           this.$router.push('/user/join');
         }
-        )
+      );
     },
     onFailure: function(e) {
-      console.log(e)
-      console.log("failure")
+      console.log(e);
+      console.log('failure');
     },
     logout(e) {
-        let data = {
-          access_token: e.access_token
-        };
+      let data = {
+        access_token: e.access_token,
+      };
       UserApi.logout(
         data,
-        (res) => {
-
-        },
-        (error) => {
-
-        }
-      )
-    }
-  }
-}
+        (res) => {},
+        (error) => {}
+      );
+    },
+  },
+};
 </script>
+
 <style>
 body {
   background-color: #ffe9c6;
@@ -106,10 +111,10 @@ body {
 }
 
 .login-box {
-  /* background-color: black; */
+  /* background-color: black; /
   margin: 0 auto;
   justify-content: center;
-  /* border: 1px solid black; */
+  / border: 1px solid black; */
   text-align: center;
   position: relative;
 }
@@ -121,7 +126,7 @@ body {
 .logo-box {
   margin-bottom: 90px;
 }
-.easy-login{
+.easy-login {
   margin-top: 40px;
   text-align: left;
   margin-left: 30px;

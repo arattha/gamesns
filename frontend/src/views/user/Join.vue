@@ -8,11 +8,11 @@
   <div class="container">
     <div class="login-box">
       <div class="logo-box">
-        <img src="@/assets/images/logo.png" alt="">
+        <img src="@/assets/images/logo.png" alt="" />
       </div>
       <h3 style="color: #FFB937	; margin-bottom: 40px;">가입하기</h3>
 
-      <div class = "nickname-confirm">
+      <div class="nickname-confirm">
         <span class="nickname-word">닉네임</span>
         <span><button class="nickname-confirm-box">중복확인</button></span>
       </div>
@@ -34,14 +34,14 @@
       </div>
 
       <button
-      class="join-btn"
-      @click="signUp"
-      :disabled="!isSubmit"
-      :class="{ disabled: !isSubmit }"
+        class="join-btn"
+        @click="signUp"
+        :disabled="!isSubmit"
+        :class="{ disabled: !isSubmit }"
       >
         START
       </button>
-          <!-- <label>
+      <!-- <label>
       <input v-model="isTerm" type="checkbox" id="term" />
       <span>약관을 동의합니다.</span>
       </label>
@@ -78,29 +78,37 @@ export default {
       // passwordType: 'password',
       // passwordConfirmType: 'password',
       termPopup: false,
-
+      codes: '',
     };
   },
+  created() {
+    this.create();
+  },
   watch: {
-    nickName: function (v) {
+    nickName: function(v) {
       this.checkForm();
-    // },
-    // email: function (v) {
-    //   this.checkForm();
-    // },
-    // password: function (v) {
-    //   this.checkForm();
-    // },
-    // isTerm: function (v) {
-    //   this.checkForm();
+      // },
+      // email: function (v) {
+      //   this.checkForm();
+      // },
+      // password: function (v) {
+      //   this.checkForm();
+      // },
+      // isTerm: function (v) {
+      //   this.checkForm();
     },
   },
   methods: {
+    create() {
+      this.codes = this.$route.query.code;
+
+      console.log('ggg');
+      console.log(this.codes);
+    },
     checkForm() {
       // nickname 확인
       if (this.nickName.length == 0) this.error.nickName = '닉네임은 한 글자 이상이어야 합니다.';
       else this.error.nickName = false;
-      
 
       // // email 확인
       // if (this.email.length >= 0 && !EmailValidator.validate(this.email))
@@ -164,50 +172,49 @@ export default {
 </script>
 
 <style>
-  .join-btn {
-    background: #1565c0;
-    color: white;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    font-weight: f600;
-    position: relative;
-    left: 0px;
-    top: 25px;
-    width: 100%;
-    cursor: pointer;
-    transform: rotate(.1deg);
-    /* &.disabled {
+.join-btn {
+  background: #1565c0;
+  color: white;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-weight: f600;
+  position: relative;
+  left: 0px;
+  top: 25px;
+  width: 100%;
+  cursor: pointer;
+  transform: rotate(0.1deg);
+  /* &.disabled {
         background: $grey;
         cursor: default; */
-  }
-  
-  .disabled {
-    background: grey;
-    cursor: default;
-  }
+}
 
-  #nickname {
-    padding:0px;
-    text-align: center;
-    font-size: 18px;
-  }
-  
-  .nickname-confirm {
-    display: flex;
-    justify-content:space-between;
-    margin-bottom: 20px;
-    align-items: center;
-  }
+.disabled {
+  background: grey;
+  cursor: default;
+}
 
-  .nickname-word {
-    font-size: 24px;
-  }
+#nickname {
+  padding: 0px;
+  text-align: center;
+  font-size: 18px;
+}
 
-  .nickname-confirm-box{
-    background-color: #c67c00;
-    color:white;
-    padding: 10px;
-  }
+.nickname-confirm {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  align-items: center;
+}
 
+.nickname-word {
+  font-size: 24px;
+}
+
+.nickname-confirm-box {
+  background-color: #c67c00;
+  color: white;
+  padding: 10px;
+}
 </style>
