@@ -8,6 +8,7 @@ import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
 import NotFound from './views/error/PageNotFound.vue'
 import ErrorP from './views/error/Error.vue'
+import Mainfeed from './views/feed/Mainfeed.vue'
 
 export default [
 
@@ -53,7 +54,12 @@ export default [
         component : NotFound
     },
     {
+        path : '/main',
+        name : 'Mainfeed',
+        component : Mainfeed
+    },
+    {
         path : '/:pathMatch(.*)*',
         redirect : '/404'
-    }
+    },
 ]
