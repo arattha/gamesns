@@ -33,8 +33,6 @@ public class BoardService {
     FollowingDao followingDao;
     @Autowired
     ImgFileDao imgFileDao;
-    @Autowired
-    ResourceLoader rsLoader;
     
     public Object bList(long uid,String bid){
     	
@@ -93,13 +91,11 @@ public class BoardService {
         
     }
 
-    public Object modifyBoard(long bid ,AddBoard newBoard) throws IllegalStateException, IOException{
+    public void modifyBoard(long bid ,AddBoard newBoard) throws IllegalStateException, IOException{
 
-        //Board> boardBid = boardDao.findByBid(bid);
         Board board = boardDao.findBoardByBid(bid);
         board.setUid(newBoard.getUid());
         board.setContents(newBoard.getContent());
-        System.out.println(board);
         String fileName;
         
         
@@ -133,12 +129,6 @@ public class BoardService {
 		}
         
         board = boardDao.save(board);
-        
-        final BasicResponse result = new BasicResponse();
-        result.status = true;
-        result.data = "success";
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
     public void deleteBoard(long bid) throws IllegalStateException, IOException{
