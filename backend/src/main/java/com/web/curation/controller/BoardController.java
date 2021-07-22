@@ -15,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
@@ -27,27 +24,23 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 public class BoardController {
-
-    @Autowired
-    BoardDao boardDao;
-    @Autowired
-    ImgFileDao imgFileDao;
     
     @Autowired
-    BoardService BoardService;
+    BoardService boardService;
     
     @GetMapping("/board")
     @ApiOperation(value = "내 피드")
     public Object bList(@RequestParam(required = true) final long uid, @RequestParam(required = false) String bid){
 		final BasicResponse result = new BasicResponse();
 		try {
-			result.object = BoardService.bList(uid, bid);
+			result.object = boardService.bList(uid, bid);
 			result.status = true;
 	        result.data = "success";
 		} catch (Exception e) {
 			// TODO: handle exception
 			result.status = false;
 	        result.data = "failed";
+	        System.out.println(e);
 		}
         return new ResponseEntity<>(result, HttpStatus.OK);
         
@@ -59,7 +52,7 @@ public class BoardController {
     	final BasicResponse result = new BasicResponse();
     	
     	try {
-    		BoardService.addBoard(newBoard);
+    		boardService.addBoard(newBoard);
     		
     		result.status = true;
             result.data = "success";
@@ -67,6 +60,7 @@ public class BoardController {
 		} catch (Exception e) {
 			result.status = false;
 	        result.data = "failed";
+	        System.out.println(e);
 		}
 
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -78,33 +72,34 @@ public class BoardController {
     	final BasicResponse result = new BasicResponse();
     	
     	try {
-    		BoardService.modifyBoard(bid, newBoard);
+    		boardService.modifyBoard(bid, newBoard);
     		result.status = true;
             result.data = "success";
     		
 		} catch (Exception e) {
 			result.status = false;
 	        result.data = "failed";
+	        System.out.println(e);
 		}
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
     @DeleteMapping(value="/board/{bid}")
     @ApiOperation(value="삭제하기")
-    public Object deleteBoard(@PathVariable("bid") long bid) throws IllegalStateException, IOException{
+    public Object deleteBoard(@PathVariable("bid") long bid){
     	
     	final BasicResponse result = new BasicResponse();
-    	
-    	List<ImgFile> imgList = imgFileDao.findImgFileByBid(bid);//연관된 파일 삭제
-        
-        for (ImgFile imgFile : imgList) {
-			File file = new File(imgFile.getFile_base_url());//연관된 파일 삭제
-			if(file.exists()) file.delete();
+    	try {
+    		boardService.deleteBoard(bid);
+    		result.status = true;
+            result.data = "success";
+    		
+		} catch (Exception e) {
+			result.status = false;
+	        result.data = "failed";
+	        System.out.println(e);
 		}
-        boardDao.delete(boardDao.findBoardByBid(bid));
-        
-    	result.status = true;
-        result.data = "success";
+    	
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
