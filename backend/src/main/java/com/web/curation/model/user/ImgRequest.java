@@ -6,17 +6,21 @@ import lombok.ToString;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
-@Data
 @Valid
+@Data
 @ToString
-public class SignupRequest {
+public class ImgRequest {
     @ApiModelProperty(required = true)
     @NotNull
     Long uid;
+
     @ApiModelProperty(required = true)
     @NotNull
     String nickname;
+
+    @ApiModelProperty(required = true)
+    @NotNull
+    Byte pImg;
 
 }

@@ -1,22 +1,21 @@
-package com.web.curation.model.user;
+package com.web.curation.model.reply;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Data
 @Valid
-@ToString
-public class SignupRequest {
+public class ReplyUpdateRequest {
     @ApiModelProperty(required = true)
     @NotNull
-    Long uid;
+    Long rid;
     @ApiModelProperty(required = true)
     @NotNull
     String nickname;
-
+    @ApiModelProperty(required = true)
+    @NotNull
+    String content;
 }

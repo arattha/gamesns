@@ -1,119 +1,183 @@
-//package com.web.curation.controller;
-//
-//import java.util.Optional;
-//
-//import javax.validation.Valid;
-//
-//import com.web.curation.dao.user.UserDao;
-//import com.web.curation.model.BasicResponse;
-//import com.web.curation.model.user.ChpwdRequest;
-//import com.web.curation.model.user.SignupRequest;
-//import com.web.curation.model.user.User;
-//
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.beans.factory.annotation.Autowired;
-//
-//import io.swagger.annotations.ApiResponse;
-//import io.swagger.annotations.ApiResponses;
-//import io.swagger.annotations.ApiOperation;
-//
-//import java.util.List;
-//
-//@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
-//        @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
-//        @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
-//        @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
-//
-//@CrossOrigin(origins = "*")
-//@RestController
-//public class AccountController {
-//
-//    @Autowired
-//    UserDao userDao;
-//
-//    @GetMapping("/account/login")
-//    @ApiOperation(value = "로그인")
-//    public Object login(@RequestParam(required = true) final String email,
-//            @RequestParam(required = true) final String password) {
-//
-//        Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
-//        ResponseEntity response = null;
-//
-//        if (userOpt.isPresent()) {
-//            final BasicResponse result = new BasicResponse();
-//            result.status = true;
-//            result.data = "success";
-//            response = new ResponseEntity<>(result, HttpStatus.OK);
-//        } else {
-//            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//
-//        return response;
-//    }
-//
-//    @PostMapping("/account/signup")
-//    @ApiOperation(value = "변경하기")
-//
-//    public Object signup(@Valid @RequestBody SignupRequest request) {
-//        // 이메일, 닉네임 중복처리 필수
-//        // 회원가입단을 생성해 보세요.
-//
-//        User user = new User();
-//        user.setEmail(request.getEmail());
-//        user.setPassword(request.getPassword());
-////        System.out.println(user);
-//
-//        final BasicResponse result = new BasicResponse();
-//
-//        // 전체 사용자 목록 가져오기
-//        List<User> list = userDao.findAll();
-//        for(User u : list){
-//            // 이메일 중복 확인
-//            if(u.getEmail().equals(user.getEmail())){
-//                result.status = true;
-//                result.data = "fail";
-//                result.object = u;
-//
-//                return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
-//            }
-//            System.out.println(u);
-//        }
-//
-//        // 중복된 값이 없으므로 회원가입이 가능
-//        result.status = true;
-//        result.data = "success";
-//
-//        userDao.save(user);
-//
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-//
-//    @PutMapping("/account/chpwd")
-//    @ApiOperation(value = "가입하기")
-//
-//    public Object chpwd(@Valid @RequestBody ChpwdRequest request) {
-//
-//        Optional<User> user = userDao.findUserByEmail(request.getEmail());
-//        System.out.println(user);
-//        final BasicResponse result = new BasicResponse();
-//
-//        if(user.isPresent()){
-//            User tmpUser = user.get();
-//            tmpUser.setPassword(request.getPassword());
-//
-//            userDao.save(tmpUser);
-//            result.status = true;
-//            result.data = "success";
-//            return new ResponseEntity<>(result, HttpStatus.OK);
-//        }
-//
-//        result.status = true;
-//        result.data = "fail";
-//
-//        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-//    }
-//
-//
-//}
+package com.web.curation.controller;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Optional;
+
+import com.web.curation.dao.user.UserDao;
+import com.web.curation.model.BasicResponse;
+import com.web.curation.model.user.ImgRequest;
+import com.web.curation.model.user.SignupRequest;
+import com.web.curation.model.user.User;
+
+import org.json.JSONObject;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.multipart.MultipartFile;
+
+
+@ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
+        @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
+        @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
+        @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
+
+@CrossOrigin(origins = "*")
+@RestController
+public class AccountController {
+
+    @Autowired
+    UserDao userDao;
+
+    @GetMapping("/kakaoLogout")
+    @ApiOperation(value = "kakaoLogout")
+    public Object klogout(@RequestParam String access_token) {
+        kakaoLogout(access_token);
+
+        return "index";
+
+    }
+
+    @GetMapping("/kakaoLogin")
+    @ApiOperation(value = "kakaoLogin")
+    public Object klogin(@RequestParam String access_token) {
+
+        Long uid = new Long(getUserInfo(access_token));
+
+        Optional<User> userOpt = userDao.findUserByUid(uid);
+
+        if(userOpt.isPresent()) {
+            // 회원정보가 있으면 회원정보와 함께 OK
+            return new ResponseEntity<>(userOpt.get(), HttpStatus.OK);
+        } else {
+            // 회원정보가 없으면 uid 와 함께 NOT_FOUND
+            return new ResponseEntity<>(uid, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/account/signup")
+    @ApiOperation(value="회원가입")
+    public Object signup(@RequestBody SignupRequest request) {
+
+        User user = new User();
+        user.setUid(request.getUid());
+        user.setNickname(request.getNickname());
+
+        userDao.save(user);
+
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    // myPage 에서 회원 정보 수정
+
+    // 처음에 기본이미지로 저장된 이미지를 수정
+    @PutMapping("/account/imgPut")
+    @ApiOperation(value="이미지 삽입")
+    public Object imgPut(@RequestBody ImgRequest request,
+                         MultipartFile multipartFile) throws IllegalStateException, IOException {
+
+        Optional<User> userOpt = userDao.findUserByUid(request.getUid());
+
+        final BasicResponse result = new BasicResponse();
+
+        String filePath = "a";
+        String originPath;
+        String originalFileExtension;
+        String storedFileName;
+        File file = new File(filePath);
+
+
+
+        if(userOpt.isPresent()) {
+
+            User user = userOpt.get();
+            user.setPimg(request.getPImg());
+
+            // uid 와 img
+
+            multipartFile.getOriginalFilename();
+
+            userDao.save(user);
+
+            result.status = true;
+            result.data = "success";
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else{
+            result.status = true;
+            result.data = "fail";
+            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    // 카카오톡 access_token 으로 사용자 id 받기
+    public int getUserInfo(String access_Token){
+
+        String reqURL = "https://kapi.kakao.com/v2/user/me";
+
+        try{
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+
+            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null ){
+                result += line;
+            }
+
+            JSONObject parser = new JSONObject(result);
+            System.out.println(parser.get("id"));
+
+            return (int) parser.get("id");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    // 카카오톡 로그아웃
+    public void kakaoLogout(String access_Token){
+        String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String result = "";
+            String line = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}

@@ -1,21 +1,24 @@
 /*
- User API 예시
+User API 예시
  */
 import http from "@/util/http-common";
 
-const requestLogin = (data,callback,errorCallback) => {
-    //백앤드와 로그인 통신하는 부분
-    // callback();
+const requestkakaoLogin = (data,callback,errorCallback) => {
+     //백앤드와 로그인 통신하는 부분
+     // callback();
     console.log(data);
     http
-        .get("/account/login", {params:data})
+        .get("/kakaoLogin", {params:data})
         .then(() => {
             alert("로그인 되었습니다.");
             callback();
         })
         .catch((err) => {
+            console.log(err)
             if(!err.response){
+                alert("회원가입 후 이용할 수 있습니다.")
                 errorCallback(true);
+                this.$router.push('/user/joinSC')
             } else {
                 alert("아이디나 비밀번호가 맞지 않습니다.");
                 errorCallback();
@@ -43,9 +46,8 @@ const requestSignUp = (data,callback,errorCallback) => {
 }
 
 const requestChPwd = (data,callback,errorCallback) => {
-    
     http
-        .put("/account/chpwd", data)
+        .put("/account/chpwd", {params:data})
         .then(() => {
             alert("비밀번호가 변경되었습니다.");
             callback();
@@ -63,10 +65,26 @@ const requestChPwd = (data,callback,errorCallback) => {
         })
 }
 
+
+const logout = (data,callback,errorCallback) => {
+    console.log("adfasfsd");
+    http
+        .get("/kakaoLogout", {params:data})
+        .then(() => {
+            alert("로그아웃!");
+            callback();
+        })
+        .catch((err) => {
+            alert("실패!");
+            errorCallback();
+        })
+}
+
 const UserApi = {
-    requestLogin:(data,callback,errorCallback)=>requestLogin(data,callback,errorCallback),
+    requestkakaoLogin:(data,callback,errorCallback)=>requestkakaoLogin(data,callback,errorCallback),
     requestSignUp:(data,callback,errorCallback)=>requestSignUp(data,callback,errorCallback),
-    requestChPwd:(data,callback,errorCallback)=>requestChPwd(data,callback,errorCallback)
+    requestChPwd:(data,callback,errorCallback)=>requestChPwd(data,callback,errorCallback),
+    logout:(data,callback,errorCallback)=>logout(data,callback,errorCallback),
 }
 
 export default UserApi
