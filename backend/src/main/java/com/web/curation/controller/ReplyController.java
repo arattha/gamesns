@@ -36,13 +36,12 @@ public class ReplyController {
     public Object create(@Valid @RequestBody ReplyCreateRequest request) {
         final BasicResponse result = new BasicResponse();
 
-        Reply saveReply = replyService.insert(request.getUid(), request.getBid(),
+        boolean flag = replyService.insert(request.getUid(), request.getBid(),
                 request.getNickname(), request.getContent());
 
-        if (saveReply != null) {
+        if (flag) {
             result.status = true;
             result.data = "success";
-            result.object = saveReply;
         }
         else {
             result.status = false;
