@@ -25,4 +25,16 @@ public class ReplyService {
 //        Pageable pageRequest = PageRequest.of(0, size, Sort.Direction.ASC, "regDate");
 //        return replyDao.findByBidAndRidGreaterThan(bid, lastRid, pageRequest);
 //    }
+
+    public Reply insert(Long uid, Long bid, String nickname, String content) {
+        Reply reply = new Reply();
+        reply.setUid(uid);
+        reply.setBid(bid);
+        reply.setNickname(nickname);
+        reply.setContent(content);
+
+        Reply saveReply = replyDao.save(reply);
+
+        return saveReply;
+    }
 }
