@@ -1,6 +1,7 @@
 package com.web.curation.service;
 
 import com.web.curation.dao.user.UserDao;
+import com.web.curation.model.OAuthToken;
 import com.web.curation.model.user.ImgRequest;
 import com.web.curation.model.user.SignupRequest;
 import com.web.curation.model.user.User;
@@ -20,6 +21,19 @@ public class AccountService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    private OAuth2Kakao oAuth2Kakao;
+
+    public String kakaoLogin(String code) {
+        OAuthToken oAuthToken = oAuth2Kakao.getAccessToken(code);
+
+        System.out.println(oAuthToken.getAccess_token());
+
+        String userInfo = oAuth2Kakao.getUserByAccessToken(oAuthToken.getAccess_token());
+        System.out.println(userInfo);
+        return userInfo;
+    }
 
     // uid 로 회원정보 가져오기
     public Optional<User> getUser(Long uid) {
