@@ -62,12 +62,13 @@ public class BoardService {
         
     }
     
-    public Object addBoard(AddBoard newBoard) throws IllegalStateException, IOException{
+    public void addBoard(AddBoard newBoard) throws IllegalStateException, IOException{
     	
         Board board = new Board();
         board.setUid(newBoard.getUid());
         board.setContents(newBoard.getContent());
         board = boardDao.save(board);
+        
         String fileName;
         
         MultipartFile[] multipartFiles = newBoard.getMultipartFiles();
@@ -90,11 +91,6 @@ public class BoardService {
         	imgFileDao.save(file);
 		}
         
-        final BasicResponse result = new BasicResponse();
-        result.status = true;
-        result.data = "success";
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     public Object modifyBoard(long bid ,AddBoard newBoard) throws IllegalStateException, IOException{

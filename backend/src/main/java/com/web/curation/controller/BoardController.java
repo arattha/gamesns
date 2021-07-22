@@ -62,46 +62,36 @@ public class BoardController {
     
     @GetMapping("/board")
     @ApiOperation(value = "내 피드")
-    public Object bList(@RequestParam(required = true) final long uid,
-    		@RequestParam(required = false) String bid){
-        return new ResponseEntity<>(BoardService.bList(uid, bid), HttpStatus.OK);
+    public Object bList(@RequestParam(required = true) final long uid, @RequestParam(required = false) String bid){
+		final BasicResponse result = new BasicResponse();
+		try {
+			result.object = BoardService.bList(uid, bid);
+			result.status = true;
+	        result.data = "success";
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.status = false;
+	        result.data = "failed";
+		}
+        return new ResponseEntity<>(result, HttpStatus.OK);
         
     }
     
     @PostMapping(value="/board")
     @ApiOperation(value="추가하기")
-    public Object addBoard(AddBoard newBoard) throws IllegalStateException, IOException{
+    public Object addBoard(AddBoard newBoard) {
+    	final BasicResponse result = new BasicResponse();
     	
-        Board board = new Board();
-        board.setUid(newBoard.getUid());
-        board.setContents(newBoard.getContent());
-        board = boardDao.save(board);
-        
-        String fileName;
-        
-        MultipartFile[] multipartFiles = newBoard.getMultipartFiles();
-        
-        for (int i = 0; i < multipartFiles.length; i++) {
-        	
-        	MultipartFile multipartFile = multipartFiles[i];
-        	UUID uuid = UUID.randomUUID();
-        	
-        	fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
-        	multipartFile.transferTo(new File("D:\\upload"+"\\"+fileName));
-        	String base_url = "D:\\upload"+"\\"+fileName;
-        	
-        	ImgFile file = new ImgFile();//이미지 파일 세팅
-        	file.setFile_name(fileName);
-        	file.setFile_base_url(base_url);
-        	file.setFile_size(Long.toString(multipartFile.getSize()));
-        	file.setBid(board.getBid());
-        	
-        	imgFileDao.save(file);
+    	try {
+    		BoardService.addBoard(newBoard);
+    		
+    		result.status = true;
+            result.data = "success";
+    		
+		} catch (Exception e) {
+			result.status = false;
+	        result.data = "failed";
 		}
-        
-        final BasicResponse result = new BasicResponse();
-        result.status = true;
-        result.data = "success";
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
