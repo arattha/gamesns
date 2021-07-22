@@ -1,22 +1,15 @@
 package com.web.curation.controller;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Optional;
-import java.util.UUID;
 
-import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.user.ImgRequest;
 import com.web.curation.model.user.SignupRequest;
 import com.web.curation.model.user.User;
 
-import org.json.JSONObject;
+import com.web.curation.service.AccountService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,14 +31,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class AccountController {
 
     @Autowired
-    UserDao userDao;
+    AccountService service;
 
     @GetMapping("/kakaoLogout")
     @ApiOperation(value = "kakaoLogout")
-    public Object klogout(@RequestParam String access_token) {
-        kakaoLogout(access_token);
+    public void klogout(@RequestParam String access_token) {
 
-        return "index";
+        service.kakaoLogout(access_token);
 
     }
 
@@ -53,9 +45,8 @@ public class AccountController {
     @ApiOperation(value = "kakaoLogin")
     public Object klogin(@RequestParam String access_token) {
 
-        Long uid = new Long(getUserInfo(access_token));
-
-        Optional<User> userOpt = userDao.findUserByUid(uid);
+        Long uid = new Long(service.getUserInfo(access_token));
+        Optional<User> userOpt = service.getUser(uid);
 
         if(userOpt.isPresent()) {
             // 회원정보가 있으면 회원정보와 함께 OK
@@ -70,16 +61,9 @@ public class AccountController {
     @ApiOperation(value="회원가입")
     public Object signup(@RequestBody SignupRequest request) {
 
-        User user = new User();
-        user.setUid(request.getUid());
-        user.setNickname(request.getNickname());
+        service.addUser(request);
 
-        userDao.save(user);
-
-        final BasicResponse result = new BasicResponse();
-        result.status = true;
-        result.data = "success";
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     // myPage 에서 회원 정보 수정
@@ -89,10 +73,9 @@ public class AccountController {
     public Object imgPut(ImgRequest request,
                          MultipartFile multipartFile) throws IllegalStateException, IOException {
 
-        Optional<User> userOpt = userDao.findUserByUid(request.getUid());
+        Optional<User> userOpt = service.getUser(request.getUid());
 
         final BasicResponse result = new BasicResponse();
-
 
         if(userOpt.isPresent()) {
 
@@ -107,9 +90,7 @@ public class AccountController {
 
             multipartFile.transferTo(file);
 
-            user.setNickname(request.getNickname());
-            user.setPimg(filePath + storedFileName);
-            userDao.save(user);
+            service.updateUser(user, request, filePath + storedFileName);
 
             result.status = true;
             result.data = "success";
@@ -118,64 +99,6 @@ public class AccountController {
             result.status = true;
             result.data = "fail";
             return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
-        }
-    }
-
-    // 카카오톡 access_token 으로 사용자 id 받기
-    public int getUserInfo(String access_Token){
-
-        String reqURL = "https://kapi.kakao.com/v2/user/me";
-
-        try{
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-
-            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            String line = "";
-            String result = "";
-
-            while ((line = br.readLine()) != null ){
-                result += line;
-            }
-
-            JSONObject parser = new JSONObject(result);
-            System.out.println(parser.get("id"));
-
-            return (int) parser.get("id");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    // 카카오톡 로그아웃
-    public void kakaoLogout(String access_Token){
-        String reqURL = "https://kapi.kakao.com/v1/user/unlink";
-        try {
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            String result = "";
-            String line = "";
-
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            System.out.println(result);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
