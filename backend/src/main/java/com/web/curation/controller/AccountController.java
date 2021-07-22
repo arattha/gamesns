@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
@@ -82,34 +83,32 @@ public class AccountController {
     }
 
     // myPage 에서 회원 정보 수정
-
     // 처음에 기본이미지로 저장된 이미지를 수정
-    @PutMapping("/account/imgPut")
-    @ApiOperation(value="이미지 삽입")
-    public Object imgPut(@RequestBody ImgRequest request,
+    @PutMapping("/account/mypageUpdate")
+    @ApiOperation(value="닉네임, 이미지 경로 수정")
+    public Object imgPut(ImgRequest request,
                          MultipartFile multipartFile) throws IllegalStateException, IOException {
 
         Optional<User> userOpt = userDao.findUserByUid(request.getUid());
 
         final BasicResponse result = new BasicResponse();
 
-        String filePath = "a";
-        String originPath;
-        String originalFileExtension;
-        String storedFileName;
-        File file = new File(filePath);
-
-
 
         if(userOpt.isPresent()) {
 
             User user = userOpt.get();
-            user.setPimg(request.getPImg());
 
-            // uid 와 img
+            // img 파일 이름 설정 및 경로 지정
+            String filePath = "C:\\Users\\multicampus\\S05P12C203\\backend\\src\\main\\resources\\profile\\";
+            String originFile = multipartFile.getOriginalFilename();
+            String originalFileExtension = originFile.substring(originFile.lastIndexOf("."));
+            String storedFileName = request.getUid() + originalFileExtension;
+            File file = new File(filePath + storedFileName);
 
-            multipartFile.getOriginalFilename();
+            multipartFile.transferTo(file);
 
+            user.setNickname(request.getNickname());
+            user.setPimg(filePath + storedFileName);
             userDao.save(user);
 
             result.status = true;
