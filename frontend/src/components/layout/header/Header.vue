@@ -73,7 +73,7 @@ export default {
     #header-scroll.small {
     height: auto;
     display: inline-block;
-    float: left;
+    /* float: left; */
     }
     #header-scroll.small h1 {
     padding: 10px 0;
@@ -130,5 +130,6 @@ export default {
         align-items: center;
         justify-content:space-between;
         background: bisque;
+        padding: 5px 20px;
     }
 </style>
