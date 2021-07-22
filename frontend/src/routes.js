@@ -10,6 +10,7 @@ import NotFound from './views/error/PageNotFound.vue'
 import ErrorP from './views/error/Error.vue'
 import Mainfeed from './views/feed/Mainfeed.vue'
 import MyEdit from './views/user/MyEdit.vue'
+import MyPage from './views/user/MyPage.vue'
 
 export default [
 
@@ -63,6 +64,11 @@ export default [
         path : '/main',
         name : 'Mainfeed',
         component : Mainfeed
+    },
+    {
+        path : '/MyPage',
+        name : 'MyPage',
+        component : MyPage
     },
     {
         path : '/:pathMatch(.*)*',

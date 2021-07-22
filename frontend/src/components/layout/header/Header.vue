@@ -1,16 +1,14 @@
 <template>
     <b-container fluid class="main-container">
                 <nav>
-                    <ul class="ul-box">
-                        <img src="@/assets/images/logo.png" id="logo-box" alt="" style="width:156px">
-                        <ul>
-                            <li><a href="#1">Home</a></li>
-                            <li><a href="#2">Searching</a></li>
-                            <li><a href="#3">Matching</a></li>
-                            <li><a href="#4">Community</a></li>
-                            <li><a href="#5">Mypage</a></li>
-                        </ul>
-                    </ul>
+                    <span class="header" style="padding: 25px 0px 25px 0px">
+                        <div class="logo">
+                            <img src="@/assets/images/logo.png" alt="" style="width:156px">
+                        </div>
+                        <div class="mypage-btn">
+                            <img src="@/assets/images/mypage.png" alt="" style="width: 24px;">
+                        </div>
+                    </span>
                 </nav>
     </b-container>
 </template>
@@ -44,50 +42,11 @@ export default {
     .header {
     height: auto;
     }
-    #header-scroll {
-    position: fixed;
-    height: 100%;
-    background: rgba(0,0,0,0.4);
-    left: 0;
-    top: 0;
-    float: left;
-    width: 100%;
-    -ms-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -webkit-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-    }
-    #header-scroll h1 {
-    padding: 200px 0;
-    height: 100%;
-    font-size: 4em;
-    text-align: center;
-    line-height: 40px;
-    -ms-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -webkit-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-    }
-    #header-scroll.small {
-    height: auto;
-    display: inline-block;
-    /* float: left; */
-    }
-    #header-scroll.small h1 {
-    padding: 10px 0;
-    height: auto;
-    font-size: 1rem;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    }
     body {
     font-family: 'Open Sans', sans-serif;
     }
     nav {
-    width: 70%;
+    width: 100%;
     height: 60px;
     position: fixed;
     top: 0;
@@ -108,28 +67,44 @@ export default {
     font-weight: bold;
     transition: all 0.2s ease;
     }
-    nav ul li a:hover {
-    color: #85c2ff;
-    }
+
 
     .main-container {
         display: flex;
         justify-content: center;
+        z-index: 100;
     }
 
     #logo-box {
         display: flex;
-        justify-content: left;
+        /* justify-content: left; */
         align-items: center;
         margin-bottom: 0px;
-        margin-left: 0px;
     }
 
-    .ul-box {
+    .header{
         display: flex;
         align-items: center;
-        justify-content:space-between;
         background: bisque;
         padding: 5px 20px;
     }
+
+    .logo {
+        position: absolute;
+        display: inline;
+        margin: 10px 0;
+        left: 50%;
+        transform: translate(-50%);
+    }
+
+    .mypage-btn {
+        display: inline;
+        position: absolute;
+        left: 90%;
+        text-align: center;
+    }
+
+    /* mypage-btn a:hover {
+    color: #85c2ff;
+    } */
 </style>
