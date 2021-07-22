@@ -78,7 +78,7 @@ export default {
       // passwordType: 'password',
       // passwordConfirmType: 'password',
       termPopup: false,
-      codes: '',
+      code: '',
     };
   },
   created() {
@@ -100,10 +100,22 @@ export default {
   },
   methods: {
     create() {
-      this.codes = this.$route.query.code;
+      this.code = this.$route.query.code;
 
       console.log('ggg');
-      console.log(this.codes);
+      console.log(this.code);
+
+      UserApi.requestkakaoLogin(
+        this.code,
+        (res) => {
+          // this.isSubmit = true;
+          // this.$router.push('/user/joinSC');
+        },
+        (error) => {
+          // if (error) this.$router.push('/error');
+          // this.isSubmit = true;
+        }
+      );
     },
     checkForm() {
       // nickname 확인

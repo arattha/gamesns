@@ -10,6 +10,8 @@ import com.web.curation.model.user.SignupRequest;
 import com.web.curation.model.user.User;
 
 import com.web.curation.service.AccountService;
+import com.web.curation.service.OAuth2Kakao;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,20 +43,29 @@ public class AccountController {
 
     }
 
+//    @GetMapping("/kakaoLogin2")
+//    @ApiOperation(value = "kakaoLogin")
+//    public Object klogin(@RequestParam String access_token) {
+//
+//        Long uid = new Long(service.getUserInfo(access_token));
+//        Optional<User> userOpt = service.getUser(uid);
+//
+//        if(userOpt.isPresent()) {
+//            // 회원정보가 있으면 회원정보와 함께 OK
+//            return new ResponseEntity<>(userOpt.get(), HttpStatus.OK);
+//        } else {
+//            // 회원정보가 없으면 uid 와 함께 NOT_FOUND
+//            return new ResponseEntity<>(uid, HttpStatus.NOT_FOUND);
+//        }
+//    }
+
     @GetMapping("/kakaoLogin")
-    @ApiOperation(value = "kakaoLogin")
-    public Object klogin(@RequestParam String access_token) {
+    @ApiOperation(value = "카카오 로그인")
+    public Object kakaoLogin(@RequestParam("code") String code) {
+        String user = service.kakaoLogin(code);
+        System.out.println();
 
-        Long uid = new Long(service.getUserInfo(access_token));
-        Optional<User> userOpt = service.getUser(uid);
-
-        if(userOpt.isPresent()) {
-            // 회원정보가 있으면 회원정보와 함께 OK
-            return new ResponseEntity<>(userOpt.get(), HttpStatus.OK);
-        } else {
-            // 회원정보가 없으면 uid 와 함께 NOT_FOUND
-            return new ResponseEntity<>(uid, HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/account/signup")
