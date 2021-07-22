@@ -26,17 +26,23 @@ public class ReplyService {
 //        return replyDao.findByBidAndRidGreaterThan(bid, lastRid, pageRequest);
 //    }
 
-    public Reply insert(Long uid, Long bid, String nickname, String content) {
+    public boolean insert(Long uid, Long bid, String nickname, String content) {
+        boolean flag = false;
+
         Reply reply = new Reply();
         reply.setUid(uid);
         reply.setBid(bid);
         reply.setNickname(nickname);
         reply.setContent(content);
 
+        try {
+            replyDao.save(reply);
+            flag = true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
-        Reply saveReply = replyDao.save(reply);
-
-        return saveReply;
+        return flag;
     }
 
     public boolean update(Long rid, String nickname, String content) {
