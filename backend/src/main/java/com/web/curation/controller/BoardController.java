@@ -184,14 +184,7 @@ public class BoardController {
 			if(file.exists()) file.delete();
 		}
         boardDao.delete(boardDao.findBoardByBid(bid));
-//    	try {
-//    		boardDao.deleteById(bid);//cascade로 제거.
-//    		result.status = true;
-//            result.data = "success";
-//		} catch (Exception e) {
-//			result.status = false;
-//	        result.data = "failed";
-//		}
+        
     	result.status = true;
         result.data = "success";
         return new ResponseEntity<>(result, HttpStatus.OK);
