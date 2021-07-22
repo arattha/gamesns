@@ -18,9 +18,8 @@ const requestkakaoLogin = (data,callback,errorCallback) => {
             if(!err.response){
                 alert("회원가입 후 이용할 수 있습니다.")
                 errorCallback(true);
-                this.$router.push('/user/joinSC')
             } else {
-                alert("아이디나 비밀번호가 맞지 않습니다.");
+                alert("로그인 상태가 아닙니다.");
                 errorCallback();
             }
         })
