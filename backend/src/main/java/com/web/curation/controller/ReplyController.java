@@ -29,7 +29,7 @@ public class ReplyController {
     ReplyDao replyDao;
 
     @Autowired
-    ReplyService replyService;
+    private ReplyService replyService;
 
     @PostMapping("/reply")
     @ApiOperation(value = "댓글등록")
@@ -63,26 +63,12 @@ public class ReplyController {
         result.status = false;
         result.data = "failed";
 
-        // rid로 댓글을 검색하여 결과를 반환
-        Optional<Reply> tempReply = replyDao.findReplyByRid(request.getRid());
+        boolean flag = replyService.update(request.getRid(),
+                request.getNickname(), request.getContent());
 
-        // rid로 검색한 결과가 있을 경우에만 수행
-        if (tempReply.isPresent()) {
-            // rid로 검색한 댓글을 받아온다
-            Reply reply = tempReply.get();
-
-            // 만약 수정하고자 하는 닉네임과 기존 댓글을 작성한 닉네임이 같은 경우에만 수행
-            if (reply.getNickname().equals(request.getNickname())) {
-                // 바뀐 내용을 넣어준다.
-                reply.setContent(request.getContent());
-
-                // 업데이트
-                replyDao.save(reply);
-
-                // 처리가 정상적으로 처리됬음을 알려준다.
-                result.status = true;
-                result.data = "success";
-            }
+        if (flag) {
+            result.status = true;
+            result.data = "success";
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
