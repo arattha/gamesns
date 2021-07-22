@@ -61,9 +61,12 @@ public class AccountController {
     @ApiOperation(value="회원가입")
     public Object signup(@RequestBody SignupRequest request) {
 
-        service.addUser(request);
+        if(service.addUser(request)) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     // myPage 에서 회원 정보 수정
@@ -90,15 +93,15 @@ public class AccountController {
 
             multipartFile.transferTo(file);
 
-            service.updateUser(user, request, filePath + storedFileName);
-
-            result.status = true;
-            result.data = "success";
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            if(service.updateUser(user, request, filePath + storedFileName)) {
+                return new ResponseEntity<>(null, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+            }
         } else{
             result.status = true;
             result.data = "fail";
-            return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
     }
 

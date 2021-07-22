@@ -29,21 +29,32 @@ public class AccountService {
     }
 
     // 닉네임 받아와서 회원정보 추가(user table 에 insert)
-    public void addUser(SignupRequest request) {
+    public boolean addUser(SignupRequest request) {
         User user = new User();
         user.setUid(request.getUid());
         user.setNickname(request.getNickname());
 
-        userDao.save(user);
+        try {
+            userDao.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     // 닉네임과 프로필 사진을 받아와서 회원정보 수정
-    public void updateUser(User user, ImgRequest request, String path) {
+    public boolean updateUser(User user, ImgRequest request, String path) {
 
         user.setNickname(request.getNickname());
         user.setPimg(path);
 
-        userDao.save(user);
+        try{
+            userDao.save(user);
+            return true;
+        } catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
     }
 
 
