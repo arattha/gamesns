@@ -1,12 +1,11 @@
 package com.web.curation.controller;
 
-import com.web.curation.dao.follow.FollowerDao;
-import com.web.curation.dao.follow.FollowingDao;
-import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.follow.Follower;
 import com.web.curation.model.follow.Following;
 import com.web.curation.model.user.User;
+import com.web.curation.service.AccountService;
+import com.web.curation.service.FollowService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -28,22 +27,19 @@ import java.util.Optional;
 public class FollowController {
 
     @Autowired
-    UserDao userDao;
+    AccountService accountService;
 
     @Autowired
-    FollowerDao followerDao;
-
-    @Autowired
-    FollowingDao followingDao;
+    FollowService followService;
 
     @GetMapping("/follow/follower")
     @ApiOperation(value = "팔로워리스트")
     public Object follower(@RequestParam(required = true) final Long from) {
 
-        Optional<User> user = userDao.findUserByUid(from);
+        Optional<User> user = accountService.getUser(from);
 
         if(user.isPresent()) {
-            List<Follower> FList = followerDao.findFollowerByFrom(from);
+            List<Follower> FList = followService.getFollower(from);
 
             return new ResponseEntity<>(FList, HttpStatus.OK);
         } else {
@@ -59,10 +55,10 @@ public class FollowController {
     @ApiOperation(value = "팔로잉리스트")
     public Object following(@RequestParam(required = true) final Long to) {
 
-        Optional<User> user = userDao.findUserByUid(to);
+        Optional<User> user = accountService.getUser(to);
 
         if(user.isPresent()) {
-            List<Following> FList = followingDao.findFollowingByTo(to);
+            List<Following> FList = followService.getFollowing(to);
 
             return new ResponseEntity<>(FList, HttpStatus.OK);
         } else {

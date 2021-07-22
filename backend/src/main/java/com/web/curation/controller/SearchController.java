@@ -1,10 +1,8 @@
 package com.web.curation.controller;
 
-import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
-import com.web.curation.model.user.ChpwdRequest;
-import com.web.curation.model.user.SignupRequest;
 import com.web.curation.model.user.User;
+import com.web.curation.service.SearchService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -13,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -27,13 +23,13 @@ import java.util.Optional;
 public class SearchController {
 
     @Autowired
-    UserDao userDao;
+    SearchService searchService;
 
     @GetMapping("searchUser")
     @ApiOperation(value = "유저 찾기")
     public Object search(@RequestParam String nickname){
 
-        Optional<User> userOpt = userDao.findUserByNickname(nickname);
+        Optional<User> userOpt = searchService.getUser(nickname);
 
         if(userOpt.isPresent()) {
 
