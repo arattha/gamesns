@@ -9,6 +9,7 @@ import Components from './views/Components.vue'
 import NotFound from './views/error/PageNotFound.vue'
 import ErrorP from './views/error/Error.vue'
 import Mainfeed from './views/feed/Mainfeed.vue'
+import MyEdit from './views/user/MyEdit.vue'
 
 export default [
 
@@ -37,6 +38,11 @@ export default [
         path : '/feed/main',
         name : 'FeedMain',
         component : FeedMain
+    },
+    {
+        path : '/mypage/edit',
+        name : 'MyEdit',
+        component: MyEdit
     },
     {
         path : '/components',
