@@ -28,7 +28,7 @@ public class User {
     private Long uid;
 
     private String nickname;
-    private Byte pimg;
+    private String pimg;
 
     @Column(insertable = false, updatable = false)
     private LocalDateTime createDate;

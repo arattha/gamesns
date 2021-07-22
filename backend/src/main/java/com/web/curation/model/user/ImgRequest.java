@@ -21,6 +21,6 @@ public class ImgRequest {
 
     @ApiModelProperty(required = true)
     @NotNull
-    Byte pImg;
+    String pImg;
 
 }
