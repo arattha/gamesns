@@ -36,20 +36,15 @@ public class ReplyController {
     public Object create(@Valid @RequestBody ReplyCreateRequest request) {
         final BasicResponse result = new BasicResponse();
 
-        Reply reply = new Reply();
-        reply.setContent(request.getContent());
-        reply.setBid(request.getBid());
-        reply.setUid(request.getUid());
-        reply.setNickname(request.getNickname());
+        Reply saveReply = replyService.insert(request.getUid(), request.getBid(),
+                request.getNickname(), request.getContent());
 
-        try {
-            replyDao.save(reply);
-
+        if (saveReply != null) {
             result.status = true;
             result.data = "success";
-        } catch (Exception e) {
-            System.out.println(e);
-
+            result.object = saveReply;
+        }
+        else {
             result.status = false;
             result.data = "failed";
         }
