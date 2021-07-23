@@ -26,7 +26,7 @@
 
     .userinfo {
         display: flex;
-        justify-content:space-around;
+        justify-content:space-between;
     }
 
     .profile-edit-btn {
@@ -34,4 +34,15 @@
         width: 70%;
         height: 10%;
         padding: 0 0 0 0;
+    }
+
+    .my-writing {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom:4px;
+    }
+
+    .profile-box {
+        min-width: 64px;
     }
