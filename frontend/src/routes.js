@@ -13,6 +13,7 @@ import MyEdit from './views/user/MyEdit.vue'
 import MyPage from './views/user/MyPage.vue'
 import Following from './views/user/Following.vue'
 import Follower from './views/user/Follower.vue'
+import Search from './components/home/search/Search.vue'
 
 
 export default [
@@ -82,6 +83,11 @@ export default [
         path : '/MyPage',
         name : 'MyPage',
         component : MyPage
+    },
+    {
+        path : '/search',
+        name : 'Search',
+        component : Search
     },
     {
         path : '/:pathMatch(.*)*',
