@@ -13,17 +13,17 @@
                 <b-button variant="outline-dark" class="profile-edit-btn">프로필 편집</b-button>
             </div>
             <div class="userinfo">
-                <div class="center">
+                <div class="center profile-box">
                     <h2>26</h2>
-                    <p>following</p>
+                    <p>팔로잉</p>
                 </div>
-                <div class="center">
-                    <h2>36.5</h2>
+                <div class="center profile-box">
+                    <h2>38</h2>
+                    <p>팔로워</p>
+                </div>
+                <div class="center profile-box">
+                    <h2>37.5</h2>
                     <p>매너점수</p>
-                </div>
-                <div class="center">
-                    <h2>117</h2>
-                    <p>내가 쓴 글</p>
                 </div>
             </div>
         </div>
@@ -34,8 +34,13 @@
             <Manner/>
         </div> -->
         <hr>
-        <div>
-            <h2>내 게시물</h2>
+        <div class="my-writing">
+            <div style="position:absolute; right:50%; transform: translate(50%);">
+                <h2>내가 쓴 글</h2>
+            </div>
+            <div>
+                <h6>4개</h6>
+            </div>
         </div>
         <div class="feeditem-box">
             <FeedItem />
