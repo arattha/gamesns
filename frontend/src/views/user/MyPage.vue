@@ -54,19 +54,21 @@
 
 <script>
 import Header from '@/components/layout/header/Header.vue'
+import Footer from '@/components/layout/footer/Footer.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
-import Footer from '@/components/layout/footer/Footer.vue'
+
 
 export default {
-    usernickname:'MyPage',
+    name:'MyPage',
     components: {
         Header,
+        Footer,
         // Badge,
         // Manner,
         FeedItem,
-        Footer
+
     }
 }
 </script>
