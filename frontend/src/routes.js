@@ -14,6 +14,7 @@ import MyPage from './views/user/MyPage.vue'
 import Following from './views/user/Following.vue'
 import Follower from './views/user/Follower.vue'
 import Search from './components/home/search/Search.vue'
+import Writing from './components/home/writing/Writing.vue'
 
 
 export default [
@@ -88,6 +89,11 @@ export default [
         path : '/search',
         name : 'Search',
         component : Search
+    },
+    {
+        path : '/writing',
+        name : 'Writing',
+        component : Writing
     },
     {
         path : '/:pathMatch(.*)*',

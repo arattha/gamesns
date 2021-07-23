@@ -48,7 +48,7 @@
   #navigation-bar a:hover {
     color: #e74c3c;
   }
-  #navigation-bar a::before {
+  /* #navigation-bar a::before {
     content: "";
     transition: all 0.4s ease-in-out;
     position: absolute;
@@ -57,7 +57,7 @@
     bottom: 0;
     height: 2px;
     background-color: #e74c3c;
-  }
+  } */
   #navigation-bar a:hover::before {
     right: 0;
     left: 0;
