@@ -60,10 +60,11 @@ import UserApi from '../../api/UserApi';
 export default {
   data: () => {
     return {
+      nickName: '',
+      length: 0,
       // email: '',
       // password: '',
       // passwordConfirm: '',
-      nickName: '',
       isTerm: false,
       isLoading: false,
       // passwordSchema: new PV(),
@@ -79,6 +80,10 @@ export default {
       // passwordConfirmType: 'password',
       termPopup: false,
       code: '',
+      userInfo: {
+        uid: '',
+        nickname: '',
+      },
     };
   },
   created() {
@@ -102,14 +107,20 @@ export default {
     create() {
       this.code = this.$route.query.code;
 
-      console.log('ggg');
-      console.log(this.code);
-
       UserApi.requestkakaoLogin(
         this.code,
         (res) => {
-          // this.isSubmit = true;
-          // this.$router.push('/user/joinSC');
+          console.log(res);
+          this.userInfo.uid = res;
+          console.log(this.userInfo);
+
+          if (this.userInfo.uid == undefined) {
+            alert('잘못된 접근 입니다.');
+
+            this.$router.push('/');
+          }
+
+          // this.isPresentUser();
         },
         (error) => {
           // if (error) this.$router.push('/error');
