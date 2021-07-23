@@ -39,11 +39,9 @@ public class BoardService {
     	long longbid;
     	if(bid == null) longbid = Long.MAX_VALUE;//없으면 최대값
     	else longbid = Long.parseLong(bid);//있으면 해당 bid 밑으로
-    	
     	Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
     	
     	List<Board> boardList;
-    	
     	if(followingDao.findFollowingByFrom(uid).size() > 0) {//내가 follow 하는 사람의 리스트
     		boardList = boardDao.findFollowFeedByUid(longbid, uid, paging);
     	}

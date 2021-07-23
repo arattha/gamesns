@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @ToString
 public class AddBoard {
+	
     @ApiModelProperty(required = true)
     @NotNull
     Long uid;

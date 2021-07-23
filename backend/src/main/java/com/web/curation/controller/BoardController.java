@@ -1,10 +1,7 @@
 package com.web.curation.controller;
 
-import com.web.curation.dao.ImgFile.ImgFileDao;
-import com.web.curation.dao.board.BoardDao;
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.board.AddBoard;
-import com.web.curation.model.file.ImgFile;
 import com.web.curation.service.BoardService;
 
 
@@ -42,6 +39,7 @@ public class BoardController {
 	        result.data = "failed";
 	        System.out.println(e);
 		}
+		
         return new ResponseEntity<>(result, HttpStatus.OK);
         
     }
@@ -69,6 +67,7 @@ public class BoardController {
     @PutMapping(value="/board/{bid}")
     @ApiOperation(value="수정하기")
     public Object modifyBoard(@PathVariable("bid") long bid ,AddBoard newBoard){
+    	
     	final BasicResponse result = new BasicResponse();
     	
     	try {

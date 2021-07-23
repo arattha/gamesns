@@ -121,6 +121,7 @@
 import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
 export default {
+  props:['boardItem'],
   data: () => {
     return { defaultImage, defaultProfile };
   }
