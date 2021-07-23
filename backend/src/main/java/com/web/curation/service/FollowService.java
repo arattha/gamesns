@@ -14,24 +14,42 @@ import java.util.List;
 public class FollowService {
 
     @Autowired
-    UserDao userDao;
-
-    @Autowired
     FollowerDao followerDao;
 
     @Autowired
     FollowingDao followingDao;
 
-    public List<Follower> getFollower(Long from) {
+    public List<Follower> getFollower(Long toId) {
 
-        return followerDao.findFollowerByFrom(from);
+        return followerDao.findFollowerByToId(toId);
 
     }
 
-    public List<Following> getFollowing(Long from) {
+    public List<Following> getFollowing(Long fromId) {
 
-        return followingDao.findFollowingByFrom(from);
+        return followingDao.findFollowingByFromId(fromId);
 
+    }
+
+    public boolean addFollow(Long fromId, Long toId) {
+
+        try {
+            Follower follower = new Follower();
+            follower.setFromId(toId);
+            follower.setToId(fromId);
+            followerDao.save(follower);
+
+            Following following = new Following();
+            following.setToId(toId);
+            following.setFromId(fromId);
+            followingDao.save(following);
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

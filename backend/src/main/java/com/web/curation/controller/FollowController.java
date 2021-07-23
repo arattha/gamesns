@@ -69,4 +69,21 @@ public class FollowController {
         }
 
     }
+
+    @PostMapping("/follow/addFollow")
+    @ApiOperation(value = "팔로우 추가")
+    public Object addFollow(@RequestParam Long fromId, @RequestParam Long toId) {
+
+        final BasicResponse result = new BasicResponse();
+
+        if(followService.addFollow(fromId, toId)) {
+            result.status = true;
+            result.data = "success";
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            result.status = true;
+            result.data = "fail";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+    }
 }
