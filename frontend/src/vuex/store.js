@@ -17,7 +17,7 @@ export default new Vuex.Store({
     },
     mutations: {
         GET_BOARD_ITEMS(state, payload) {
-            state.sidos = payload;
+            state.boardItems = payload;
         },
     },
     getters: {
@@ -35,8 +35,8 @@ export default new Vuex.Store({
             http
                 .get(`/board`, { params:  data  })
                 .then(({ data }) => {
-                    commit('GET_BOARD_ITEMS', data);
-                    console.log(data);
+                    commit('GET_BOARD_ITEMS', data.object);
+                    console.log(data.object);
                 })
                 .catch(() => {
                     alert('에러가 발생했습니다.');

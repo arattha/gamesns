@@ -8,8 +8,18 @@ import com.web.curation.service.BoardService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+import java.net.MalformedURLException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +50,19 @@ public class BoardController {
 	        System.out.println(e);
 		}
 		
-        return new ResponseEntity<>(result, HttpStatus.OK);
-        
+        return new ResponseEntity<>(result, HttpStatus.OK);   
+    }
+    
+    @GetMapping("/board/file/{fileName}")
+    @ApiOperation(value = "내파일")
+    public Object bFile(@PathVariable final String fileName, HttpServletRequest request) throws MalformedURLException{
+		final BasicResponse result = new BasicResponse();
+		//Path filePath = this.fileLocation.resolve(fileName).normalize();
+		Resource resource =  new FileSystemResource("D://upload//"+fileName);
+		
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);  
     }
     
     @PostMapping(value="/board")

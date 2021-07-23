@@ -2,7 +2,7 @@
   <div class="feed newsfeed">
     <div class="wrapB">
       <h1>뉴스피드</h1>
-      <FeedItem v-for="(boardItem,index) in boardItems" :key="index" :boardItems ="boardItems"/>
+      <FeedItem v-for="(boardItem,index) in boardItems" :key="index" :boardItem ="boardItem"/>
     </div>
   </div>
 </template>
@@ -32,6 +32,7 @@ export default {
   },
   watch:{
     boardItems: function(val){
+      console.log("test");
       console.log(val);
     }
   }
