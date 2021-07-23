@@ -11,6 +11,7 @@ import ErrorP from './views/error/Error.vue'
 import Mainfeed from './views/feed/Mainfeed.vue'
 import MyEdit from './views/user/MyEdit.vue'
 import MyPage from './views/user/MyPage.vue'
+import Following from './views/user/Following.vue'
 
 export default [
 
@@ -44,6 +45,11 @@ export default [
         path : '/mypage/edit',
         name : 'MyEdit',
         component: MyEdit
+    },
+    {
+        path : '/mypage/following',
+        name : 'Following',
+        component: Following
     },
     {
         path : '/components',
