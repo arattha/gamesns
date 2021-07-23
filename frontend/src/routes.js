@@ -12,6 +12,8 @@ import Mainfeed from './views/feed/Mainfeed.vue'
 import MyEdit from './views/user/MyEdit.vue'
 import MyPage from './views/user/MyPage.vue'
 import Following from './views/user/Following.vue'
+import Follower from './views/user/Follower.vue'
+
 
 export default [
 
@@ -50,6 +52,11 @@ export default [
         path : '/mypage/following',
         name : 'Following',
         component: Following
+    },
+    {
+        path : '/mypage/follower',
+        name : 'Follower',
+        component: Follower
     },
     {
         path : '/components',
