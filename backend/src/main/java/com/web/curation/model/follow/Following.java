@@ -15,13 +15,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Following {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fid;
 
-    private Long from;
-    private Long to;
+    private Long fromId;
+    private Long toId;
 
 }

@@ -20,7 +20,7 @@ public class Follower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fid;
 
-    private Long from;
-    private Long to;
+    private Long fromId;
+    private Long toId;
 
 }
