@@ -17,7 +17,8 @@ export default new Vuex.Store({
     },
     mutations: {
         GET_BOARD_ITEMS(state, payload) {
-            state.boardItems = payload;
+            state.boardItems = state.boardItems.concat(payload);
+            //state.boardItems.push(payload);
         },
     },
     getters: {
@@ -26,21 +27,34 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        getBoardItems( { commit }, data) {
-            console.log("test")
-            data = {
-                uid: 0
-            };
-
+        getBoardItems(context, data) {
+            
+            
+            if ( context.state.boardItems.length == 0) {
+                data = {
+                    uid: 0
+                };
+            } else {
+                data = {
+                    uid: 0,
+                    bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid)
+                };
+            }
+            console.log(data);
             http
                 .get(`/board`, { params:  data  })
                 .then(({ data }) => {
-                    commit('GET_BOARD_ITEMS', data.object);
-                    console.log(data.object);
+                    console.log(data);
+                    context.commit('GET_BOARD_ITEMS', data.object);
+                    console.log(context.state.boardItems);
                 })
                 .catch(() => {
                     alert('에러가 발생했습니다.');
                 });
-            },
+            
+            
+        },
+
+
     }
 })

@@ -39,6 +39,7 @@ public class BoardController {
     @ApiOperation(value = "내 피드")
     public Object bList(@RequestParam(required = true) final long uid, @RequestParam(required = false) String bid){
 		final BasicResponse result = new BasicResponse();
+		System.out.println(bid);
 		try {
 			result.object = boardService.bList(uid, bid);
 			result.status = true;
@@ -56,9 +57,17 @@ public class BoardController {
     @GetMapping("/board/file/{fileName}")
     @ApiOperation(value = "내파일")
     public Object bFile(@PathVariable final String fileName, HttpServletRequest request) throws MalformedURLException{
-		final BasicResponse result = new BasicResponse();
+		//final BasicResponse result = new BasicResponse();
 		//Path filePath = this.fileLocation.resolve(fileName).normalize();
 		Resource resource =  new FileSystemResource("D://upload//"+fileName);
+		
+		
+		if(fileName == null) {
+			final BasicResponse result = new BasicResponse();
+			result.status = true;
+	        result.data = "success";
+			return new ResponseEntity<>(result, HttpStatus.OK);   
+		}
 		
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")

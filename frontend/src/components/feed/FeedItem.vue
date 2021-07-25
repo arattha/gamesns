@@ -113,13 +113,12 @@ export default {
       img_src:[],
     };
   },created() {
-    console.log("test");
-    console.log(this.boardItem);
-    console.log("test2");
     this.boardItem.imgFiles.forEach(element => {
-      console.log(element);
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
+  },
+  destroyed(){
+
   },
 };
 </script>

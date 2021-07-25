@@ -14,8 +14,8 @@ public interface BoardDao extends JpaRepository<Board, String> {
     
     @Query( "from Board b " + 
     		"where b.bid < :bid and " + 
-    		"b.uid in (select f.to from Following f where f.from = :uid) or " +
-    		"b.uid = :uid " + 
+    		"( b.uid in (select f.to from Following f where f.from = :uid) or " +
+    		"b.uid = :uid )" + 
     		"order by b.createDate desc")
     List<Board> findFollowFeedByUid(@Param("bid") long bid,@Param("uid") long uid, Pageable limitTen);
     
