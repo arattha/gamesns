@@ -31,10 +31,12 @@
     float: left;
     width: 20%;
   }
+  @media (hover: hover) {
   #navigation-bar li:hover a::before {
     right: 0;
     left: 0;
   }
+}
   #navigation-bar li {
     color: #ff8f00;
     font-size: 24px;
@@ -45,10 +47,12 @@
     position: relative;
     transition: all 0.3s ease;
   }
+  @media (hover: hover) {
   #navigation-bar li:hover {
     color: #e74c3c;
     cursor: pointer;
   }
+}
   /* #navigation-bar a::before {
     content: "";
     transition: all 0.4s ease-in-out;
@@ -59,10 +63,12 @@
     height: 2px;
     background-color: #e74c3c;
   } */
+  @media (hover: hover) {
   #navigation-bar a:hover::before {
     right: 0;
     left: 0;
   }
+}
   #navigation-bar span {
     display: block;
   }

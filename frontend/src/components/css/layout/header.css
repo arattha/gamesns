@@ -57,33 +57,37 @@ position: fixed;
     position: absolute;
     display: inline;
     margin: 10px 0;
-    left: 50%;
-    transform: translate(-50%);
+    left: 1%;
+    /* transform: translate(-50%); */
 }
 
 .mypage-btn {
     display: inline;
     position: absolute;
-    left: 90%;
+    left: 92%;
     text-align: center;
-    color: black;
+    color: #ff8f00;
 }
 
-
-.mypage-btn img:hover{
-    color:black;
-    background-color: aqua;
+.alarm-btn {
+    display: inline;
+    position: absolute;
+    left: 85%;
+    text-align: center;
+    color: #ff8f00;
 }
 
-.mypage-btn div{
+.mypage-btn div, .alarm-btn div{
     font-size: 24px;
     color: #ff8f00;
     margin-right: 10px;
   }
 
-.mypage-btn div:hover {
-    color: #e74c3c;
-    cursor: pointer;
+  @media (hover: hover) {
+    .mypage-btn div:hover, .alarm-btn div:hover {
+        color: #e74c3c;
+        cursor: pointer;
+    }
   }
 
 .logo img:hover{

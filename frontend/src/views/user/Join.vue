@@ -42,12 +42,6 @@
         >
           START
         </button>
-        <!-- <label>
-        <input v-model="isTerm" type="checkbox" id="term" />
-        <span>약관을 동의합니다.</span>
-        </label>
-
-        <span @click="termPopup = true">약관보기</span> -->
       </div>
     </div>
   </div>
@@ -56,29 +50,16 @@
 <script>
 import UserApi from '../../api/UserApi';
 
-// import PV from 'password-validator';
-// import * as EmailValidator from 'email-validator';
-
 export default {
   data: () => {
     return {
-      // email: '',
-      // password: '',
-      // passwordConfirm: '',
       nickName: '',
       isTerm: false,
       isLoading: false,
-      // passwordSchema: new PV(),
       error: {
-        // email: false,
-        // password: false,
         nickName: false,
-        // passwordConfirm: false,
-        // term: false,
       },
       isSubmit: false,
-      // passwordType: 'password',
-      // passwordConfirmType: 'password',
       termPopup: false,
       code: '',
     };
@@ -89,15 +70,6 @@ export default {
   watch: {
     nickName: function(v) {
       this.checkForm();
-      // },
-      // email: function (v) {
-      //   this.checkForm();
-      // },
-      // password: function (v) {
-      //   this.checkForm();
-      // },
-      // isTerm: function (v) {
-      //   this.checkForm();
     },
   },
   methods: {
@@ -110,40 +82,15 @@ export default {
       UserApi.requestkakaoLogin(
         this.code,
         (res) => {
-          // this.isSubmit = true;
-          // this.$router.push('/user/joinSC');
         },
         (error) => {
-          // if (error) this.$router.push('/error');
-          // this.isSubmit = true;
         }
       );
     },
     checkForm() {
-      // nickname 확인
+      // nickname 중복 확인 필요
       if (this.nickName.length == 0) this.error.nickName = '닉네임은 한 글자 이상이어야 합니다.';
       else this.error.nickName = false;
-
-      // // email 확인
-      // if (this.email.length >= 0 && !EmailValidator.validate(this.email))
-      //   this.error.email = '이메일 형식이 아닙니다.';
-      // else this.error.email = false;
-
-      // // 비번 확인
-      // if (this.password.length >= 0 && !this.passwordSchema.validate(this.password))
-      //   this.error.password = '영문,숫자 포함 8 자리이상이어야 합니다.';
-      // else this.error.password = false;
-
-      // // 비번confirm 확인
-      // if (this.passwordConfirm.length >= 0 && !this.passwordSchema.validate(this.password))
-      //   this.error.passwordConfirm = '영문,숫자 포함 8 자리이상이어야 합니다.';
-      // else if (this.passwordConfirm != this.password)
-      //   this.error.passwordConfirm = '비번이 다릅니다.';
-      // else this.error.passwordConfirm = false;
-
-      // // term 확인
-      // if (!this.isTerm) this.error.term = '약관을 동의해주세요.';
-      // else this.error.term = false;
 
       let isSubmit = true;
       Object.values(this.error).map((v) => {
@@ -167,7 +114,7 @@ export default {
           data,
           (res) => {
             this.isSubmit = true;
-
+            // feed/main으로 가야함
             this.$router.push('/user/joinSC');
           },
           (error) => {

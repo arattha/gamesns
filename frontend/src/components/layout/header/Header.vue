@@ -5,6 +5,9 @@
                 <div class="logo">
                     <img @click="goToMain" src="@/assets/images/logo.png" alt="" style="width:156px">
                 </div>
+                <div class="alarm-btn">
+                    <div @click="goAlarm"><i class="fas fa-bell"></i></div>
+                </div>
                 <div class="mypage-btn">
                     <div @click="goToMypage"><i class="fas fa-user-circle" ></i></div>
                 </div>
@@ -23,6 +26,9 @@ export default {
         goToMain: function() {
             this.$router.push('main')
         },
+        goAlarm: function() {
+            this.$router.push('alarm')
+        }
     },
 }
 </script>

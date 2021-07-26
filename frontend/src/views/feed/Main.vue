@@ -1,9 +1,11 @@
 <template>
   <div class="feed newsfeed" >
+    <Header/>
     <div class="wrapB" @scroll.passive="handleScroll">
       <h1>뉴스피드</h1>
       <FeedItem v-for="(boardItem,index) in boardItems" :key="index" :boardItem ="boardItem"/>
     </div>
+    <Footer/>
   </div>
 </template>
 
@@ -12,10 +14,15 @@ import { mapActions, mapGetters } from "vuex";
 import "../../components/css/feed/feed-item.scss";
 import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
+import Header from '@/components/layout/header/Header.vue'
+import Footer from '@/components/layout/footer/Footer.vue'
 
 export default {
   props: ["boardItem"],
-  components: { FeedItem },
+  components: { 
+    FeedItem,
+    Header,
+    Footer, },
   data(){
     return{
       
