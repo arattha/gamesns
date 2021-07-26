@@ -15,7 +15,7 @@ import Following from './views/user/Following.vue'
 import Follower from './views/user/Follower.vue'
 import Search from './components/home/search/Search.vue'
 import Writing from './components/home/writing/Writing.vue'
-
+import Alarm from './views/alarm/Alarm.vue'
 
 export default [
 
@@ -94,6 +94,11 @@ export default [
         path : '/writing',
         name : 'Writing',
         component : Writing
+    },
+    {
+        path : '/alarm',
+        name : 'Alarm',
+        component : Alarm
     },
     {
         path : '/:pathMatch(.*)*',

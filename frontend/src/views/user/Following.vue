@@ -2,12 +2,12 @@
   <div>
     <Header/>
     <div class="form">
-      <h4 class="title">Following - {{follows.length}}</h4>
+      <h4 class="title">Following - {{ following.length }}</h4>
       <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
-      <li class="list" v-for="(follow, idx) in follows" :key="idx">
+      <li class="list" v-for="(follow, idx) in following" :key="idx">
         <div>
-          <img src="`http://localhost:8080/account/file/${follow.toId}`" alt="">
-          {{follow.toId}} 
+          <img src="`http://localhost:8080/account/file/1`" alt="">
+          {{follow.toNickname}} 
         </div>
         <Follow/>
       </li>
@@ -27,40 +27,27 @@
 </template>
 
 <script>
-import http from '@/util/http-common';
+import { mapGetters } from "vuex";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 import Follow from '@/components/user/myPage/Follow.vue'
 
-
-
 export default {
     name:'Following',
     components: {
-      // Header,
+      Header,
       Footer,
       Follow
     },
     data () { 
       return {
-      followcnt: 0,
-      follows: [],
       }
     },
-    created () {
-      this.getUser()
+    created() {
     },
-    methods: {
-      getUser () {
-        http.get('/follow/following', {params: {to: 1}}
-        ).then(res => {
-          console.log(res.data)
-          this.follows = res.data
-        }).catch(err => {
-          alert('실패');
-          console.log(err)
-        })
-      }
+    computed: {
+      ...mapGetters(["following"]),
+      
     }
 }
 </script>
