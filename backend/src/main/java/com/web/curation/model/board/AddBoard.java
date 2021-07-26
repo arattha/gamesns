@@ -6,7 +6,6 @@ import lombok.ToString;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.springframework.web.multipart.MultipartFile;
 
