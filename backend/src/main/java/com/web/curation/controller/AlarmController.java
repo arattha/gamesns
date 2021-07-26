@@ -3,6 +3,7 @@ package com.web.curation.controller;
 import com.web.curation.model.alarm.SocketVO;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.*;
@@ -11,7 +12,22 @@ import java.util.*;
 public class AlarmController {
 
     // user 별 팔로우 알람을 위한 Map
-    Map<String, Set<String>> FollowAlarm = new TreeMap<>();
+    Map<String, Set<String>> FollowAlarm = new HashMap<String, Set<String>>();
+//        put("조용일", new HashSet<>(Arrays.asList("최광진", "조성표", "3")));
+//
+//    }};
+
+    @MessageMapping("/first")
+    @SendTo("/firstSend")
+    public String[] first(){
+        System.out.println("hihihi");
+        Set<String> u = new HashSet<>();
+        u.add("조성표");
+        u.add("최광진");
+        FollowAlarm.put("조용일", u);
+        String[] result = new String[FollowAlarm.get("조용일").size()];
+        return FollowAlarm.get("조용일").toArray(result);
+    }
 
     // /receive를 메시지를 받을 endpoint로 설정합니다.
     @MessageMapping("/receive")
@@ -28,6 +44,7 @@ public class AlarmController {
         String fromUser = socketVO.getUserName();
         String toUser = socketVO.getFollowingName();
 
+        toUser = "조용일";
         // FollowAlarm update
         updateFollow(fromUser, toUser);
 
