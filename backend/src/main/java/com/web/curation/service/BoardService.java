@@ -77,8 +77,8 @@ public class BoardService {
 			UUID uuid = UUID.randomUUID();
 
 			fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
-			multipartFile.transferTo(new File("D:\\upload"+"\\"+fileName));
-			String base_url = "D:\\upload"+"\\"+fileName;
+			multipartFile.transferTo(new File("C:\\upload"+"\\"+fileName));
+			String base_url = "C:\\upload"+"\\"+fileName;
 
 			ImgFile file = new ImgFile();//이미지 파일 세팅
 			file.setFile_name(fileName);
@@ -116,8 +116,8 @@ public class BoardService {
 			UUID uuid = UUID.randomUUID();
 
 			fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
-			multipartFile.transferTo(new File("D:\\upload"+"\\"+fileName));
-			String base_url = "D:\\upload"+"\\"+fileName;
+			multipartFile.transferTo(new File("C:\\upload"+"\\"+fileName));
+			String base_url = "C:\\upload"+"\\"+fileName;
 
 			ImgFile file = new ImgFile();//이미지 파일 세팅
 			file.setFile_name(fileName);
