@@ -1,7 +1,6 @@
 package com.web.curation.model.board;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.web.curation.model.file.ImgFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-
-import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @Entity

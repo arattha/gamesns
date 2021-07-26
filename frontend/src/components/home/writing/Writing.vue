@@ -3,9 +3,10 @@
       <Header/>
         <div class="Writing-container">
             <b-container fluid>
+                <!--
                 <b-row>
                     <b-col sm="10" class="text-box">
-                    <b-form-textarea
+                    <b-form-textarea v-model="title"
                         id="textarea-title"
                         size="lg"
                         placeholder="제목 (선택)"
@@ -13,10 +14,11 @@
                     ></b-form-textarea>
                     </b-col>
                 </b-row>
-
+                -->
                 <b-row>
                     <b-col sm="10" class="text-box">
                     <b-form-textarea
+                        v-model="contents"
                         id="textarea-content"
                         size="lg"
                         placeholder="내용 (필수)"
@@ -29,12 +31,12 @@
                 <b-container fluid>
                     <b-row>
                         <b-col class="file-select text-box">
-                            <input type="file" name="chooseFile" id="chooseFile">
+                            <input v-on:change="fileChange($event.target.files)" type="file" name="file" id="chooseFile" multiple>
                         </b-col>
                     </b-row>
                 </b-container>
             </div>
-
+            <!--
             <div class="datalist-container">
                 <b-container fluid class="datalist-box">
                     <b-row>
@@ -60,13 +62,13 @@
                     </b-row>
                 </b-container>
             </div>
-
+            -->
             <div style="height:150px">
                 <!-- 공간 채우기 용 입니다. -->
             </div>
 
             <div class="center">
-                <b-button variant="outline-dark" class="profile-edit-btn">작성 완료</b-button>
+                <b-button variant="outline-dark" @click.prevent="registBoard()" class="profile-edit-btn">작성 완료</b-button>
             </div>
         </div>
       <Footer/>
@@ -76,7 +78,7 @@
 <script>
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
-
+import { mapActions } from "vuex";
 export default {
     name:'Writing',
     components: {
@@ -85,9 +87,48 @@ export default {
     },
     data() {
         return {
-            dataitems: ['자유게시판', '신고합니다', '빠르게 모여라']
+            dataitems: ['자유게시판', '신고합니다', '빠르게 모여라'],
+            //formData:new FormData(),
+            contents:"",
+            files:[],
         }
+    },
+    methods:{
+        ...mapActions(["addBoard"]),
+
+        fileChange(fileList){
+            fileList.forEach(file => {
+                this.files.push(file);
+            });
+        },
+        registBoard(){
+            // this.formData.append('uid',0);
+            // this.formData.append('contents',this.contents);
+            // this.addBoard(this.formData);
+            // for (let key of this.formData.entries()){
+            //     console.log(`${key}`);
+            // }
+
+
+            // let data = {
+            //     uid : 0,
+            //     contents : this.contents,
+            //     multipartFiles : this.files,
+            // }
+
+            let formData = new FormData();
+
+            formData.append('uid',0);
+            formData.append('content',this.contents);
+            
+            this.files.forEach(element => {
+                formData.append('multipartFiles',element);
+            });
+
+            this.addBoard(formData);
+        },
     }
+    
 }
 
 </script>
