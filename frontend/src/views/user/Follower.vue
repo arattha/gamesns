@@ -1,34 +1,54 @@
 <template>
     <div>
-        <h1>팔로워 리스트</h1>
-        <!-- v-for로 리스트 -->
-        <!-- 일단,, 대충 ㅣㅇ런 느낌으로다가..,. -->
-        <ul v-for="follower in followers" :key="follower.nickname"></ul>
-        <!-- 유저목록 옆에 각각 팔로우 버튼 달기? -->
+      <Header/>
+    <div class="form">
+      <h4 class="title">Follower - {{ follower.length }}</h4>
+      <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
+      <li class="list" v-for="(follow, idx) in follower" :key="idx">
+        <div>
+          <img src="`http://localhost:8080/account/file/1`" alt="">
+          {{follow.fromNickname}} 
+        </div>
+        <Follow/>
+      </li>
+      <!-- 나중에 함 지우기 -->
+      <!-- <li class="list">
+        <div><img src="http://localhost:8080/account/file/{{}}" alt="">사용자1 </div>
+        <Follow/>
+      </li>
+      <li class="list">
+        <div><img src="http://localhost:8080/account/file/{{}}" alt="">사용자1 </div>
+        <Follow/>
+      </li> -->
+
+    </div>
+    <Footer/>
     </div>
 </template>
 
+
 <script>
+import { mapGetters } from "vuex";
+import Header from '@/components/layout/header/Header.vue'
+import Footer from '@/components/layout/footer/Footer.vue'
+import Follow from '@/components/user/myPage/Follow.vue'
 
 export default {
     name:'Follower',
-    data () { 
-        return {
-        followercnt: 0,
-        followers: [],
-        }
+    components: {
+      Header,
+      Footer,
+      Follow
     },
-    methods: {
-      // 날 팔로잉하는 유저 정보 get
-      // followerInfo (uid) {
-        // get(
-          // store..?
-        // ).then(res => {
-          // get으로 가져온 유저들 정보를을 followers에 넣는다.
-          // this.followers = res.data
-
-        // }) 
-      // }
+    data () { 
+      return {
+      }
+    },
+    created() {
+    },
+    computed: {
+      ...mapGetters(["follower"]),
+      
     }
 }
 </script>

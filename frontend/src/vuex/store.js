@@ -7,28 +7,69 @@ import mutations from './mutations'
 
 Vue.use(Vuex)
 
-// const state = {
-//     isUser: false,
-// }
 
 export default new Vuex.Store({
     state: {
         boardItems:[],
+        following:[],
+        follower:[],
     },
     mutations: {
         GET_BOARD_ITEMS(state, payload) {
             state.boardItems = state.boardItems.concat(payload);
             //state.boardItems.push(payload);
         },
+        GET_FOLLOWING(state, payload){
+            state.following = payload;
+        },
+        GET_FOLLOWER(state, payload){
+            state.follower = payload;
+        },
+
     },
     getters: {
         boardItems(state) {
             return state.boardItems;
         },
+        following(state){
+            return state.following;
+        },
+        follower(state){
+            return state.follower;
+        }
     },
     actions: {
+        getFollowing({commit}, data){
+
+            data = {
+                from: 1
+            }
+            http
+                .get('/follow/following', {params: data})
+                .then((res) => {
+                    console.log(res);
+                    commit("GET_FOLLOWING", res.data);
+                })
+                .catch(() =>{
+                    console.log("get following error");
+                })
+        },
+        getFollower({commit}, data){
+
+            data = {
+                to: 1
+            }
+            http
+                .get('/follow/follower', {params: data})
+                .then((res) => {
+                    console.log(res);
+                    commit("GET_FOLLOWER", res.data);
+                })
+                .catch(() =>{
+                    console.log("get following error");
+                })
+        },
         getBoardItems(context, data) {
-            
             
             if ( context.state.boardItems.length == 0) {
                 data = {
