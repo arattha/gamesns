@@ -59,8 +59,9 @@ public class FollowController {
         Optional<User> user = accountService.getUser(from);
 
         if(user.isPresent()) {
-
-            List<Following> fList = new ArrayList<>();
+            System.out.println(from);
+            List<Following> fList = followService.getFollowing(from);
+            System.out.println(fList);
 
             return new ResponseEntity<>(fList, HttpStatus.OK);
         } else {
