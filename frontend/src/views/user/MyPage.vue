@@ -14,11 +14,11 @@
             </div>
             <div class="userinfo">
                 <div class="center profile-box">
-                    <h2 @click="following">{{ followingNum }}</h2>
+                    <h2 @click="showFollowing">{{ following.length }}</h2>
                     <p>팔로잉</p>
                 </div>
                 <div class="center profile-box">
-                    <h2>{{ followerNum }}</h2>
+                    <h2 @click="showFollower">{{ follower.length }}</h2>
                     <p>팔로워</p>
                 </div>
                 <div class="center profile-box">
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
@@ -75,46 +76,22 @@ export default {
         return {
             id: '',
             myPhoto: '',
-            followingNum: 0,
-            followerNum: 0,
-            followingArr: [],
-            followerArr: [],
         }
     },
     created() {
-        
-        let data = {
-            from: 1,
-        }
-
-        UserApi.requestFollowing(data
-        ,(res) => {
-            this.followingNum = res.data.length;
-            this.followingArr = res.data;
-        }
-        ,() => {
-            
-        })
-
-        data = {
-            to: 1,
-        }
-
-        UserApi.requestFollower(data
-        ,(res) => {
-            this.followerNum = res.data.length;
-            this.followerArr = res.data;
-        }
-        ,() => {
-            
-        })
-        
+        this.getFollowing();
+        this.getFollower();
+    },
+    computed: {  
+        ...mapGetters(["following", "follower"]),
     },
     methods:{
-        following() {
+        ...mapActions(["getFollowing", "getFollower"]),
+        showFollowing() {
+            console.log(this.following);
             this.$router.push("/mypage/following");
         },
-        follower() {
+        showFollower() {
             this.$router.push("/mypage/follower");
         }
     }
