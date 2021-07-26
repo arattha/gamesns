@@ -16,10 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +55,7 @@ public class BoardController {
     @GetMapping("/board/file/{fileName}")
     @ApiOperation(value = "내파일")
     public Object bFile(@PathVariable final String fileName, HttpServletRequest request) throws MalformedURLException{
-		Resource resource =  new FileSystemResource("D://upload//"+fileName);
+		Resource resource =  new FileSystemResource("C://upload//"+fileName);
 		
 		if(fileName == null) {
 			final BasicResponse result = new BasicResponse();

@@ -2,7 +2,10 @@ package com.web.curation.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.user.ImgRequest;
@@ -12,10 +15,13 @@ import com.web.curation.model.user.User;
 import com.web.curation.service.AccountService;
 import com.web.curation.service.OAuth2Kakao;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -96,7 +102,7 @@ public class AccountController {
             User user = userOpt.get();
 
             // img 파일 이름 설정 및 경로 지정
-            String filePath = "C:\\Users\\multicampus\\S05P12C203\\backend\\src\\main\\resources\\profile\\";
+            String filePath = "C://upload//";
             String originFile = multipartFile.getOriginalFilename();
             String originalFileExtension = originFile.substring(originFile.lastIndexOf("."));
             String storedFileName = request.getUid() + originalFileExtension;
@@ -115,5 +121,23 @@ public class AccountController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
     }
-
+    
+    @GetMapping("/account/file/{uid}")
+    @ApiOperation(value = "내파일")
+    public Object bFile(@PathVariable final long uid, HttpServletRequest request) throws MalformedURLException{
+    	Optional<User> user = service.getUser(uid);
+    	
+    	Resource resource =  new FileSystemResource(user.get().getPimg());
+		
+		if(!resource.exists()) {
+			final BasicResponse result = new BasicResponse();
+			result.status = true;
+	        result.data = "success";
+			return new ResponseEntity<>(result, HttpStatus.OK);   
+		}
+		
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);  
+    }
 }
