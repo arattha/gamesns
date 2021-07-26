@@ -66,8 +66,26 @@ position: fixed;
     position: absolute;
     left: 90%;
     text-align: center;
+    color: black;
 }
 
-/* mypage-btn a:hover {
-color: #85c2ff;
-} */
+
+.mypage-btn img:hover{
+    color:black;
+    background-color: aqua;
+}
+
+.mypage-btn div{
+    font-size: 24px;
+    color: #ff8f00;
+    margin-right: 10px;
+  }
+
+.mypage-btn div:hover {
+    color: #e74c3c;
+    cursor: pointer;
+  }
+
+.logo img:hover{
+    cursor: pointer;
+}

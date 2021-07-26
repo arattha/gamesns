@@ -3,10 +3,10 @@
         <nav>
             <ul class="header" style="padding: 25px 0px 25px 0px">
                 <div class="logo">
-                    <img src="@/assets/images/logo.png" alt="" style="width:156px">
+                    <img @click="goToMain" src="@/assets/images/logo.png" alt="" style="width:156px">
                 </div>
                 <div class="mypage-btn">
-                    <img src="@/assets/images/mypage.png" alt="" style="width: 24px;">
+                    <div @click="goToMypage"><i class="fas fa-user-circle" ></i></div>
                 </div>
             </ul>
         </nav>
@@ -15,7 +15,15 @@
 
 <script>
 export default {
-    name:'Header'
+    name:'Header',
+    methods: {
+        goToMypage: function() {
+            this.$router.push('mypage')
+        },
+        goToMain: function() {
+            this.$router.push('main')
+        },
+    },
 }
 </script>
 

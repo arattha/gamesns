@@ -6,7 +6,7 @@
  -->
 <template>
   <div class="join-body-container">
-    <div class="join-container">
+    <div class="join-container" >
       <div class="login-box">
         <div class="logo-box">
           <img src="@/assets/images/logo.png" alt="" style="width: 90%; height: auto;" />
