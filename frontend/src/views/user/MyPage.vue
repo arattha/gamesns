@@ -10,7 +10,7 @@
                 김냐옹
             </div>
             <div class="center">
-                <b-button variant="outline-dark" class="profile-edit-btn" style="width:100%; margin-bottom:20px">프로필 편집</b-button>
+                <b-button variant="outline-dark" @click="goMyedit" class="profile-edit-btn" style="width:100%; margin-bottom:20px">프로필 편집</b-button>
             </div>
             <div class="userinfo">
                 <div class="center profile-box">
@@ -93,6 +93,9 @@ export default {
         },
         showFollower() {
             this.$router.push("/mypage/follower");
+        },
+        goMyedit() {
+            this.$router.push("/mypage/edit");
         }
     }
 }

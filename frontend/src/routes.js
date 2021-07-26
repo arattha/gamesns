@@ -2,13 +2,10 @@
 
 import Login from './views/user/Login.vue'
 import Join from './views/user/Join.vue'
-import JoinSC from './views/user/JoinSuccess.vue'
-import ChPwd from './views/user/Chpwd.vue'
-import FeedMain from './views/feed/IndexFeed.vue'
+import MainFeed from './views/feed/MainFeed.vue'
 import Components from './views/Components.vue'
 import NotFound from './views/error/PageNotFound.vue'
 import ErrorP from './views/error/Error.vue'
-import Mainfeed from './views/feed/Mainfeed.vue'
 import MyEdit from './views/user/MyEdit.vue'
 import MyPage from './views/user/MyPage.vue'
 import Following from './views/user/Following.vue'
@@ -31,19 +28,9 @@ export default [
         component : Join
     },
     {
-        path : '/user/joinSC',
-        name : 'JoinSC',
-        component : JoinSC
-    },
-    {
-        path : '/user/chpwd',
-        name : 'ChPwd',
-        component : ChPwd
-    },
-    {
-        path : '/feed/main',
-        name : 'FeedMain',
-        component : FeedMain
+        path : '/main',
+        name : 'MainFeed',
+        component : MainFeed
     },
     {
         path : '/mypage/edit',
@@ -74,11 +61,6 @@ export default [
         path : '/404',
         name : "notFound",
         component : NotFound
-    },
-    {
-        path : '/main',
-        name : 'Mainfeed',
-        component : Mainfeed
     },
     {
         path : '/MyPage',
