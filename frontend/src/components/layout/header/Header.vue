@@ -1,18 +1,16 @@
 <template>
-    <b-container fluid class="main-container">
+    <div class="main-container" style="padding: 0px;">
         <nav>
-            <span class="header" style="padding: 25px 0px 25px 0px">
+            <ul class="header" style="padding: 25px 0px 25px 0px">
                 <div class="logo">
                     <img src="@/assets/images/logo.png" alt="" style="width:156px">
                 </div>
                 <div class="mypage-btn">
                     <img src="@/assets/images/mypage.png" alt="" style="width: 24px;">
                 </div>
-            </span>
+            </ul>
         </nav>
-        <div class="for-empty-space">
-        </div>
-    </b-container>
+    </div>
 </template>
 
 <script>
