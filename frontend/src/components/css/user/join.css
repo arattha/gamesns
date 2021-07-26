@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+
+.join-body-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 15px;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+}
+
+.join-btn {
+    background: #1565c0;
+    color: white;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-weight: f600;
+    position: relative;
+    left: 0px;
+    top: 25px;
+    width: 100%;
+    cursor: pointer;
+    transform: rotate(0.1deg);
+    /* &.disabled {
+          background: $grey;
+          cursor: default; */
+  }
+  
+  .disabled {
+    background: grey;
+    cursor: default;
+  }
+  
+  #nickname {
+    padding: 0px;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .nickname-confirm {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  
+  .nickname-word {
+    font-size: 24px;
+  }
+  
+  .nickname-confirm-box {
+    background-color: #c67c00;
+    color: white;
+    padding: 10px;
+  }
+
+  .login-box {
+      padding: 0px;
+  }
+
+  .join-container {
+    margin: 0 auto;
+    max-height: 500px;
+    /* min-height: 400px; */
+    /* min-height: 500px; */
+    /* margin-top: 180px;
+    margin-bottom: 200px; */
+    background-color: white;
+    position: relative;
+    float: none;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+  }

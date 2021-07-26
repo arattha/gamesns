@@ -5,48 +5,50 @@
     Sub PJT I에서는 UX, 디자인 등을 포함하여 백엔드를 제외하여 개발합니다.
  -->
 <template>
-  <div class="container">
-    <div class="login-box">
-      <div class="logo-box">
-        <img src="@/assets/images/logo.png" alt="" />
+  <div class="join-body-container">
+    <div class="join-container">
+      <div class="login-box">
+        <div class="logo-box">
+          <img src="@/assets/images/logo.png" alt="" style="width: 90%; height: auto;" />
+        </div>
+        <h3 style="color: #FFB937	; margin-bottom: 40px;">가입하기</h3>
+
+        <div class="nickname-confirm">
+          <span class="nickname-word">닉네임</span>
+          <span><button class="nickname-confirm-box">중복확인</button></span>
+        </div>
+
+        <div class="input-with-label" style="margin-top:15px">
+          <input
+            v-model="nickName"
+            autocapitalize="off"
+            v-bind:class="{
+              error: error.nickName,
+              complete: !error.nickName && nickName.length !== 0,
+            }"
+            id="nickname"
+            placeholder="닉네임을 입력하세요."
+            type="text"
+          />
+          <label for="nickname"></label>
+          <div iv class="error-text" v-if="error.nickName">{{ error.nickName }}</div>
+        </div>
+
+        <button
+          class="join-btn"
+          @click="signUp"
+          :disabled="!isSubmit"
+          :class="{ disabled: !isSubmit }"
+        >
+          START
+        </button>
+        <!-- <label>
+        <input v-model="isTerm" type="checkbox" id="term" />
+        <span>약관을 동의합니다.</span>
+        </label>
+
+        <span @click="termPopup = true">약관보기</span> -->
       </div>
-      <h3 style="color: #FFB937	; margin-bottom: 40px;">가입하기</h3>
-
-      <div class="nickname-confirm">
-        <span class="nickname-word">닉네임</span>
-        <span><button class="nickname-confirm-box">중복확인</button></span>
-      </div>
-
-      <div class="input-with-label" style="margin-top:15px">
-        <input
-          v-model="nickName"
-          autocapitalize="off"
-          v-bind:class="{
-            error: error.nickName,
-            complete: !error.nickName && nickName.length !== 0,
-          }"
-          id="nickname"
-          placeholder="닉네임을 입력하세요."
-          type="text"
-        />
-        <label for="nickname"></label>
-        <div iv class="error-text" v-if="error.nickName">{{ error.nickName }}</div>
-      </div>
-
-      <button
-        class="join-btn"
-        @click="signUp"
-        :disabled="!isSubmit"
-        :class="{ disabled: !isSubmit }"
-      >
-        START
-      </button>
-      <!-- <label>
-      <input v-model="isTerm" type="checkbox" id="term" />
-      <span>약관을 동의합니다.</span>
-      </label>
-
-      <span @click="termPopup = true">약관보기</span> -->
     </div>
   </div>
 </template>
@@ -184,49 +186,5 @@ export default {
 </script>
 
 <style>
-.join-btn {
-  background: #1565c0;
-  color: white;
-  height: 50px;
-  text-align: center;
-  line-height: 50px;
-  font-weight: f600;
-  position: relative;
-  left: 0px;
-  top: 25px;
-  width: 100%;
-  cursor: pointer;
-  transform: rotate(0.1deg);
-  /* &.disabled {
-        background: $grey;
-        cursor: default; */
-}
-
-.disabled {
-  background: grey;
-  cursor: default;
-}
-
-#nickname {
-  padding: 0px;
-  text-align: center;
-  font-size: 18px;
-}
-
-.nickname-confirm {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  align-items: center;
-}
-
-.nickname-word {
-  font-size: 24px;
-}
-
-.nickname-confirm-box {
-  background-color: #c67c00;
-  color: white;
-  padding: 10px;
-}
+    @import "../../components/css/user/join.css";
 </style>
