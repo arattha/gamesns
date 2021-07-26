@@ -70,20 +70,19 @@ public class FollowController {
 
     }
 
-    @PostMapping("/follow/addFollow")
-    @ApiOperation(value = "팔로우 추가")
-    public Object addFollow(@RequestParam Long fromId, @RequestParam Long toId) {
+    @PostMapping("/follow/AddOrDeleteFollow")
+    @ApiOperation(value = "팔로우 추가/삭제")
+    public Object AddOrDeleteFollow(@RequestParam Long fromId, @RequestParam Long toId) {
 
-        final BasicResponse result = new BasicResponse();
+        // 오류(0), 삭제(1), 추가(2) 인지 확인할 변수
+        int x = followService.AddOrDeleteFollow(fromId, toId);
 
-        if(followService.addFollow(fromId, toId)) {
-            result.status = true;
-            result.data = "success";
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        if(x == 2) {
+            return new ResponseEntity<>(2, HttpStatus.OK);
+        } else if(x == 1){
+            return new ResponseEntity<>(1, HttpStatus.OK);
         } else {
-            result.status = true;
-            result.data = "fail";
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
         }
     }
 }

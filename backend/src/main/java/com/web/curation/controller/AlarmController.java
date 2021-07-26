@@ -1,18 +1,16 @@
 package com.web.curation.controller;
 
-import com.web.curation.model.follow.Following;
 import com.web.curation.model.alarm.SocketVO;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.util.*;
 
 @Controller
 public class AlarmController {
 
+    // user 별 팔로우 알람을 위한 Map
     Map<String, Set<String>> FollowAlarm = new TreeMap<>();
 
     // /receive를 메시지를 받을 endpoint로 설정합니다.
@@ -31,31 +29,38 @@ public class AlarmController {
         String toUser = socketVO.getFollowingName();
 
         // FollowAlarm update
-        addFollow(fromUser, toUser);
+        updateFollow(fromUser, toUser);
 
         System.out.println(FollowAlarm);
 
-        // follow 관련 db 에 넣어주기 위해 Long 타입으로 변환
-//        Long fromid = Long.parseLong(fromUser);
-//        Long toid = Long.parseLong(toUser);
-
-        // 생성자로 반환값을 생성합니다.
-//        Following result = new Following();
-//        result.setFrom(fromid);
-//        result.setTo(toid);
-
         // 반환
         String[] result = new String[FollowAlarm.get(toUser).size()];
+
         return FollowAlarm.get(toUser).toArray(result);
     }
 
-    private void addFollow(String fromUser, String toUser) {
+    private void updateFollow(String fromUser, String toUser) {
         // FollowAlarm 에 newUser 가 있으면 해당 리스트를 가져오고 없으면 새로운 리스트 생성
         Set<String> users = FollowAlarm.get(toUser) != null ? FollowAlarm.get(toUser) : new HashSet<>();
-        System.out.print("set : ");
-        System.out.println(users);
-        users.add(fromUser);
+
+        // toUser 를 key로 갖고 있는 Map 이 있다면 팔로우 신청 목록에 fromUser가 있는지 확인한다.
+        // (toUser, fromUser) 쌍이 똑같은게 있다면 flag 를 true 로 바꿔주고 Set 에서 삭제한다.
+        boolean flag = false;
+        if(users.size() != 0) {
+            for (String u : users) {
+                if(u.equals(fromUser)){
+                    users.remove(fromUser);
+                    flag = true;
+                    break;
+                }
+            }
+        }
+
+        if(!flag) users.add(fromUser);
+
         FollowAlarm.put(toUser, users);
     }
+
+
 
 }
