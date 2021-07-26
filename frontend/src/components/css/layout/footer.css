@@ -35,7 +35,7 @@
     right: 0;
     left: 0;
   }
-  #navigation-bar a {
+  #navigation-bar li {
     color: #ff8f00;
     font-size: 24px;
     text-decoration: none;
@@ -45,8 +45,9 @@
     position: relative;
     transition: all 0.3s ease;
   }
-  #navigation-bar a:hover {
+  #navigation-bar li:hover {
     color: #e74c3c;
+    cursor: pointer;
   }
   /* #navigation-bar a::before {
     content: "";
@@ -64,12 +65,6 @@
   }
   #navigation-bar span {
     display: block;
-  }
-  
-  #search-bar {
-    display: none;
-    border-bottom: 3px solid #e74c3c;
-    border-radius: 4px;
   }
   
   /* form {
