@@ -13,30 +13,14 @@
       </div>
     </div>
     <div class="image">
-      <img src="@/assets/images/feed.jpg" alt="">
+      <img v-for="(img,index) in img_src" :key="index" :src="img" alt="">
+      <!--이미지 -->
     </div>
     <!-- 만약 이미지 추가되면 내용 위쪽 -->
     <img src="" alt="">
     <div class="content">
-        <p>이 글은 아주 좋습니다..............................................................................................................................................<br>
-        dkdkdkdk
-        </p>
+        <span>{{boardItem.contents}}</span>
     </div>
-    <!-- <div class="content-card">
-      <div class="feed-card">
-        <div class="img" :style="{'background-image': 'url('+defaultImage+')'}"></div>
-        <div class="contentsWrap">
-          <h4 class="title">사용자경험(UX)을 이해하는 팀원이 되기 위하여 - 사용자에게 '기본적인' UX를 선사하기 위해 우리 모두 알아야할 사실들</h4>
-          <div class="wrap">
-            <div class="url">
-              <a href="https://brunch.co.kr/@@63JW/25">https://brunch.co.kr/@@63JW/25</a>
-            </div>
-            <p class="date">2020.06.18</p>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
 
     <div class="btn-group wrap">
       <div class="like likeScrap">
@@ -121,8 +105,20 @@
 import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
 export default {
+  props:['boardItem'],
   data: () => {
-    return { defaultImage, defaultProfile };
-  }
+    return { 
+      defaultImage,
+      defaultProfile,
+      img_src:[],
+    };
+  },created() {
+    this.boardItem.imgFiles.forEach(element => {
+      this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
+    });
+  },
+  destroyed(){
+
+  },
 };
 </script>

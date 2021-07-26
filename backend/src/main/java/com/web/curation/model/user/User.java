@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     private Long uid;
-
+    
     private String nickname;
     private String pimg;
 
