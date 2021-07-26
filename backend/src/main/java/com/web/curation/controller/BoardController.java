@@ -73,7 +73,7 @@ public class BoardController {
     @ApiOperation(value="추가하기")
     public Object addBoard(AddBoard newBoard) {
     	final BasicResponse result = new BasicResponse();
-    	
+    	System.out.println(newBoard.toString());
     	try {
     		boardService.addBoard(newBoard);
     		

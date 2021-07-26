@@ -7,18 +7,15 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.web.curation.dao.ImgFile.ImgFileDao;
 import com.web.curation.dao.board.BoardDao;
 import com.web.curation.dao.follow.FollowingDao;
-import com.web.curation.model.BasicResponse;
+
 import com.web.curation.model.board.AddBoard;
 import com.web.curation.model.board.Board;
 import com.web.curation.model.board.ResponseBoard;

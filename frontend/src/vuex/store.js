@@ -13,7 +13,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        boardItems:[],
+        boardItems: [],
     },
     mutations: {
         GET_BOARD_ITEMS(state, payload) {
@@ -28,9 +28,7 @@ export default new Vuex.Store({
     },
     actions: {
         getBoardItems(context, data) {
-            
-            
-            if ( context.state.boardItems.length == 0) {
+            if (context.state.boardItems.length == 0) {
                 data = {
                     uid: 0
                 };
@@ -42,7 +40,7 @@ export default new Vuex.Store({
             }
             console.log(data);
             http
-                .get(`/board`, { params:  data  })
+                .get(`/board`, { params: data })
                 .then(({ data }) => {
                     console.log(data);
                     context.commit('GET_BOARD_ITEMS', data.object);
@@ -51,10 +49,28 @@ export default new Vuex.Store({
                 .catch(() => {
                     alert('에러가 발생했습니다.');
                 });
-            
-            
         },
+        addBoard({ commit }, formData) {
+            console.log(commit);
+            console.log(formData);
+            for (let key of formData.entries()){
+                    console.log(`${key}`);
+            }
 
+            http
+                .post(`/board`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                )
+                .then(({ data }) => {
+                    console.log(data);
+                })
+                .catch(() => {
+                    alert('에러가 발생했습니다.');
+                });
+        }
 
     }
 })
