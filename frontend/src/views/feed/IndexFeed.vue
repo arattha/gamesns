@@ -18,7 +18,7 @@ export default {
   components: { FeedItem },
   data(){
     return{
-      //boardItems:[],
+      
     }
   },
   created(){
