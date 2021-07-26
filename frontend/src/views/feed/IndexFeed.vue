@@ -34,8 +34,8 @@ export default {
       // console.log(document.documentElement.scrollTop);
       // console.log(document.body.parentNode.scrollTop);
       // console.log("--------------------");
-      const body = document.body;
-      const html = document.documentElement; 
+      //const body = document.body;
+      //const html = document.documentElement; 
       // console.log(body.scrollHeight);
       // console.log(body.offsetHeight);
       // console.log(body.clientHeight);

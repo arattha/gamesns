@@ -5,6 +5,7 @@ import com.web.curation.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,5 +16,9 @@ public class SearchService {
 
     public Optional<User> getUser(String nickname) {
         return userDao.findUserByNickname(nickname);
+    }
+    
+    public List<User> searchUser(String nickname) {
+        return userDao.findUserByNicknameContaining(nickname);
     }
 }
