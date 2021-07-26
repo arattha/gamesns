@@ -10,7 +10,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        boardItems:[],
+        boardItems: [],
+        searched: [],
         following:[],
         follower:[],
     },
@@ -19,17 +20,22 @@ export default new Vuex.Store({
             state.boardItems = state.boardItems.concat(payload);
             //state.boardItems.push(payload);
         },
+        GET_SEARCHED(state, payload) {
+            state.searched = payload;
+        },
         GET_FOLLOWING(state, payload){
             state.following = payload;
         },
         GET_FOLLOWER(state, payload){
             state.follower = payload;
         },
-
     },
     getters: {
         boardItems(state) {
             return state.boardItems;
+        },
+        searched(state) {
+            return state.searched;
         },
         following(state){
             return state.following;
@@ -93,18 +99,13 @@ export default new Vuex.Store({
                 });
         },
         addBoard({ commit }, formData) {
-            console.log(commit);
-            console.log(formData);
-            for (let key of formData.entries()){
-                    console.log(`${key}`);
-            }
-
+            commit
             http
                 .post(`/board`, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
                     }
+                }
                 )
                 .then(({ data }) => {
                     console.log(data);
@@ -112,7 +113,21 @@ export default new Vuex.Store({
                 .catch(() => {
                     alert('에러가 발생했습니다.');
                 });
-        }
+        },
+        searchUser({ commit }, val) {
+            console.log(val);
+            let data = {
+                nickname : val
+            }
 
+            http
+                .get(`/search`, {params : data})
+                .then(({ data }) => {
+                    commit('GET_SEARCHED', data);
+                })
+                .catch(() => {
+                    alert('에러가 발생했습니다.');
+                });
+        }
     }
 })

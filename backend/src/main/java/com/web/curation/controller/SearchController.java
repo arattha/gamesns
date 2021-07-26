@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -25,7 +26,7 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-    @GetMapping("searchUser")
+    @GetMapping("/searchUser")
     @ApiOperation(value = "유저 찾기")
     public Object search(@RequestParam String nickname){
 
@@ -39,6 +40,23 @@ public class SearchController {
         }
 
     }
+    
+    @GetMapping("/search")
+    @ApiOperation(value = "유저 찾기")
+    public Object searchUser(@RequestParam String nickname){
+    	//System.out.println(nickname);
+        List<User> userOpt = searchService.searchUser(nickname);
+        System.out.println("ㅋ");
+        for (User u : userOpt) {
+			System.out.println(u);
+		}
+        
+        if(userOpt.size() >= 0) {
+            return new ResponseEntity<>(userOpt, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
 
+    }
 
 }
