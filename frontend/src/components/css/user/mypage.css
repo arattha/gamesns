@@ -1,0 +1,48 @@
+@charset "utf-8";
+
+.MyPage-container{
+    width:80%;
+    display:flexbox;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 80px;
+    }
+
+    .center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile{
+        display: box;
+        padding: 15px;
+    }
+
+    .user-nickname{
+        margin: 40px 0;
+        font-size: 2.5rem;
+    }
+
+    .userinfo {
+        display: flex;
+        justify-content:space-between;
+    }
+
+    .profile-edit-btn {
+        margin-bottom: 40px;
+        width: 70%;
+        height: 10%;
+        padding: 0 0 0 0;
+    }
+
+    .my-writing {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom:4px;
+    }
+
+    .profile-box {
+        min-width: 64px;
+    }

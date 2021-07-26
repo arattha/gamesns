@@ -9,6 +9,13 @@ import Components from './views/Components.vue'
 import NotFound from './views/error/PageNotFound.vue'
 import ErrorP from './views/error/Error.vue'
 import Mainfeed from './views/feed/Mainfeed.vue'
+import MyEdit from './views/user/MyEdit.vue'
+import MyPage from './views/user/MyPage.vue'
+import Following from './views/user/Following.vue'
+import Follower from './views/user/Follower.vue'
+import Search from './components/home/search/Search.vue'
+import Writing from './components/home/writing/Writing.vue'
+
 
 export default [
 
@@ -39,6 +46,21 @@ export default [
         component : FeedMain
     },
     {
+        path : '/mypage/edit',
+        name : 'MyEdit',
+        component: MyEdit
+    },
+    {
+        path : '/mypage/following',
+        name : 'Following',
+        component: Following
+    },
+    {
+        path : '/mypage/follower',
+        name : 'Follower',
+        component: Follower
+    },
+    {
         path : '/components',
         name : 'Components',
         component : Components
@@ -57,6 +79,21 @@ export default [
         path : '/main',
         name : 'Mainfeed',
         component : Mainfeed
+    },
+    {
+        path : '/MyPage',
+        name : 'MyPage',
+        component : MyPage
+    },
+    {
+        path : '/search',
+        name : 'Search',
+        component : Search
+    },
+    {
+        path : '/writing',
+        name : 'Writing',
+        component : Writing
     },
     {
         path : '/:pathMatch(.*)*',

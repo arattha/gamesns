@@ -69,4 +69,20 @@ public class FollowController {
         }
 
     }
+
+    @PostMapping("/follow/AddOrDeleteFollow")
+    @ApiOperation(value = "팔로우 추가/삭제")
+    public Object AddOrDeleteFollow(@RequestParam Long fromId, @RequestParam Long toId) {
+
+        // 오류(0), 삭제(1), 추가(2) 인지 확인할 변수
+        int x = followService.AddOrDeleteFollow(fromId, toId);
+
+        if(x == 2) {
+            return new ResponseEntity<>(2, HttpStatus.OK);
+        } else if(x == 1){
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
+        }
+    }
 }
