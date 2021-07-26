@@ -19,8 +19,4 @@ public class ImgRequest {
     @NotNull
     String nickname;
 
-    @ApiModelProperty(required = true)
-    @NotNull
-    String pImg;
-
 }
