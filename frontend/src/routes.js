@@ -2,7 +2,7 @@
 
 import Login from './views/user/Login.vue'
 import Join from './views/user/Join.vue'
-import MainFeed from './views/feed/MainFeed.vue'
+import Main from './views/feed/Main.vue'
 import Components from './views/Components.vue'
 import NotFound from './views/error/PageNotFound.vue'
 import ErrorP from './views/error/Error.vue'
@@ -29,8 +29,8 @@ export default [
     },
     {
         path : '/main',
-        name : 'MainFeed',
-        component : MainFeed
+        name : 'Main',
+        component : Main
     },
     {
         path : '/mypage/edit',
