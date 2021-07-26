@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +35,12 @@ public class FollowController {
 
     @GetMapping("/follow/follower")
     @ApiOperation(value = "팔로워리스트")
-    public Object follower(@RequestParam(required = true) final Long from) {
+    public Object follower(@RequestParam final Long to) {
 
-        Optional<User> user = accountService.getUser(from);
+        Optional<User> user = accountService.getUser(to);
 
         if(user.isPresent()) {
-            List<Follower> FList = followService.getFollower(from);
+            List<Follower> FList = followService.getFollower(to);
 
             return new ResponseEntity<>(FList, HttpStatus.OK);
         } else {
@@ -53,14 +54,15 @@ public class FollowController {
 
     @GetMapping("/follow/following")
     @ApiOperation(value = "팔로잉리스트")
-    public Object following(@RequestParam(required = true) final Long to) {
+    public Object following(@RequestParam final Long from) {
 
-        Optional<User> user = accountService.getUser(to);
+        Optional<User> user = accountService.getUser(from);
 
         if(user.isPresent()) {
-            List<Following> FList = followService.getFollowing(to);
 
-            return new ResponseEntity<>(FList, HttpStatus.OK);
+            List<Following> fList = new ArrayList<>();
+
+            return new ResponseEntity<>(fList, HttpStatus.OK);
         } else {
             final BasicResponse result = new BasicResponse();
             result.status = true;

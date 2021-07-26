@@ -21,6 +21,8 @@ public class Following {
     private Long fid;
 
     private Long fromId;
+    private String fromNickname;
     private Long toId;
+    private String toNickname;
 
 }
