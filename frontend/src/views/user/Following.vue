@@ -1,11 +1,26 @@
 <template>
   <div>
     <Header/>
-    <div>
-      <h1>팔로잉 리스트</h1>
-      <h3>{{follows.length}}명을 팔로우하고있ㅅ믄다</h3>
+    <div class="form">
+      <h4 class="title">Following - {{follows.length}}</h4>
       <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
-      <li v-for="(follow, idx) in follows" :key="idx">{{follow.to}}</li>
+      <li class="list" v-for="(follow, idx) in follows" :key="idx">
+        <div>
+          <img src="`http://localhost:8080/account/file/${follow.toId}`" alt="">
+          {{follow.toId}} 
+        </div>
+        <Follow/>
+      </li>
+      <!-- 나중에 함 지우기 -->
+      <!-- <li class="list">
+        <div><img src="http://localhost:8080/account/file/{{}}" alt="">사용자1 </div>
+        <Follow/>
+      </li>
+      <li class="list">
+        <div><img src="http://localhost:8080/account/file/{{}}" alt="">사용자1 </div>
+        <Follow/>
+      </li> -->
+
     </div>
     <Footer/>
   </div>
@@ -15,14 +30,16 @@
 import http from '@/util/http-common';
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
+import Follow from '@/components/user/myPage/Follow.vue'
 
 
 
 export default {
     name:'Following',
     components: {
-      Header,
-      Footer
+      // Header,
+      Footer,
+      Follow
     },
     data () { 
       return {
@@ -49,5 +66,5 @@ export default {
 </script>
 
 <style>
-  @import "../../components/css/user/follow.css"
+  @import "../../components/css/user/follow.css";
 </style>
