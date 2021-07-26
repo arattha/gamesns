@@ -1,6 +1,8 @@
 package com.web.curation.controller;
 
+import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
+import com.web.curation.model.follow.FollowRequest;
 import com.web.curation.model.follow.Follower;
 import com.web.curation.model.follow.Following;
 import com.web.curation.model.user.User;
@@ -75,10 +77,10 @@ public class FollowController {
 
     @PostMapping("/follow/AddOrDeleteFollow")
     @ApiOperation(value = "팔로우 추가/삭제")
-    public Object AddOrDeleteFollow(@RequestParam Long fromId, @RequestParam Long toId) {
-
+    public Object AddOrDeleteFollow(@RequestBody FollowRequest followRequest) {
+        System.out.println("fromNickname : " + followRequest.getFromNickname() + ", toNickname : " + followRequest.getToNickname());
         // 오류(0), 삭제(1), 추가(2) 인지 확인할 변수
-        int x = followService.AddOrDeleteFollow(fromId, toId);
+        int x = followService.AddOrDeleteFollow(followRequest.getFromNickname(), followRequest.getToNickname());
 
         if(x == 2) {
             return new ResponseEntity<>(2, HttpStatus.OK);
