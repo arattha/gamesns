@@ -1,47 +1,54 @@
 <template>
-  <div>
-      <Header/>
-      <div class="MyPage-container">
-        <div class="profile">
-            <div class="center">
-                <b-avatar src="https://placekitten.com/300/300" size="12rem" style="z-index:-1" ></b-avatar>
-            </div>
-            <div class="user-nickname center">
-                김냐옹 아님
-            </div>
-            <div class="userinfo">
-                <div class="center profile-box">
-                    <h2 @click="showFollowing">{{ following.length }}</h2>
-                    <p>팔로잉</p>
-                </div>
-                <div class="center profile-box">
-                    <h2 @click="showFollower">{{ follower.length }}</h2>
-                    <p>팔로워</p>
-                </div>
-                <div class="center profile-box">
-                    <h2>37.5</h2>
-                    <p>매너점수</p>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="center">
-            <Badge/>
-        </div>
-        <div class="center">
-            <Manner/>
-        </div> -->
-        <div style="text-align: center">
-            <button class="fbtn" @click="send">팔로우</button>
-        </div>
-        <hr>
-        <div class="my-writing">
-            <div style="position:absolute; right:50%; transform: translate(50%);">
-                <h2>Posting</h2>
-            </div>
+  <div class="h-100">
+        <Header/>
             <div>
-                <h6>4개</h6>
-            </div>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+		<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+	</div>
+      <div style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
+			<div class="card" style="padding: 0;">
+                <div class="card-header">
+					<div class="profile_pic">
+						<img src="https://t1.daumcdn.net/cfile/tistory/99D0593B5FA926B127">
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="d-lfex justify-content-center flex-column">
+						<div class="name_container">
+							<div class="name">박루바</div>
+						</div>
+                        <div class="intro">저는 강아지를 좋아합니다.</div>
+					</div>
+                     <div class="follow">
+							<div class="follow_btn" @click="send">팔로우</div>
+						</div>
+            <div class="info_container">
+							<div class="info">
+								<p>팔로워</p>
+                                <p>-</p>
+								<!-- <p @click="showFollowing">{{ following.length }}</p>								 -->
+							</div>
+							<div class="info">
+								<p>팔로잉</p>
+                                <p>-</p>
+								<!-- <p @click="showFollower">{{ follower.length }}</p>							 -->
+							</div>
+							<div class="info">
+								<p>매너</p>
+								<p>3.5</p>						
+							</div>	
+						</div>
         </div>
+        <div class="card-footer">
+						<div class="feed drop-in-underline">
+							<i class="fas fa-archive"></i>
+						</div>
+						<div class="feed drop-in-underline">
+							<i class="far fa-smile"></i>
+						</div>
+					</div>
         <div class="feeditem-box">
             <FeedItem />
             <FeedItem />
@@ -50,7 +57,11 @@
       </div>
     <Footer/>
   </div>
+  </div>
 </template>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script>
 import Header from '@/components/layout/header/Header.vue'
