@@ -57,7 +57,7 @@ public class OAuth2Kakao {
     }
 
     // AccessToken을 사용하여 유저정보 받기
-    public Long getUserByAccessToken(String accessToken) {
+    public Long getMemberByAccessToken(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper objectMapper = new ObjectMapper();
         ResponseEntity<String> response = null;

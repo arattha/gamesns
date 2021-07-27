@@ -2,14 +2,13 @@ package com.web.curation.service;
 
 import com.web.curation.dao.follow.FollowerDao;
 import com.web.curation.dao.follow.FollowingDao;
-import com.web.curation.dao.user.UserDao;
+import com.web.curation.dao.member.MemberDao;
 import com.web.curation.model.follow.Follower;
 import com.web.curation.model.follow.Following;
-import com.web.curation.model.user.User;
+import com.web.curation.model.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +16,7 @@ import java.util.Optional;
 public class FollowService {
 
     @Autowired
-    UserDao userDao;
+    MemberDao memberDao;
 
     @Autowired
     FollowerDao followerDao;
@@ -43,15 +42,15 @@ public class FollowService {
     // 2 : 새로운 (fromId, toId) 쌍을 DB 에 추가
     public int AddOrDeleteFollow(String fromNickname, String toNickname) {
 
-        Optional<User> userOpt = userDao.findUserByNickname(fromNickname);
-        Optional<User> userOpt2 = userDao.findUserByNickname(toNickname);
+        Optional<Member> memberOpt = memberDao.findMemberByNickname(fromNickname);
+        Optional<Member> memberOpt2 = memberDao.findMemberByNickname(toNickname);
 
-        if(userOpt.isPresent() && userOpt2.isPresent()) {
+        if(memberOpt.isPresent() && memberOpt2.isPresent()) {
             System.out.println("herereererer!!");
             try {
 
-                Long fromId = userOpt.get().getUid();
-                Long toId = userOpt2.get().getUid();
+                Long fromId = memberOpt.get().getUid();
+                Long toId = memberOpt2.get().getUid();
 
                 // follower DB 에 있는 (fromId, toId) 쌍인지 확인할 변수
                 boolean flag = false;

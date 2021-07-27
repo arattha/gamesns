@@ -1,4 +1,4 @@
-package com.web.curation.model.user;
+package com.web.curation.model.member;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.ToString;

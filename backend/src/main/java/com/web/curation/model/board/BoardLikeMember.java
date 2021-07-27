@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BoardLikeUser {
+public class BoardLikeMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
