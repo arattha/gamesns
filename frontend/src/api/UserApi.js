@@ -66,7 +66,7 @@ const requestChPwd = (data, callback, errorCallback) => {
 };
 
 const logout = (data, callback, errorCallback) => {
-  console.log('adfasfsd');
+  
   http
     .get('/kakaoLogout', { params: data })
     .then(() => {
@@ -79,12 +79,42 @@ const logout = (data, callback, errorCallback) => {
     });
 };
 
+const requestFollowing = (data, callback, errorCallback) => {
+  
+  http
+    .get('/follow/following', { params: data })
+    .then((list) => {
+      
+      callback(list);
+    })
+    .catch((err) => {
+      alert('팔로잉 가져오기 실패!');
+      errorCallback();
+    });
+};
+
+const requestFollower = (data, callback, errorCallback) => {
+  
+  http
+    .get('/follow/follower', { params: data })
+    .then((list) => {
+      
+      callback(list);
+    })
+    .catch((err) => {
+      alert('팔로워 가져오기 실패!');
+      errorCallback();
+    });
+};
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
   requestSignUp: (data, callback, errorCallback) => requestSignUp(data, callback, errorCallback),
   requestChPwd: (data, callback, errorCallback) => requestChPwd(data, callback, errorCallback),
   logout: (data, callback, errorCallback) => logout(data, callback, errorCallback),
+  requestFollowing: (data, callback, errorCallback) => requestFollowing(data, callback, errorCallback),
+  requestFollower: (data, callback, errorCallback) => requestFollower(data, callback, errorCallback),
 };
 
 export default UserApi;

@@ -1,6 +1,8 @@
 package com.web.curation.controller;
 
+import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
+import com.web.curation.model.follow.FollowRequest;
 import com.web.curation.model.follow.Follower;
 import com.web.curation.model.follow.Following;
 import com.web.curation.model.user.User;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +37,12 @@ public class FollowController {
 
     @GetMapping("/follow/follower")
     @ApiOperation(value = "팔로워리스트")
-    public Object follower(@RequestParam(required = true) final Long from) {
+    public Object follower(@RequestParam final Long to) {
 
-        Optional<User> user = accountService.getUser(from);
+        Optional<User> user = accountService.getUser(to);
 
         if(user.isPresent()) {
-            List<Follower> FList = followService.getFollower(from);
+            List<Follower> FList = followService.getFollower(to);
 
             return new ResponseEntity<>(FList, HttpStatus.OK);
         } else {
@@ -53,14 +56,16 @@ public class FollowController {
 
     @GetMapping("/follow/following")
     @ApiOperation(value = "팔로잉리스트")
-    public Object following(@RequestParam(required = true) final Long to) {
+    public Object following(@RequestParam final Long from) {
 
-        Optional<User> user = accountService.getUser(to);
+        Optional<User> user = accountService.getUser(from);
 
         if(user.isPresent()) {
-            List<Following> FList = followService.getFollowing(to);
+            System.out.println(from);
+            List<Following> fList = followService.getFollowing(from);
+            System.out.println(fList);
 
-            return new ResponseEntity<>(FList, HttpStatus.OK);
+            return new ResponseEntity<>(fList, HttpStatus.OK);
         } else {
             final BasicResponse result = new BasicResponse();
             result.status = true;
@@ -68,5 +73,21 @@ public class FollowController {
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
 
+    }
+
+    @PostMapping("/follow/AddOrDeleteFollow")
+    @ApiOperation(value = "팔로우 추가/삭제")
+    public Object AddOrDeleteFollow(@RequestBody FollowRequest followRequest) {
+        System.out.println("fromNickname : " + followRequest.getFromNickname() + ", toNickname : " + followRequest.getToNickname());
+        // 오류(0), 삭제(1), 추가(2) 인지 확인할 변수
+        int x = followService.AddOrDeleteFollow(followRequest.getFromNickname(), followRequest.getToNickname());
+
+        if(x == 2) {
+            return new ResponseEntity<>(2, HttpStatus.OK);
+        } else if(x == 1){
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
+        }
     }
 }

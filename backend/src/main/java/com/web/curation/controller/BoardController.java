@@ -1,17 +1,22 @@
 package com.web.curation.controller;
 
-import com.web.curation.dao.ImgFile.ImgFileDao;
-import com.web.curation.dao.board.BoardDao;
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.board.AddBoard;
-import com.web.curation.model.file.ImgFile;
 import com.web.curation.service.BoardService;
 
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+import java.net.MalformedURLException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +37,7 @@ public class BoardController {
     @ApiOperation(value = "내 피드")
     public Object bList(@RequestParam(required = true) final long uid, @RequestParam(required = false) String bid){
 		final BasicResponse result = new BasicResponse();
+		
 		try {
 			result.object = boardService.bList(uid, bid);
 			result.status = true;
@@ -42,15 +48,32 @@ public class BoardController {
 	        result.data = "failed";
 	        System.out.println(e);
 		}
-        return new ResponseEntity<>(result, HttpStatus.OK);
-        
+		
+        return new ResponseEntity<>(result, HttpStatus.OK);   
+    }
+    
+    @GetMapping("/board/file/{fileName}")
+    @ApiOperation(value = "내파일")
+    public Object bFile(@PathVariable final String fileName, HttpServletRequest request) throws MalformedURLException{
+		Resource resource =  new FileSystemResource("C://upload//"+fileName);
+		
+		if(fileName == null) {
+			final BasicResponse result = new BasicResponse();
+			result.status = true;
+	        result.data = "success";
+			return new ResponseEntity<>(result, HttpStatus.OK);   
+		}
+		
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);  
     }
     
     @PostMapping(value="/board")
     @ApiOperation(value="추가하기")
     public Object addBoard(AddBoard newBoard) {
     	final BasicResponse result = new BasicResponse();
-    	
+    	System.out.println(newBoard.toString());
     	try {
     		boardService.addBoard(newBoard);
     		
@@ -69,6 +92,7 @@ public class BoardController {
     @PutMapping(value="/board/{bid}")
     @ApiOperation(value="수정하기")
     public Object modifyBoard(@PathVariable("bid") long bid ,AddBoard newBoard){
+    	
     	final BasicResponse result = new BasicResponse();
     	
     	try {

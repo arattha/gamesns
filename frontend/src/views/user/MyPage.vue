@@ -10,15 +10,15 @@
                 김냐옹
             </div>
             <div class="center">
-                <b-button variant="outline-dark" class="profile-edit-btn">프로필 편집</b-button>
+                <b-button variant="outline-dark" @click="goMyedit" class="profile-edit-btn" style="width:100%; margin-bottom:20px">프로필 편집</b-button>
             </div>
             <div class="userinfo">
                 <div class="center profile-box">
-                    <h2>26</h2>
+                    <h2 @click="showFollowing">{{ following.length }}</h2>
                     <p>팔로잉</p>
                 </div>
                 <div class="center profile-box">
-                    <h2>38</h2>
+                    <h2 @click="showFollower">{{ follower.length }}</h2>
                     <p>팔로워</p>
                 </div>
                 <div class="center profile-box">
@@ -53,20 +53,50 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import Header from '@/components/layout/header/Header.vue'
+import Footer from '@/components/layout/footer/Footer.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
-import Footer from '@/components/layout/footer/Footer.vue'
+import UserApi from '../../api/UserApi'
+
 
 export default {
-    usernickname:'MyPage',
+    name:'MyPage',
     components: {
         Header,
+        Footer,
         // Badge,
         // Manner,
         FeedItem,
-        Footer
+
+    },
+    data() {
+        return {
+            id: '',
+            myPhoto: '',
+        }
+    },
+    created() {
+        this.getFollowing();
+        this.getFollower();
+    },
+    computed: {  
+        ...mapGetters(["following", "follower"]),
+    },
+    methods:{
+        ...mapActions(["getFollowing", "getFollower"]),
+        showFollowing() {
+            console.log(this.following);
+            this.$router.push("/mypage/following");
+        },
+        showFollower() {
+            this.$router.push("/mypage/follower");
+        },
+        goMyedit() {
+            this.$router.push("/mypage/edit");
+        }
     }
 }
 </script>
