@@ -65,7 +65,7 @@ public class BoardService {
 		board = boardDao.save(board);
 
 		String fileName;
-
+		
 		MultipartFile[] multipartFiles = newBoard.getMultipartFiles();
 
 		for (int i = 0; i < multipartFiles.length; i++) {
