@@ -1,32 +1,33 @@
 <template>
-  <div class="body-container">
-    <div class="container" style="max-width: 400px;">
-      <div class="login-box" style="padding-top: 60px;">
-        <div class="logo-box">
-          <img src="@/assets/images/logo.png" alt="" style="width: 90%; height: auto;" />
-        </div>
+<div style="height: 100vh; background-color: #FFB937;">
+	<div class="wrapper fadeInDown">
+		<div id="formContent">
+    <!-- Tabs Titles -->
 
-        <div>
-          <h4
-            style="color: #FFB937   ; margin-bottom: 30px;
-          "
-          >
-            간편 로그인
-          </h4>
-        </div>
-        <!-- <div class=" naver_login">
-          <img src="@/assets/images/naver.png" class="login_bars" alt="">
-        </div>
-        <div class="label-with-input kakao_login">
-          <img src="@/assets/images/kakao.png" class="login_bars" alt="">
-        </div> -->
-        <div class="login-btn">
-          <img src="@/assets/images/kakao.png" style="width: 300px ; " @click="login" />
-        </div>
-      </div>
+    <!-- Icon -->
+    <div class="fadeIn first" style="margin-top: 50px; margin-bottom: 50px;">
+        <img src="@/assets/images/logo2.png" alt="" id="icon" />
     </div>
-  </div>
+
+    <!-- Login Form -->
+    <form class="apibox">
+		<h6 class="easy fadeIn second">간편 로그인</h6>
+		<div class="login-btn fadeIn third">
+			<img  src="@/assets/images/kakao.png"  style="width: 70%;" @click="login"/>
+        </div>
+    </form>
+
+</div>
+		<div>
+			<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+			<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+		</div>
+	</div>
+</div>
 </template>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script>
 import UserApi from '../../api/UserApi';
