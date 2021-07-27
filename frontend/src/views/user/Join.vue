@@ -15,7 +15,7 @@
 
         <div class="nickname-confirm">
           <span class="nickname-word">닉네임</span>
-          <span><button class="nickname-confirm-box">중복확인</button></span>
+          <span><button class="nickname-confirm-box" @click="dupCheck">중복확인</button></span>
         </div>
 
         <div class="input-with-label" style="margin-top:15px">
@@ -54,18 +54,12 @@ export default {
   data: () => {
     return {
       nickName: '',
-      isTerm: false,
-      isLoading: false,
+      isDup: false,
       error: {
         nickName: false,
       },
       isSubmit: false,
-      termPopup: false,
       code: '',
-      userInfo: {
-        uid: '',
-        nickname: '',
-      },
     };
   },
   created() {
@@ -80,20 +74,12 @@ export default {
     create() {
       this.code = this.$route.query.code;
 
+      console.log('ggg');
+      console.log(this.code);
+
       UserApi.requestkakaoLogin(
         this.code,
         (res) => {
-          console.log(res);
-          this.userInfo.uid = res;
-          console.log(this.userInfo);
-
-          if (this.userInfo.uid == undefined) {
-            alert('잘못된 접근 입니다.');
-
-            this.$router.push('/');
-          }
-
-          // this.isPresentUser();
         },
         (error) => {
         }
@@ -111,10 +97,9 @@ export default {
       this.isSubmit = isSubmit;
     },
     signUp() {
-      if (this.isSubmit) {
+      if (this.isSubmit && this.isDup) {
         let data = {
-          email: this.email,
-          password: this.password,
+          uid: this.uid,
           nickname: this.nickName,
         };
 
@@ -140,6 +125,28 @@ export default {
         });
       }
     },
+    dupCheck() {
+      if(!this.error.nickName) {
+        let data = {
+          uid: this.uid,
+          nickname: this.nickName,
+        };
+
+        UserApi.requestSignUp(
+          data,
+          (res) => {
+            this.isDup = true;
+            // feed/main으로 가야함
+            alert("사용 가능한 아이디입니다.");
+          },
+          (error) => {
+            if (error == 403) alert("중복된 아이디입니다.");
+            else alert("오류!");
+          }
+        );
+
+      }
+    }
   },
 };
 </script>
