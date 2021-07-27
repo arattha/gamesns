@@ -107,6 +107,22 @@ const requestFollowUpdate = (data, callback, errorCallback) => {
     })
 };
 
+const requestUpdateUser = (formData, callback, errorCallback) => {
+
+  http
+    .put('/account/mypageUpdate', formData, {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+  })
+    .then((res) => {
+      callback(res);
+    })
+    .catch(() => {
+      errorCallback();
+    })
+};
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
@@ -115,6 +131,7 @@ const UserApi = {
   requestFollowing: (data, callback, errorCallback) => requestFollowing(data, callback, errorCallback),
   requestFollower: (data, callback, errorCallback) => requestFollower(data, callback, errorCallback),
   requestDupCheck: (data, callback, errorCallback) => requestDupCheck(data, callback, errorCallback),
+  requestUpdateUser: (data, callback, errorCallback) => requestUpdateUser(data, callback, errorCallback),
   requestFollowUpdate: (data, callback, errorCallback) => requestFollowUpdate(data, callback, errorCallback),
 };
 

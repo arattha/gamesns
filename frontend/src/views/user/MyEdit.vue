@@ -10,15 +10,16 @@
             <div class="photo-edit-container">
                 <div class="avatar-upload">
                     <div class="avatar-edit">
-                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                        <input type='file' id="imageUpload" @change="fileChange" accept=".png, .jpg, .jpeg" />
                         <label for="imageUpload">
                             <i class="fas fa-pen edit-logo" style="font-size:16px"></i>
                         </label>
                     </div>
                     <div class="avatar-preview">
-                        <div id="imagePreview" style="background-image: url(https://placekitten.com/300/300);">
+                        <div id="imagePreview" v-bind:style="{backgroundImage: 'url(' + profileImg + ')'}">
                         </div>
                     </div>
+                    <!-- <input v-on:change="fileChange($event.target.files)" type="file" name="file" id="chooseFile"> -->
                 </div>
             </div>
             <!-- 정보들 block -->
@@ -27,8 +28,8 @@
                 <div class="info-box">
                     <!-- 현재 닉네임 보여주고/필수-->
                     <input type="text" placeholder="변경할 닉네임을 입력하세요"
-                    :v-model="nickname" class="input-box">
-                    <button class="check-btn">중복체크</button>
+                    v-model="nickname" class="input-box">
+                    <button type="button" class="check-btn" @click="dupCheck">중복체크</button>
                 </div>
                 <!-- 상태메시지
                 <div class="info">
@@ -44,15 +45,14 @@
             <!-- 버튼 블록 -->
             <div class="exit-div">
                 <span class="cancle-btn">
-                    <button>
+                    <button @click="back">
                         취소
                     </button>
                 </span>
                 <span class="submit submit-btn">
                     <button 
                         @click="save"
-                        :disabled="isSubmit"
-                        :class="{disabled : !isSubmit}">저장</button>
+                        :disabled="!isSubmit">저장</button>
                 </span>
             </div>
         </form>
@@ -78,6 +78,8 @@ export default {
             imgPath: '',
             nickname: '',
             isSubmit: false,
+            file: null,
+            profileImg: null
         }
     },
     created() {
@@ -92,41 +94,61 @@ export default {
         
     },
     methods: {
-        dubCheck(){
+        fileChange(){
+            // this.file = fileList[0];
+            
+            var input = event.target;
+            if (input.files && input.files[0]) { 
+                var reader = new FileReader(); 
+                reader.onload = e => { 
+                    this.profileImg = e.target.result; 
+                }; 
+                reader.readAsDataURL(input.files[0]); 
+            } else { this.profileImg = null; }
+
+            this.file = input.files[0]
+            // this.profileImg = fileList.result;
+            // console.log(this.profileImg);
+        },
+        dupCheck(){
             if(this.nickname.length == 0) {
+                console.log("hi")
                 alert("닉네임을 입력해주세요.");
             } else {
-
-                UserApi.requestCheckUser(this.nickname
+                console.log("hi2")
+                UserApi.requestDupCheck(this.nickname
                     ,() => { 
                         this.isSubmit = true;
-                        alert("사용가능한 닉네임입니다."); 
                         }
-                    ,() => { 
-                        alert("중복된 닉네임입니다.");
-                    });
+                    ,() => {});
             }
         },
-        submit() {
+        save() {
 
             if(this.isSubmit) {
                 this.isSubmit = false;
 
-                let data = {
-                    uid: 1,
-                    nickname: this.nickname
-                }
+                let formData = new FormData();
 
-                UserApi.requestUpdateUser(data
+                formData.append('uid',1);
+                formData.append('nickname',this.nickname);
+                formData.append('multipartFile', this.file);
+
+                UserApi.requestUpdateUser(formData
                 ,() => {
                     alert("회원정보가 수정되었습니다.");
-                    this.$router.push("/feed/main");
+                    this.$router.push("/mypage");
                 }
                 ,() => {
                     this.isSubmit = true;
                 })
+            } else {
+                alert("중복체크를 눌러주세요.");
             }
 
+        },
+        back() {
+            this.$router.push("/mypage");
         }
     }
 }
