@@ -26,6 +26,20 @@ const requestkakaoLogin = (data, callback, errorCallback) => {
     });
 };
 
+const requestDupCheck = (data, callback, errorCallback) => {
+  console.log(data);
+  http
+    .get('/account/dupcheck', {params:{nickname:data}})
+    .then(() => {
+      alert('사용 가능한 닉네임입니다.');
+      callback();
+    })
+    .catch(() => {
+        alert('사용 중인 닉네임입니다.');
+        errorCallback();
+    });
+};
+
 const requestSignUp = (data, callback, errorCallback) => {
   http
     .post('/account/signup', data)
@@ -33,15 +47,9 @@ const requestSignUp = (data, callback, errorCallback) => {
       alert('회원가입에 성공했습니다.');
       callback();
     })
-    .catch((msg) => {
-      if (!msg.response) {
-        errorCallback(true);
-      } else if (msg.response.status == 401) {
-        alert('이미 존재하는 이메일입니다.');
-      } else {
+    .catch(() => {
         alert('회원가입에 실패했습니다.');
         errorCallback();
-      }
     });
 };
 
@@ -115,6 +123,7 @@ const UserApi = {
   logout: (data, callback, errorCallback) => logout(data, callback, errorCallback),
   requestFollowing: (data, callback, errorCallback) => requestFollowing(data, callback, errorCallback),
   requestFollower: (data, callback, errorCallback) => requestFollower(data, callback, errorCallback),
+  requestDupCheck: (data, callback, errorCallback) => requestDupCheck(data, callback, errorCallback),
 };
 
 export default UserApi;
