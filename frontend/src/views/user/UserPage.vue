@@ -43,9 +43,9 @@
             </div>
         </div>
         <div class="feeditem-box">
-            <FeedItem />
-            <FeedItem />
-            <FeedItem />
+            <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
+                <FeedItem :boardItem ="boardItem"/>
+            </div>
         </div>
       </div>
     <Footer/>
@@ -81,6 +81,7 @@ export default {
         }
     },
     created() {
+        console.log(this.$route.params);
         this.getFollowing();
         this.getFollower();
     },

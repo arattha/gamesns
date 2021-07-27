@@ -26,4 +26,6 @@ public interface BoardDao extends JpaRepository<Board, String> {
     
     Board findBoardByBid(long bid);
     
+    List<Board> findBoardByUid(String uid);
+    
 }

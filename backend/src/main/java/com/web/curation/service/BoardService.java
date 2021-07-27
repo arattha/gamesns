@@ -56,6 +56,23 @@ public class BoardService {
 		return resboard;
 
 	}
+	
+	public Object bEqualList(String uid){
+
+		long longbid = Long.MAX_VALUE;
+		Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
+
+		List<Board> boardList = boardDao.findFollowFeed(longbid, paging);
+		
+		List<ResponseBoard> resboard = new ArrayList<>();
+
+		for (Board board : boardList) {
+			resboard.add(new ResponseBoard(board,imgFileDao.findImgFileByBid(board.getBid())));
+		}
+
+		return resboard;
+
+	}
 
 	public void addBoard(AddBoard newBoard) throws IllegalStateException, IOException{
 
