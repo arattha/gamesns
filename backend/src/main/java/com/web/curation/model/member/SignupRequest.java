@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class SignupRequest {
     @ApiModelProperty(required = true)
     @NotNull
-    Long uid;
+    String uid;
     @ApiModelProperty(required = true)
     @NotNull
     String nickname;

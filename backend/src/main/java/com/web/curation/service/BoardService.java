@@ -31,7 +31,7 @@ public class BoardService {
 	@Autowired
 	ImgFileDao imgFileDao;
 
-	public Object bList(long uid,String bid){
+	public Object bList(String uid,String bid){
 
 		long longbid;
 		if(bid == null) longbid = Long.MAX_VALUE;//없으면 최대값

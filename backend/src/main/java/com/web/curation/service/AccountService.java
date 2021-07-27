@@ -25,17 +25,17 @@ public class AccountService {
     @Autowired
     private OAuth2Kakao oAuth2Kakao;
 
-    public Long kakaoLogin(String code) {
+    public String kakaoLogin(String code) {
         OAuthToken oAuthToken = oAuth2Kakao.getAccessToken(code);
 
         System.out.println(oAuthToken.getAccess_token());
 
-        Long uid = oAuth2Kakao.getMemberByAccessToken(oAuthToken.getAccess_token());
+        String uid = oAuth2Kakao.getMemberByAccessToken(oAuthToken.getAccess_token());
         return uid;
     }
 
     // uid 로 회원정보 가져오기
-    public Optional<Member> getMember(Long uid) {
+    public Optional<Member> getMember(String uid) {
 
         return memberDao.findMemberByUid(uid);
 

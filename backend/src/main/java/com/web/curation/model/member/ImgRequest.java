@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class ImgRequest {
     @ApiModelProperty(required = true)
     @NotNull
-    Long uid;
+    String uid;
 
     @ApiModelProperty(required = true)
     @NotNull

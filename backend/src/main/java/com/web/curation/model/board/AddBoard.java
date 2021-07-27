@@ -16,7 +16,7 @@ public class AddBoard {
 	
     @ApiModelProperty(required = true)
     @NotNull
-    Long uid;
+    String uid;
     @ApiModelProperty(required = true)
     @NotNull
     String content;

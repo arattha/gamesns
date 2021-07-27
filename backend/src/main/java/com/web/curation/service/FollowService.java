@@ -24,13 +24,13 @@ public class FollowService {
     @Autowired
     FollowingDao followingDao;
 
-    public List<Follower> getFollower(Long toId) {
+    public List<Follower> getFollower(String toId) {
 
         return followerDao.findFollowerByToId(toId);
 
     }
 
-    public List<Following> getFollowing(Long fromId) {
+    public List<Following> getFollowing(String fromId) {
 
         return followingDao.findFollowingByFromId(fromId);
 
@@ -49,14 +49,14 @@ public class FollowService {
             System.out.println("herereererer!!");
             try {
 
-                Long fromId = memberOpt.get().getUid();
-                Long toId = memberOpt2.get().getUid();
+                String fromId = memberOpt.get().getUid();
+                String toId = memberOpt2.get().getUid();
 
                 // follower DB 에 있는 (fromId, toId) 쌍인지 확인할 변수
                 boolean flag = false;
                 List<Follower> fList = followerDao.findFollowerByToId(toId);
                 for (Follower f : fList) {
-                    if (f.getFromId() == fromId) {
+                    if (f.getFromId().equals(fromId)) {
                         flag = true;
                         break;
                     }
