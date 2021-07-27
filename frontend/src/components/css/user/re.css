@@ -1,163 +1,122 @@
 @charset "utf-8";
 
-.card-header{
-    background-image: url('https://usercontents-d.styleshare.io/images/24030979/640x640') !important;
-    padding: 0 !important;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 150px;
-    position: relative;
+  /* STRUCTURE */
+
+.wrapper {
     display: flex;
+    align-items: center;
+    flex-direction: column; 
     justify-content: center;
-    text-align:center;
-}
-.card{
-    overflow: hidden;
-    border:0 !important;
     width: 100%;
-    padding: 0;
-}
-.profile_pic{
-    position: absolute;
-    bottom: -85px;
-    height: 182px;
-    width: 182px;
-    padding: 5px;
-    border-radius: 50%;
-}
-.card-body{
-    padding-top: 90px !important;
-    padding-bottom: 15px;
-    /* border-bottom: 1px solid #dcdcdc; */
-}
-.profile_pic img{
-    height: 170px;
-    width: 170px;
-    border-radius: 50%;
-}
-.name_container{
-    display: flex;
-    justify-content: center;
-
-}
-.name{
-    margin-bottom: 3px;
-    font-size: 20px;
-    font-weight: 700;
-    color: gray;
-    position: relative;
-    font-family: 'Nanum Gothic', sans-serif;
+    min-height: 100%;
 }
 
-.intro{
-    display: flex;
-    justify-content: center;
-    font-size: 12px;
-    color: gray;
-    font-family: 'Nanum Gothic', sans-serif;
+.apibox {
+    margin-bottom: 50px;
 }
-.follow{
-    padding-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-.follow_btn{
-    background: #ff8f00;
-    padding: 5px 35px;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
+
+.easy {
+    margin-bottom: 30px;
+    color: #3c1e1e;
     font-family: 'Nanum Gothic', sans-serif;
-    font-size: 15px;
     /* font-weight: bolder; */
+
 }
 
-.info_container{
-    padding-top: 30px;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-}
-.info{
-    display: flex;
-    flex-direction: column;
-}
-.info p:first-child{
-    margin-bottom: 0;
-    font-size: 12px;
-    color: gray;
-    text-transform: uppercase;
-    text-align: center;
-    font-family: 'Nanum Gothic', sans-serif;
-}
-.info p:last-child{
-    margin-bottom: 0;
-    font-size: 20px;
-    font-weight: 700;
-    color: gray;
-    text-transform: uppercase;
-    text-align: center;
-    font-family: 'Nanum Gothic', sans-serif;
-}
-
-.card-footer{
-    padding: 0 !important;
-    background: #fff !important;
-    display: flex;
-    border-top: 0 !important;
-}
-
-.feed{
-    /* color: #ff8f00; */
-    padding-bottom: 20px;
-    color: grey;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    width: 50%;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-bottom-left-radius: calc(0.25rem - 1px);
-    font-family: 'Nanum Gothic', sans-serif;
-}
-
-
-    .card-footer div:hover {
-        color: #ff8f00;
-        cursor: pointer;
-    }
-
-
-.drop-in-underline {
+#formContent {
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    background: #fff;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
     position: relative;
-    padding-bottom: 20px;
-  }
-  .drop-in-underline:before{
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    left: 0; right: 0;
-    height: 2px;
-    background-color: #ff8f00;
-    
-  }
-  .drop-in-underline:before{
-    opacity: 0;
-    -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
-    -webkit-transition: opacity 0s, -webkit-transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transition: opacity 0s, -webkit-transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s;
-      transition: transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0s, -webkit-transform 0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  
-  .drop-in-underline:hover:before{
-    opacity: 1;
-      -webkit-transform: translateY(0);
-      transform: translateY(0);
-    -webkit-transition: opacity 0.2s, -webkit-transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transition: opacity 0.2s, -webkit-transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s, -webkit-transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
+    padding: 0px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+
+  /* ANIMATIONS */
+
+  /* Simple CSS3 Fade-in-down Animation */
+.fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+  /* Simple CSS3 Fade-in Animation */
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.fadeIn {
+    opacity:0;
+    -webkit-animation:fadeIn ease-in 1;
+    -moz-animation:fadeIn ease-in 1;
+    animation:fadeIn ease-in 1;
+
+    -webkit-animation-fill-mode:forwards;
+    -moz-animation-fill-mode:forwards;
+    animation-fill-mode:forwards;
+
+    -webkit-animation-duration:1s;
+    -moz-animation-duration:1s;
+    animation-duration:1s;
+}
+
+.fadeIn.first {
+    -webkit-animation-delay: 0.4s;
+    -moz-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+.fadeIn.second {
+    -webkit-animation-delay: 0.6s;
+    -moz-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+.fadeIn.third {
+    -webkit-animation-delay: 0.8s;
+    -moz-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+}
+
+  /* OTHERS */
+
+
+#icon {
+    width:80%;
+}
