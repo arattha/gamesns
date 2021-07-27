@@ -41,24 +41,24 @@ public class AccountService {
 
     }
 
-    // 닉네임 받아와서 회원정보 추가(member table 에 insert)
-    public int addMember(SignupRequest request) {
+    // 닉네임으로 회원 정보 조회(중복체크)
+    public Optional<User> getUserByNickname(String nickname) {
 
-        if(memberDao.findMemberByNickname(request.getNickname()).isPresent()){
-            return 2;
-        } else {
+        return userDao.findUserByNickname(nickname);
+    }
 
-            Member member = new Member();
-            member.setUid(request.getUid());
-            member.setNickname(request.getNickname());
-//            member.setAuthority(request.getAuthority());
+    // 닉네임 받아와서 회원정보 추가(user table 에 insert)
+    public boolean addUser(SignupRequest request) {
 
-            try {
-                memberDao.save(member);
-                return 1;
-            } catch (Exception e) {
-                return 0;
-            }
+        User user = new User();
+        user.setUid(request.getUid());
+        user.setNickname(request.getNickname());
+
+        try {
+            userDao.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 

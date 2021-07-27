@@ -94,7 +94,7 @@ export default {
       Object.values(this.error).map((v) => {
         if (v) isSubmit = false;
       });
-      this.isSubmit = isSubmit;
+      this.isSubmit = isSubmit && this.isDup;
     },
     signUp() {
       if (this.isSubmit && this.isDup) {
@@ -127,22 +127,14 @@ export default {
     },
     dupCheck() {
       if(!this.error.nickName) {
-        let data = {
-          uid: this.uid,
-          nickname: this.nickName,
-        };
-
-        UserApi.requestSignUp(
-          data,
-          (res) => {
+        
+        UserApi.requestDupCheck(
+          this.nickName
+          ,() => { 
             this.isDup = true;
-            // feed/main으로 가야함
-            alert("사용 가능한 아이디입니다.");
-          },
-          (error) => {
-            if (error == 403) alert("중복된 아이디입니다.");
-            else alert("오류!");
+            this.checkForm(); 
           }
+          ,() => { }
         );
 
       }
