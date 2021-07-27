@@ -1,39 +1,5 @@
 @charset "utf-8";
 
-/* .MyPage-container{
-    width:80%;
-    display:flexbox;
-    justify-content: center;
-    margin: 0 auto;
-    margin-top: 30px;
-}
-.center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.profile{
-    display: box;
-    padding: 15px;
-}
-.user-nickname{
-    margin: 40px 0;
-    font-size: 2.5rem;
-}
-.userinfo {
-    display: flex;
-    justify-content:space-between;
-}
-.my-writing {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom:4px;
-}
-.profile-box {
-    min-width: 64px;
-} */
-
 .card-header{
     background-image: url('https://usercontents-d.styleshare.io/images/24030979/640x640') !important;
     padding: 0 !important;
@@ -91,16 +57,15 @@
     color: gray;
     font-family: 'Nanum Gothic', sans-serif;
 }
-.edit{
+.follow{
     padding-top: 20px;
     display: flex;
     justify-content: center;
 }
-.edit_btn{
-    /* background: #ff8f00; */
+.follow_btn{
+    background: #ff8f00;
     padding: 5px 35px;
-    /* color: #fff; */
-    border: 1px solid #dcdcdc;
+    color: #fff;
     border-radius: 5px;
     cursor: pointer;
     font-family: 'Nanum Gothic', sans-serif;
