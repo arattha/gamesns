@@ -53,26 +53,6 @@ const requestSignUp = (data, callback, errorCallback) => {
     });
 };
 
-const requestChPwd = (data, callback, errorCallback) => {
-  http
-    .put('/account/chpwd', { params: data })
-    .then(() => {
-      alert('비밀번호가 변경되었습니다.');
-      callback();
-    })
-    .catch((err) => {
-      if (err.response.status == 403) {
-        alert('이메일에 맞는 회원 정보가 없습니다.');
-        errorCallback();
-      } else if (err.response) {
-        alert('비밀번호 변경에 실패했습니다.');
-        errorCallback();
-      } else {
-        errorCallback(true);
-      }
-    });
-};
-
 const logout = (data, callback, errorCallback) => {
   
   http
@@ -115,15 +95,27 @@ const requestFollower = (data, callback, errorCallback) => {
     });
 };
 
+const requestFollowUpdate = (data, callback, errorCallback) => {
+  console.log("data",data);
+  http
+    .post('/follow/AddOrDeleteFollow', data)
+    .then((res) => {
+      callback(res);
+    })
+    .catch(() => {
+      errorCallback();
+    })
+};
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
   requestSignUp: (data, callback, errorCallback) => requestSignUp(data, callback, errorCallback),
-  requestChPwd: (data, callback, errorCallback) => requestChPwd(data, callback, errorCallback),
   logout: (data, callback, errorCallback) => logout(data, callback, errorCallback),
   requestFollowing: (data, callback, errorCallback) => requestFollowing(data, callback, errorCallback),
   requestFollower: (data, callback, errorCallback) => requestFollower(data, callback, errorCallback),
   requestDupCheck: (data, callback, errorCallback) => requestDupCheck(data, callback, errorCallback),
+  requestFollowUpdate: (data, callback, errorCallback) => requestFollowUpdate(data, callback, errorCallback),
 };
 
 export default UserApi;

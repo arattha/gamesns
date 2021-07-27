@@ -59,9 +59,8 @@ public class FollowController {
         Optional<Member> member = accountService.getMember(from);
 
         if(member.isPresent()) {
-            System.out.println(from);
+
             List<Following> fList = followService.getFollowing(from);
-            System.out.println(fList);
 
             return new ResponseEntity<>(fList, HttpStatus.OK);
         } else {
@@ -76,9 +75,11 @@ public class FollowController {
     @PostMapping("/follow/AddOrDeleteFollow")
     @ApiOperation(value = "팔로우 추가/삭제")
     public Object AddOrDeleteFollow(@RequestBody FollowRequest followRequest) {
-        System.out.println("fromNickname : " + followRequest.getFromNickname() + ", toNickname : " + followRequest.getToNickname());
+        System.out.println("fromNickname : " + followRequest.getFromNickname() + ", toNickname : " + followRequest.getToNickname()
+        + " type : " + followRequest.isType());
+
         // 오류(0), 삭제(1), 추가(2) 인지 확인할 변수
-        int x = followService.AddOrDeleteFollow(followRequest.getFromNickname(), followRequest.getToNickname());
+        int x = followService.AddOrDeleteFollow(followRequest.getFromNickname(), followRequest.getToNickname(), followRequest.isType());
 
         if(x == 2) {
             return new ResponseEntity<>(2, HttpStatus.OK);
