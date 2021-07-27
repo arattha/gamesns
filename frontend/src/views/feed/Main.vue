@@ -3,7 +3,11 @@
     <Header/>
     <div class="wrapB" @scroll.passive="handleScroll">
       <h1>뉴스피드</h1>
-      <FeedItem v-for="(boardItem,index) in boardItems" :key="index" :boardItem ="boardItem"/>
+      <div v-for="(boardItem,index) in boardItems" :key="index" @click="isModalViewed = true">
+        <FeedItem :boardItem ="boardItem"/>
+        <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false">
+        </ModalFeed>
+      </div>
     </div>
     <Footer/>
   </div>
@@ -16,16 +20,19 @@ import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
+import ModalFeed from '../../components/feed/ModalFeed.vue';
 
 export default {
   props: ["boardItem"],
   components: { 
-    FeedItem,
-    Header,
-    Footer, },
-  data(){
+      FeedItem,
+      Header,
+      Footer,
+      ModalFeed, 
+    },
+    data(){
     return{
-      
+      isModalViewed: false,
     }
   },
   created(){
@@ -111,12 +118,18 @@ export default {
     // 처음 렌더링시 이전 알림 불러오기 or reset=true시 새로고침, false시 이전 목록에 추가
     // dispatchGetNotifications(reset) {
     //   this.$store.dispatch("notification/getNotifications", reset);
-    // }
+    // }}
+    show(){
+      this.showModal = !this.showModal;
+    }
   },
   computed: {
     ...mapGetters(["boardItems"])
   },
   watch:{
+    isModalViewed: function(val){
+      console.log(val);
+    }
   },
   destroyed(){
     window.removeEventListener('scroll', this.handleScroll);
