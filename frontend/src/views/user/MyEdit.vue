@@ -1,25 +1,34 @@
 <template>
-    <div>
+    <div class="myedit-container">
         <Header/>
-        <!-- 편집 폼 -->
-        <form action="">
+        <form action="" class="center">
             <!-- 타이틀 -->
-            <div class="title"><h1>프로필 편집</h1></div>
+            <div class="myedit-title">
+                <h1>프로필 편집</h1>
+            </div>
             <!-- 프로필 사진 block-->
-            <div class="profile">
-                <!-- 현재 프로필 사진/모양자르기 -->
-                <img class="profile-img" :src="imgPath" alt="">
-                <!-- 사진 변경 버튼 -->
-                <button class="btn">프로필 사진 변경</button>
+            <div class="photo-edit-container">
+                <div class="avatar-upload">
+                    <div class="avatar-edit">
+                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                        <label for="imageUpload">
+                            <i class="fas fa-pen edit-logo" style="font-size:16px"></i>
+                        </label>
+                    </div>
+                    <div class="avatar-preview">
+                        <div id="imagePreview" style="background-image: url(https://placekitten.com/300/300);">
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- 정보들 block -->
-            <div class="infos"> 
+            <div class="infos center"> 
                 <!-- 닉네임 -->
-                <div class="info">
-                    <h3>닉네임</h3>
+                <div class="info-box">
                     <!-- 현재 닉네임 보여주고/필수-->
-                    <input type="text" :placeholder="nickname" v-model="nickname">
-                    <button class="btn">중복체크</button>
+                    <input type="text" placeholder="변경할 닉네임을 입력하세요"
+                    :v-model="nickname" class="input-box">
+                    <button class="check-btn">중복체크</button>
                 </div>
                 <!-- 상태메시지
                 <div class="info">
@@ -33,11 +42,18 @@
                 </div> -->
             </div>
             <!-- 버튼 블록 -->
-            <div class="submit">
-                <button 
-                    @click="save"
-                    :disabled="isSubmit"
-                    :class="{disabled : !isSubmit}">저장</button>
+            <div class="exit-div">
+                <span class="cancle-btn">
+                    <button>
+                        취소
+                    </button>
+                </span>
+                <span class="submit submit-btn">
+                    <button 
+                        @click="save"
+                        :disabled="isSubmit"
+                        :class="{disabled : !isSubmit}">저장</button>
+                </span>
             </div>
         </form>
         <Footer />
@@ -115,3 +131,6 @@ export default {
     }
 }
 </script>
+<style>
+    @import "../../components/css/user/myedit.css";
+</style>
