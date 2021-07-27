@@ -72,21 +72,21 @@ public class FollowController {
 
     }
 
-    @PostMapping("/follow/AddOrDeleteFollow")
-    @ApiOperation(value = "팔로우 추가/삭제")
-    public Object AddOrDeleteFollow(@RequestBody FollowRequest followRequest) {
-        System.out.println("fromNickname : " + followRequest.getFromNickname() + ", toNickname : " + followRequest.getToNickname()
-        + " type : " + followRequest.isType());
+    @PostMapping("/follow/AddOrDeleteFollowing")
+    @ApiOperation(value = "팔로잉 추가/삭제")
+    public Object AddOrDeleteFollowing(@RequestBody FollowRequest followRequest) {
 
-        // 오류(0), 삭제(1), 추가(2) 인지 확인할 변수
-        int x = followService.AddOrDeleteFollow(followRequest.getFromNickname(), followRequest.getToNickname(), followRequest.isType());
+        List<Following> list = followService.AddOrDeleteFollowing(followRequest.getFromNickname(), followRequest.getToNickname());
 
-        if(x == 2) {
-            return new ResponseEntity<>(2, HttpStatus.OK);
-        } else if(x == 1){
-            return new ResponseEntity<>(1, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(0, HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("/follow/AddOrDeleteFollower")
+    @ApiOperation(value = "팔로워 추가/삭제")
+    public Object AddOrDeleteFollower(@RequestBody FollowRequest followRequest) {
+
+        List<Follower> list = followService.AddOrDeleteFollower(followRequest.getFromNickname(), followRequest.getToNickname());
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

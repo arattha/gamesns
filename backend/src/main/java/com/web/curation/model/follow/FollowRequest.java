@@ -11,5 +11,4 @@ public class FollowRequest {
 
     private String fromNickname;
     private String toNickname;
-    private boolean type;
 }
