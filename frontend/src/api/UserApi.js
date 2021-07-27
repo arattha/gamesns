@@ -68,14 +68,14 @@ const logout = (data, callback, errorCallback) => {
 };
 
 const requestFollowing = (data, callback, errorCallback) => {
-  
+  console.log("userapi", data);
   http
     .get('/follow/following', { params: data })
     .then((list) => {
-      
+      console.log("list", list);
       callback(list);
     })
-    .catch((err) => {
+    .catch(() => {
       alert('팔로잉 가져오기 실패!');
       errorCallback();
     });
@@ -86,7 +86,6 @@ const requestFollower = (data, callback, errorCallback) => {
   http
     .get('/follow/follower', { params: data })
     .then((list) => {
-      
       callback(list);
     })
     .catch((err) => {

@@ -9,7 +9,8 @@
           <img src="`http://localhost:8080/account/file/1`" alt="">
           {{follow.toNickname}} 
         </div>
-        <b-button variant="danger" @click="deleteFollow(follow.toNickname)">삭제</b-button>
+        <!-- 사용자 아이디와 같으면 삭제 버튼을 생성 : 사용자 아이디는 어떤 화면에서든 가져올 수 있다. -->
+        <b-button variant="danger" v-if="uid == this.$route.params.uid" @click="deleteFollow(follow.toNickname)">삭제</b-button>
       </li>
       <!-- 나중에 함 지우기 -->
       <!-- <li class="list">
@@ -27,7 +28,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 import UserApi from '@/api/UserApi.js'
@@ -40,15 +40,14 @@ export default {
     },
     data () { 
       return {
+        uid: -1,
+        following: [],
       }
     },
     created() {
-    },
-    computed: {
-      ...mapGetters(["following"]),
+      this.following = this.$route.params.following;
     },
     methods:{
-      ...mapActions(["getFollowing"]),
       deleteFollow(u){
         let data = {
           fromNickname: "조성표",
@@ -60,7 +59,6 @@ export default {
             data,
             ((res) => {
               alert("삭제되었습니다.");
-              this.getFollowing();
             }),
             (() => {})
           )
