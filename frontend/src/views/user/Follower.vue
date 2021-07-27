@@ -9,7 +9,7 @@
           <img src="`http://localhost:8080/account/file/1`" alt="">
           {{follow.fromNickname}} 
         </div>
-        <Follow/>
+        <b-button variant="danger" @click="deleteFollow(follow.fromNickname)">삭제</b-button>
       </li>
       <!-- 나중에 함 지우기 -->
       <!-- <li class="list">
@@ -28,17 +28,16 @@
 
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
-import Follow from '@/components/user/myPage/Follow.vue'
+import UserApi from '../../api/UserApi';
 
 export default {
     name:'Follower',
     components: {
       Header,
       Footer,
-      Follow
     },
     data () { 
       return {
@@ -48,8 +47,27 @@ export default {
     },
     computed: {
       ...mapGetters(["follower"]),
-      
+    },
+    methods: {
+      ...mapActions(["getFollower"]),
+      deleteFollow(u){
+        let data = {
+          fromNickname: u,
+          toNickname: "조성표",
+          type: false
+        }
+        UserApi
+          .requestFollowUpdate(
+            data,
+            ((res) => {
+              alert("삭제되었습니다.");
+              this.getFollower();
+            }),
+            (() => {})
+          )
+      }
     }
+      
 }
 </script>
 

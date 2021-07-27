@@ -46,7 +46,7 @@ public class SearchController {
     public Object searchMember(@RequestParam String nickname){
     	//System.out.println(nickname);
         List<Member> memberOpt = searchService.searchMember(nickname);
-        System.out.println("ㅋ");
+
         for (Member u : memberOpt) {
 			System.out.println(u);
 		}

@@ -40,52 +40,112 @@ public class FollowService {
     // 0 : 오류
     // 1 : 해당 (fromId, toId) 쌍이 DB 목록에 있는 데이터이므로 삭제
     // 2 : 새로운 (fromId, toId) 쌍을 DB 에 추가
-    public int AddOrDeleteFollow(String fromNickname, String toNickname) {
+    public int AddOrDeleteFollow(String fromNickname, String toNickname, boolean type) {
 
-        Optional<Member> memberOpt = memberDao.findMemberByNickname(fromNickname);
-        Optional<Member> memberOpt2 = memberDao.findMemberByNickname(toNickname);
+        Optional<Member> memberOpt;
+        Optional<Member> memberOpt2;
 
-        if(memberOpt.isPresent() && memberOpt2.isPresent()) {
-            System.out.println("herereererer!!");
-            try {
+        if(type){
+            // 팔로잉 리스트 update
+            memberOpt = memberDao.findMemberByNickname(fromNickname);
+            memberOpt2 = memberDao.findMemberByNickname(toNickname);
 
-                String fromId = memberOpt.get().getUid();
-                String toId = memberOpt2.get().getUid();
+            if(memberOpt.isPresent() && memberOpt2.isPresent()) {
 
-                // follower DB 에 있는 (fromId, toId) 쌍인지 확인할 변수
-                boolean flag = false;
-                List<Follower> fList = followerDao.findFollowerByToId(toId);
-                for (Follower f : fList) {
-                    if (f.getFromId().equals(fromId)) {
-                        flag = true;
-                        break;
+                try {
+
+                    String fromId = memberOpt.get().getUid();
+                    String toId = memberOpt2.get().getUid();
+
+                    // follower DB 에 있는 (fromId, toId) 쌍인지 확인할 변수
+                    boolean flag = false;
+                    Following delFollow = new Following();
+                    List<Following> fList = followingDao.findFollowingByFromId(fromId);
+                    for (Following f : fList) {
+                        if (f.getFromId().equals(fromId) && f.getToId().equals(toId)) {
+                            delFollow = f;
+                            flag = true;
+                            break;
+                        }
                     }
+
+                    if (flag) {
+
+                        followingDao.delete(delFollow);
+
+                        return 1;
+                    }
+
+                    Follower follower = new Follower();
+                    follower.setFromId(toId);
+                    follower.setFromNickname(fromNickname);
+                    follower.setToId(fromId);
+                    follower.setToNickname(toNickname);
+                    followerDao.save(follower);
+
+                    Following following = new Following();
+                    following.setToId(toId);
+                    following.setToNickname(toNickname);
+                    following.setFromId(fromId);
+                    following.setFromNickname(fromNickname);
+                    followingDao.save(following);
+
+                    return 2;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return 0;
                 }
-
-                if (flag) return 1;
-
-                Follower follower = new Follower();
-                follower.setFromId(toId);
-                follower.setFromNickname(fromNickname);
-                follower.setToId(fromId);
-                follower.setToNickname(toNickname);
-                followerDao.save(follower);
-
-                Following following = new Following();
-                following.setToId(toId);
-                following.setToNickname(toNickname);
-                following.setFromId(fromId);
-                following.setFromNickname(fromNickname);
-                followingDao.save(following);
-
-                return 2;
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
                 return 0;
             }
+
         } else {
-            return 0;
+            // 팔로워 리스트 update
+            memberOpt2 = memberDao.findMemberByNickname(fromNickname);
+            memberOpt = memberDao.findMemberByNickname(toNickname);
+
+            if(memberOpt.isPresent() && memberOpt2.isPresent()) {
+
+                try {
+
+                    String fromId = memberOpt2.get().getUid();
+                    String toId = memberOpt.get().getUid();
+
+                    // follower DB 에 있는 (fromId, toId) 쌍인지 확인할 변수
+                    boolean flag = false;
+                    Follower delFollower = new Follower();
+                    List<Follower> fList = followerDao.findFollowerByToId(toId);
+                    for (Follower f : fList) {
+                        if (f.getFromId().equals(fromId) && f.getToId().equals(toId)) {
+                            delFollower = f;
+                            flag = true;
+                            break;
+                        }
+                    }
+
+                    if (flag) {
+                        followerDao.delete(delFollower);
+                        return 1;
+                    }
+
+                    Follower follower = new Follower();
+                    follower.setToId(toId);
+                    follower.setToNickname(toNickname);
+                    follower.setFromId(fromId);
+                    follower.setFromNickname(fromNickname);
+                    followerDao.save(follower);
+
+                    return 2;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+
         }
     }
 
