@@ -10,7 +10,7 @@
           {{follow.fromNickname}} 
         </div>
         <!-- 사용자 아이디와 같으면 삭제 버튼을 생성 : 사용자 아이디는 어떤 화면에서든 가져올 수 있다. -->
-        <b-button variant="danger" v-if="uid == this.$route.params.uid" @click="deleteFollow(follow.fromNickname)">삭제</b-button>
+        <b-button variant="danger"  @click="deleteFollow(follow.fromNickname)">삭제</b-button>
       </li>
       <!-- 나중에 함 지우기 -->
       <!-- <li class="list">
@@ -59,7 +59,9 @@ export default {
           .requestFollowUpdate(
             data,
             ((res) => {
+              console.log(res);
               alert("삭제되었습니다.");
+              this.follower = res;
             }),
             (() => {})
           )

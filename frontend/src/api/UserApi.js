@@ -96,14 +96,33 @@ const requestFollower = (data, callback, errorCallback) => {
 
 const requestFollowUpdate = (data, callback, errorCallback) => {
   console.log("data",data);
-  http
-    .post('/follow/AddOrDeleteFollow', data)
-    .then((res) => {
-      callback(res);
-    })
-    .catch(() => {
-      errorCallback();
-    })
+  
+  let data2 = {
+    fromNickname: data.fromNickname,
+    toNickname: data.toNickname,
+  }
+
+  if(data.type) {
+
+    http
+      .post('/follow/AddOrDeleteFollowing', data2)
+      .then((res) => {
+        callback(res.data);
+      })
+      .catch(() => {
+        errorCallback();
+      })
+  } else {
+    
+    http
+      .post('/follow/AddOrDeleteFollower', data2)
+      .then((res) => {
+        callback(res.data);
+      })
+      .catch(() => {
+        errorCallback();
+      })
+  }
 };
 
 const requestUpdateUser = (formData, callback, errorCallback) => {
