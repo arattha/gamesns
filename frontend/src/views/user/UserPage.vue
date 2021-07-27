@@ -50,7 +50,7 @@
 						</div>
 					</div>
         <div class="feeditem-box">
-            <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
+            <div v-for="(boardItem,index) in boardItems" :key="index">
                 <FeedItem :boardItem ="boardItem"/>
             </div>
         </div>
@@ -72,9 +72,10 @@ import FeedItem from '../../components/feed/FeedItem.vue'
 import UserApi from '../../api/UserApi'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
-
+import { mapActions , mapGetters } from "vuex";
 
 export default {
+
     name:'UserPage',
     components: {
         Header,
@@ -92,13 +93,16 @@ export default {
         }
     },
     created() {
+        //this.getUserBoardItems(this.$router.param.nickname);
         this.connect();
+        this.getUserBoardItems();
     },
     computed: {  
-        
+        ...mapGetters(["boardItems"]),
     },
     methods:{
-        
+        ...mapActions(["getUserBoardItems"]),
+
         showFollowing() {
             console.log(this.following);
             this.$router.push("/mypage/following");
