@@ -168,6 +168,9 @@ export default {
             // 팔로우 버튼 '팔로잉' 으로 변환
 
         },
+    },
+    destroyed(){
+        this.$store.state.boardItems = [];
     }
 }
 </script>

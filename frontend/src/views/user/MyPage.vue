@@ -49,9 +49,9 @@
 						</div>
 					</div>
         <div class="feeditem-box">
-            <FeedItem />
-            <FeedItem />
-            <FeedItem />
+            <div v-for="(boardItem,index) in boardItems" :key="index">
+                <FeedItem :boardItem ="boardItem"/>
+            </div>
         </div>
       </div>
     <Footer/>
@@ -121,6 +121,9 @@ export default {
         goMyedit() {
             this.$router.push("/mypage/edit");
         }
+    },
+    destroyed(){
+        this.$store.state.boardItems = [];
     }
 }
 </script>
