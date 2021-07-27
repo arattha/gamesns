@@ -4,7 +4,7 @@
         <form action="" class="center">
             <!-- 타이틀 -->
             <div class="myedit-title">
-                <h1>프로필 편집</h1>
+                프로필 편집
             </div>
             <!-- 프로필 사진 block-->
             <div class="photo-edit-container">
@@ -22,14 +22,19 @@
                     <!-- <input v-on:change="fileChange($event.target.files)" type="file" name="file" id="chooseFile"> -->
                 </div>
             </div>
+
             <!-- 정보들 block -->
             <div class="infos center"> 
                 <!-- 닉네임 -->
                 <div class="info-box">
                     <!-- 현재 닉네임 보여주고/필수-->
-                    <input type="text" placeholder="변경할 닉네임을 입력하세요"
-                    v-model="nickname" class="input-box">
-                    <button type="button" class="check-btn" @click="dupCheck">중복체크</button>
+                    <div class="input-container" style="align-content: center;">
+                        <input v-model="nickname" id="name" class="input" type="text" pattern=".+" required />
+                        <label class="label" for="name">닉네임</label>
+                        <div class="check">
+                            <div class="check_btn" @click="dupCheck">중복체크</div>
+                        </div>
+                    </div>
                 </div>
                 <!-- 상태메시지
                 <div class="info">
@@ -44,21 +49,28 @@
             </div>
             <!-- 버튼 블록 -->
             <div class="exit-div">
-                <span class="cancle-btn">
-                    <button @click="back">
+                <span class="cancle">
+                    <button class="cancle-btn" @click="back">
                         취소
                     </button>
                 </span>
-                <span class="submit submit-btn">
-                    <button 
+                <span class="submit">
+                    <button class="submit-btn"
                         @click="save"
                         :disabled="!isSubmit">저장</button>
                 </span>
             </div>
         </form>
         <Footer />
+        <div>
+            <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+			<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+        </div>
     </div>
 </template>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script>
 import Header from '@/components/layout/header/Header.vue'

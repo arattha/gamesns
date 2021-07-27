@@ -5,8 +5,9 @@
   }
   
   .myedit-title{
-      margin-top: 15px;
-      
+    margin-top: 15px;
+    font-size: 1.5rem;
+    font-family: 'Nanum Gothic', sans-serif;
   }
   
   .edit-logo{
@@ -18,26 +19,38 @@
   .center {
       display: flex;
       flex-direction: column;
-      align-items: center;
   }
   
   .photo-edit-container {
       height: 80%;
+      margin-bottom: 30px;
   }
   
   .exit-div {
       width: 100%;
-      margin-top: 30px;
+      margin-top: 60px;
       display: flex;
       justify-content: space-around;
-      font-size: 18px;
+      font-size: 1rem;
   }
 
-.cancle-btn, .submit-btn {
-    border: 0.5px solid black; 
-    padding: 5px 10px;   
-    border-radius: 4px;
+.cancle, .submit {
+    border: 0.5px solid #dcdcdc; 
+    border-radius: 5px;
+    font-family: 'Nanum Gothic', sans-serif;
 }
+
+.submit :disabled {
+  background-color: #dcdcdc;
+      /* cursor: default; */
+}
+
+.cancle-btn, .submit-btn {
+  padding: 3px 30px;   
+
+}
+
+
   .avatar-upload {
     position: relative;
     max-width: 205px;
@@ -114,16 +127,80 @@
   
   .input-box {
       padding:2px;
-      width:70%;
+      width:50%;
       font-size:14px;
       margin: 0px, 2px;
-      display: inline-block;
+      display: flex;
       text-align: center;
   }
   
-  .infos{
-      width: 80%;
+  .infos, .info-box{
+    width: 80%;
   }
-  .info-box{
-      width: 100%;
-  }
+
+/* Estrutura */
+.input-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.input {
+  border: 0;
+  border-bottom: 2px solid #9e9e9e;
+  outline: none;
+  transition: .2s ease-in-out;
+  /* box-sizing: border-box; */
+}
+
+.label {
+  top: 0;
+  left: 0; right: 0;
+  color: #616161;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  font-size: 1rem;
+  cursor: text;
+  transition: .2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.input,
+.label {
+  margin-right: 2rem;
+  width: 100%;
+  height: 2.5rem;
+  font-size: 0.9rem;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+/* Interation */
+.input:valid,
+.input:focus {
+  border-bottom: 2px solid #FFB937;  
+}
+
+.input:valid + .label,
+.input:focus + .label {
+  color: #FFB937;
+  font-size: .8rem;
+  top: -30px;
+  pointer-events: none;
+}
+
+.check{
+  display: flex;
+  align-items: center;
+}
+.check_btn{
+  padding: 5px;
+  /* color: #fff; */
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 0.9rem;
+  /* font-weight: bolder; */
+}
