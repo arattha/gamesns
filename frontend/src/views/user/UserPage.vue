@@ -30,8 +30,8 @@
         <div class="center">
             <Manner/>
         </div> -->
-        <div>
-            <Follow/>
+        <div style="text-align: center">
+            <button class="fbtn" @click="send">팔로우</button>
         </div>
         <hr>
         <div class="my-writing">
@@ -53,14 +53,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
-import Follow from '../../components/user/myPage/Follow.vue'
 import UserApi from '../../api/UserApi'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 
 export default {
@@ -71,24 +71,23 @@ export default {
         // Badge,
         // Manner,
         FeedItem,
-        Follow,
 
     },
     data() {
         return {
             id: '',
             myPhoto: '',
+            userInfo: null,
         }
     },
     created() {
-        this.getFollowing();
-        this.getFollower();
+        this.connect();
     },
     computed: {  
-        ...mapGetters(["following", "follower"]),
+        
     },
     methods:{
-        ...mapActions(["getFollowing", "getFollower"]),
+        
         showFollowing() {
             console.log(this.following);
             this.$router.push("/mypage/following");
@@ -98,11 +97,45 @@ export default {
         },
         goMyedit() {
             this.$router.push("/mypage/edit");
-        }
+        },
+        connect() {
+            const serverURL = "http://localhost:8080/alarm"
+            let socket = new SockJS(serverURL);
+            this.stompClient = Stomp.over(socket);
+            console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+            this.stompClient.connect(
+                {},
+                frame => {
+                // 소켓 연결 성공
+                this.connected = true;
+                console.log('소켓 연결 성공', frame);
+                
+                },
+                error => {
+                // 소켓 연결 실패
+                console.log('소켓 연결 실패', error);
+                this.connected = false;
+                }
+            );        
+        },
+        send() {
+            
+            if (this.stompClient && this.stompClient.connected) {
+                const msg = {
+                    userName: "yourname",
+                    followingName: "조성표"
+                };
+                this.stompClient.send("/receive", JSON.stringify(msg), {});
+            }
+
+            // 팔로우 버튼 '팔로잉' 으로 변환
+
+        },
     }
 }
 </script>
 
 <style>
     @import "../../components/css/user/mypage.css";
+    @import "../../components/css/user/followbtn.css";
 </style>
