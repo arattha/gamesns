@@ -63,29 +63,35 @@ public class BoardService {
 		board.setUid(newBoard.getUid());
 		board.setContents(newBoard.getContent());
 		board = boardDao.save(board);
-
-		String fileName;
 		
-		MultipartFile[] multipartFiles = newBoard.getMultipartFiles();
-
-		for (int i = 0; i < multipartFiles.length; i++) {
-
-			MultipartFile multipartFile = multipartFiles[i];
-			UUID uuid = UUID.randomUUID();
-
-			fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
-			multipartFile.transferTo(new File("C:\\upload"+"\\"+fileName));
-			String base_url = "C:\\upload"+"\\"+fileName;
-
-			ImgFile file = new ImgFile();//이미지 파일 세팅
-			file.setFile_name(fileName);
-			file.setFile_base_url(base_url);
-			file.setFile_size(Long.toString(multipartFile.getSize()));
-			file.setBid(board.getBid());
-
-			imgFileDao.save(file);
+		String path = "C:\\upload";
+		File Folder = new File(path);
+		if(!Folder.exists()) Folder.mkdir();
+		
+		String fileName;
+		MultipartFile[] multipartFiles;
+		if(newBoard.getMultipartFiles().length > 0) {//파일이 존재할 때에만,
+			
+			multipartFiles = newBoard.getMultipartFiles();
+			
+			for (int i = 0; i < multipartFiles.length; i++) {
+	
+				MultipartFile multipartFile = multipartFiles[i];
+				UUID uuid = UUID.randomUUID();
+	
+				fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
+				multipartFile.transferTo(new File("C:\\upload"+"\\"+fileName));
+				String base_url = "C:\\upload"+"\\"+fileName;
+	
+				ImgFile file = new ImgFile();//이미지 파일 세팅
+				file.setFile_name(fileName);
+				file.setFile_base_url(base_url);
+				file.setFile_size(Long.toString(multipartFile.getSize()));
+				file.setBid(board.getBid());
+	
+				imgFileDao.save(file);
+			}
 		}
-
 	}
 
 	public void modifyBoard(long bid ,AddBoard newBoard) throws IllegalStateException, IOException{

@@ -76,7 +76,6 @@ public class BoardController {
     	System.out.println(newBoard.toString());
     	try {
     		boardService.addBoard(newBoard);
-    		
     		result.status = true;
             result.data = "success";
     		
