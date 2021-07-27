@@ -21,19 +21,18 @@
 						</div>
                         <div class="intro">저는 강아지를 좋아합니다.</div>
 					</div>
-                     <div class="follow">
-							<div class="follow_btn" @click="send">팔로우</div>
-						</div>
+                    <div class="follow">
+							<div class="follow_btn" v-if="isFollow" @click="send">팔로우</div>
+                            <div class="follow_btn" style="background: blue" v-else>팔로잉</div>
+                    </div>
             <div class="info_container">
 							<div class="info">
 								<p>팔로워</p>
-                                <p>-</p>
-								<!-- <p @click="showFollowing">{{ following.length }}</p>								 -->
+								<p @click="showFollowing">{{ userFollowing.length }}</p>								
 							</div>
 							<div class="info">
 								<p>팔로잉</p>
-                                <p>-</p>
-								<!-- <p @click="showFollower">{{ follower.length }}</p>							 -->
+								<p @click="showFollower">{{ userFollower.length }}</p>							
 							</div>
 							<div class="info">
 								<p>매너</p>
@@ -90,12 +89,39 @@ export default {
             id: '',
             myPhoto: '',
             userInfo: null,
+            userFollower: [],
+            userFollowing: [],
+            isFollow: true,
         }
     },
     created() {
         //this.getUserBoardItems(this.$router.param.nickname);
         this.connect();
         this.getUserBoardItems();
+        this.userInfo = this.$route.params.suggest;
+        // console.log("userinfo",this.userInfo);
+        UserApi
+            .requestFollowing({from:this.userInfo.uid}
+            ,((res) => {
+                console.log(res);
+                this.userFollowing = res.data;
+                
+                this.userFollowing.forEach(f => {
+                    if("조성표" == f.toNickname){
+                        this.isFollow = false;
+                    }
+                })
+            })
+            ,(() => {})
+        )
+
+        UserApi
+            .requestFollower({to:this.userInfo.uid}
+            ,((res) => {
+                this.userFollower = res.data;
+            })
+            ,(() => {})
+        )
     },
     computed: {  
         ...mapGetters(["boardItems"]),
@@ -104,14 +130,10 @@ export default {
         ...mapActions(["getUserBoardItems"]),
 
         showFollowing() {
-            console.log(this.following);
-            this.$router.push("/mypage/following");
+            this.$router.push({name:"Following", params: {following : this.userFollowing, uid: this.userInfo.uid}});
         },
         showFollower() {
-            this.$router.push("/mypage/follower");
-        },
-        goMyedit() {
-            this.$router.push("/mypage/edit");
+            this.$router.push({name:"Follower", params: {follower : this.userFollower, uid: this.userInfo.uid}});
         },
         connect() {
             const serverURL = "http://localhost:8080/alarm"
