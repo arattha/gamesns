@@ -3,10 +3,9 @@
     <Header/>
     <div class="wrapB" @scroll.passive="handleScroll">
       <h1>뉴스피드</h1>
-      <div v-for="(boardItem,index) in boardItems" :key="index" @click="isModalViewed = true">
+      <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false" :boardItem="temp"/>
+      <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
         <FeedItem :boardItem ="boardItem"/>
-        <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false">
-        </ModalFeed>
       </div>
     </div>
     <Footer/>
@@ -21,6 +20,66 @@ import FeedItem from "../../components/feed/FeedItem.vue";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 import ModalFeed from '../../components/feed/ModalFeed.vue';
+
+export default {
+  props: ["boardItem"],
+  components: { 
+      FeedItem,
+      Header,
+      Footer,
+      ModalFeed, 
+    },
+    data(){
+      return{
+        isModalViewed: false,
+        temp: null,
+      }
+  },
+  created(){
+    this.getBoardItems();
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  methods: {
+    ...mapActions(["getBoardItems"]),
+    // 무한 스크롤 정의
+    handleScroll(e) {
+
+      let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
+      let windowHeight = window.innerHeight; // 스크린 창
+      let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
+
+      if(scrollLocation + windowHeight >= fullHeight){
+        console.log('끝')
+        this.getBoardItems();
+      }
+    },
+    getDocumentHeight() { //창의 총높이
+      let scrollHeight = Math.max(
+                          document.body.scrollHeight, document.documentElement.scrollHeight,
+                          document.body.offsetHeight, document.documentElement.offsetHeight,
+                          document.body.clientHeight, document.documentElement.clientHeight
+                        );
+      return scrollHeight;
+    },
+    modalShow(item){
+      console.log("test");
+      console.log(item);
+      this.isModalViewed = !this.isModalViewed;
+      console.log(this.isModalViewed);
+      this.temp = item;
+    }
+  },
+  computed: {
+    ...mapGetters(["boardItems"])
+  },
+  destroyed(){
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+};
+</script>
+
+<!--
 
 export default {
   props: ["boardItem"],
@@ -136,5 +195,5 @@ export default {
   }
 
 };
-</script>
 
+-->

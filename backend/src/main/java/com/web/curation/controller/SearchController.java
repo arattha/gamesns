@@ -44,9 +44,7 @@ public class SearchController {
     @GetMapping("/search")
     @ApiOperation(value = "유저 찾기")
     public Object searchUser(@RequestParam String nickname){
-    	//System.out.println(nickname);
         List<User> userOpt = searchService.searchUser(nickname);
-        System.out.println("ㅋ");
         for (User u : userOpt) {
 			System.out.println(u);
 		}

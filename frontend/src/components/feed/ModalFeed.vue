@@ -1,17 +1,38 @@
 <template>
-  <div class="modal">
+  <div style="display : flex" class="modal">
     <div class="overlay" @click="$emit('close-modal')"></div>
+    <div class="user-info">
+        <div class="user-name">
+          <button>SSAFY</button>
+        </div>
+    </div>
     <div class="modal-card">
-      TEST
+      <div class="image">
+        <img v-for="(img,index) in img_src" :key="index" :src="img" alt="">
+        <!--이미지 -->
+      </div>
+    </div>
+    <div class="content">
+      <span>{{boardItem.contents}}</span>
     </div>
   </div>
 </template>
 <script>
 export default {
-
+  props:["boardItem"],
+  data: () => {
+    return {
+      img_src:[],
+    };
+  },
+  created() {
+    this.boardItem.imgFiles.forEach(element => {
+      this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
+    });
+  },
 }
 </script>
-<style lang="">
+<style>
 .modal,
 .overlay {
   width: 100%;
