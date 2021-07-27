@@ -78,10 +78,17 @@ public class AccountController {
     @ApiOperation(value="회원가입")
     public Object signup(@RequestBody SignupRequest request) {
 
-        if(service.addUser(request)) {
+        int x = service.addUser(request);
+
+        if(x == 1) {
+            // 가입 성공
             return new ResponseEntity<>(null, HttpStatus.OK);
-        } else {
+        } else if(x == 2) {
+            // 중복 => 가입 실패
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        } else {
+            // 에러
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
     }
