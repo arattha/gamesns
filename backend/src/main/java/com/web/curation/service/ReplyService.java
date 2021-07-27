@@ -26,7 +26,7 @@ public class ReplyService {
 //        return replyDao.findByBidAndRidGreaterThan(bid, lastRid, pageRequest);
 //    }
 
-    public boolean insert(Long uid, Long bid, String nickname, String content) {
+    public boolean insert(String uid, Long bid, String nickname, String content) {
         boolean flag = false;
 
         Reply reply = new Reply();

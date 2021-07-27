@@ -35,7 +35,7 @@ public class FollowController {
 
     @GetMapping("/follow/follower")
     @ApiOperation(value = "팔로워리스트")
-    public Object follower(@RequestParam final Long to) {
+    public Object follower(@RequestParam final String to) {
 
         Optional<Member> member = accountService.getMember(to);
 
@@ -54,7 +54,7 @@ public class FollowController {
 
     @GetMapping("/follow/following")
     @ApiOperation(value = "팔로잉리스트")
-    public Object following(@RequestParam final Long from) {
+    public Object following(@RequestParam final String from) {
 
         Optional<Member> member = accountService.getMember(from);
 

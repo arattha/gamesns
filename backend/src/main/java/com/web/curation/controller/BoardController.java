@@ -35,7 +35,7 @@ public class BoardController {
     
     @GetMapping("/board")
     @ApiOperation(value = "내 피드")
-    public Object bList(@RequestParam(required = true) final long uid, @RequestParam(required = false) String bid){
+    public Object bList(@RequestParam(required = true) final String uid, @RequestParam(required = false) String bid){
 		final BasicResponse result = new BasicResponse();
 		
 		try {

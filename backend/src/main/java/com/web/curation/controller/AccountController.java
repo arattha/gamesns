@@ -66,7 +66,7 @@ public class AccountController {
     @GetMapping("/kakaoLogin")
     @ApiOperation(value = "카카오 로그인")
     public Object kakaoLogin(@RequestParam("code") String code) {
-        Long uid = service.kakaoLogin(code);
+        String uid = service.kakaoLogin(code);
         System.out.println(uid);
 
         return new ResponseEntity<>(uid, HttpStatus.OK);
@@ -136,7 +136,7 @@ public class AccountController {
     
     @GetMapping("/account/file/{uid}")
     @ApiOperation(value = "내파일")
-    public Object bFile(@PathVariable final long uid, HttpServletRequest request) throws MalformedURLException{
+    public Object bFile(@PathVariable final String uid, HttpServletRequest request) throws MalformedURLException{
     	Optional<Member> member = service.getMember(uid);
     	
     	Resource resource =  new FileSystemResource(member.get().getPimg());

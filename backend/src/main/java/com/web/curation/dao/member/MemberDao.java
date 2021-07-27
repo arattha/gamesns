@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberDao extends JpaRepository<Member, Long> {
 
-    Optional<Member> findMemberByUid(Long uid);
+    Optional<Member> findMemberByUid(String uid);
 
     Optional<Member> findMemberByNickname(String nickname);
     
