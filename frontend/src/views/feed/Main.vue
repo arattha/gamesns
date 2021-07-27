@@ -62,8 +62,6 @@ export default {
       return scrollHeight;
     },
     modalShow(item){
-      console.log("test");
-      console.log(item);
       this.isModalViewed = !this.isModalViewed;
       console.log(this.isModalViewed);
       this.temp = item;
@@ -73,6 +71,7 @@ export default {
     ...mapGetters(["boardItems"])
   },
   destroyed(){
+    this.$store.state.boardItems = [];
     window.removeEventListener('scroll', this.handleScroll);
   }
 

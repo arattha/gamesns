@@ -58,11 +58,10 @@ public class BoardService {
 	}
 	
 	public Object bEqualList(String uid){
-
-		long longbid = Long.MAX_VALUE;
+		
 		Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
 
-		List<Board> boardList = boardDao.findFollowFeed(longbid, paging);
+		List<Board> boardList = boardDao.findBoardByUid(uid, paging);
 		
 		List<ResponseBoard> resboard = new ArrayList<>();
 

@@ -98,6 +98,26 @@ export default new Vuex.Store({
                     alert('에러가 발생했습니다.');
                 });
         },
+        getUserBoardItems(context) {
+            let data = {
+                    uid: 1  
+                };
+            //uid 또는 닉네임으로 구현되면 주석으로 변경
+            /*
+            let data = {
+                nickname : nick
+            }
+            */
+            http
+                .get(`/board/user`, { params: data })
+                .then(({ data }) => {
+                    context.commit('GET_BOARD_ITEMS', data.object);
+                    console.log(context.state.boardItems);
+                })
+                .catch(() => {
+                    alert('에러가 발생했습니다.');
+                });
+        },
         addBoard({ commit }, formData) {
             commit
             http
