@@ -1,8 +1,12 @@
 <template>
   <div class="Search-container">
       <div class="search-bar">
+
           <input v-model="search" class="search__input" type="text" placeholder="유저 검색">
-          <div v-for="(suggest,index) in searched" :key="index" id="suggestion_box">{{suggest.nickname}}</div>
+          <button v-for="(suggest,index) in searched" :key="index" id="suggestion_box" @click="userLink(suggest)">
+              <!--<img />-->
+              {{suggest.nickname}}
+          </button>
       </div>
 
   <!--
@@ -58,6 +62,9 @@ export default {
     },
     methods:{
         ...mapActions(["searchUser"]),
+        userLink(suggest){
+            this.$router.push({ name: 'UserPage', params: {suggest}})
+        }
     },
 }
 </script>

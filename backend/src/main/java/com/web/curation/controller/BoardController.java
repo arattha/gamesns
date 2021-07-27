@@ -52,6 +52,25 @@ public class BoardController {
         return new ResponseEntity<>(result, HttpStatus.OK);   
     }
     
+    @GetMapping("/board/user")
+    @ApiOperation(value = "유저페이지 노출용 특정 유저 한명의 피드")
+    public Object bEqualList(@RequestParam(required = true) final String uid){
+		final BasicResponse result = new BasicResponse();
+		
+		try {
+			result.object = boardService.bEqualList(uid);
+			result.status = true;
+	        result.data = "success";
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.status = false;
+	        result.data = "failed";
+	        System.out.println(e);
+		}
+		
+        return new ResponseEntity<>(result, HttpStatus.OK);   
+    }
+    
     @GetMapping("/board/file/{fileName}")
     @ApiOperation(value = "내파일")
     public Object bFile(@PathVariable final String fileName, HttpServletRequest request) throws MalformedURLException{
