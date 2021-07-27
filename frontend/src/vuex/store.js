@@ -12,8 +12,6 @@ export default new Vuex.Store({
     state: {
         boardItems: [],
         searched: [],
-        following:[],
-        follower: [],
         replyList:[],
     },
     mutations: {
@@ -23,12 +21,6 @@ export default new Vuex.Store({
         },
         GET_SEARCHED(state, payload) {
             state.searched = payload;
-        },
-        GET_FOLLOWING(state, payload){
-            state.following = payload;
-        },
-        GET_FOLLOWER(state, payload){
-            state.follower = payload;
         },
         GET_REPLY_LIST(state, payload){
             state.replyList = payload;
@@ -41,47 +33,11 @@ export default new Vuex.Store({
         searched(state) {
             return state.searched;
         },
-        following(state){
-            return state.following;
-        },
-        follower(state){
-            return state.follower;
-        },
         replyList(state) {
             return state.replyList;
-        }
+        },
     },
     actions: {
-        getFollowing({commit}, data){
-
-            data = {
-                from: 1
-            }
-            http
-                .get('/follow/following', {params: data})
-                .then((res) => {
-                    console.log(res);
-                    commit("GET_FOLLOWING", res.data);
-                })
-                .catch(() =>{
-                    console.log("get following error");
-                })
-        },
-        getFollower({commit}, data){
-
-            data = {
-                to: 1
-            }
-            http
-                .get('/follow/follower', {params: data})
-                .then((res) => {
-                    console.log(res);
-                    commit("GET_FOLLOWER", res.data);
-                })
-                .catch(() =>{
-                    console.log("get following error");
-                })
-        },
         getBoardItems(context, data) {
             if (context.state.boardItems.length == 0) {
                 data = {

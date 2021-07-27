@@ -63,14 +63,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
 import UserApi from '../../api/UserApi'
-
+import { mapActions , mapGetters } from "vuex";
 
 export default {
     name:'MyPage',
@@ -86,24 +85,38 @@ export default {
         return {
             id: '',
             myPhoto: '',
+            following: [],
+            follower: [],
         }
     },
     created() {
-        this.getFollowing();
-        this.getFollower();
-        this.getUserBoardItems();
+        UserApi
+            .requestFollowing({from: 1}
+            ,((res) => {
+                this.following = res.data;
+            })
+            ,(() => {})
+        )
+
+        UserApi
+            .requestFollower({to: 1}
+            ,((res) => {
+                this.follower = res.data;
+            })
+            ,(() => {})
+        )
     },
     computed: {  
-        ...mapGetters(["following", "follower","boardItems"]),
+        ...mapGetters(["boardItems"]),
     },
     methods:{
-        ...mapActions(["getFollowing", "getFollower","getUserBoardItems"]),
+        ...mapActions(["getUserBoardItems"]),
+
         showFollowing() {
-            console.log(this.following);
-            this.$router.push("/mypage/following");
+            this.$router.push({name:"Following", params: {following : this.following, uid: 1}});
         },
         showFollower() {
-            this.$router.push("/mypage/follower");
+            this.$router.push({name:"Follower", params: {follower : this.follower, uid: 1}});
         },
         goMyedit() {
             this.$router.push("/mypage/edit");
