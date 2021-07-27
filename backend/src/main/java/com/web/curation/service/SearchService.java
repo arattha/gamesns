@@ -1,7 +1,7 @@
 package com.web.curation.service;
 
-import com.web.curation.dao.user.UserDao;
-import com.web.curation.model.user.User;
+import com.web.curation.dao.member.MemberDao;
+import com.web.curation.model.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +12,13 @@ import java.util.Optional;
 public class SearchService {
 
     @Autowired
-    UserDao userDao;
+    MemberDao memberDao;
 
-    public Optional<User> getUser(String nickname) {
-        return userDao.findUserByNickname(nickname);
+    public Optional<Member> getMember(String nickname) {
+        return memberDao.findMemberByNickname(nickname);
     }
     
-    public List<User> searchUser(String nickname) {
-        return userDao.findUserByNicknameContaining(nickname);
+    public List<Member> searchMember(String nickname) {
+        return memberDao.findMemberByNicknameContaining(nickname);
     }
 }

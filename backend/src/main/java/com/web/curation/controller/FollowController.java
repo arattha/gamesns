@@ -1,11 +1,10 @@
 package com.web.curation.controller;
 
-import com.web.curation.dao.user.UserDao;
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.follow.FollowRequest;
 import com.web.curation.model.follow.Follower;
 import com.web.curation.model.follow.Following;
-import com.web.curation.model.user.User;
+import com.web.curation.model.member.Member;
 import com.web.curation.service.AccountService;
 import com.web.curation.service.FollowService;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +37,9 @@ public class FollowController {
     @ApiOperation(value = "팔로워리스트")
     public Object follower(@RequestParam final Long to) {
 
-        Optional<User> user = accountService.getUser(to);
+        Optional<Member> member = accountService.getMember(to);
 
-        if(user.isPresent()) {
+        if(member.isPresent()) {
             List<Follower> FList = followService.getFollower(to);
 
             return new ResponseEntity<>(FList, HttpStatus.OK);
@@ -58,9 +56,9 @@ public class FollowController {
     @ApiOperation(value = "팔로잉리스트")
     public Object following(@RequestParam final Long from) {
 
-        Optional<User> user = accountService.getUser(from);
+        Optional<Member> member = accountService.getMember(from);
 
-        if(user.isPresent()) {
+        if(member.isPresent()) {
             System.out.println(from);
             List<Following> fList = followService.getFollowing(from);
             System.out.println(fList);

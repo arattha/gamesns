@@ -8,13 +8,11 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import com.web.curation.model.BasicResponse;
-import com.web.curation.model.user.ImgRequest;
-import com.web.curation.model.user.SignupRequest;
-import com.web.curation.model.user.User;
+import com.web.curation.model.member.ImgRequest;
+import com.web.curation.model.member.SignupRequest;
+import com.web.curation.model.member.Member;
 
 import com.web.curation.service.AccountService;
-import com.web.curation.service.OAuth2Kakao;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -53,12 +51,12 @@ public class AccountController {
 //    @ApiOperation(value = "kakaoLogin")
 //    public Object klogin(@RequestParam String access_token) {
 //
-//        Long uid = new Long(service.getUserInfo(access_token));
-//        Optional<User> userOpt = service.getUser(uid);
+//        Long uid = new Long(service.getMemberInfo(access_token));
+//        Optional<Member> memberOpt = service.getMember(uid);
 //
-//        if(userOpt.isPresent()) {
+//        if(memberOpt.isPresent()) {
 //            // 회원정보가 있으면 회원정보와 함께 OK
-//            return new ResponseEntity<>(userOpt.get(), HttpStatus.OK);
+//            return new ResponseEntity<>(memberOpt.get(), HttpStatus.OK);
 //        } else {
 //            // 회원정보가 없으면 uid 와 함께 NOT_FOUND
 //            return new ResponseEntity<>(uid, HttpStatus.NOT_FOUND);
@@ -107,13 +105,13 @@ public class AccountController {
     public Object imgPut(ImgRequest request,
                          MultipartFile multipartFile) throws IllegalStateException, IOException {
 
-        Optional<User> userOpt = service.getUser(request.getUid());
+        Optional<Member> memberOpt = service.getMember(request.getUid());
 
         final BasicResponse result = new BasicResponse();
 
-        if(userOpt.isPresent()) {
+        if(memberOpt.isPresent()) {
 
-            User user = userOpt.get();
+            Member member = memberOpt.get();
 
             // img 파일 이름 설정 및 경로 지정
             String filePath = "C://upload//";
@@ -124,7 +122,7 @@ public class AccountController {
 
             multipartFile.transferTo(file);
 
-            if(service.updateUser(user, request, filePath + storedFileName)) {
+            if(service.updateMember(member, request, filePath + storedFileName)) {
                 return new ResponseEntity<>(null, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
@@ -139,9 +137,9 @@ public class AccountController {
     @GetMapping("/account/file/{uid}")
     @ApiOperation(value = "내파일")
     public Object bFile(@PathVariable final long uid, HttpServletRequest request) throws MalformedURLException{
-    	Optional<User> user = service.getUser(uid);
+    	Optional<Member> member = service.getMember(uid);
     	
-    	Resource resource =  new FileSystemResource(user.get().getPimg());
+    	Resource resource =  new FileSystemResource(member.get().getPimg());
 		
 		if(!resource.exists()) {
 			final BasicResponse result = new BasicResponse();

@@ -1,10 +1,10 @@
 package com.web.curation.service;
 
-import com.web.curation.dao.user.UserDao;
+import com.web.curation.dao.member.MemberDao;
 import com.web.curation.model.OAuthToken;
-import com.web.curation.model.user.ImgRequest;
-import com.web.curation.model.user.SignupRequest;
-import com.web.curation.model.user.User;
+import com.web.curation.model.member.ImgRequest;
+import com.web.curation.model.member.Member;
+import com.web.curation.model.member.SignupRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class AccountService {
 
     @Autowired
-    UserDao userDao;
+    MemberDao memberDao;
 
     @Autowired
     private OAuth2Kakao oAuth2Kakao;
@@ -30,14 +30,14 @@ public class AccountService {
 
         System.out.println(oAuthToken.getAccess_token());
 
-        Long uid = oAuth2Kakao.getUserByAccessToken(oAuthToken.getAccess_token());
+        Long uid = oAuth2Kakao.getMemberByAccessToken(oAuthToken.getAccess_token());
         return uid;
     }
 
     // uid 로 회원정보 가져오기
-    public Optional<User> getUser(Long uid) {
+    public Optional<Member> getMember(Long uid) {
 
-        return userDao.findUserByUid(uid);
+        return memberDao.findMemberByUid(uid);
 
     }
 
@@ -63,13 +63,13 @@ public class AccountService {
     }
 
     // 닉네임과 프로필 사진을 받아와서 회원정보 수정
-    public boolean updateUser(User user, ImgRequest request, String path) {
+    public boolean updateMember(Member member, ImgRequest request, String path) {
 
-        user.setNickname(request.getNickname());
-        user.setPimg(path);
+        member.setNickname(request.getNickname());
+        member.setPimg(path);
 
         try{
-            userDao.save(user);
+            memberDao.save(member);
             return true;
         } catch (Exception e){
             System.out.println(e);
@@ -79,7 +79,7 @@ public class AccountService {
 
 
     // 카카오톡 access_token 으로 사용자 id 받기
-    public int getUserInfo(String access_Token){
+    public int getMemberInfo(String access_Token){
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 

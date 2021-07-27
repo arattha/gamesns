@@ -8,7 +8,7 @@ import lombok.Data;
 // 소켓을 통해 통신하기 위한 class
 public class SocketVO {
     // 유저의 이름을 저장하기 위한 변수
-    private String userName;
+    private String memberName;
 
     // 팔로잉한 유저의 이름을 저장하기 위한 변수
     private String followingName;

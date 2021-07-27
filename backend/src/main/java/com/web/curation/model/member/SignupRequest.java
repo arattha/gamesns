@@ -1,4 +1,4 @@
-package com.web.curation.model.user;
+package com.web.curation.model.member;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,16 +7,17 @@ import lombok.ToString;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@Valid
 @Data
+@Valid
 @ToString
-public class ImgRequest {
+public class SignupRequest {
     @ApiModelProperty(required = true)
     @NotNull
     Long uid;
-
     @ApiModelProperty(required = true)
     @NotNull
     String nickname;
-
+//    @ApiModelProperty(required = true)
+//    @NotNull
+//    String authority;
 }
