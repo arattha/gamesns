@@ -27,13 +27,26 @@
         </div>
         <hr>
         <ul class="img-comment-list">
+          <li v-for="(reply,index) in replyList" :key="index">
+            <!--
+              <div class="comment-img"> 일단은 코멘트만
+                <img src="http://lorempixel.com/50/50/people/6">
+              </div>
+            -->
+            <div class="comment-text">
+              <strong><a href="">{{reply.nickname}}</a></strong>
+              <p>{{reply.content}}</p> 
+              <span class="date sub-text">on December 5th, 2016</span>
+            </div>
+          </li>
           <li>
             <div class="comment-img">
               <img src="http://lorempixel.com/50/50/people/6">
             </div>
             <div class="comment-text">
               <strong><a href="">Jane Doe</a></strong>
-              <p>Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
+              <p>Hello this is a test comment.</p> 
+              <span class="date sub-text">on December 5th, 2016</span>
             </div>
           </li>
           <hr>
@@ -67,6 +80,7 @@
 </template>
 <script>
 import defaultProfile from "../../assets/images/profile_default.png";
+import { mapActions, mapGetters } from "vuex";
 export default {
   props:["boardItem"],
   data: () => {
@@ -79,6 +93,20 @@ export default {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
+
+
+    this.getReplyList({ bid : this.boardItem.bid,
+                        lastRid : 0
+                      });
+  },
+  computed: {
+    ...mapGetters(["replyList"]),
+  },
+  methods: {
+    ...mapActions(["getReplyList"]),
+  },
+  destroyed(){
+
   },
 }
 </script>

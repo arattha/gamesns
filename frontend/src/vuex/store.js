@@ -13,7 +13,8 @@ export default new Vuex.Store({
         boardItems: [],
         searched: [],
         following:[],
-        follower:[],
+        follower: [],
+        replyList:[],
     },
     mutations: {
         GET_BOARD_ITEMS(state, payload) {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
         GET_FOLLOWER(state, payload){
             state.follower = payload;
         },
+        GET_REPLY_LIST(state, payload){
+            state.replyList = payload;
+        },
     },
     getters: {
         boardItems(state) {
@@ -42,6 +46,9 @@ export default new Vuex.Store({
         },
         follower(state){
             return state.follower;
+        },
+        replyList(state) {
+            return state.replyList;
         }
     },
     actions: {
@@ -113,6 +120,18 @@ export default new Vuex.Store({
                 .then(({ data }) => {
                     context.commit('GET_BOARD_ITEMS', data.object);
                     console.log(context.state.boardItems);
+                })
+                .catch(() => {
+                    alert('에러가 발생했습니다.');
+                });
+        },
+        getReplyList({ commit }, data) {
+            http
+                .get(`/reply`, { params: data })
+                .then(({ data }) => {
+                    commit('GET_REPLY_LIST', data.object.content);
+                    console.log("reply");
+                    console.log(data);
                 })
                 .catch(() => {
                     alert('에러가 발생했습니다.');

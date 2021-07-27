@@ -82,14 +82,14 @@ public class ReplyController {
     })
     public Object read(@RequestParam final Long bid, @RequestParam Long lastRid) {
         final BasicResponse result = new BasicResponse();
-
+        System.out.println(bid + " " + lastRid);
         // 비정상적으로 처리됬을때를 위한 반환값
         result.status = false;
         result.data = "failed";
 
         try {
             // 현재 페이지의 댓글들의 정보를 얻어온다.
-            Slice<Reply> curPage = replyService.getReplyListByPages(bid, lastRid,2);
+            Slice<Reply> curPage = replyService.getReplyListByPages(bid, lastRid,4);
 
             // 만약 아무것도 얻어오지 못했다면 이는 잘못된 처리이므로
             // curPage를 반환값에 담지 않게한다.
