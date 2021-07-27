@@ -49,9 +49,9 @@
 						</div>
 					</div>
         <div class="feeditem-box">
-            <FeedItem />
-            <FeedItem />
-            <FeedItem />
+            <div v-for="(boardItem,index) in boardItems" :key="index">
+                <FeedItem :boardItem ="boardItem"/>
+            </div>
         </div>
       </div>
     <Footer/>
@@ -91,12 +91,13 @@ export default {
     created() {
         this.getFollowing();
         this.getFollower();
+        this.getUserBoardItems();
     },
     computed: {  
-        ...mapGetters(["following", "follower"]),
+        ...mapGetters(["following", "follower","boardItems"]),
     },
     methods:{
-        ...mapActions(["getFollowing", "getFollower"]),
+        ...mapActions(["getFollowing", "getFollower","getUserBoardItems"]),
         showFollowing() {
             console.log(this.following);
             this.$router.push("/mypage/following");
@@ -107,6 +108,9 @@ export default {
         goMyedit() {
             this.$router.push("/mypage/edit");
         }
+    },
+    destroyed(){
+        this.$store.state.boardItems = [];
     }
 }
 </script>
