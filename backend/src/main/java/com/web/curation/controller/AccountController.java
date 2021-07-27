@@ -102,9 +102,11 @@ public class AccountController {
     // 처음에 기본이미지로 저장된 이미지를 수정
     @PutMapping("/account/mypageUpdate")
     @ApiOperation(value="닉네임, 이미지 경로 수정")
-    public Object imgPut(ImgRequest request,
-                         MultipartFile multipartFile) throws IllegalStateException, IOException {
+    public Object imgPut(ImgRequest request
+                         ) throws IllegalStateException, IOException {
 
+        System.out.println(request);
+//        System.out.println(request.getMultipartFile());
         Optional<Member> memberOpt = service.getMember(request.getUid());
 
         final BasicResponse result = new BasicResponse();
@@ -115,12 +117,12 @@ public class AccountController {
 
             // img 파일 이름 설정 및 경로 지정
             String filePath = "C://upload//";
-            String originFile = multipartFile.getOriginalFilename();
+            String originFile = request.getMultipartFile().getOriginalFilename();
             String originalFileExtension = originFile.substring(originFile.lastIndexOf("."));
             String storedFileName = request.getUid() + originalFileExtension;
             File file = new File(filePath + storedFileName);
 
-            multipartFile.transferTo(file);
+            request.getMultipartFile().transferTo(file);
 
             if(service.updateMember(member, request, filePath + storedFileName)) {
                 return new ResponseEntity<>(null, HttpStatus.OK);
