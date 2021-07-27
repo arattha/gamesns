@@ -5,10 +5,12 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
 
 @Controller
+@RequestMapping("/alarm")
 public class AlarmController {
 
     // member 별 팔로우 알람을 위한 Map
