@@ -12,12 +12,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BoardLikeUser {
+public class BoardLikeMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     // 좋아요를 누른 사람
-    private Long uid;
+    private String uid;
     private Long bid;
 
 }

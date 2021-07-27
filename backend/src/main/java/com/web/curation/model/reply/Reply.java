@@ -17,8 +17,8 @@ public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rid;
-    // user id
-    private Long uid;
+    // member id
+    private String uid;
     // board id
     private Long bid;
 

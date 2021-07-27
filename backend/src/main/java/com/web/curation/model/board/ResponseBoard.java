@@ -19,7 +19,7 @@ import lombok.ToString;
 public class ResponseBoard {
 	
     private Long bid;
-    private Long uid;
+    private String uid;
 
     private String contents;
 

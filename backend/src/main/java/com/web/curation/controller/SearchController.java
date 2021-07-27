@@ -1,7 +1,7 @@
 package com.web.curation.controller;
 
 import com.web.curation.model.BasicResponse;
-import com.web.curation.model.user.User;
+import com.web.curation.model.member.Member;
 import com.web.curation.service.SearchService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,15 +26,15 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-    @GetMapping("/searchUser")
+    @GetMapping("/searchMember")
     @ApiOperation(value = "유저 찾기")
     public Object search(@RequestParam String nickname){
 
-        Optional<User> userOpt = searchService.getUser(nickname);
+        Optional<Member> memberOpt = searchService.getMember(nickname);
 
-        if(userOpt.isPresent()) {
+        if(memberOpt.isPresent()) {
 
-            return new ResponseEntity<>(userOpt.get(), HttpStatus.OK);
+            return new ResponseEntity<>(memberOpt.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
@@ -43,14 +43,16 @@ public class SearchController {
     
     @GetMapping("/search")
     @ApiOperation(value = "유저 찾기")
-    public Object searchUser(@RequestParam String nickname){
-        List<User> userOpt = searchService.searchUser(nickname);
-        for (User u : userOpt) {
+    public Object searchMember(@RequestParam String nickname){
+    	//System.out.println(nickname);
+        List<Member> memberOpt = searchService.searchMember(nickname);
+        System.out.println("ㅋ");
+        for (Member u : memberOpt) {
 			System.out.println(u);
 		}
         
-        if(userOpt.size() >= 0) {
-            return new ResponseEntity<>(userOpt, HttpStatus.OK);
+        if(memberOpt.size() >= 0) {
+            return new ResponseEntity<>(memberOpt, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }

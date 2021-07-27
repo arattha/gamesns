@@ -1,9 +1,10 @@
 package com.web.curation.controller;
 
 import com.web.curation.model.BasicResponse;
+import com.web.curation.model.follow.FollowRequest;
 import com.web.curation.model.follow.Follower;
 import com.web.curation.model.follow.Following;
-import com.web.curation.model.user.User;
+import com.web.curation.model.member.Member;
 import com.web.curation.service.AccountService;
 import com.web.curation.service.FollowService;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,11 +35,11 @@ public class FollowController {
 
     @GetMapping("/follow/follower")
     @ApiOperation(value = "팔로워리스트")
-    public Object follower(@RequestParam final Long to) {
+    public Object follower(@RequestParam final String to) {
 
-        Optional<User> user = accountService.getUser(to);
+        Optional<Member> member = accountService.getMember(to);
 
-        if(user.isPresent()) {
+        if(member.isPresent()) {
             List<Follower> FList = followService.getFollower(to);
 
             return new ResponseEntity<>(FList, HttpStatus.OK);
@@ -54,11 +54,11 @@ public class FollowController {
 
     @GetMapping("/follow/following")
     @ApiOperation(value = "팔로잉리스트")
-    public Object following(@RequestParam final Long from) {
+    public Object following(@RequestParam final String from) {
 
-        Optional<User> user = accountService.getUser(from);
+        Optional<Member> member = accountService.getMember(from);
 
-        if(user.isPresent()) {
+        if(member.isPresent()) {
             System.out.println(from);
             List<Following> fList = followService.getFollowing(from);
             System.out.println(fList);
@@ -75,10 +75,10 @@ public class FollowController {
 
     @PostMapping("/follow/AddOrDeleteFollow")
     @ApiOperation(value = "팔로우 추가/삭제")
-    public Object AddOrDeleteFollow(@RequestParam Long fromId, @RequestParam Long toId) {
-
+    public Object AddOrDeleteFollow(@RequestBody FollowRequest followRequest) {
+        System.out.println("fromNickname : " + followRequest.getFromNickname() + ", toNickname : " + followRequest.getToNickname());
         // 오류(0), 삭제(1), 추가(2) 인지 확인할 변수
-        int x = followService.AddOrDeleteFollow(fromId, toId);
+        int x = followService.AddOrDeleteFollow(followRequest.getFromNickname(), followRequest.getToNickname());
 
         if(x == 2) {
             return new ResponseEntity<>(2, HttpStatus.OK);

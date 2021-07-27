@@ -13,6 +13,8 @@ import Follower from './views/user/Follower.vue'
 import Search from './components/home/search/Search.vue'
 import Writing from './components/home/writing/Writing.vue'
 import Alarm from './views/alarm/Alarm.vue'
+import UserPage from './views/user/UserPage.vue'
+
 
 export default [
 
@@ -31,6 +33,11 @@ export default [
         path : '/main',
         name : 'Main',
         component : Main
+    },
+    {
+        path : '/userpage',
+        name : 'UserPage',
+        component : UserPage
     },
     {
         path : '/mypage/edit',

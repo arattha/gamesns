@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface FollowingDao extends JpaRepository<Following, Long> {
 
-    List<Following> findFollowingByFromId(Long fromId);
+    List<Following> findFollowingByFromId(String fromId);
 
 }

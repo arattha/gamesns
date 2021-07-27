@@ -17,7 +17,7 @@ public class ReplyCreateRequest {
     Long bid;
     @ApiModelProperty(required = true)
     @NotNull
-    Long uid;
+    String uid;
     @ApiModelProperty(required = true)
     @NotNull
     String nickname;

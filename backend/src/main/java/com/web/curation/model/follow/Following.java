@@ -20,9 +20,9 @@ public class Following {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fid;
 
-    private Long fromId;
+    private String fromId;
     private String fromNickname;
-    private Long toId;
+    private String toId;
     private String toNickname;
 
 }

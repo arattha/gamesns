@@ -15,7 +15,7 @@
 
         <div class="nickname-confirm">
           <span class="nickname-word">닉네임</span>
-          <span><button class="nickname-confirm-box">중복확인</button></span>
+          <span><button class="nickname-confirm-box" @click="dupCheck">중복확인</button></span>
         </div>
 
         <div class="input-with-label" style="margin-top:15px">
@@ -54,13 +54,11 @@ export default {
   data: () => {
     return {
       nickName: '',
-      isTerm: false,
-      isLoading: false,
+      isDup: false,
       error: {
         nickName: false,
       },
       isSubmit: false,
-      termPopup: false,
       code: '',
     };
   },
@@ -96,13 +94,12 @@ export default {
       Object.values(this.error).map((v) => {
         if (v) isSubmit = false;
       });
-      this.isSubmit = isSubmit;
+      this.isSubmit = isSubmit && this.isDup;
     },
     signUp() {
-      if (this.isSubmit) {
+      if (this.isSubmit && this.isDup) {
         let data = {
-          email: this.email,
-          password: this.password,
+          uid: this.uid,
           nickname: this.nickName,
         };
 
@@ -128,6 +125,20 @@ export default {
         });
       }
     },
+    dupCheck() {
+      if(!this.error.nickName) {
+        
+        UserApi.requestDupCheck(
+          this.nickName
+          ,() => { 
+            this.isDup = true;
+            this.checkForm(); 
+          }
+          ,() => { }
+        );
+
+      }
+    }
   },
 };
 </script>
