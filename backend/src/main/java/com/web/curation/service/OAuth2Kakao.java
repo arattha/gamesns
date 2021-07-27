@@ -1,9 +1,10 @@
 package com.web.curation.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.curation.model.OAuthToken;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -56,8 +57,9 @@ public class OAuth2Kakao {
     }
 
     // AccessToken을 사용하여 유저정보 받기
-    public String getUserByAccessToken(String accessToken) {
+    public Long getUserByAccessToken(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
+        ObjectMapper objectMapper = new ObjectMapper();
         ResponseEntity<String> response = null;
 
         // HttpHeader 오브젝트 생성
@@ -68,14 +70,15 @@ public class OAuth2Kakao {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
 
         String url = "https://kapi.kakao.com/v2/user/me";
-
+        JSONObject parser = null;
         try {
             // 실제 요청
             response = restTemplate.postForEntity(url, request, String.class);
+            parser = new JSONObject(response.getBody());
         } catch (RestClientException e) {
             e.printStackTrace();
         }
 
-        return response.getBody();
+        return parser.getLong("id");
     }
 }

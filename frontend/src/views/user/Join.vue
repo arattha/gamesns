@@ -62,6 +62,10 @@ export default {
       isSubmit: false,
       termPopup: false,
       code: '',
+      userInfo: {
+        uid: '',
+        nickname: '',
+      },
     };
   },
   created() {
@@ -76,12 +80,20 @@ export default {
     create() {
       this.code = this.$route.query.code;
 
-      console.log('ggg');
-      console.log(this.code);
-
       UserApi.requestkakaoLogin(
         this.code,
         (res) => {
+          console.log(res);
+          this.userInfo.uid = res;
+          console.log(this.userInfo);
+
+          if (this.userInfo.uid == undefined) {
+            alert('잘못된 접근 입니다.');
+
+            this.$router.push('/');
+          }
+
+          // this.isPresentUser();
         },
         (error) => {
         }

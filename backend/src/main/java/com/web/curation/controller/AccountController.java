@@ -68,10 +68,10 @@ public class AccountController {
     @GetMapping("/kakaoLogin")
     @ApiOperation(value = "카카오 로그인")
     public Object kakaoLogin(@RequestParam("code") String code) {
-        String user = service.kakaoLogin(code);
-        System.out.println();
+        Long uid = service.kakaoLogin(code);
+        System.out.println(uid);
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(uid, HttpStatus.OK);
     }
 
     @PostMapping("/account/signup")
