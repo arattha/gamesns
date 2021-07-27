@@ -14,6 +14,7 @@ import Search from './components/home/search/Search.vue'
 import Writing from './components/home/writing/Writing.vue'
 import Alarm from './views/alarm/Alarm.vue'
 import UserPage from './views/user/UserPage.vue'
+import Re from './views/user/Re.vue'
 
 
 export default [
@@ -33,6 +34,11 @@ export default [
         path : '/main',
         name : 'Main',
         component : Main
+    },
+    {
+        path : '/re',
+        name : 'Re',
+        component : Re
     },
     {
         path : '/userpage',
