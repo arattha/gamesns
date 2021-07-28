@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
 
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.member.ImgRequest;
@@ -47,22 +48,6 @@ public class AccountController {
 
     }
 
-//    @GetMapping("/kakaoLogin2")
-//    @ApiOperation(value = "kakaoLogin")
-//    public Object klogin(@RequestParam String access_token) {
-//
-//        Long uid = new Long(service.getMemberInfo(access_token));
-//        Optional<Member> memberOpt = service.getMember(uid);
-//
-//        if(memberOpt.isPresent()) {
-//            // 회원정보가 있으면 회원정보와 함께 OK
-//            return new ResponseEntity<>(memberOpt.get(), HttpStatus.OK);
-//        } else {
-//            // 회원정보가 없으면 uid 와 함께 NOT_FOUND
-//            return new ResponseEntity<>(uid, HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     @GetMapping("/kakaoLogin")
     @ApiOperation(value = "카카오 로그인")
     public Object kakaoLogin(@RequestParam("code") String code) {
@@ -70,6 +55,46 @@ public class AccountController {
         System.out.println(uid);
 
         return new ResponseEntity<>(uid, HttpStatus.OK);
+    }
+
+    // 현재 로그인한 사용자의 정보 가져오기
+    @GetMapping("/info/me")
+    public Object getCurMemberInfo() {
+        final BasicResponse result = new BasicResponse();
+
+        // 비정상적으로 처리됬을때를 위한 반환값
+        result.status = false;
+        result.data = "failed";
+
+        Optional<Member> member = service.getCurMemberInfo();
+
+        if (member.isPresent()) {
+            result.status = true;
+            result.data = "success";
+            result.object = member.get();
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    // 원하는 nickname의 유저 정보 가져오기
+    @GetMapping("/info/{nickname}")
+    public Object getMemberInfo(@PathVariable("nickname") String nickname) {
+        final BasicResponse result = new BasicResponse();
+
+        // 비정상적으로 처리됬을때를 위한 반환값
+        result.status = false;
+        result.data = "failed";
+
+        Optional<Member> member = service.getMemberByNickname(nickname);
+
+        if (member.isPresent()) {
+            result.status = true;
+            result.data = "success";
+            result.object = member.get();
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/account/dupcheck")

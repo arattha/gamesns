@@ -5,9 +5,11 @@ import com.web.curation.model.OAuthToken;
 import com.web.curation.model.member.ImgRequest;
 import com.web.curation.model.member.Member;
 import com.web.curation.model.member.SignupRequest;
+import com.web.curation.util.SecurityUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,10 +37,23 @@ public class AccountService {
     }
 
     // uid 로 회원정보 가져오기
+    @Transactional(readOnly = true)
     public Optional<Member> getMember(String uid) {
 
         return memberDao.findMemberByUid(uid);
 
+    }
+
+    // 닉네임으로 회원정보 가져오기
+    @Transactional(readOnly = true)
+    public Optional<Member> getMemberByNickname(String nickname) {
+        return memberDao.findMemberByNickname(nickname);
+    }
+
+    // 현재 SecurituContext에 있는 유저 정보 가져오기
+    @Transactional(readOnly = true)
+    public Optional<Member> getCurMemberInfo() {
+        return memberDao.findMemberByUid(SecurityUtil.getCurrentMemberUid());
     }
 
     // 닉네임으로 회원 정보 조회(중복체크)
