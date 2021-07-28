@@ -57,6 +57,25 @@ public class AccountController {
         return new ResponseEntity<>(uid, HttpStatus.OK);
     }
 
+    // 현재 로그인을 요청한 사용자의 정보 가져오기
+    @GetMapping("/existUser/{code}")
+    public Object getCurMemberInfo(@PathVariable("code") String code) {
+        final BasicResponse result = new BasicResponse();
+
+        // 비정상적으로 처리됬을때를 위한 반환값
+        result.status = false;
+        result.data = "failed";
+
+        Optional<Member> member = service.getUserByCode(code);
+
+        if (member.isPresent()) {
+            result.status = true;
+            result.data = "success";
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     // 현재 로그인한 사용자의 정보 가져오기
     @GetMapping("/info/me")
     public Object getCurMemberInfo() {
@@ -78,26 +97,26 @@ public class AccountController {
     }
 
     // 원하는 nickname의 유저 정보 가져오기
-//    @GetMapping("/info/{nickname}")
-//    public Object getMemberInfo(@PathVariable("nickname") String nickname) {
-//        final BasicResponse result = new BasicResponse();
-//
-//        // 비정상적으로 처리됬을때를 위한 반환값
-//        result.status = false;
-//        result.data = "failed";
-//
-//        Optional<Member> member = service.getMemberByNickname(nickname);
-//
-//        if (member.isPresent()) {
-//            result.status = true;
-//            result.data = "success";
-//            result.object = member.get();
-//        }
-//
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+    @GetMapping("/info/{nickname}")
+    public Object getMemberInfo(@PathVariable("nickname") String nickname) {
+        final BasicResponse result = new BasicResponse();
 
-    @GetMapping("/account/dupcheck")
+        // 비정상적으로 처리됬을때를 위한 반환값
+        result.status = false;
+        result.data = "failed";
+
+        Optional<Member> member = service.getMemberByNickname(nickname);
+
+        if (member.isPresent()) {
+            result.status = true;
+            result.data = "success";
+            result.object = member.get();
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/dupcheck")
     @ApiOperation(value = "중복체크")
     public Object dupcheck(@RequestParam("nickname") String nickname) {
         System.out.println(nickname);

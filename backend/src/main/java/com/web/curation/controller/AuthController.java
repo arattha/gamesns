@@ -84,7 +84,7 @@ public class AuthController {
 
         try {
             Optional<TokenDto> getToken = authService.login(uid);
-
+            System.out.println("Login Token " + getToken.get());
             if (getToken.isPresent()) {
                 result.status = true;
                 result.data = "success";
@@ -130,7 +130,6 @@ public class AuthController {
         }
 
         if (refreshToken != null && refreshToken.length() > 0) {
-            System.out.println("??");
             Optional<TokenDto> getToken = authService.reissuance(accessToken, refreshToken);
 
             if (getToken.isPresent()) {

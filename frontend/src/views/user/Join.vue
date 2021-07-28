@@ -6,7 +6,7 @@
  -->
 <template>
   <div class="join-body-container">
-    <div class="join-container" >
+    <div class="join-container">
       <div class="login-box">
         <div class="logo-box">
           <img src="@/assets/images/logo.png" alt="" style="width: 90%; height: auto;" />
@@ -49,6 +49,8 @@
 
 <script>
 import UserApi from '../../api/UserApi';
+import http from '@/util/http-common';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   data: () => {
@@ -60,6 +62,8 @@ export default {
       },
       isSubmit: false,
       code: '',
+      uid: '',
+      accessToken: '',
     };
   },
   created() {
@@ -71,20 +75,73 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['setAccessToken', 'setUid']),
+
     create() {
       this.code = this.$route.query.code;
-
-      console.log('ggg');
-      console.log(this.code);
 
       UserApi.requestkakaoLogin(
         this.code,
         (res) => {
+          console.log(res);
+          this.uid = res;
+          this.isUser();
         },
         (error) => {
+          console.log(error);
+          alert('잘못된 접근입니다!');
+          this.$router.push('/');
         }
       );
     },
+
+    isUser() {
+      UserApi.requestExistUser(
+        this.uid,
+        (res) => {
+          console.log(res);
+
+          if (res.status) {
+            this.login();
+          }
+        },
+        (error) => {
+          console.log(error);
+          alert('잘못된 접근입니다!!');
+          this.$router.push('/');
+        }
+      );
+    },
+
+    login() {
+      UserApi.requestLogin(
+        this.uid,
+        (res) => {
+          console.log(res);
+          if (res.status) {
+            this.accessToken = res.object;
+            console.log(this.accessToken);
+
+            // 기존에 만든 axios create를 이용해야한다!
+            http.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
+
+            this.setUid(this.uid);
+            this.setAccessToken(this.accessToken);
+            // axios.defaults.headers.common["Authorization"] = `Bearer ${this.accessToken}`;
+
+            this.$router.push('/main');
+          } else {
+            alert('로그인 실패 다시 시도해주세요.');
+            this.$router.push('/');
+          }
+        },
+        (error) => {
+          alert('잘못된 접근입니다?');
+          this.$router.push('/');
+        }
+      );
+    },
+
     checkForm() {
       // nickname 중복 확인 필요
       if (this.nickName.length == 0) this.error.nickName = '닉네임은 한 글자 이상이어야 합니다.';
@@ -110,9 +167,14 @@ export default {
         UserApi.requestSignUp(
           data,
           (res) => {
-            this.isSubmit = true;
-            // feed/main으로 가야함
-            this.$router.push('/user/joinSC');
+            if (res.status) {
+              alert('회원가입 완료!');
+              this.isSubmit = true;
+              this.login();
+            } else {
+              alert('회원가입 실패 다시 시도해주세요.');
+              // this.$router.push('/');
+            }
           },
           (error) => {
             if (error) this.$router.push('/error');
@@ -126,23 +188,21 @@ export default {
       }
     },
     dupCheck() {
-      if(!this.error.nickName) {
-        
+      if (!this.error.nickName) {
         UserApi.requestDupCheck(
-          this.nickName
-          ,() => { 
+          this.nickName,
+          () => {
             this.isDup = true;
-            this.checkForm(); 
-          }
-          ,() => { }
+            this.checkForm();
+          },
+          () => {}
         );
-
       }
-    }
+    },
   },
 };
 </script>
 
 <style>
-    @import "../../components/css/user/join.css";
+@import '../../components/css/user/join.css';
 </style>

@@ -56,6 +56,12 @@ public class AccountService {
         return memberDao.findMemberByUid(SecurityUtil.getCurrentMemberUid());
     }
 
+    @Transactional
+    public Optional<Member> getUserByCode(String code) {
+        return memberDao.findByUid(code);
+    }
+
+    @Transactional
     // 닉네임으로 회원 정보 조회(중복체크)
     public Optional<Member> getUserByNickname(String nickname) {
 

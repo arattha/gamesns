@@ -51,6 +51,9 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Request Header에서 Access Token을 꺼낸다.
         String jwt = resolveToken(request);
+
+        System.out.println("request header token : " + jwt);
+        System.out.println(request.toString());
         
         // validateToken으로 토큰 유효성 검사
         // 정상 토큰이면 해당 토큰으로 Authentication 을 가져와서 SecurityContext에 저장
