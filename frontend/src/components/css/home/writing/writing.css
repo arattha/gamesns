@@ -53,13 +53,13 @@
     margin-top: 30px;
 }
 
-.input-file-button{
+.input-file-button, .finish-button{
     padding: 6px 10px;
     background-color:#FF6600;
     border-radius: 4px;
     color: white;
     cursor: pointer;
-    width: 180px;
+    width: 160px;
     text-align: center;
     position: relative;
     left: 5%;
@@ -68,19 +68,9 @@
     font-weight:bold;
 }
 .finish-button {
-    /* font-family: "DM Sans", sans-serif; */
-    padding: 6px 10px;
     background-color:#0277bd;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    width: 180px;
-    text-align: center;
-    position: relative;
+    left: 0%;
     right: 5%;
-    font-size: 16px;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-weight:bold;
 }
 
 .input-file-button:hover, .finish-button:hover{
