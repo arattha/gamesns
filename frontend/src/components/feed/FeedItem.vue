@@ -9,7 +9,7 @@
                 <img :style="{'background-image': 'url('+defaultProfile+')'}" alt="">
             </div>
             <div class="media-body">
-                <p class="m-0 name">심찬인</p>
+                <p class="m-0 name">{{boardItem.uid}}</p>
                 <p class="m-0 time">10 hours ago</p>
             </div><!--/ media -->
         </div><!--/ cardbox-heading -->

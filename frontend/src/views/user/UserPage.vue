@@ -166,7 +166,7 @@ export default {
 
             if(scrollLocation + windowHeight >= fullHeight){
                 console.log('끝')
-                this.getUserBoardItems();
+                this.getUserBoardItems(this.uid);
             }
         },
         modalShow(item){

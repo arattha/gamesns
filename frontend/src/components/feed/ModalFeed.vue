@@ -7,7 +7,7 @@
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="user-name">
-              <button>SSAFY</button>
+              <button>{{boardItem.nickname}}</button>
             </div>
             <div class="user-writing-time">
               <h5>12minutes ago</h5>
@@ -39,36 +39,6 @@
               <span class="date sub-text">on December 5th, 2016</span>
             </div>
           </li>
-          <li>
-            <div class="comment-img">
-              <img src="http://lorempixel.com/50/50/people/6" style="margin:0px">
-            </div>
-            <div class="comment-text">
-              <strong><a href="">Jane Doe</a></strong>
-              <p>Hello this is a test comment.</p> 
-              <span class="date sub-text">on December 5th, 2016</span>
-            </div>
-          </li>
-          <hr>
-          <li>
-            <div class="comment-img">
-              <img src="http://lorempixel.com/50/50/people/7" style="margin:0px">
-            </div>
-            <div class="comment-text">
-              <strong><a href="">Jane Doe</a></strong>
-              <p>Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span>on December 5th, 2016</span>
-            </div>
-          </li>
-          <hr>
-          <li>
-            <div class="comment-img">
-              <img src="http://lorempixel.com/50/50/people/9" style="margin:0px">
-            </div>
-            <div class="comment-text">
-              <strong><a href="">Jane Doe</a></strong>
-              <p class="">Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
-            </div>
-          </li>
         </ul>
       </div>
     </div>
@@ -93,8 +63,6 @@ export default {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
-
-
     this.getReplyList({ bid : this.boardItem.bid,
                         lastRid : 0
                       });
@@ -106,7 +74,7 @@ export default {
     ...mapActions(["getReplyList"]),
   },
   destroyed(){
-
+    this.$store.state.replyList = [];
   },
 }
 </script>
