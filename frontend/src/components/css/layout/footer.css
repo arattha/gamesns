@@ -18,6 +18,7 @@
     padding-top: 3px;
     width:100%;
     background-color: #ffe9c6;
+    z-index: 9999;
   }
   
   #navigation-bar ul {
@@ -73,6 +74,9 @@
     display: block;
   }
   
+  /* #navigation-bar {
+    position: fixed;
+  } */
   /* form {
     width: 90%;
     margin: 10px auto;
