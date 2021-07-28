@@ -4,7 +4,7 @@
   <div class="100hv" style="background-color: #FDF5E6;">
   <div class="feed newsfeed">
     <div class="" @scroll.passive="handleScroll">
-      <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false" :boardItem="temp"/>
+      <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
       <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
         <FeedItem :boardItem ="boardItem"/>
       </div>
