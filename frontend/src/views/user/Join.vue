@@ -102,6 +102,7 @@ export default {
           console.log(res);
 
           if (res.status) {
+            this.nickname = res.object;
             this.login();
           }
         },
@@ -126,7 +127,7 @@ export default {
             http.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
 
             this.setUid(this.uid);
-            this.setNickname(this.nickname)
+            this.setNickname(this.nickname);
             this.setAccessToken(this.accessToken);
             // axios.defaults.headers.common["Authorization"] = `Bearer ${this.accessToken}`;
 

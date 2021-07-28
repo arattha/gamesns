@@ -15,20 +15,11 @@ public class AlarmController {
 
     // member 별 팔로우 알람을 위한 Map
     Map<String, Set<String>> FollowAlarm = new HashMap<String, Set<String>>();
-//        put("조용일", new HashSet<>(Arrays.asList("최광진", "조성표", "3")));
-//
-//    }};
 
     @MessageMapping("/first")
     @SendTo("/firstSend")
-    public String[] first(){
-        System.out.println("hihihi");
-        Set<String> u = new HashSet<>();
-        u.add("조성표");
-        u.add("최광진");
-        FollowAlarm.put("조용일", u);
-        String[] result = new String[FollowAlarm.get("조용일").size()];
-        return FollowAlarm.get("조용일").toArray(result);
+    public Map<String, Set<String>> first(){
+        return FollowAlarm;
     }
 
     // /receive를 메시지를 받을 endpoint로 설정합니다.
@@ -39,23 +30,23 @@ public class AlarmController {
 
     // SocketHandler는 1) /receive에서 메시지를 받고, /send로 메시지를 보내줍니다.
     // 정의한 SocketVO를 1) 인자값, 2) 반환값으로 사용합니다.
-    public String[] SocketHandler(SocketVO socketVO) {
+    public Map<String, Set<String>> SocketHandler(SocketVO socketVO) {
 
         System.out.println(socketVO);
 
         String fromMember = socketVO.getMemberName();
         String toMember = socketVO.getFollowingName();
-        toMember = "조용일";
+
         System.out.println("from : " + fromMember + ", to : " + toMember);
-        // FollowAlarm update
-        updateFollow(fromMember, toMember);
+
+        if(!fromMember.equals("")) {
+            // FollowAlarm update
+            updateFollow(fromMember, toMember);
+        }
 
         System.out.println(FollowAlarm);
 
-        // 반환
-        String[] result = new String[FollowAlarm.get(toMember).size()];
-
-        return FollowAlarm.get(toMember).toArray(result);
+        return FollowAlarm;
     }
 
     private void updateFollow(String fromMember, String toMember) {

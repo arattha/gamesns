@@ -151,6 +151,7 @@ export default {
                     memberName: this.nickname,
                     followingName: this.userInfo.nickname
                 };
+                console.log("userpage", msg);
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
             }
 
