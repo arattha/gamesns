@@ -16,11 +16,14 @@
 
         <!-- 이미지나 내용 -->
         <div class="cardbox-item">
+          <image-slider v-if="img_src.length > 0">
+            <p><a @click="prev">Previous</a>||<a @click="next">Next</a></p>
           <!-- 이미지 -->
-          <div class="ffimg" style="padding: 0px;">
+          <div class="ffimg" style="padding: 0px;" v-for="number in [currentNumber]" v-bind:key="number" transition="fade">
             <img class="img-fluid" alt=""
-              v-for="(img,index) in img_src" :key="index" :src="img">
+              :src="img_src[Math.abs(currentNumber) % img_src.length]">
           </div>
+          </image-slider>
           <!-- 내용 -->
           <div>{{boardItem.contents}}</div>
         </div><!--/ cardbox-item -->
@@ -57,11 +60,20 @@ export default {
       defaultImage,
       defaultProfile,
       img_src:[],
+      currentNumber: 0
     };
   },created() {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
+  },
+  methods: {
+    next: function() {
+      this.currentNumber += 1
+    },
+    prev: function() {
+      this.currentNumber -= 1
+    }
   },
   destroyed(){
 
