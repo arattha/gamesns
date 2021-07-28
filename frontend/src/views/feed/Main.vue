@@ -3,7 +3,7 @@
     <Header/>
     <div class="wrapB" @scroll.passive="handleScroll">
       <h1>뉴스피드</h1>
-      <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false" :boardItem="temp"/>
+      <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
       <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
         <FeedItem :boardItem ="boardItem"/>
       </div>
@@ -65,6 +65,12 @@ export default {
       this.isModalViewed = !this.isModalViewed;
       console.log(this.isModalViewed);
       this.temp = item;
+      document.body.style.overflow = 'hidden';
+    },
+    modalClose(){
+      this.isModalViewed = !this.isModalViewed;
+      this.temp = null;
+      document.body.style.overflow = 'scroll';
     }
   },
   computed: {
