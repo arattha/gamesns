@@ -45,14 +45,13 @@ export default {
   methods: {
     ...mapActions(["getBoardItems"]),
     // 무한 스크롤 정의
-    handleScroll(e) {
+    handleScroll() {
 
       let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
       let windowHeight = window.innerHeight; // 스크린 창
       let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
 
       if(scrollLocation + windowHeight >= fullHeight){
-        console.log('끝')
         this.getBoardItems();
       }
     },

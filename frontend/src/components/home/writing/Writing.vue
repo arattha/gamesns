@@ -85,9 +85,15 @@ export default {
         return {
             // dataitems: ['자유게시판', '신고합니다', '빠르게 모여라'],
             //formData:new FormData(),
+            uid: '',
+            nickname: '',
             contents:"",
             files:[],
         }
+    },
+    created(){
+        this.uid = this.$store.state.uid;
+        this.nickname = this.$store.state.nickname;
     },
     methods:{
         ...mapActions(["addBoard"]),
@@ -114,7 +120,7 @@ export default {
 
             let formData = new FormData();
 
-            formData.append('uid',1);
+            formData.append('uid', this.uid);
             formData.append('content',this.contents);
             
             this.files.forEach(element => {
@@ -122,7 +128,7 @@ export default {
             });
 
             this.addBoard(formData);
-            this.$router.push('/main');
+            //this.$router.push('/main');
 
         },
     }

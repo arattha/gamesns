@@ -4,6 +4,7 @@ import getters from './getters';
 import http from '@/util/http-common';
 import actions from './actions';
 import mutations from './mutations';
+import { router } from '../main';
 
 Vue.use(Vuex);
 
@@ -70,43 +71,31 @@ export default new Vuex.Store({
     getBoardItems(context, data) {
       if (context.state.boardItems.length == 0) {
         data = {
-          uid: 0,
+          uid: context.state.uid,
         };
       } else {
         data = {
-          uid: 0,
+          uid: context.state.uid,
           bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid),
         };
       }
-      console.log(data);
-      console.log('여기');
-      console.log(context.state.accessToken);
       http
         .get(`/board`, { params: data })
         .then(({ data }) => {
-          console.log(data);
           context.commit('GET_BOARD_ITEMS', data.object);
-          console.log(context.state.boardItems);
         })
         .catch(() => {
           alert('에러가 발생했습니다.');
         });
     },
-    getUserBoardItems(context) {
+    getUserBoardItems(context, targerUid) {
       let data = {
-        uid: 1,
+        uid: targerUid,
       };
-      //uid 또는 닉네임으로 구현되면 주석으로 변경
-      /*
-                        let data = {
-                            nickname : nick
-                        }
-                        */
       http
         .get(`/board/user`, { params: data })
         .then(({ data }) => {
           context.commit('GET_BOARD_ITEMS', data.object);
-          console.log(context.state.boardItems);
         })
         .catch(() => {
           alert('에러가 발생했습니다.');
@@ -125,7 +114,6 @@ export default new Vuex.Store({
         });
     },
     addBoard({ commit }, formData) {
-      commit;
       http
         .post(`/board`, formData, {
           headers: {
@@ -134,13 +122,14 @@ export default new Vuex.Store({
         })
         .then(({ data }) => {
           console.log(data);
+          alert('글이 작성되었습니다.');
         })
+        .then(() => router.push("/main"))
         .catch(() => {
           alert('에러가 발생했습니다.');
         });
     },
     searchUser({ commit }, val) {
-      console.log(val);
       let data = {
         nickname: val,
       };
