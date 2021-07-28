@@ -32,12 +32,14 @@ export default {
     data () { 
       return {
         uid: '',
+        nickname:'',
         following: [],
       }
     },
     created() {
       this.following = this.$route.params.following;
       this.uid = this.$store.state.uid;
+      this.nickname = this.$store.state.nickname;
     },
     methods:{
       goUserPage(u){
@@ -45,7 +47,7 @@ export default {
       },
       deleteFollow(u){
         let data = {
-          fromNickname: this.uid,
+          fromNickname: this.nickname,
           toNickname: u,
           type: true
         }
