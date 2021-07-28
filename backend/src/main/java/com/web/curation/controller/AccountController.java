@@ -40,13 +40,13 @@ public class AccountController {
     @Autowired
     AccountService service;
 
-    @GetMapping("/kakaoLogout")
-    @ApiOperation(value = "kakaoLogout")
-    public void klogout(@RequestParam String access_token) {
-
-        service.kakaoLogout(access_token);
-
-    }
+//    @GetMapping("/kakaoLogout")
+//    @ApiOperation(value = "kakaoLogout")
+//    public void klogout(@RequestParam String access_token) {
+//
+//        service.kakaoLogout(access_token);
+//
+//    }
 
     @GetMapping("/kakaoLogin")
     @ApiOperation(value = "카카오 로그인")
@@ -55,6 +55,25 @@ public class AccountController {
         System.out.println(uid);
 
         return new ResponseEntity<>(uid, HttpStatus.OK);
+    }
+
+    // 현재 로그인을 요청한 사용자의 정보 가져오기
+    @GetMapping("/existUser/{code}")
+    public Object getCurMemberInfo(@PathVariable("code") String code) {
+        final BasicResponse result = new BasicResponse();
+
+        // 비정상적으로 처리됬을때를 위한 반환값
+        result.status = false;
+        result.data = "failed";
+
+        Optional<Member> member = service.getUserByCode(code);
+
+        if (member.isPresent()) {
+            result.status = true;
+            result.data = "success";
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     // 현재 로그인한 사용자의 정보 가져오기
@@ -97,7 +116,7 @@ public class AccountController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/account/dupcheck")
+    @GetMapping("/dupcheck")
     @ApiOperation(value = "중복체크")
     public Object dupcheck(@RequestParam("nickname") String nickname) {
         System.out.println(nickname);
@@ -109,19 +128,19 @@ public class AccountController {
         }
     }
 
-    @PostMapping("/account/signup")
-    @ApiOperation(value="회원가입")
-    public Object signup(@RequestBody SignupRequest request) {
-
-        if(service.addUser(request)) {
-            // 가입 성공
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        } else {
-            // 에러
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
-
-    }
+//    @PostMapping("/account/signup")
+//    @ApiOperation(value="회원가입")
+//    public Object signup(@RequestBody SignupRequest request) {
+//
+//        if(service.addUser(request)) {
+//            // 가입 성공
+//            return new ResponseEntity<>(null, HttpStatus.OK);
+//        } else {
+//            // 에러
+//            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+//        }
+//
+//    }
 
     // myPage 에서 회원 정보 수정
     // 처음에 기본이미지로 저장된 이미지를 수정

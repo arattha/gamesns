@@ -30,7 +30,7 @@ public class AccountService {
     public String kakaoLogin(String code) {
         OAuthToken oAuthToken = oAuth2Kakao.getAccessToken(code);
 
-        System.out.println(oAuthToken.getAccess_token());
+        System.out.println("KAKAO oauth Token : " + oAuthToken.getAccess_token());
 
         String uid = oAuth2Kakao.getMemberByAccessToken(oAuthToken.getAccess_token());
         return uid;
@@ -56,6 +56,12 @@ public class AccountService {
         return memberDao.findMemberByUid(SecurityUtil.getCurrentMemberUid());
     }
 
+    @Transactional
+    public Optional<Member> getUserByCode(String code) {
+        return memberDao.findByUid(code);
+    }
+
+    @Transactional
     // 닉네임으로 회원 정보 조회(중복체크)
     public Optional<Member> getUserByNickname(String nickname) {
 

@@ -79,6 +79,8 @@ public class OAuth2Kakao {
             e.printStackTrace();
         }
 
-        return parser.getString("id");
+        System.out.println("KAKAO user info parser : " + parser);
+
+        return String.valueOf(parser.getBigInteger("id"));
     }
 }
