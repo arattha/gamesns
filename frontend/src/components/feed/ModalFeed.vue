@@ -29,7 +29,7 @@
         <ul class="img-comment-list">
           <li>
             <div class="comment-img">
-              <img src="http://lorempixel.com/50/50/people/6">
+              <img src="http://lorempixel.com/50/50/people/6" style="margin:0px">
             </div>
             <div class="comment-text">
               <strong><a href="">Jane Doe</a></strong>
@@ -39,7 +39,7 @@
           <hr>
           <li>
             <div class="comment-img">
-              <img src="http://lorempixel.com/50/50/people/7">
+              <img src="http://lorempixel.com/50/50/people/7" style="margin:0px">
             </div>
             <div class="comment-text">
               <strong><a href="">Jane Doe</a></strong>
@@ -49,7 +49,7 @@
           <hr>
           <li>
             <div class="comment-img">
-              <img src="http://lorempixel.com/50/50/people/9">
+              <img src="http://lorempixel.com/50/50/people/9" style="margin:0px">
             </div>
             <div class="comment-text">
               <strong><a href="">Jane Doe</a></strong>
@@ -142,11 +142,10 @@ export default {
     height: 35px;
     width: 35px;
 }
-.user-info, .content {
-    width: calc(100% - 50px);
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-right: 0px;
+.feed-item .content {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 15px;
 }
 .user-info {
   display: flex;
@@ -178,12 +177,7 @@ button {
 }
 
 .img-comment-list .comment-img {
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  /* margin: 15px; */
-  /* width: 42px;
-  height: 42px; */
+  margin-right:15px;
 }
 
 .img-comment-list img {
@@ -196,7 +190,6 @@ button {
 }
 .modal-container .img-comment-list li {
     margin:0;
-    margin-top:10px;
 }
 
 .modal-container .img-comment-list li > div {
