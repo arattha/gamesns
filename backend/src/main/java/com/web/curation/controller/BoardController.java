@@ -54,11 +54,11 @@ public class BoardController {
     
     @GetMapping("/board/user")
     @ApiOperation(value = "유저페이지 노출용 특정 유저 한명의 피드")
-    public Object bEqualList(@RequestParam(required = true) final String uid){
+    public Object bEqualList(@RequestParam(required = true) final String uid, @RequestParam(required = false) final String bid){
 		final BasicResponse result = new BasicResponse();
-		
+		System.out.println(uid + " " + bid);
 		try {
-			result.object = boardService.bEqualList(uid);
+			result.object = boardService.bEqualList(uid,bid);
 			result.status = true;
 	        result.data = "success";
 		} catch (Exception e) {

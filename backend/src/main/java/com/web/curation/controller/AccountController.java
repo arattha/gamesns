@@ -142,7 +142,7 @@ public class AccountController {
     	Optional<Member> member = service.getMember(uid);
     	
     	Resource resource =  new FileSystemResource(member.get().getPimg());
-		
+    	
 		if(!resource.exists()) {
 			final BasicResponse result = new BasicResponse();
 			result.status = true;

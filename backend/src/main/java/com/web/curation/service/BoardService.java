@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,7 +39,7 @@ public class BoardService {
 		else longbid = Long.parseLong(bid);//있으면 해당 bid 밑으로
 
 		Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
-
+		
 		List<Board> boardList;
 
 		if(followingDao.findFollowingByFromId(uid).size() > 0) {//내가 follow 하는 사람의 리스트
@@ -57,11 +58,20 @@ public class BoardService {
 
 	}
 	
-	public Object bEqualList(String uid){
+	public Object bEqualList(String uid, String bid){
 		
-		Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
-
-		List<Board> boardList = boardDao.findBoardByUid(uid, paging);
+		long longbid;
+		if(bid == null) longbid = Long.MAX_VALUE;//없으면 최대값
+		else longbid = Long.parseLong(bid);//있으면 해당 bid 밑으로
+		
+		
+		//Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
+		Pageable pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "createDate");
+		List<Board> boardList = boardDao.findBoardByUidAndBidLessThan(uid, longbid, pageRequest);
+		
+		for (Board b : boardList) {
+			System.out.println(b);
+		}
 		
 		List<ResponseBoard> resboard = new ArrayList<>();
 
