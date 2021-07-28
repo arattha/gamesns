@@ -71,13 +71,12 @@ import Footer from '@/components/layout/footer/Footer.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
 import ModalFeed from '../../components/feed/ModalFeed.vue'
 import UserApi from '../../api/UserApi'
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
 import { mapActions , mapGetters } from "vuex";
 
 export default {
 
     name:'UserPage',
+    props:["stompClient"],
     components: {
         Header,
         Footer,
@@ -100,7 +99,6 @@ export default {
     },
     created() {
         //this.getUserBoardItems(this.$router.param.nickname);
-        this.connect();
         this.getUserBoardItems();
         this.userInfo = this.$route.params.suggest;
         window.addEventListener('scroll', this.handleScroll);
@@ -140,31 +138,13 @@ export default {
         showFollower() {
             this.$router.push({name:"Follower", params: {follower : this.userFollower, uid: this.userInfo.uid}});
         },
-        connect() {
-            const serverURL = "http://localhost:8080/alarm"
-            let socket = new SockJS(serverURL);
-            this.stompClient = Stomp.over(socket);
-            console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
-            this.stompClient.connect(
-                {},
-                frame => {
-                // 소켓 연결 성공
-                this.connected = true;
-                console.log('소켓 연결 성공', frame);
-                
-                },
-                error => {
-                // 소켓 연결 실패
-                console.log('소켓 연결 실패', error);
-                this.connected = false;
-                }
-            );        
-        },
         send() {
-            
+            console.log("userInfo", this.userInfo);
+            console.log("stomp",this.stompClient);
             if (this.stompClient && this.stompClient.connected) {
+                console.log("userPage is Connected")
                 const msg = {
-                    userName: "yourname",
+                    memberName: this.userInfo.nickname,
                     followingName: "조성표"
                 };
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
