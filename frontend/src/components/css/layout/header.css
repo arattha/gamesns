@@ -30,6 +30,8 @@ position: fixed;
 }
 
 .main-container {
+    /* display: block; */
+    position: fixed;
     z-index: 9999;
     height: 50px;
 }
@@ -57,15 +59,21 @@ position: fixed;
 .logo {
     position: absolute;
     display: inline;
+    /* padding: 10px; */
     margin: 10px 0;
     left: 1%;
     /* transform: translate(-50%); */
 }
 
+.logo img {
+    width: 30vw;
+    object-fit: contain;
+}
+
 .mypage-btn {
     display: inline;
     position: absolute;
-    left: 92%;
+    left: 90%;
     text-align: center;
     color: #ff8f00;
 }
@@ -73,7 +81,7 @@ position: fixed;
 .alarm-btn {
     display: inline;
     position: absolute;
-    left: 85%;
+    left: 80%;
     text-align: center;
     color: #ff8f00;
 }

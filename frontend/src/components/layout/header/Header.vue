@@ -1,9 +1,10 @@
 <template>
+    <div style="margin-bottom: 50px">
     <div class="main-container" style="padding: 0px;">
         <nav>
             <ul class="header" style="padding: 25px 0px 25px 0px">
                 <div class="logo">
-                    <img @click="goToMain" src="@/assets/images/logo.png" alt="" style="width:156px">
+                    <img @click="goToMain" src="@/assets/images/logo2.png" alt="">
                 </div>
                 <div class="alarm-btn">
                     <div @click="goAlarm"><i class="fas fa-bell"></i></div>
@@ -13,6 +14,7 @@
                 </div>
             </ul>
         </nav>
+    </div>
     </div>
 </template>
 

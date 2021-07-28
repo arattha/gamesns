@@ -1,7 +1,8 @@
 <template>
+<div>
+  <Header/>
   <div class="100hv" style="background-color: #FDF5E6;">
-  <div class="feed newsfeed" >
-    <Header/>
+  <div class="feed newsfeed">
     <div class="" @scroll.passive="handleScroll">
       <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false" :boardItem="temp"/>
       <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
@@ -11,6 +12,7 @@
     <Footer/>
   </div>
   </div>
+</div>
 </template>
 
 <script>
