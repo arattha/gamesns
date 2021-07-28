@@ -41,11 +41,11 @@ export default new Vuex.Store({
         getBoardItems(context, data) {
             if (context.state.boardItems.length == 0) {
                 data = {
-                    uid: 0
+                    uid: 1
                 };
             } else {
                 data = {
-                    uid: 0,
+                    uid: 1,
                     bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid)
                 };
             }
@@ -62,9 +62,17 @@ export default new Vuex.Store({
                 });
         },
         getUserBoardItems(context) {
-            let data = {
-                    uid: 1  
+            let data;
+            if (context.state.boardItems.length == 0) {
+                data = {
+                    uid: 1
                 };
+            } else {
+                data = {
+                    uid: 1,
+                    bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid)
+                };
+            }
             //uid 또는 닉네임으로 구현되면 주석으로 변경
             /*
             let data = {
@@ -104,6 +112,7 @@ export default new Vuex.Store({
                 )
                 .then(({ data }) => {
                     console.log(data);
+                    alert('작성되었습니다.');
                 })
                 .catch(() => {
                     alert('에러가 발생했습니다.');

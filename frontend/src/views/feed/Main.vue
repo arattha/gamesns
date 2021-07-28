@@ -66,6 +66,12 @@ export default {
       this.isModalViewed = !this.isModalViewed;
       console.log(this.isModalViewed);
       this.temp = item;
+      document.body.style.overflow = 'hidden';
+    },
+    modalClose(){
+      this.isModalViewed = !this.isModalViewed;
+      this.temp = null;
+      document.body.style.overflow = 'scroll';
     }
   },
   computed: {

@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 		<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
 	</div>
-      <div style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
+      <div @scroll.passive="handleScroll" style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
@@ -49,7 +49,8 @@
 						</div>
 					</div>
         <div class="feeditem-box">
-            <div v-for="(boardItem,index) in boardItems" :key="index">
+            <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
+            <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
                 <FeedItem :boardItem ="boardItem"/>
             </div>
         </div>
@@ -68,21 +69,21 @@ import Footer from '@/components/layout/footer/Footer.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
+import ModalFeed from '../../components/feed/ModalFeed.vue'
 import UserApi from '../../api/UserApi'
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
 import { mapActions , mapGetters } from "vuex";
 
 export default {
 
     name:'UserPage',
+    props:["stompClient"],
     components: {
         Header,
         Footer,
         // Badge,
         // Manner,
         FeedItem,
-
+        ModalFeed,
     },
     data() {
         return {
@@ -91,14 +92,16 @@ export default {
             userInfo: null,
             userFollower: [],
             userFollowing: [],
+            isModalViewed: false,
+            temp: null,
             isFollow: true,
         }
     },
     created() {
         //this.getUserBoardItems(this.$router.param.nickname);
-        this.connect();
         this.getUserBoardItems();
         this.userInfo = this.$route.params.suggest;
+        window.addEventListener('scroll', this.handleScroll);
         // console.log("userinfo",this.userInfo);
         UserApi
             .requestFollowing({from:this.userInfo.uid}
@@ -135,31 +138,13 @@ export default {
         showFollower() {
             this.$router.push({name:"Follower", params: {follower : this.userFollower, uid: this.userInfo.uid}});
         },
-        connect() {
-            const serverURL = "http://localhost:8080/alarm"
-            let socket = new SockJS(serverURL);
-            this.stompClient = Stomp.over(socket);
-            console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
-            this.stompClient.connect(
-                {},
-                frame => {
-                // 소켓 연결 성공
-                this.connected = true;
-                console.log('소켓 연결 성공', frame);
-                
-                },
-                error => {
-                // 소켓 연결 실패
-                console.log('소켓 연결 실패', error);
-                this.connected = false;
-                }
-            );        
-        },
         send() {
-            
+            console.log("userInfo", this.userInfo);
+            console.log("stomp",this.stompClient);
             if (this.stompClient && this.stompClient.connected) {
+                console.log("userPage is Connected")
                 const msg = {
-                    userName: "yourname",
+                    memberName: this.userInfo.nickname,
                     followingName: "조성표"
                 };
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
@@ -168,9 +153,33 @@ export default {
             // 팔로우 버튼 '팔로잉' 으로 변환
 
         },
+        handleScroll(e) {
+
+            let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
+            let windowHeight = window.innerHeight; // 스크린 창
+            let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
+            //console.log(document.documentElement.scrollTop);
+
+            if(scrollLocation + windowHeight >= fullHeight){
+                console.log('끝')
+                this.getUserBoardItems();
+            }
+        },
+        modalShow(item){
+            this.isModalViewed = !this.isModalViewed;
+            console.log(this.isModalViewed);
+            this.temp = item;
+            document.body.style.overflow = 'hidden';
+        },
+        modalClose(){
+            this.isModalViewed = !this.isModalViewed;
+            this.temp = null;
+            document.body.style.overflow = 'scroll';
+        }
     },
     destroyed(){
         this.$store.state.boardItems = [];
+        window.removeEventListener('scroll', this.handleScroll);
     }
 }
 </script>

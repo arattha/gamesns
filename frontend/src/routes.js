@@ -51,12 +51,12 @@ export default [
         component: MyEdit
     },
     {
-        path : '/mypage/following',
+        path : '/following',
         name : 'Following',
         component: Following
     },
     {
-        path : '/mypage/follower',
+        path : '/follower',
         name : 'Follower',
         component: Follower
     },

@@ -45,8 +45,8 @@ public class AlarmController {
 
         String fromMember = socketVO.getMemberName();
         String toMember = socketVO.getFollowingName();
-
         toMember = "조용일";
+        System.out.println("from : " + fromMember + ", to : " + toMember);
         // FollowAlarm update
         updateFollow(fromMember, toMember);
 
