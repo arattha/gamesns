@@ -1,17 +1,24 @@
 <template>
-    <div>
+    <div class="alarm-container">
         <Header/>
         <div class="form">
             <h5 class="title">알림 - {{recvList.length}}개</h5>
             <div v-if="recvList.length > 0">
                 <li class="list" v-for="(user, index) in recvList" :key="index">
-                    <div>
-                        <p>{{user}} 님이 팔로우를 신청하셨습니다.</p>
-                        <b-button variant="success" @click="go(user, 1)">수락</b-button>
-                        <b-button variant="danger" @click="go(user, 0)">거절</b-button>
-                    </div>
+                  <div class="alarm-comment-img">
+                    <img src="http://lorempixel.com/50/50/people/9" style="margin:0px; border-radius:50%;">
+                    <!-- 임의의 이미지가 들어가는거라, user의 프로필사진이 나오게 해야 함. -->
+                  </div>
+                  <span class="fol-comment">
+                    <div style="margin:0">{{user}} 님이 팔로우를 신청하셨습니다.</div>
+                  </span>
+                  <button class="agree-btn" @click="go(user, 1)">수락</button>
+                  <button class="deny-btn" @click="go(user, 0)">거절</button>
                 </li>
             </div>
+        </div>
+        <div>
+          <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
         </div>
         <Footer/>
     </div>
