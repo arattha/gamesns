@@ -148,8 +148,8 @@ export default {
             if (this.stompClient && this.stompClient.connected) {
                 console.log("userPage is Connected")
                 const msg = {
-                    memberName: this.userInfo.nickname,
-                    followingName: this.nickname
+                    memberName: this.nickname,
+                    followingName: this.userInfo.nickname
                 };
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
             }
