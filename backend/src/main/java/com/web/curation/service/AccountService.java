@@ -30,7 +30,7 @@ public class AccountService {
     public String kakaoLogin(String code) {
         OAuthToken oAuthToken = oAuth2Kakao.getAccessToken(code);
 
-        System.out.println(oAuthToken.getAccess_token());
+        System.out.println("KAKAO oauth Token : " + oAuthToken.getAccess_token());
 
         String uid = oAuth2Kakao.getMemberByAccessToken(oAuthToken.getAccess_token());
         return uid;
