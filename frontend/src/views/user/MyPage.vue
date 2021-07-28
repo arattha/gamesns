@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 		<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
 	</div>
-        <div style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
+        <div @scroll.passive="handleScroll" style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
@@ -41,15 +41,16 @@
             
         </div>
         <div class="card-footer">
-						<div class="feed drop-in-underline">
+						<div class="myfeed drop-in-underline">
 							<i class="fas fa-archive"></i>
 						</div>
-						<div class="feed drop-in-underline">
+						<div class="myfeed drop-in-underline">
 							<i class="far fa-smile"></i>
 						</div>
 					</div>
         <div class="feeditem-box">
-            <div v-for="(boardItem,index) in boardItems" :key="index">
+            <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
+            <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
                 <FeedItem :boardItem ="boardItem"/>
             </div>
         </div>
@@ -65,6 +66,7 @@
 <script>
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
+import ModalFeed from '../../components/feed/ModalFeed.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
@@ -79,7 +81,7 @@ export default {
         // Badge,
         // Manner,
         FeedItem,
-
+        ModalFeed,
     },
     data() {
         return {
@@ -87,6 +89,8 @@ export default {
             myPhoto: '',
             following: [],
             follower: [],
+            isModalViewed: false,
+            temp: null,
         }
     },
     created() {
@@ -105,6 +109,9 @@ export default {
             })
             ,(() => {})
         )
+
+        this.getUserBoardItems();
+        window.addEventListener('scroll', this.handleScroll);
     },
     computed: {  
         ...mapGetters(["boardItems"]),
@@ -120,10 +127,34 @@ export default {
         },
         goMyedit() {
             this.$router.push("/mypage/edit");
+        },
+        handleScroll(e) {
+
+            let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
+            let windowHeight = window.innerHeight; // 스크린 창
+            let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
+            //console.log(document.documentElement.scrollTop);
+
+            if(scrollLocation + windowHeight >= fullHeight){
+                console.log('끝')
+                this.getUserBoardItems();
+            }
+        },
+        modalShow(item){
+            this.isModalViewed = !this.isModalViewed;
+            console.log(this.isModalViewed);
+            this.temp = item;
+            document.body.style.overflow = 'hidden';
+        },
+        modalClose(){
+            this.isModalViewed = !this.isModalViewed;
+            this.temp = null;
+            document.body.style.overflow = 'scroll';
         }
     },
     destroyed(){
         this.$store.state.boardItems = [];
+        window.removeEventListener('scroll', this.handleScroll);
     }
 }
 </script>

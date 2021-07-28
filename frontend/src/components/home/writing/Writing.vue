@@ -114,7 +114,7 @@ export default {
 
             let formData = new FormData();
 
-            formData.append('uid',0);
+            formData.append('uid',1);
             formData.append('content',this.contents);
             
             this.files.forEach(element => {
@@ -122,6 +122,8 @@ export default {
             });
 
             this.addBoard(formData);
+            this.$router.push('/main');
+
         },
     }
     

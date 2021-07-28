@@ -180,13 +180,13 @@ public class AccountController {
         }
     }
     
-    @GetMapping("/account/file/{uid}")
+    @GetMapping("/account/file/{nickname}")
     @ApiOperation(value = "내파일")
-    public Object bFile(@PathVariable final String uid, HttpServletRequest request) throws MalformedURLException{
-    	Optional<Member> member = service.getMember(uid);
+    public Object bFile(@PathVariable final String nickname, HttpServletRequest request) throws MalformedURLException{
+    	Optional<Member> member = service.getUserByNickname(nickname);
     	
     	Resource resource =  new FileSystemResource(member.get().getPimg());
-		
+    	
 		if(!resource.exists()) {
 			final BasicResponse result = new BasicResponse();
 			result.status = true;

@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,7 +39,7 @@ public class BoardService {
 		else longbid = Long.parseLong(bid);//있으면 해당 bid 밑으로
 
 		Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
-
+		
 		List<Board> boardList;
 
 		if(followingDao.findFollowingByFromId(uid).size() > 0) {//내가 follow 하는 사람의 리스트
@@ -57,12 +58,17 @@ public class BoardService {
 
 	}
 	
-	public Object bEqualList(String uid){
+	public Object bEqualList(String uid, String bid){
 		
-		Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
+		long longbid;
+		if(bid == null) longbid = Long.MAX_VALUE;//없으면 최대값
+		else longbid = Long.parseLong(bid);//있으면 해당 bid 밑으로
+		
+		
+		//Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
+		Pageable pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "createDate");
+		List<Board> boardList = boardDao.findBoardByUidAndBidLessThan(uid, longbid, pageRequest);
 
-		List<Board> boardList = boardDao.findBoardByUid(uid, paging);
-		
 		List<ResponseBoard> resboard = new ArrayList<>();
 
 		for (Board board : boardList) {
@@ -86,8 +92,8 @@ public class BoardService {
 		
 		String fileName;
 		MultipartFile[] multipartFiles;
-		if(newBoard.getMultipartFiles().length > 0) {//파일이 존재할 때에만,
-			
+		
+		if(newBoard.getMultipartFiles() != null) {//파일이 존재할 때에만,
 			multipartFiles = newBoard.getMultipartFiles();
 			
 			for (int i = 0; i < multipartFiles.length; i++) {
@@ -126,27 +132,27 @@ public class BoardService {
 			file.delete();
 		}
 
-
-		MultipartFile[] multipartFiles = newBoard.getMultipartFiles();
-
-		for (int i = 0; i < multipartFiles.length; i++) {//재등록
-
-			MultipartFile multipartFile = multipartFiles[i];
-			UUID uuid = UUID.randomUUID();
-
-			fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
-			multipartFile.transferTo(new File("C:\\upload"+"\\"+fileName));
-			String base_url = "C:\\upload"+"\\"+fileName;
-
-			ImgFile file = new ImgFile();//이미지 파일 세팅
-			file.setFile_name(fileName);
-			file.setFile_base_url(base_url);
-			file.setFile_size(Long.toString(multipartFile.getSize()));
-			file.setBid(board.getBid());
-
-			imgFileDao.save(file);
+		if(newBoard.getMultipartFiles() != null) {//파일이 존재할 때에만,
+			MultipartFile[] multipartFiles = newBoard.getMultipartFiles();
+	
+			for (int i = 0; i < multipartFiles.length; i++) {//재등록
+	
+				MultipartFile multipartFile = multipartFiles[i];
+				UUID uuid = UUID.randomUUID();
+	
+				fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
+				multipartFile.transferTo(new File("C:\\upload"+"\\"+fileName));
+				String base_url = "C:\\upload"+"\\"+fileName;
+	
+				ImgFile file = new ImgFile();//이미지 파일 세팅
+				file.setFile_name(fileName);
+				file.setFile_base_url(base_url);
+				file.setFile_size(Long.toString(multipartFile.getSize()));
+				file.setBid(board.getBid());
+	
+				imgFileDao.save(file);
+			}
 		}
-
 		board = boardDao.save(board);
 	}
 
