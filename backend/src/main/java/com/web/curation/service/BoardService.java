@@ -68,11 +68,7 @@ public class BoardService {
 		//Pageable paging = PageRequest.of(0, 10);//최신부터 10개(0페이지에 10개)
 		Pageable pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "createDate");
 		List<Board> boardList = boardDao.findBoardByUidAndBidLessThan(uid, longbid, pageRequest);
-		
-		for (Board b : boardList) {
-			System.out.println(b);
-		}
-		
+
 		List<ResponseBoard> resboard = new ArrayList<>();
 
 		for (Board board : boardList) {
