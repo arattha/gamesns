@@ -27,14 +27,14 @@
                     </b-col>
                 </b-row>
             </b-container>
-            <div class="file-container">
-                <b-container fluid>
-                    <b-row>
-                        <b-col class="file-select text-box">
-                            <input v-on:change="fileChange($event.target.files)" type="file" name="file" id="chooseFile" multiple>
-                        </b-col>
-                    </b-row>
-                </b-container>
+            <div class="Writing-bottom">
+                <span>
+                    <label for="chooseFile" class="input-file-button">파일 업로드</label>
+                    <input v-on:change="fileChange($event.target.files)" type="file" name="file" id="chooseFile" multiple style="display:none">
+                </span>
+                <span>
+                    <button class="finish-button" @click.prevent="registBoard()">작성 완료</button>
+                </span>
             </div>
             <!--
             <div class="datalist-container">
@@ -63,13 +63,9 @@
                 </b-container>
             </div>
             -->
-            <div style="height:150px">
-                <!-- 공간 채우기 용 입니다. -->
-            </div>
-
-            <div class="center">
-                <b-button variant="outline-dark" @click.prevent="registBoard()" class="profile-edit-btn">작성 완료</b-button>
-            </div>
+        </div>
+        <div>
+            <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
         </div>
       <Footer/>
   </div>
@@ -87,7 +83,7 @@ export default {
     },
     data() {
         return {
-            dataitems: ['자유게시판', '신고합니다', '빠르게 모여라'],
+            // dataitems: ['자유게시판', '신고합니다', '빠르게 모여라'],
             //formData:new FormData(),
             contents:"",
             files:[],
@@ -134,62 +130,5 @@ export default {
 </script>
 
 <style>
-    .Writing-container {
-        margin-top:80px;
-    }
-
-    .text-input {
-        text-align: left;
-        padding:0px 0px 0px 0px;
-        margin-top: 0px;
-        color: #9c9c9c;
-        box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
-    }
-
-    .text-box {
-        border-radius: 15px;
-        margin:0px;
-        margin: 0 auto;
-    }
-
-    #textarea-title {
-        height: 50%;
-    }
-
-    #textarea-content {
-        height: 250%;
-    }
-
-    .file-container {
-        margin-top: 150px;
-    }
-    
-    .file-select {
-        display: flex;
-        justify-content: center;
-    }
-    
-    #chooseFile {
-        height: 100%;
-        width: 100%;
-        max-width: 1580px;
-        padding: 0;
-    }
-
-    .center {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .profile-edit-btn {
-        margin-bottom: 10px;
-        width: 40%;
-        height: 10%;
-        padding: 0 0 0 0;
-    }
-
-    .datalist-box {
-        margin-top: 30px;
-    }
+    @import "../../css/home/writing/writing.css";
 </style>
