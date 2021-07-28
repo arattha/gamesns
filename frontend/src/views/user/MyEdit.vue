@@ -29,7 +29,7 @@
                 <div class="info-box">
                     <!-- 현재 닉네임 보여주고/필수-->
                     <div class="input-container" style="align-content: center;">
-                        <input v-model="nickname" id="name" class="input" type="text" pattern=".+" required />
+                        <input v-model="newNickname" id="name" class="input" type="text" :placeholder="nickname" pattern=".+" required />
                         <label class="label" for="name">닉네임</label>
                         <div class="check">
                             <div class="check_btn" @click="dupCheck">중복체크</div>
@@ -86,9 +86,10 @@ export default {
     },
     data() {
         return{
-            id: 1,
-            imgPath: '',
+            uid: '',
             nickname: '',
+            newNickname: '',
+            imgPath: '',
             isSubmit: false,
             file: null,
             profileImg: null
@@ -96,10 +97,8 @@ export default {
     },
     created() {
 
-        // JWT 토큰으로 사용자 아이디 받아오기
-        // 가능하면 닉네임까지..
-
-
+        this.uid = this.$store.state.uid;
+        this.nickname = this.$store.state.nickname;
 
         this.imgPath = "C:\\upload/" + this.id + ".PNG";
         // this.nickname = res.data.nickname;
@@ -123,15 +122,13 @@ export default {
             // console.log(this.profileImg);
         },
         dupCheck(){
-            if(this.nickname.length == 0) {
+            if(this.newNickname.length == 0) {
                 console.log("hi")
                 alert("닉네임을 입력해주세요.");
             } else {
                 console.log("hi2")
-                UserApi.requestDupCheck(this.nickname
-                    ,() => { 
-                        this.isSubmit = true;
-                        }
+                UserApi.requestDupCheck(this.newNickname
+                    ,() => { this.isSubmit = true; }
                     ,() => {});
             }
         },
@@ -142,8 +139,8 @@ export default {
 
                 let formData = new FormData();
 
-                formData.append('uid',1);
-                formData.append('nickname',this.nickname);
+                formData.append('uid',this.uid);
+                formData.append('nickname',this.newNickname);
                 formData.append('multipartFile', this.file);
 
                 UserApi.requestUpdateUser(formData

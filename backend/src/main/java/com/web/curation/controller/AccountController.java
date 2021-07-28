@@ -71,6 +71,7 @@ public class AccountController {
         if (member.isPresent()) {
             result.status = true;
             result.data = "success";
+            result.object = member.get().getNickname();
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

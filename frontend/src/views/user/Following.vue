@@ -6,21 +6,12 @@
       <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
       <li class="list" v-for="(follow, idx) in following" :key="idx">
         <div>
-          <img src="`http://localhost:8080/account/file/1`" alt="">
-          {{follow.toNickname}} 
+          <img :src="'http://localhost:8080/account/file/' + follow.toNickname">
+          <button @click="goUserPage(follow)">{{follow.toNickname}}</button>
         </div>
         <!-- 사용자 아이디와 같으면 삭제 버튼을 생성 : 사용자 아이디는 어떤 화면에서든 가져올 수 있다. -->
-        <b-button variant="danger"  @click="deleteFollow(follow.toNickname)">삭제</b-button>
+        <b-button variant="danger" @click="deleteFollow(follow.toNickname)">삭제</b-button>
       </li>
-      <!-- 나중에 함 지우기 -->
-      <!-- <li class="list">
-        <div><img src="http://localhost:8080/account/file/{{}}" alt="">사용자1 </div>
-        <Follow/>
-      </li>
-      <li class="list">
-        <div><img src="http://localhost:8080/account/file/{{}}" alt="">사용자1 </div>
-        <Follow/>
-      </li> -->
 
     </div>
     <Footer/>
@@ -40,17 +31,21 @@ export default {
     },
     data () { 
       return {
-        uid: -1,
+        uid: '',
         following: [],
       }
     },
     created() {
       this.following = this.$route.params.following;
+      this.uid = this.$store.state.uid;
     },
     methods:{
+      goUserPage(u){
+        this.$router.push({name:"UserPage", params:{u}});
+      },
       deleteFollow(u){
         let data = {
-          fromNickname: "조성표",
+          fromNickname: this.uid,
           toNickname: u,
           type: true
         }

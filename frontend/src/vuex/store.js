@@ -14,6 +14,7 @@ export default new Vuex.Store({
     replyList: [],
     accessToken: '',
     uid: '',
+    nickname: '',
   },
   mutations: {
     GET_BOARD_ITEMS(state, payload) {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     SET_UID(state, payload) {
       state.uid = payload;
     },
+    SET_NICKNAME(state, payload) {
+      state.nickname = payload;
+    },
   },
   getters: {
     boardItems(state) {
@@ -49,6 +53,9 @@ export default new Vuex.Store({
     uid(state) {
       return state.uid;
     },
+    nickname(state) {
+      return state.nickname;
+    },
   },
   actions: {
     setAccessToken(context, data) {
@@ -57,18 +64,23 @@ export default new Vuex.Store({
     setUid(context, data) {
       context.commit('SET_UID', data);
     },
+    setNickname(context, data) {
+      context.commit('SET_NICKNAME', data);
+    },
     getBoardItems(context, data) {
       if (context.state.boardItems.length == 0) {
         data = {
-          uid: 1,
+          uid: 0,
         };
       } else {
         data = {
-          uid: 1,
+          uid: 0,
           bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid),
         };
       }
       console.log(data);
+      console.log('여기');
+      console.log(context.state.accessToken);
       http
         .get(`/board`, { params: data })
         .then(({ data }) => {
@@ -81,32 +93,24 @@ export default new Vuex.Store({
         });
     },
     getUserBoardItems(context) {
-        let data;
-        if (context.state.boardItems.length == 0) {
-            data = {
-                uid: 1
-            };
-        } else {
-            data = {
-                uid: 1,
-                bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid)
-            };
-        }
-        //uid 또는 닉네임으로 구현되면 주석으로 변경
-        /*
-        let data = {
-            nickname : nick
-        }
-        */
-        http
-            .get(`/board/user`, { params: data })
-            .then(({ data }) => {
-                context.commit('GET_BOARD_ITEMS', data.object);
-                console.log(context.state.boardItems);
-            })
-            .catch(() => {
-                alert('에러가 발생했습니다.');
-            });
+      let data = {
+        uid: 1,
+      };
+      //uid 또는 닉네임으로 구현되면 주석으로 변경
+      /*
+                        let data = {
+                            nickname : nick
+                        }
+                        */
+      http
+        .get(`/board/user`, { params: data })
+        .then(({ data }) => {
+          context.commit('GET_BOARD_ITEMS', data.object);
+          console.log(context.state.boardItems);
+        })
+        .catch(() => {
+          alert('에러가 발생했습니다.');
+        });
     },
     getReplyList({ commit }, data) {
       http

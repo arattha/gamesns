@@ -17,7 +17,7 @@
 				<div class="card-body">
 					<div class="d-lfex justify-content-center flex-column">
 						<div class="name_container">
-							<div class="name">성루비</div>
+							<div class="name">{{nickname}}</div>
 						</div>
                         <div class="intro">저는 고양이를 좋아합니다.</div>
 					</div>
@@ -85,7 +85,8 @@ export default {
     },
     data() {
         return {
-            id: '',
+            uid: '',
+            nickname: '',
             myPhoto: '',
             following: [],
             follower: [],
@@ -94,8 +95,13 @@ export default {
         }
     },
     created() {
+
+        this.uid = this.$store.state.uid;
+        this.nickname = this.$store.state.nickname;
+        console.log("uid : " + this.uid);
+        
         UserApi
-            .requestFollowing({from: 1}
+            .requestFollowing({from: this.uid}
             ,((res) => {
                 this.following = res.data;
             })
@@ -103,7 +109,7 @@ export default {
         )
 
         UserApi
-            .requestFollower({to: 1}
+            .requestFollower({to: this.uid}
             ,((res) => {
                 this.follower = res.data;
             })
@@ -120,10 +126,10 @@ export default {
         ...mapActions(["getUserBoardItems"]),
 
         showFollowing() {
-            this.$router.push({name:"Following", params: {following : this.following, uid: 1}});
+            this.$router.push({name:"Following", params: {following : this.following, uid: this.uid}});
         },
         showFollower() {
-            this.$router.push({name:"Follower", params: {follower : this.follower, uid: 1}});
+            this.$router.push({name:"Follower", params: {follower : this.follower, uid: this.uid}});
         },
         goMyedit() {
             this.$router.push("/mypage/edit");

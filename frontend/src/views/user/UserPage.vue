@@ -17,13 +17,14 @@
 				<div class="card-body">
 					<div class="d-lfex justify-content-center flex-column">
 						<div class="name_container">
-							<div class="name">박루바</div>
+							<div class="name">{{userInfo.nickname}}</div>
 						</div>
                         <div class="intro">저는 강아지를 좋아합니다.</div>
 					</div>
                     <div class="follow">
-							<div class="follow_btn" v-if="isFollow" @click="send">팔로우</div>
-                            <div class="follow_btn" style="background: blue" v-else>팔로잉</div>
+                        <!-- Follow 상태면 팔로잉 버튼을 보여주고 Follow 상태가 아니면 팔로우 버튼을 보여준다.  -->
+                        <div class="follow_btn" v-if="isFollow" @click="send">팔로우</div>
+                        <div class="follow_btn" style="background: blue" v-else>팔로잉</div>
                     </div>
             <div class="info_container">
 							<div class="info">
@@ -87,7 +88,8 @@ export default {
     },
     data() {
         return {
-            id: '',
+            uid: '',
+            nickname: '',
             myPhoto: '',
             userInfo: null,
             userFollower: [],
@@ -98,7 +100,9 @@ export default {
         }
     },
     created() {
-        //this.getUserBoardItems(this.$router.param.nickname);
+        this.uid = this.$store.state.uid;
+        this.nickname = this.$store.state.nickname;
+        
         this.getUserBoardItems();
         this.userInfo = this.$route.params.suggest;
         window.addEventListener('scroll', this.handleScroll);
@@ -110,7 +114,7 @@ export default {
                 this.userFollowing = res.data;
                 
                 this.userFollowing.forEach(f => {
-                    if("조성표" == f.toNickname){
+                    if(this.nickname == f.toNickname){
                         this.isFollow = false;
                     }
                 })
@@ -145,7 +149,7 @@ export default {
                 console.log("userPage is Connected")
                 const msg = {
                     memberName: this.userInfo.nickname,
-                    followingName: "조성표"
+                    followingName: this.nickname
                 };
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
             }
