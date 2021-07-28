@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 		<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
 	</div>
-      <div style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
+      <div @scroll.passive="handleScroll" style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
@@ -49,7 +49,8 @@
 						</div>
 					</div>
         <div class="feeditem-box">
-            <div v-for="(boardItem,index) in boardItems" :key="index">
+            <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false" :boardItem="temp"/>
+            <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
                 <FeedItem :boardItem ="boardItem"/>
             </div>
         </div>
@@ -68,6 +69,7 @@ import Footer from '@/components/layout/footer/Footer.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
+import ModalFeed from '../../components/feed/ModalFeed.vue'
 import UserApi from '../../api/UserApi'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
@@ -82,7 +84,7 @@ export default {
         // Badge,
         // Manner,
         FeedItem,
-
+        ModalFeed,
     },
     data() {
         return {
@@ -91,6 +93,8 @@ export default {
             userInfo: null,
             userFollower: [],
             userFollowing: [],
+            isModalViewed: false,
+            temp: null,
             isFollow: true,
         }
     },
@@ -99,6 +103,7 @@ export default {
         this.connect();
         this.getUserBoardItems();
         this.userInfo = this.$route.params.suggest;
+        window.addEventListener('scroll', this.handleScroll);
         // console.log("userinfo",this.userInfo);
         UserApi
             .requestFollowing({from:this.userInfo.uid}
@@ -168,9 +173,27 @@ export default {
             // 팔로우 버튼 '팔로잉' 으로 변환
 
         },
+        handleScroll(e) {
+
+            let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
+            let windowHeight = window.innerHeight; // 스크린 창
+            let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
+            //console.log(document.documentElement.scrollTop);
+
+            if(scrollLocation + windowHeight >= fullHeight){
+                console.log('끝')
+                this.getUserBoardItems();
+            }
+        },
+        modalShow(item){
+            this.isModalViewed = !this.isModalViewed;
+            console.log(this.isModalViewed);
+            this.temp = item;
+        }
     },
     destroyed(){
         this.$store.state.boardItems = [];
+        window.removeEventListener('scroll', this.handleScroll);
     }
 }
 </script>
