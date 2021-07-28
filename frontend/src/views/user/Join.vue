@@ -20,18 +20,18 @@
 
         <div class="input-with-label" style="margin-top:15px">
           <input
-            v-model="nickName"
+            v-model="nickname"
             autocapitalize="off"
             v-bind:class="{
-              error: error.nickName,
-              complete: !error.nickName && nickName.length !== 0,
+              error: error.nickname,
+              complete: !error.nickname && nickname.length !== 0,
             }"
             id="nickname"
             placeholder="닉네임을 입력하세요."
             type="text"
           />
           <label for="nickname"></label>
-          <div iv class="error-text" v-if="error.nickName">{{ error.nickName }}</div>
+          <div iv class="error-text" v-if="error.nickname">{{ error.nickname }}</div>
         </div>
 
         <button
@@ -55,10 +55,10 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   data: () => {
     return {
-      nickName: '',
+      nickname: '',
       isDup: false,
       error: {
-        nickName: false,
+        nickname: false,
       },
       isSubmit: false,
       code: '',
@@ -75,7 +75,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setAccessToken', 'setUid']),
+    ...mapActions(['setAccessToken', 'setUid', 'setNickname']),
 
     create() {
       this.code = this.$route.query.code;
@@ -126,6 +126,7 @@ export default {
             http.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
 
             this.setUid(this.uid);
+            this.setNickname(this.nickname)
             this.setAccessToken(this.accessToken);
             // axios.defaults.headers.common["Authorization"] = `Bearer ${this.accessToken}`;
 
@@ -144,8 +145,8 @@ export default {
 
     checkForm() {
       // nickname 중복 확인 필요
-      if (this.nickName.length == 0) this.error.nickName = '닉네임은 한 글자 이상이어야 합니다.';
-      else this.error.nickName = false;
+      if (this.nickname.length == 0) this.error.nickname = '닉네임은 한 글자 이상이어야 합니다.';
+      else this.error.nickname = false;
 
       let isSubmit = true;
       Object.values(this.error).map((v) => {
@@ -157,7 +158,7 @@ export default {
       if (this.isSubmit && this.isDup) {
         let data = {
           uid: this.uid,
-          nickname: this.nickName,
+          nickname: this.nickname,
         };
 
         console.log(data);
@@ -188,9 +189,9 @@ export default {
       }
     },
     dupCheck() {
-      if (!this.error.nickName) {
+      if (!this.error.nickname) {
         UserApi.requestDupCheck(
-          this.nickName,
+          this.nickname,
           () => {
             this.isDup = true;
             this.checkForm();
