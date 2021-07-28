@@ -1,14 +1,15 @@
 <template>
+  <div class="100hv" style="background-color: #FDF5E6;">
   <div class="feed newsfeed" >
     <Header/>
-    <div class="wrapB" @scroll.passive="handleScroll">
-      <h1>뉴스피드</h1>
-      <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
+    <div class="" @scroll.passive="handleScroll">
+      <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false" :boardItem="temp"/>
       <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
         <FeedItem :boardItem ="boardItem"/>
       </div>
     </div>
     <Footer/>
+  </div>
   </div>
 </template>
 

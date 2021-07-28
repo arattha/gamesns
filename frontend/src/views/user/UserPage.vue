@@ -41,10 +41,10 @@
 						</div>
         </div>
         <div class="card-footer">
-						<div class="feed drop-in-underline">
+						<div class="myfeed drop-in-underline">
 							<i class="fas fa-archive"></i>
 						</div>
-						<div class="feed drop-in-underline">
+						<div class="myfeed drop-in-underline">
 							<i class="far fa-smile"></i>
 						</div>
 					</div>
