@@ -33,13 +33,13 @@
         <div style="mcontent">{{boardItem.contents}}</div>
 
         <ul class="img-comment-list">
-          <li v-for="(reply,index) in replyList" :key="index">
-            <!--
-              <div class="comment-img"> 일단은 코멘트만
-                <img src="http://lorempixel.com/50/50/people/6">
-              </div>
-            -->
-            <div  class="comment-text">
+          <li class="list" v-for="(reply,index) in replyList" :key="index">
+            
+              <!-- <div class="small-user-img-div">
+                <img src="http://lorempixel.com/100/100/people/6" class="small-user-img" style="object-fit: fill; margin:0px">
+              </div> -->
+           
+            <div class="comment-text">
               <strong><a href="">{{reply.nickname}}</a></strong>
               <p>{{reply.content}}</p> 
               <span class="date sub-text">on December 5th, 2016</span>

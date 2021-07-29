@@ -99,10 +99,6 @@ button {
   align-items: center;
 }
 
-.img-comment-list .comment-img {
-  margin-right:15px;
-}
-
 .img-comment-list img {
   margin: 0px;
 }
@@ -117,14 +113,6 @@ button {
 
 .modal-container .img-comment-list li > div {
     display:table-cell;
-}
-
-.modal-container .img-comment-list img {
-    border-radius:50%;
-    width: 42px;
-    height: 42px;
-    margin-right: 10px;
-    margin-top: 20px;
 }
 
 .modal-container .img-comment-list p {
@@ -197,4 +185,8 @@ font-family: 'Nanum Gothic', sans-serif;
 .mcontent {
   display: block;
   padding: 10px;
+}
+
+.img-comment-list .list{
+  justify-content: end;
 }
