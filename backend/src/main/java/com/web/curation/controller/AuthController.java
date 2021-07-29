@@ -67,7 +67,7 @@ public class AuthController {
 
     /**
      * 로그인을 처리
-     * 로그인을 성공하면 access token을 반환
+     * 로그인을 성공하면 access token을 쿠키에 담아서 반환
      * 
      * @param uid
      * @return
@@ -84,22 +84,21 @@ public class AuthController {
 
         try {
             Optional<TokenDto> getToken = authService.login(uid);
-            System.out.println("Login Token " + getToken.get());
+
             if (getToken.isPresent()) {
                 result.status = true;
                 result.data = "success";
                 TokenDto token = getToken.get();
 
-                Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
-                cookie.setMaxAge(7 * 24 * 60 * 60);
+                Cookie cookie = new Cookie("accessToken", token.getAccessToken());
+                // 일주일로 설정
+                cookie.setMaxAge(60 * 60 * 24 * 7);
 
                 cookie.setSecure(true);
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");
 
                 response.addCookie(cookie);
-
-                result.object = token.getAccessToken();
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -110,44 +109,54 @@ public class AuthController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    /**
+     * 쿠키로 들어온 access token으로 검증을 통해 새로운 토큰을 발급한다.
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     @PostMapping("/reissue")
     @ApiOperation(value = "토큰 재발급")
-    public Object reissuance(@RequestBody String accessToken, HttpServletRequest request, HttpServletResponse response) {
+    public Object reissuance(HttpServletRequest request, HttpServletResponse response) {
         BasicResponse result = new BasicResponse();
 
         result.status = false;
         result.data = "fail";
 
-        String refreshToken = "";
+        String accessToken = "";
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("refreshToken".equals(cookie.getName())) {
-                    refreshToken = cookie.getValue();
+                if ("accessToken".equals(cookie.getName())) {
+                    accessToken = cookie.getValue();
                     break;
                 }
             }
         }
 
-        if (refreshToken != null && refreshToken.length() > 0) {
-            Optional<TokenDto> getToken = authService.reissuance(accessToken, refreshToken);
+        if (accessToken != null && accessToken.length() > 0) {
+            try {
+                Optional<TokenDto> getToken = authService.reissuance(accessToken);
 
-            if (getToken.isPresent()) {
-                result.status = true;
-                result.data = "success";
+                if (getToken.isPresent()) {
+                    result.status = true;
+                    result.data = "success";
 
-                TokenDto token = getToken.get();
+                    TokenDto token = getToken.get();
 
-                Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
-                cookie.setMaxAge(7 * 24 * 60 * 60);
+                    Cookie cookie = new Cookie("accessToken", token.getAccessToken());
+                    // 일주일로 설정
+                    cookie.setMaxAge(60 * 60 * 24 * 7);
 
-                cookie.setSecure(true);
-                cookie.setHttpOnly(true);
-                cookie.setPath("/");
+                    cookie.setSecure(true);
+                    cookie.setHttpOnly(true);
+                    cookie.setPath("/");
 
-                response.addCookie(cookie);
-
-                result.object = token.getAccessToken();
+                    response.addCookie(cookie);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
 
@@ -155,24 +164,24 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public Object logout(@RequestBody String accessToken, HttpServletRequest request) {
+    public Object logout(HttpServletRequest request) {
         BasicResponse result = new BasicResponse();
 
         result.data = "fail";
         result.status = false;
 
-        String refreshToken = "";
+        String accessToken = "";
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("refreshToken".equals(cookie.getName())) {
-                    refreshToken = cookie.getValue();
+                if ("accessToken".equals(cookie.getName())) {
+                    accessToken = cookie.getValue();
                     break;
                 }
             }
         }
 
-        boolean flag = authService.logout(accessToken, refreshToken);
+        boolean flag = authService.logout(accessToken);
 
         if (flag) {
             result.data = "success";

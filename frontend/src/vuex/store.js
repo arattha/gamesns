@@ -4,6 +4,7 @@ import getters from './getters';
 import http from '@/util/http-common';
 import actions from './actions';
 import mutations from './mutations';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,7 @@ export default new Vuex.Store({
     boardItems: [],
     searched: [],
     replyList: [],
-    accessToken: '',
+    // accessToken: '',
     uid: '',
     nickname: '',
   },
@@ -27,9 +28,9 @@ export default new Vuex.Store({
     GET_REPLY_LIST(state, payload) {
       state.replyList = payload;
     },
-    SET_ACCESS_TOKEN(state, payload) {
-      state.accessToken = payload;
-    },
+    // SET_ACCESS_TOKEN(state, payload) {
+    //   state.accessToken = payload;
+    // },
     SET_UID(state, payload) {
       state.uid = payload;
     },
@@ -47,9 +48,9 @@ export default new Vuex.Store({
     replyList(state) {
       return state.replyList;
     },
-    accessToken(state) {
-      return state.accessToken;
-    },
+    // accessToken(state) {
+    //   return state.accessToken;
+    // },
     uid(state) {
       return state.uid;
     },
@@ -58,9 +59,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    setAccessToken(context, data) {
-      context.commit('SET_ACCESS_TOKEN', data);
-    },
+    // setAccessToken(context, data) {
+    //   context.commit('SET_ACCESS_TOKEN', data);
+    // },
     setUid(context, data) {
       context.commit('SET_UID', data);
     },
@@ -155,4 +156,5 @@ export default new Vuex.Store({
         });
     },
   },
+  plugins: [createPersistedState()],
 });

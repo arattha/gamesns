@@ -103,33 +103,28 @@ public class AuthService {
      * rt = refresh token
      *
      * @param at
-     * @param rt
      * @return
      */
     @Transactional
-    public Optional<TokenDto> reissuance(String at, String rt) {
+    public Optional<TokenDto> reissuance(String at) {
         // Access Token에서 Member ID 가져오기
         Authentication authentication = tokenProvider.getAuthentication(at);
 
-        System.out.println(authentication.getName());
+        System.out.println("reissuance id : " + authentication.getName());
 
         // 저장소에서 Member nickname을 기반으로 Refresh token 값을 가져온다.
         String key = authentication.getName();
         String getRefreshToken = (String)redisTemplate.opsForValue().get(key);
         System.out.println(getRefreshToken);
 
-        if (getRefreshToken == null || getRefreshToken.equals("") || getRefreshToken.length() == 0) {
+        if (getRefreshToken == null || getRefreshToken.equals("")
+                || getRefreshToken.length() == 0 || redisTemplate.opsForValue().get(at) != null) {
             throw new RuntimeException("로그아웃 된 사용자입니다.");
         }
 
         // Refresh Token 검증
-        if (!tokenProvider.validateToken(rt)) {
+        if (!tokenProvider.validateToken(getRefreshToken)) {
             throw new RuntimeException("Refresh Token이 유효하지 않습니다.");
-        }
-
-        // access Token이 일치하는지 검사
-        if (!getRefreshToken.equals(rt)) {
-            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
         }
 
         // 새로운 토큰 생성
@@ -140,6 +135,14 @@ public class AuthService {
         redisTemplate.expire(key, tokenDto.getRefreshTokenExpiresIn(), TimeUnit.SECONDS);
 
         Optional<TokenDto> returnToken = Optional.ofNullable(tokenDto);
+
+
+        System.out.println("==============================================");
+        System.out.println("토큰 재발급 완료");
+        System.out.println("uid = " + key);
+        System.out.println("AccessToken = " + tokenDto.getAccessToken());
+        System.out.println("refreshToken = " + tokenDto.getRefreshToken());
+        System.out.println("==============================================");
 
         // 토큰 발급
         return returnToken;
@@ -155,36 +158,30 @@ public class AuthService {
      * rt = refresh token
      *
      * @param at
-     * @param rt
      * @return
      */
     @Transactional
-    public boolean logout(String at, String rt) {
+    public boolean logout(String at) {
         Authentication authentication = tokenProvider.getAuthentication(at);
         String key = authentication.getName();
-
-        String getRefreshToken = (String)redisTemplate.opsForValue().get(key);
 
         // 권한이 없는 경우
         if (!tokenProvider.validateToken(at)) {
             return false;
         }
 
-        // 이미 로그아웃된 사용자
-        if (getRefreshToken == null || getRefreshToken.length() <= 0) {
-            return false;
-        }
+        String getRefreshToken = (String)redisTemplate.opsForValue().get(key);
 
-        // 권한정보가 다른 사용자
-        if (getRefreshToken.equals(rt)) {
-            redisTemplate.delete(key);
-        }
-        else {
+        // 이미 로그아웃된 사용자
+        if (getRefreshToken == null || getRefreshToken.length() <= 0
+                || getRefreshToken.equals("") || redisTemplate.opsForValue().get(at) != null) {
             return false;
         }
 
         Date expireDate = tokenProvider.getExpireDate(at);
+        System.out.println(expireDate.getTime());
         redisTemplate.opsForValue().set(at, "logout");
+        // 액세스 토큰의 남은 시간만큼 logout blacklist에 추가하여 로그아웃이 된 토큰임을 저장한다.
         redisTemplate.expire(at, expireDate.getTime() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
 
         return true;
