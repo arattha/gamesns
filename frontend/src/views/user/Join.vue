@@ -117,15 +117,15 @@ export default {
         (res) => {
           console.log(res);
           if (res.status) {
-            this.accessToken = res.object;
-            console.log(this.accessToken);
+            // this.accessToken = res.object;
+            // console.log(this.accessToken);
 
             // 기존에 만든 axios create를 이용해야한다!
-            http.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
+            // http.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
 
             this.setUid(this.uid);
             this.setNickname(this.nickname);
-            this.setAccessToken(this.accessToken);
+            // this.setAccessToken(this.accessToken);
             // axios.defaults.headers.common["Authorization"] = `Bearer ${this.accessToken}`;
 
             this.$router.push('/main');

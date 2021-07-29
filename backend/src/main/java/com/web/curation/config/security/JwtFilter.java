@@ -11,6 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -52,9 +53,6 @@ public class JwtFilter extends OncePerRequestFilter {
         // Request Header에서 Access Token을 꺼낸다.
         String jwt = resolveToken(request);
 
-        System.out.println("request header token : " + jwt);
-        System.out.println(request.toString());
-        
         // validateToken으로 토큰 유효성 검사
         // 정상 토큰이면 해당 토큰으로 Authentication 을 가져와서 SecurityContext에 저장
         // 로그아웃 처리가 안된 토큰인지도 검사
@@ -63,10 +61,10 @@ public class JwtFilter extends OncePerRequestFilter {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             String key = authentication.getName();
 
-            System.out.println((String)redisTemplate.opsForValue().get(key));
             // 로그인을 한 유저일 경우에만
             if (redisTemplate.opsForValue().get(key) != null) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("request cookie token : " + jwt);
             }
         }
         
@@ -74,10 +72,22 @@ public class JwtFilter extends OncePerRequestFilter {
     }
     
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(7);
+        // 헤더에 넣는 방식
+//        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+//            return bearerToken.substring(7);
+//        }
+
+        // 쿠키에서 토큰을 가져온다.
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("accessToken".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
         }
+
         return null;
     }
 }
