@@ -6,7 +6,7 @@
  -->
 <template>
   <div class="join-body-container">
-    <div class="join-container" >
+    <div class="join-container">
       <div class="login-box">
         <div class="logo-box">
           <img src="@/assets/images/logo2.png" alt="" style="width: 90%; height: auto;" />
@@ -26,28 +26,35 @@
             type="text"
             class="nickname-input"
           />
-          <input type="submit" class="nickname-input" id="nickname-submit" value="중복확인" @click="dupCheck">
+          <input
+            type="submit"
+            class="nickname-input"
+            id="nickname-submit"
+            value="중복확인"
+            @click="dupCheck"
+          />
           <label for="nickname"></label>
           <div iv class="error-text" v-if="error.nickName">{{ error.nickName }}</div>
         </div>
         <button
-            class="join-btn"
-            @click="signUp"
-            :disabled="!isSubmit"
-            :class="{ disabled: !isSubmit }"
-          >
-            START
+          class="join-btn"
+          @click="signUp"
+          :disabled="!isSubmit"
+          :class="{ disabled: !isSubmit }"
+        >
+          START
         </button>
       </div>
     </div>
     <div>
-      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
     </div>
   </div>
 </template>
 
 <script>
 import UserApi from '../../api/UserApi';
+import { mapActions } from 'vuex';
 
 export default {
   data: () => {
@@ -70,6 +77,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['setUid', 'setNickname']),
     create() {
       this.code = this.$route.query.code;
 
@@ -100,7 +108,6 @@ export default {
           if (res.status) {
             this.nickname = res.object;
             this.login();
-
           }
         },
         (error) => {
@@ -134,8 +141,7 @@ export default {
             this.$router.push('/');
           }
         },
-        (error) => {
-        }
+        (error) => {}
       );
     },
     checkForm() {
@@ -179,23 +185,21 @@ export default {
       }
     },
     dupCheck() {
-      if(!this.error.nickName) {
-        
+      if (!this.error.nickName) {
         UserApi.requestDupCheck(
-          this.nickName
-          ,() => { 
+          this.nickName,
+          () => {
             this.isDup = true;
-            this.checkForm(); 
-          }
-          ,() => { }
+            this.checkForm();
+          },
+          () => {}
         );
-
       }
-    }
+    },
   },
 };
 </script>
 
 <style>
-    @import "../../components/css/user/join.css";
+@import '../../components/css/user/join.css';
 </style>
