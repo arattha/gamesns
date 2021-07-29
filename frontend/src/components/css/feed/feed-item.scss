@@ -311,9 +311,18 @@
 /* ------------------------------- */
 /* Cardbox Item
   ---------------------------------- */
-.cardbox .cardbox-item {
+.cardbox {
     position: relative;
     display: block;
+}
+
+.cardbox-item {
+    position: relative;
+    display: flex;
+}
+
+.ffimg {
+    margin: 0;
 }
 
 .ffimg img{
@@ -379,9 +388,31 @@
     margin-left: 12px;
 }
 
+// 이미지 슬라이더
+.slider {
+    position: absolute;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vw;
+    justify-content: space-between;
+}
 
+image-slider {
+    position: relative;
+    display: flex;
+}
 
-
-
-
-
+image-slider button {
+    top: 0;
+    width: 2rem;
+    height: 100vw;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: white;
+    font-size: 1rem;
+    opacity: 1;
+    padding: 0;
+    // position: absolute;
+}
