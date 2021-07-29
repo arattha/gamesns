@@ -16,7 +16,7 @@
 
         <!-- 이미지나 내용 -->
         <div class="cardbox-item">
-          <image-slider>
+          <div class="image-slider" style="padding: 0;">
           <div class="slider" v-if="img_src.length > 1" style="padding: 0;">
             <button class="prev" @click="prev"><i class="fas fa-chevron-left"></i></button>
             <button class="next" @click="next"><i class="fas fa-chevron-right"></i></button>
@@ -26,7 +26,7 @@
             <img class="img-fluid" alt=""
               :src="img_src[Math.abs(currentNumber) % img_src.length]">
           </div>
-          </image-slider>
+          </div>
           <!-- 내용 -->
           <div>{{boardItem.contents}}</div>
         </div><!--/ cardbox-item -->

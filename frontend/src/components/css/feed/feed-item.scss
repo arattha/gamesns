@@ -399,16 +399,16 @@
     justify-content: space-between;
 }
 
-image-slider {
+.image-slider {
     position: relative;
     display: flex;
 }
 
-image-slider button {
+.image-slider button {
     top: 0;
     width: 2rem;
     height: 100vw;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.1);
     border: none;
     color: white;
     font-size: 1rem;
