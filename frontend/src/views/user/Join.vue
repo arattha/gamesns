@@ -171,7 +171,7 @@ export default {
           (res) => {
             this.isSubmit = true;
             // feed/main으로 가야함
-            this.$router.push('/user/joinSC');
+            this.$router.push('/main');
           },
           (error) => {
             if (error) this.$router.push('/error');
