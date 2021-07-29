@@ -79,6 +79,60 @@ export default {
       UserApi.requestkakaoLogin(
         this.code,
         (res) => {
+          console.log(res);
+          this.uid = res;
+          this.isUser();
+        },
+        (error) => {
+          console.log(error);
+          alert('잘못된 접근입니다!');
+          this.$router.push('/');
+        }
+      );
+    },
+
+    isUser() {
+      UserApi.requestExistUser(
+        this.uid,
+        (res) => {
+          console.log(res);
+
+          if (res.status) {
+            this.nickname = res.object;
+            this.login();
+
+          }
+        },
+        (error) => {
+          console.log(error);
+          alert('잘못된 접근입니다!!');
+          this.$router.push('/');
+        }
+      );
+    },
+
+    login() {
+      UserApi.requestLogin(
+        this.uid,
+        (res) => {
+          console.log(res);
+          if (res.status) {
+            this.accessToken = res.object;
+            console.log(this.accessToken);
+
+            // 기존에 만든 axios create를 이용해야한다!
+            http.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
+
+            this.setUid(this.uid);
+            this.setNickname(this.nickname);
+            this.setAccessToken(this.accessToken);
+            // axios.defaults.headers.common["Authorization"] = `Bearer ${this.accessToken}`;
+
+            this.$router.push('/main');
+          } else {
+            alert('로그인 실패 다시 시도해주세요.');
+            this.$router.push('/');
+          }
         },
         (error) => {
         }

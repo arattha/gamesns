@@ -116,7 +116,7 @@ export default {
             ,(() => {})
         )
 
-        this.getUserBoardItems();
+        this.getUserBoardItems(this.uid);
         window.addEventListener('scroll', this.handleScroll);
     },
     computed: {  
@@ -134,16 +134,15 @@ export default {
         goMyedit() {
             this.$router.push("/mypage/edit");
         },
-        handleScroll(e) {
+        handleScroll() {
 
             let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
             let windowHeight = window.innerHeight; // 스크린 창
             let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
             //console.log(document.documentElement.scrollTop);
-
             if(scrollLocation + windowHeight >= fullHeight){
                 console.log('끝')
-                this.getUserBoardItems();
+                this.getUserBoardItems(this.uid);
             }
         },
         modalShow(item){

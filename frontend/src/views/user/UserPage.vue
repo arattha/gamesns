@@ -103,8 +103,8 @@ export default {
         this.uid = this.$store.state.uid;
         this.nickname = this.$store.state.nickname;
         
-        this.getUserBoardItems();
         this.userInfo = this.$route.params.suggest;
+        this.getUserBoardItems(this.userInfo.uid);
         window.addEventListener('scroll', this.handleScroll);
         // console.log("userinfo",this.userInfo);
         UserApi
@@ -167,7 +167,7 @@ export default {
 
             if(scrollLocation + windowHeight >= fullHeight){
                 console.log('끝')
-                this.getUserBoardItems(this.uid);
+                this.getUserBoardItems(this.userInfo.uid);
             }
         },
         modalShow(item){
