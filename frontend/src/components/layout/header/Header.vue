@@ -12,6 +12,9 @@
                 <div class="mypage-btn">
                     <div @click="goToMypage"><i class="fas fa-user-circle" ></i></div>
                 </div>
+                <div class="logout-btn">
+                    <div><i class="fas fa-sign-out-alt"></i></div>
+                </div>
             </ul>
         </nav>
     </div>
