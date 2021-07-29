@@ -1,6 +1,6 @@
 <template>
   <div class="fbody">
-    <div class="col-lg-6 offset-lg-3">
+    
     <div class="cardbox bg-white">
       <!-- 프로필 -->
         <div class="cardbox-heading">
@@ -16,8 +16,8 @@
 
         <!-- 이미지나 내용 -->
         <div class="cardbox-item">
-          <div class="image-slider" style="padding: 0;">
-          <div class="slider" v-if="img_src.length > 1" style="padding: 0;">
+          <div class="image-slider" style="padding: 0;" v-if="img_src.length > 1">
+          <div class="slider" style="padding: 0;">
             <button class="prev" @click="prev"><i class="fas fa-chevron-left"></i></button>
             <button class="next" @click="next"><i class="fas fa-chevron-right"></i></button>
           </div>
@@ -49,7 +49,7 @@
           <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         </div>
     </div>
-    </div>
+
   </div>
 </template>
 
