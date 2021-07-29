@@ -5,14 +5,16 @@
       <h4 class="title">Following - {{ following.length }}</h4>
       <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
       <li class="list" v-for="(follow, idx) in following" :key="idx">
-        <div>
-          <img :src="'http://localhost:8080/account/file/' + follow.toNickname">
-          <button @click="goUserPage(follow)">{{follow.toNickname}}</button>
+        <div class="small-user-img-div">
+          <img :src="'http://localhost:8080/account/file/' + follow.toNickname" class="small-user-img">
+          <span class="small-user-comment" @click="goUserPage(follow)">{{follow.toNickname}}</span>
         </div>
         <!-- 사용자 아이디와 같으면 삭제 버튼을 생성 : 사용자 아이디는 어떤 화면에서든 가져올 수 있다. -->
-        <b-button variant="danger" @click="deleteFollow(follow.toNickname)">삭제</b-button>
+        <button class="deny-btn" @click="deleteFollow(follow.toNickname)">삭제</button>
       </li>
-
+    </div>
+    <div>
+      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
     </div>
     <Footer/>
   </div>
