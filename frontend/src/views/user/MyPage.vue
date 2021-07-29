@@ -11,7 +11,7 @@
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
-						<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxF5EE%2FbtqzBVKqpvW%2Ffa2TnqjoXkLRwwBkLnChJ1%2Fimg.png">
+						<img :src="'http://localhost:8080/account/file/' + nickname">
 					</div>
 				</div>
 				<div class="card-body">
@@ -116,7 +116,7 @@ export default {
             ,(() => {})
         )
 
-        this.getUserBoardItems();
+        this.getUserBoardItems(this.uid);
         window.addEventListener('scroll', this.handleScroll);
     },
     computed: {  
@@ -134,16 +134,15 @@ export default {
         goMyedit() {
             this.$router.push("/mypage/edit");
         },
-        handleScroll(e) {
+        handleScroll() {
 
             let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
             let windowHeight = window.innerHeight; // 스크린 창
             let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
             //console.log(document.documentElement.scrollTop);
-
             if(scrollLocation + windowHeight >= fullHeight){
                 console.log('끝')
-                this.getUserBoardItems();
+                this.getUserBoardItems(this.uid);
             }
         },
         modalShow(item){

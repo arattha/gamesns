@@ -11,7 +11,7 @@
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
-						<img src="https://t1.daumcdn.net/cfile/tistory/99D0593B5FA926B127">
+						<img :src="'http://localhost:8080/account/file/' + userInfo.nickname">
 					</div>
 				</div>
 				<div class="card-body">
@@ -103,8 +103,8 @@ export default {
         this.uid = this.$store.state.uid;
         this.nickname = this.$store.state.nickname;
         
-        this.getUserBoardItems();
         this.userInfo = this.$route.params.suggest;
+        this.getUserBoardItems(this.userInfo.uid);
         window.addEventListener('scroll', this.handleScroll);
         // console.log("userinfo",this.userInfo);
         UserApi
@@ -151,6 +151,7 @@ export default {
                     memberName: this.nickname,
                     followingName: this.userInfo.nickname
                 };
+                console.log("userpage", msg);
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
             }
 
@@ -166,7 +167,7 @@ export default {
 
             if(scrollLocation + windowHeight >= fullHeight){
                 console.log('끝')
-                this.getUserBoardItems();
+                this.getUserBoardItems(this.userInfo.uid);
             }
         },
         modalShow(item){

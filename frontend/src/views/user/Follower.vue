@@ -33,18 +33,20 @@ export default {
     data () { 
       return {
         uid: '',
+        nickname: '',
         follower: [],
       }
     },
     created() {
       this.follower = this.$route.params.follower;
       this.uid = this.$store.state.uid;
+      this.nickname = this.$store.state.nickname;
     },
     methods: {
       deleteFollow(u){
         let data = {
           fromNickname: u,
-          toNickname: this.uid,
+          toNickname: this.nickname,
           type: false
         }
         UserApi

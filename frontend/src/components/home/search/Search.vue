@@ -9,31 +9,23 @@
           </button>
       </div>
 
-  <!--
-      <div class="credits__container">
-          <p class="credits__text">추천태그:
-               해당 태그 누르면 올라가게 
-              <a href="https://www.pantone.com/color-of-the-year-2016"
-              class="credits__link">리그오브레전드</a>
-              <a href="https://www.pantone.com/color-of-the-year-2016"
-              class="credits__link">Steam</a>
-              <a href="https://www.pantone.com/color-of-the-year-2016"
-              class="credits__link">스타크래프트</a>
-          </p>
-      </div>
-      -->
       <hr>
       <div class="Search-list">
-          <!-- 여기는 따로 SearchList.vue 만들어서 import하자 -->
-          <h4 style="margin-left:8px">나의 검색기록</h4>
-          <!-- 내가 검색했던 기록들 아래와 같이 나올 수 있게
-          <ul>
-              <li>- 서든어택</li>
-              <li>- 리그오브레전드</li>
-              <li>- 로스트아크</li>
-              <li>- 블레이드소울</li>
-          </ul>
-        -->
+        <!-- 여기는 따로 SearchList.vue 만들어서 import하자 -->
+        <h4 class="mb-5" style="margin-left:8px">나의 검색기록</h4>
+        <!-- 내가 검색했던 기록들 아래와 같이 나올 수 있게 -->
+            
+            <button v-for="(user,index) in recentSearched" :key="index" @click="recentSearch(user)">
+              <!--<img />-->
+              {{user}}
+          </button>
+
+        <!-- <ul>
+            <li>- 서든어택</li>
+            <li>- 리그오브레전드</li>
+            <li>- 로스트아크</li>
+            <li>- 블레이드소울</li>
+        </ul> -->
       </div>
       <Footer/>
   </div>
@@ -41,7 +33,10 @@
 
 <script>
 import Footer from '@/components/layout/footer/Footer.vue';
+import http from '@/util/http-common.js'
 import { mapActions , mapGetters } from "vuex";
+import UserApi from '../../../api/UserApi';
+
 export default {
     name:'Search',
     components: {
@@ -58,12 +53,22 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["searched"]),
+        ...mapGetters(["searched", "recentSearched"]),
     },
     methods:{
-        ...mapActions(["searchUser"]),
+        ...mapActions(["searchUser", "recentUser"]),
         userLink(suggest){
+            this.recentUser(suggest.nickname);
             this.$router.push({ name: 'UserPage', params: {suggest}})
+        },
+        recentSearch(user) {
+            this.recentUser(user);
+
+            UserApi.requestGetUser(user
+            ,(res) => { 
+                this.userLink(res.data.object);
+            }
+            ,() => {});
         }
     },
 }

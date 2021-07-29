@@ -61,19 +61,19 @@ position: fixed;
     display: inline;
     /* padding: 10px; */
     margin: 10px 0;
-    left: 1%;
+    left: 20px;
     /* transform: translate(-50%); */
 }
 
 .logo img {
-    width: 30vw;
+    width: 130px;
     object-fit: contain;
 }
 
 .mypage-btn {
     display: inline;
     position: absolute;
-    left: 90%;
+    right: 20px;
     text-align: center;
     color: #ff8f00;
 }
@@ -81,7 +81,7 @@ position: fixed;
 .alarm-btn {
     display: inline;
     position: absolute;
-    left: 80%;
+    right: 70px;
     text-align: center;
     color: #ff8f00;
 }
@@ -93,7 +93,7 @@ position: fixed;
   }
 
   @media (hover: hover) {
-    .mypage-btn div:hover, .alarm-btn div:hover {
+    .mypage-btn div:hover, .alarm-btn div:hover, .logout-btn div:hover{
         color: #e74c3c;
         cursor: pointer;
     }
@@ -101,4 +101,13 @@ position: fixed;
 
 .logo img:hover{
     cursor: pointer;
+}
+
+.logout-btn {
+    display: inline;
+    position: absolute;
+    right: 140px;
+    text-align: center;
+    /* color: #ff8f00; */
+    font-size: 24px;
 }

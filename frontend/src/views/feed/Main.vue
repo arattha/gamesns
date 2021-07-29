@@ -4,7 +4,7 @@
   <div class="100hv" style="background-color: #FDF5E6;">
   <div class="feed newsfeed">
     <div class="" @scroll.passive="handleScroll">
-      <ModalFeed v-if="isModalViewed" @close-modal="isModalViewed = false" :boardItem="temp"/>
+      <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
       <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
         <FeedItem :boardItem ="boardItem"/>
       </div>
@@ -45,24 +45,16 @@ export default {
   methods: {
     ...mapActions(["getBoardItems"]),
     // 무한 스크롤 정의
-    handleScroll(e) {
+    handleScroll() {
 
       let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
       let windowHeight = window.innerHeight; // 스크린 창
       let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
 
       if(scrollLocation + windowHeight >= fullHeight){
-        console.log('끝')
-        this.getBoardItems();
+        this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
       }
-    },
-    getDocumentHeight() { //창의 총높이
-      let scrollHeight = Math.max(
-                          document.body.scrollHeight, document.documentElement.scrollHeight,
-                          document.body.offsetHeight, document.documentElement.offsetHeight,
-                          document.body.clientHeight, document.documentElement.clientHeight
-                        );
-      return scrollHeight;
+
     },
     modalShow(item){
       this.isModalViewed = !this.isModalViewed;

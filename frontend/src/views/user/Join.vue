@@ -6,64 +6,59 @@
  -->
 <template>
   <div class="join-body-container">
-    <div class="join-container">
+    <div class="join-container" >
       <div class="login-box">
         <div class="logo-box">
-          <img src="@/assets/images/logo.png" alt="" style="width: 90%; height: auto;" />
+          <img src="@/assets/images/logo2.png" alt="" style="width: 90%; height: auto;" />
         </div>
-        <h3 style="color: #FFB937	; margin-bottom: 40px;">가입하기</h3>
+        <h5 style="margin-bottom: 40px; font-family: 'Nanum Gothic', sans-serif;">회원가입</h5>
 
-        <div class="nickname-confirm">
-          <span class="nickname-word">닉네임</span>
-          <span><button class="nickname-confirm-box" @click="dupCheck">중복확인</button></span>
-        </div>
-
-        <div class="input-with-label" style="margin-top:15px">
+        <div>
           <input
-            v-model="nickname"
+            v-model="nickName"
             autocapitalize="off"
             v-bind:class="{
-              error: error.nickname,
-              complete: !error.nickname && nickname.length !== 0,
+              error: error.nickName,
+              complete: !error.nickName && nickName.length !== 0,
             }"
             id="nickname"
             placeholder="닉네임을 입력하세요."
             type="text"
+            class="nickname-input"
           />
+          <input type="submit" class="nickname-input" id="nickname-submit" value="중복확인" @click="dupCheck">
           <label for="nickname"></label>
-          <div iv class="error-text" v-if="error.nickname">{{ error.nickname }}</div>
+          <div iv class="error-text" v-if="error.nickName">{{ error.nickName }}</div>
         </div>
-
         <button
-          class="join-btn"
-          @click="signUp"
-          :disabled="!isSubmit"
-          :class="{ disabled: !isSubmit }"
-        >
-          START
+            class="join-btn"
+            @click="signUp"
+            :disabled="!isSubmit"
+            :class="{ disabled: !isSubmit }"
+          >
+            START
         </button>
       </div>
+    </div>
+    <div>
+      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
     </div>
   </div>
 </template>
 
 <script>
 import UserApi from '../../api/UserApi';
-import http from '@/util/http-common';
-import { mapActions, mapGetters } from 'vuex';
 
 export default {
   data: () => {
     return {
-      nickname: '',
+      nickName: '',
       isDup: false,
       error: {
-        nickname: false,
+        nickName: false,
       },
       isSubmit: false,
       code: '',
-      uid: '',
-      accessToken: '',
     };
   },
   created() {
@@ -75,10 +70,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setAccessToken', 'setUid', 'setNickname']),
-
     create() {
       this.code = this.$route.query.code;
+
+      console.log('ggg');
+      console.log(this.code);
 
       UserApi.requestkakaoLogin(
         this.code,
@@ -102,7 +98,9 @@ export default {
           console.log(res);
 
           if (res.status) {
+            this.nickname = res.object;
             this.login();
+
           }
         },
         (error) => {
@@ -137,16 +135,13 @@ export default {
           }
         },
         (error) => {
-          alert('잘못된 접근입니다?');
-          this.$router.push('/');
         }
       );
     },
-
     checkForm() {
       // nickname 중복 확인 필요
-      if (this.nickname.length == 0) this.error.nickname = '닉네임은 한 글자 이상이어야 합니다.';
-      else this.error.nickname = false;
+      if (this.nickName.length == 0) this.error.nickName = '닉네임은 한 글자 이상이어야 합니다.';
+      else this.error.nickName = false;
 
       let isSubmit = true;
       Object.values(this.error).map((v) => {
@@ -158,7 +153,7 @@ export default {
       if (this.isSubmit && this.isDup) {
         let data = {
           uid: this.uid,
-          nickname: this.nickname,
+          nickname: this.nickName,
         };
 
         console.log(data);
@@ -168,14 +163,9 @@ export default {
         UserApi.requestSignUp(
           data,
           (res) => {
-            if (res.status) {
-              alert('회원가입 완료!');
-              this.isSubmit = true;
-              this.login();
-            } else {
-              alert('회원가입 실패 다시 시도해주세요.');
-              // this.$router.push('/');
-            }
+            this.isSubmit = true;
+            // feed/main으로 가야함
+            this.$router.push('/user/joinSC');
           },
           (error) => {
             if (error) this.$router.push('/error');
@@ -189,21 +179,23 @@ export default {
       }
     },
     dupCheck() {
-      if (!this.error.nickname) {
+      if(!this.error.nickName) {
+        
         UserApi.requestDupCheck(
-          this.nickname,
-          () => {
+          this.nickName
+          ,() => { 
             this.isDup = true;
-            this.checkForm();
-          },
-          () => {}
+            this.checkForm(); 
+          }
+          ,() => { }
         );
+
       }
-    },
+    }
   },
 };
 </script>
 
 <style>
-@import '../../components/css/user/join.css';
+    @import "../../components/css/user/join.css";
 </style>

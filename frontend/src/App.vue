@@ -13,7 +13,7 @@ export default {
   data(){
     return{
       first: true,
-      recvList:[],
+      recvList:null,
     }
   },
   created() {
@@ -31,40 +31,26 @@ export default {
           // 소켓 연결 성공
           this.connected = true;
           console.log('소켓 연결 성공', frame);
-        //   this.send();
-          // 서버의 메시지 전송 endpoint를 구독합니다.
-          // 이런형태를 pub sub 구조라고 합니다.
-        //   this.stompClient.send("/first", res => {
-        //       console("first", res);
-        //   });
-        if(this.first) {
-            this.stompClient.send("/first", {}, {});
-            console.log("first?")
-            this.stompClient.subscribe("/firstSend", res => {
-                console.log("here", res);
-                this.recvList = res.body.replaceAll("[","").replaceAll("]","").replaceAll('"',"").split(",");
-            })
-            this.first = false;
-        }
+          
+          // 최초 한번 recvList 를 받기 위한 send
+          this.stompClient.send("/receive", JSON.stringify({
+            memberName: "",
+            followingName: "",
+          }), {})
 
-        this.stompClient.subscribe("/send", res => {
-            console.log('구독으로 받은 메시지 입니다.', res.body);
-            console.log(res.body);
-            // console.log(res.body.replaceAll("[","").replaceAll("]","").replaceAll("\"","").split(","));
-            // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-            this.recvList = res.body.replaceAll("[","").replaceAll("]","").replaceAll('"',"").split(",");
-            console.log("recvList" + this.recvList);
-            if(this.recvList == '') this.recvList = [];
-        });
+          // subscribe 로 alarm List 가져오기
+          this.stompClient.subscribe("/send", (res) => {
+            this.recvList = JSON.parse(res.body);
+            console.log("새롭게 가져온다", this.recvList);
+          })
         
         },
         error => {
           // 소켓 연결 실패
           console.log('소켓 연결 실패', error);
-          this.connected = false;
         }
       );
-    }
+    },
   }
 };
 </script>
