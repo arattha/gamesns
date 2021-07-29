@@ -11,7 +11,7 @@
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
-						<img src="https://t1.daumcdn.net/cfile/tistory/99D0593B5FA926B127">
+						<img :src="'http://localhost:8080/account/file/' + userInfo.nickname">
 					</div>
 				</div>
 				<div class="card-body">
@@ -151,6 +151,7 @@ export default {
                     memberName: this.nickname,
                     followingName: this.userInfo.nickname
                 };
+                console.log("userpage", msg);
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
             }
 

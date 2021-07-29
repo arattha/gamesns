@@ -12,21 +12,41 @@ export default new Vuex.Store({
   state: {
     boardItems: [],
     searched: [],
+    recentSearched: [],
     replyList: [],
     accessToken: '',
     uid: '',
     nickname: '',
   },
   mutations: {
-    GET_BOARD_ITEMS(state, payload) {
+    SET_BOARD_ITEMS(state, payload) {
       state.boardItems = state.boardItems.concat(payload);
       //state.boardItems.push(payload);
     },
-    GET_SEARCHED(state, payload) {
+    SET_SEARCHED(state, payload) {
       state.searched = payload;
     },
     GET_REPLY_LIST(state, payload) {
       state.replyList = state.replyList.concat(payload);
+    },
+    SET_RECENTSEARCHED(state, payload) {
+      
+      console.log("first", state.recentSearched);
+      state.recentSearched.splice(0,0,payload);
+      console.log("second",state.recentSearched);
+      
+      var uniqueArr = [];
+      state.recentSearched.forEach((element) => {
+        if (!uniqueArr.includes(element)) {
+          uniqueArr.push(element);
+        }
+      });
+
+      state.recentSearched = uniqueArr;
+      
+    },
+    SET_REPLY_LIST(state, payload) {
+      state.replyList = payload;
     },
     SET_ACCESS_TOKEN(state, payload) {
       state.accessToken = payload;
@@ -44,6 +64,9 @@ export default new Vuex.Store({
     },
     searched(state) {
       return state.searched;
+    },
+    recentSearched(state) {
+      return state.recentSearched;
     },
     replyList(state) {
       return state.replyList;
@@ -82,7 +105,7 @@ export default new Vuex.Store({
       http
         .get(`/board`, { params: data })
         .then(({ data }) => {
-          context.commit('GET_BOARD_ITEMS', data.object);
+          context.commit('SET_BOARD_ITEMS', data.object);
         })
         .catch(() => {
           alert('에러가 발생했습니다.');
@@ -103,7 +126,7 @@ export default new Vuex.Store({
       http
         .get(`/board/user`, { params: data })
         .then(({ data }) => {
-          context.commit('GET_BOARD_ITEMS', data.object);
+          context.commit('SET_BOARD_ITEMS', data.object);
         })
         .catch(() => {
           alert('에러가 발생했습니다.');
@@ -113,7 +136,7 @@ export default new Vuex.Store({
       http
         .get(`/reply`, { params: data })
         .then(({ data }) => {
-          commit('GET_REPLY_LIST', data.object.content);
+          commit('SET_REPLY_LIST', data.object.content);
           console.log('reply');
           console.log(data);
         })
@@ -157,11 +180,17 @@ export default new Vuex.Store({
       http
         .get(`/search`, { params: data })
         .then(({ data }) => {
-          commit('GET_SEARCHED', data);
+          commit('SET_SEARCHED', data);
         })
         .catch(() => {
           alert('에러가 발생했습니다.');
         });
+    },
+    recentUser({ commit }, val) {
+
+      commit('SET_RECENTSEARCHED', val);
+
+      
     },
   },
 });

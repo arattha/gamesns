@@ -11,7 +11,7 @@
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
-						<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxF5EE%2FbtqzBVKqpvW%2Ffa2TnqjoXkLRwwBkLnChJ1%2Fimg.png">
+						<img :src="'http://localhost:8080/account/file/' + nickname">
 					</div>
 				</div>
 				<div class="card-body">

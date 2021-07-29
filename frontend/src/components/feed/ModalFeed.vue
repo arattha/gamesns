@@ -6,11 +6,9 @@
         <div class="top">
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
-            <div class="user-name">
-              <button>{{boardItem.nickname}}</button>
-            </div>
-            <div class="user-writing-time">
-              <h5>12minutes ago</h5>
+            <div class="media-body">
+              <p class="m-0 name">{{boardItem.nickname}} 임시</p>
+              <p class="m-0 time">10 hours ago</p>
             </div>
             <!-- <p class="date">9시간 후</p> -->
           </div>
@@ -25,7 +23,6 @@
         <div class="content">
           <span>{{boardItem.contents}}</span>
         </div>
-        <hr>
         <ul class="img-comment-list">
           <li v-for="(reply,index) in replyList" :key="index">
             <!--
@@ -116,137 +113,5 @@ export default {
 }
 </script>
 <style>
-
-.modal-container {
-  font-family: 'Nanum Gothic', sans-serif;
-  position: relative;
-  top: 50%;
-  left: 100%;
-}
-
-.modal,
-.overlay {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-}
-.overlay {
-  opacity: 0.5;
-  background-color: black;
-}
-.modal-card {
-  position: relative;
-  max-width: 80%;
-  margin: auto;
-  margin-top: 30px;
-  background-color: white;
-  min-height: 500px;
-  z-index: 10;
-  opacity: 1;
-}
-
-.user-writing-time{
-  display: flex;
-  align-items: center;
-  position: absolute;
-  right: 12%;
-}
-
-
-/* 아래 부터 feed-item scss */
-
-.feed-item {
-    padding: 0;
-    margin-bottom: 30px;
-    background-color: white;
-    padding-bottom: 20px;
-    border: 1px solid #dcdcdc;
-}
-
-.top {
-    display: flex;
-    padding: 10px 15px 10px 15px;
-    border-bottom: 1px solid #dcdcdc;
-}
-.profile-image {
-    float: left;
-    height: 35px;
-    width: 35px;
-}
-.feed-item .content {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 15px;
-}
-.user-info {
-  display: flex;
-}
-.user-name {
-  float: left;
-  display: flex;
-}            
-button {
-  font-weight: f600;
-  align-items: center;
-            }
-
-.my-image {
-  display: flex;
-  width:90%;
-  height:90%;
-  margin: 0 auto;
-  margin-top: 10px; 
-}
-
-/* 하단 부터 comment-list */
-
-.feed-item li {
-  display: flex;
-  text-align: -webkit-match-parent;
-  padding: 10px 15px;
-  align-items: center;
-}
-
-.img-comment-list .comment-img {
-  margin-right:15px;
-}
-
-.img-comment-list img {
-  margin: 0px;
-}
-
-.modal-container .img-comment-list {
-    list-style: none;  
-    padding: 0;
-}
-.modal-container .img-comment-list li {
-    margin:0;
-}
-
-.modal-container .img-comment-list li > div {
-    display:table-cell;
-}
-
-.modal-container .img-comment-list img {
-    border-radius:50%;
-    width: 42px;
-    height: 42px;
-    margin-right: 10px;
-    margin-top: 20px;
-}
-
-.modal-container .img-comment-list p {
-    margin: 0;
-}
-
-.modal-container .img-comment-list span {
-    font-size: .8em; 
-    color: #aaa;
-}
-
-.feed-item hr {
-  margin: 5px 0px;
-}
+  @import "../css/feed/modalfeed.css"; 
 </style>
