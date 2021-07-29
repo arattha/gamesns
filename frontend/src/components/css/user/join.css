@@ -7,6 +7,7 @@
     align-items: center;
     height: 100vh;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+    background-color: #FFB937;
 }
 
 .join-btn {
@@ -17,14 +18,17 @@
     line-height: 50px;
     font-weight: f600;
     position: relative;
+    top: 60px;
     left: 0px;
-    top: 25px;
     width: 100%;
     cursor: pointer;
     transform: rotate(0.1deg);
     /* &.disabled {
           background: $grey;
           cursor: default; */
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: 'Nanum Gothic', sans-serif;
   }
   
   .disabled {
@@ -33,26 +37,32 @@
   }
   
   #nickname {
-    padding: 0px;
+    /* padding: 0px;
     text-align: center;
-    font-size: 18px;
+    font-size: 18px; */
+    width: 75%;
+    background: #FDFCFB;
+    font-family: inherit;
+    color: #737373;
+    letter-spacing: 1px;
+    text-indent: 5%;
+    border-radius: 5px 0 0 5px;
+    font-family: 'Nanum Gothic', sans-serif;
   }
   
-  .nickname-confirm {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    align-items: center;
-  }
-  
-  .nickname-word {
-    font-size: 24px;
-  }
-  
-  .nickname-confirm-box {
-    background-color: #c67c00;
+  #nickname-submit {
+    width: 25%;
+    height: 46px;
+    background: #FFB937;
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+    letter-spacing: 1px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background .3s ease-in-out;
     color: white;
-    padding: 10px;
+    font-family: 'Nanum Gothic', sans-serif;
   }
 
   .login-box {
@@ -62,7 +72,7 @@
   .join-container {
     margin: 0 auto;
     max-height: 1000px;
-    height: 100%;
+    height: 90%;
     /* min-height: 400px; */
     /* min-height: 500px; */
     /* margin-top: 180px;
@@ -76,4 +86,21 @@
     background-color: white;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
     padding: 15px;
+    border-radius: 10px 10px 10px 10px;
+  }
+
+  .nickname-input {
+    height: 44px;
+    border: none;
+    margin-bottom: 10px;
+  }
+
+  .error-text{
+    padding-top: 5px;
+    color: #ef5350
+  }
+
+  .logo-box {
+    position:relative;
+    bottom: 60px;
   }
