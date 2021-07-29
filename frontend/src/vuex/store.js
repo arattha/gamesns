@@ -26,7 +26,7 @@ export default new Vuex.Store({
       state.searched = payload;
     },
     GET_REPLY_LIST(state, payload) {
-      state.replyList = payload;
+      state.replyList = state.replyList.concat(payload);
     },
     SET_ACCESS_TOKEN(state, payload) {
       state.accessToken = payload;

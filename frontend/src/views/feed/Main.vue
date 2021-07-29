@@ -52,16 +52,9 @@ export default {
       let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
 
       if(scrollLocation + windowHeight >= fullHeight){
-        this.getBoardItems();
+        this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
       }
-    },
-    getDocumentHeight() { //창의 총높이
-      let scrollHeight = Math.max(
-                          document.body.scrollHeight, document.documentElement.scrollHeight,
-                          document.body.offsetHeight, document.documentElement.offsetHeight,
-                          document.body.clientHeight, document.documentElement.clientHeight
-                        );
-      return scrollHeight;
+
     },
     modalShow(item){
       this.isModalViewed = !this.isModalViewed;

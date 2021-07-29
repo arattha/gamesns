@@ -1,7 +1,7 @@
 <template>
   <div style="display : flex"  class="modal modal-container">
     <div class="overlay" @click="$emit('close-modal')"></div>
-    <div class="modal-card" style="overflow:scroll; width:100%; height:90%;">
+    <div id = "test" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
       <div class="feed-item">
         <div class="top">
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
@@ -33,7 +33,7 @@
                 <img src="http://lorempixel.com/50/50/people/6">
               </div>
             -->
-            <div id = "real" class="comment-text">
+            <div  class="comment-text">
               <strong><a href="">{{reply.nickname}}</a></strong>
               <p>{{reply.content}}</p> 
               <span class="date sub-text">on December 5th, 2016</span>
@@ -69,7 +69,7 @@ export default {
     };
   },
   created() {
-    window.addEventListener('scroll', this.handleScroll);
+
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
@@ -78,16 +78,20 @@ export default {
                         lastRid : 0
                       });
     this.nickname = this.$store.state.nickname;
-    console.log(this.$store.state.nickname);
+    //console.log(this.$store.state.nickname);
+
+  },
+  mounted(){
+    const $test = document.querySelector('#test');
+    $test.addEventListener("scroll", (e) => this.handleScroll(e));
   },
   computed: {
-
     ...mapGetters(["replyList"]),
   },
   methods: {
     ...mapActions(["getReplyList","addReply"]),
     submitReply(){
-      console.log(this.$store.state.nickname);
+      //console.log(this.$store.state.nickname);
       let data = {
         uid : this.$store.state.uid,
         bid : this.boardItem.bid,
@@ -96,33 +100,18 @@ export default {
       }
       this.addReply(data);
     },
-    // handleScroll() {
+    handleScroll(e) {
 
-    //         let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
-    //         let windowHeight = window.innerHeight; // 스크린 창
-    //         let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
-    //         //console.log(document.documentElement.scrollTop);
-            
-    //         let result = document.querySelector('#real').clientHeight;
-    //         let result2 = document.querySelector('#real').scrollHeight;
-    //         let result3 = document.querySelector('#real').scrollTop;
-    //         console.log(result);
-    //         console.log(result2);
-    //         console.log(result3);
-    //         if(scrollLocation + windowHeight >= fullHeight){
-    //             console.log('끝')
-    //             let temp = ( this.replyList.length > 0 ) ? this.replyList[this.replyList.length - 1].rid : 0;
-    //             this.getReplyList({ bid : this.boardItem.bid,
-    //                     lastRid : temp
-    //                   });
-    //         }
+      console.log(this.replyList);
 
-            
-    // },
+      if(e.target.scrollHeight ==  e.target.scrollTop + e.target.clientHeight)
+        this.getReplyList({ bid : this.boardItem.bid,
+                            lastRid : this.replyList[this.replyList.length - 1].rid
+                          });
+    },
   },
   destroyed(){
     this.$store.state.replyList = [];
-    window.removeEventListener('scroll', this.handleScroll);
   },
 }
 </script>
