@@ -16,8 +16,11 @@
 
         <!-- 이미지나 내용 -->
         <div class="cardbox-item">
-          <image-slider v-if="img_src.length > 0">
-            <p><a @click="prev">Previous</a>||<a @click="next">Next</a></p>
+          <image-slider>
+          <div class="slider" v-if="img_src.length > 1" style="padding: 0;">
+            <button class="prev" @click="prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="next" @click="next"><i class="fas fa-chevron-right"></i></button>
+          </div>
           <!-- 이미지 -->
           <div class="ffimg" style="padding: 0px;" v-for="number in [currentNumber]" v-bind:key="number" transition="fade">
             <img class="img-fluid" alt=""
@@ -68,10 +71,12 @@ export default {
     });
   },
   methods: {
-    next: function() {
+    next: function(e) {
+      e.stopPropagation();
       this.currentNumber += 1
     },
-    prev: function() {
+    prev: function(e) {
+      e.stopPropagation();
       this.currentNumber -= 1
     }
   },
