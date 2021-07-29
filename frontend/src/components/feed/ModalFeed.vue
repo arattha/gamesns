@@ -1,5 +1,5 @@
 <template>
-  <div style="display : flex"  class="modal modal-container">
+  <div style="display : flex;"  class="modal modal-container">
     <div class="overlay" @click="$emit('close-modal')"></div>
     <div id = "test" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
       <div class="feed-item">
@@ -16,13 +16,22 @@
             <img src="@/assets/images/ellipsis.png" alt="">
           </div>
         </div>
-        <div class="image my-image" >
-          <img v-for="(img,index) in img_src" :key="index" :src="img" alt="">
-        <!--이미지 -->
-        </div>
-        <div class="content">
-          <span>{{boardItem.contents}}</span>
-        </div>
+        <!-- 이미지-->
+        <div class="mcardbox-item">
+          <div class="mimage-slider" style="padding: 0;" v-if="img_src.length > 1">
+          <div class="mslider" style="padding: 0;">
+            <button class="prev" @click="prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="next" @click="next"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <!-- 이미지 -->
+          <div class="mffimg" style="padding: 0px;" v-for="number in [currentNumber]" v-bind:key="number" transition="fade">
+            <img class="img-fluid" alt=""
+              :src="img_src[Math.abs(currentNumber) % img_src.length]">
+          </div>
+          </div>
+        </div><!--/ cardbox-item -->
+        <div style="mcontent">{{boardItem.contents}}</div>
+
         <ul class="img-comment-list">
           <li v-for="(reply,index) in replyList" :key="index">
             <!--
@@ -63,6 +72,7 @@ export default {
       search: "",
       nickname : "",
       isModalViewed: false,
+      currentNumber: 0
     };
   },
   created() {
@@ -106,6 +116,14 @@ export default {
                             lastRid : this.replyList[this.replyList.length - 1].rid
                           });
     },
+    next: function(e) {
+      e.stopPropagation();
+      this.currentNumber += 1
+    },
+    prev: function(e) {
+      e.stopPropagation();
+      this.currentNumber -= 1
+    }
   },
   destroyed(){
     this.$store.state.replyList = [];
