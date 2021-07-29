@@ -36,7 +36,7 @@ export default new Vuex.Store({
     },
     SET_NICKNAME(state, payload) {
       state.nickname = payload;
-    },
+    }
   },
   getters: {
     boardItems(state) {
@@ -89,9 +89,17 @@ export default new Vuex.Store({
         });
     },
     getUserBoardItems(context, targerUid) {
-      let data = {
-        uid: targerUid,
-      };
+      let data;
+      if (context.state.boardItems.length == 0) {
+        data = {
+          uid: targerUid,
+        };
+      } else {
+        data = {
+          uid: targerUid,
+          bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid),
+        };
+      }
       http
         .get(`/board/user`, { params: data })
         .then(({ data }) => {
@@ -108,6 +116,18 @@ export default new Vuex.Store({
           commit('GET_REPLY_LIST', data.object.content);
           console.log('reply');
           console.log(data);
+        })
+        .catch(() => {
+          alert('에러가 발생했습니다.');
+        });
+    },
+    addReply({ commit }, data) {
+      http
+        .post(`/reply`, data )
+        .then(({ data }) => {
+          console.log('reply');
+          console.log(data);
+          alert('댓글이 등록되었습니다.');
         })
         .catch(() => {
           alert('에러가 발생했습니다.');
