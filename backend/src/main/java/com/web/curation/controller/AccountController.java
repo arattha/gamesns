@@ -120,28 +120,20 @@ public class AccountController {
     @GetMapping("/dupcheck")
     @ApiOperation(value = "중복체크")
     public Object dupcheck(@RequestParam("nickname") String nickname) {
-        System.out.println(nickname);
+
+        final BasicResponse result = new BasicResponse();
+
         if(service.getUserByNickname(nickname).isPresent()){
             // 중복 => 가입 실패
-            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+            result.status = true;
+            result.data = "fail";
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            result.status = true;
+            result.data = "success";
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
-
-//    @PostMapping("/account/signup")
-//    @ApiOperation(value="회원가입")
-//    public Object signup(@RequestBody SignupRequest request) {
-//
-//        if(service.addUser(request)) {
-//            // 가입 성공
-//            return new ResponseEntity<>(null, HttpStatus.OK);
-//        } else {
-//            // 에러
-//            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-//        }
-//
-//    }
 
     // myPage 에서 회원 정보 수정
     // 처음에 기본이미지로 저장된 이미지를 수정
@@ -164,15 +156,19 @@ public class AccountController {
             String filePath = "C://upload//";
             String originFile = request.getMultipartFile().getOriginalFilename();
             String originalFileExtension = originFile.substring(originFile.lastIndexOf("."));
-            String storedFileName = request.getUid() + originalFileExtension;
+            String storedFileName = request.getNickname() + originalFileExtension;
             File file = new File(filePath + storedFileName);
 
             request.getMultipartFile().transferTo(file);
 
             if(service.updateMember(member, request, filePath + storedFileName)) {
-                return new ResponseEntity<>(null, HttpStatus.OK);
+                result.status = true;
+                result.data = "success";
+                return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+                result.status = true;
+                result.data = "fail";
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
         } else{
             result.status = true;

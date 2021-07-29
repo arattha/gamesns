@@ -29,7 +29,7 @@
                 <div class="info-box">
                     <!-- 현재 닉네임 보여주고/필수-->
                     <div class="input-container" style="align-content: center;">
-                        <input v-model="newNickname" id="name" class="input" type="text" :placeholder="nickname" pattern=".+" required />
+                        <input v-model="newNickname" id="name" class="input" type="text" pattern=".+" required />
                         <label class="label" for="name">닉네임</label>
                         <div class="check">
                             <div class="check_btn" @click="dupCheck">중복체크</div>
@@ -100,7 +100,13 @@ export default {
         this.uid = this.$store.state.uid;
         this.nickname = this.$store.state.nickname;
 
-        this.imgPath = "C:\\upload/" + this.id + ".PNG";
+        UserApi.requestGetUser(this.nickname
+            ,(res) => { 
+                this.profileImg = 'http://localhost:8080/account/file/' + this.nickname;
+            }
+            ,() => {});
+
+        // this.imgPath = "C:\\upload/" + this.id + ".PNG";
         // this.nickname = res.data.nickname;
         
     },

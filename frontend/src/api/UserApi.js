@@ -161,6 +161,18 @@ const requestUpdateUser = (formData, callback, errorCallback) => {
     });
 };
 
+const requestGetUser = (data, callback, errorCallback) => {
+  console.log(data);
+  http
+    .get('/info/' + data)
+    .then((res) => {
+      callback(res);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+};
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
@@ -179,6 +191,7 @@ const UserApi = {
   requestExistUser: (data, callback, errorCallback) =>
     requestExistUser(data, callback, errorCallback),
   requestLogin: (data, callback, errorCallback) => requestLogin(data, callback, errorCallback),
+  requestGetUser: (data, callback, errorCallback) => requestGetUser(data, callback, errorCallback),
 };
 
 export default UserApi;
