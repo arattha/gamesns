@@ -26,11 +26,11 @@
 						</div>
                     <div class="info_container">
 							<div class="info">
-								<p>팔로워</p>
+								<p>팔로잉</p>
 								<p @click="showFollowing">{{ following.length }}</p>								
 							</div>
 							<div class="info">
-								<p>팔로잉</p>
+								<p>팔로워</p>
 								<p @click="showFollower">{{ follower.length }}</p>							
 							</div>
 							<div class="info">

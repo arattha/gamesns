@@ -5,14 +5,14 @@
       <h5 class="title">알림 - {{ List.length }}개</h5>
       <div v-if="List.length > 0">
         <li class="list" v-for="(user, index) in List" :key="index">
-          <div class="alarm-comment-img">
+          <div class="small-user-img-div">
             <img
               src="http://lorempixel.com/50/50/people/9"
-              style="margin:0px; border-radius:50%;"
+              class="small-user-img"
             />
             <!-- 임의의 이미지가 들어가는거라, user의 프로필사진이 나오게 해야 함. -->
           </div>
-          <span class="fol-comment">
+          <span class="small-user-comment">
             <div style="margin:0">{{ user }} 님이 팔로우를 신청하셨습니다.</div>
           </span>
           <button class="agree-btn" @click="go(user, 1)">수락</button>
