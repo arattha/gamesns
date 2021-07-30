@@ -12,7 +12,7 @@
           </span>
         </div>
         <!-- 사용자 아이디와 같으면 삭제 버튼을 생성 : 사용자 아이디는 어떤 화면에서든 가져올 수 있다. -->
-        <button class="deny-btn" @click="deleteFollow(follow.fromNickname)">삭제</button>
+        <button class="deny-btn" v-if="isMe" @click="deleteFollow(follow.fromNickname)">삭제</button>
       </li>
     </div>
     <div>
@@ -39,12 +39,14 @@ export default {
         uid: '',
         nickname: '',
         follower: [],
+        isMe: true,
       }
     },
     created() {
       this.follower = this.$route.params.follower;
       this.uid = this.$store.state.uid;
       this.nickname = this.$store.state.nickname;
+      if(this.uid != this.$route.params.uid) this.isMe = false;
     },
     methods: {
       deleteFollow(u){

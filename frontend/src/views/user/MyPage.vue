@@ -26,12 +26,12 @@
 						</div>
                     <div class="info_container">
 							<div class="info">
-								<p>팔로잉</p>
-								<p @click="showFollowing">{{ following.length }}</p>								
+								<p>팔로워</p>
+								<p @click="showFollower">{{ follower.length }}</p>								
 							</div>
 							<div class="info">
-								<p>팔로워</p>
-								<p @click="showFollower">{{ follower.length }}</p>							
+								<p>팔로잉</p>
+								<p @click="showFollowing">{{ following.length }}</p>							
 							</div>
 							<div class="info">
 								<p>매너</p>
@@ -126,10 +126,10 @@ export default {
         ...mapActions(["getUserBoardItems"]),
 
         showFollowing() {
-            this.$router.push({name:"Following", params: {following : this.following, uid: this.uid}});
+            this.$router.push({name:"Following", params: {following : this.following, id: this.uid}});
         },
         showFollower() {
-            this.$router.push({name:"Follower", params: {follower : this.follower, uid: this.uid}});
+            this.$router.push({name:"Follower", params: {follower : this.follower, id: this.uid}});
         },
         goMyedit() {
             this.$router.push("/mypage/edit");

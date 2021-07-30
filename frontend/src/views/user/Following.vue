@@ -10,7 +10,7 @@
           <span class="small-user-comment" @click="goUserPage(follow)">{{follow.toNickname}}</span>
         </div>
         <!-- 사용자 아이디와 같으면 삭제 버튼을 생성 : 사용자 아이디는 어떤 화면에서든 가져올 수 있다. -->
-        <button class="deny-btn" @click="deleteFollow(follow.toNickname)">삭제</button>
+        <button class="deny-btn"  v-if="isMe" @click="deleteFollow(follow.toNickname)">삭제</button>
       </li>
     </div>
     <div>
@@ -36,12 +36,15 @@ export default {
         uid: '',
         nickname:'',
         following: [],
+        isMe: true,
       }
     },
     created() {
       this.following = this.$route.params.following;
       this.uid = this.$store.state.uid;
       this.nickname = this.$store.state.nickname;
+      console.log("fasdfaf ",this.$route.params);
+      if(this.uid == this.$route.params.uid) this.isMe = false;
     },
     methods:{
       goUserPage(u){
