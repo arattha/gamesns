@@ -131,12 +131,17 @@ export default {
         },
         dupCheck(){
             if(this.newNickname.length == 0) {
-                console.log("hi")
                 alert("닉네임을 입력해주세요.");
             } else {
-                console.log("hi2")
                 UserApi.requestDupCheck(this.newNickname
-                    ,() => { this.isSubmit = true; }
+                    ,(res) => { 
+                        if(res.data.data == "fail"){
+                            alert("사용 중인 닉네임입니다.");
+                        } else {
+                            alert("사용가능한 닉네임입니다.");
+                            this.isSubmit = true; 
+                        }
+                    }
                     ,() => {});
             }
         },

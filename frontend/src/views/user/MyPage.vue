@@ -103,6 +103,7 @@ export default {
         UserApi
             .requestFollowing({from: this.uid}
             ,((res) => {
+                console.log(res);
                 this.following = res.data;
             })
             ,(() => {})

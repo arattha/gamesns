@@ -156,7 +156,7 @@ public class AccountController {
             String filePath = "C://upload//";
             String originFile = request.getMultipartFile().getOriginalFilename();
             String originalFileExtension = originFile.substring(originFile.lastIndexOf("."));
-            String storedFileName = request.getNickname() + originalFileExtension;
+            String storedFileName = request.getUid() + originalFileExtension;
             File file = new File(filePath + storedFileName);
 
             request.getMultipartFile().transferTo(file);
@@ -181,18 +181,25 @@ public class AccountController {
     @ApiOperation(value = "내파일")
     public Object bFile(@PathVariable final String nickname, HttpServletRequest request) throws MalformedURLException{
     	Optional<Member> member = service.getUserByNickname(nickname);
-    	
-    	Resource resource =  new FileSystemResource(member.get().getPimg());
-    	
-		if(!resource.exists()) {
+
+    	Resource resource;
+
+		if(member.get().getPimg() == null) {
+
+		    resource = new FileSystemResource("C://upload/default.png");
+
 			final BasicResponse result = new BasicResponse();
 			result.status = true;
 	        result.data = "success";
-			return new ResponseEntity<>(result, HttpStatus.OK);   
-		}
-		
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);  
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "default" + "\"")
+                    .body(resource);
+        } else {
+            resource =  new FileSystemResource(member.get().getPimg());
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        }
+
     }
 }

@@ -43,7 +43,6 @@ export default {
       this.following = this.$route.params.following;
       this.uid = this.$store.state.uid;
       this.nickname = this.$store.state.nickname;
-      console.log("fasdfaf ",this.$route.params);
       if(this.uid == this.$route.params.uid) this.isMe = false;
     },
     methods:{

@@ -59,9 +59,9 @@ public class FollowController {
         Optional<Member> member = accountService.getMember(from);
 
         if(member.isPresent()) {
-
+            System.out.println("hihihi : " + from);
             List<Following> fList = followService.getFollowing(from);
-
+            System.out.println(fList);
             return new ResponseEntity<>(fList, HttpStatus.OK);
         } else {
             final BasicResponse result = new BasicResponse();
