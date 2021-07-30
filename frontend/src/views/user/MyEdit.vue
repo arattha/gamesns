@@ -76,6 +76,7 @@
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 import UserApi from '../../api/UserApi'
+import { mapActions } from "vuex";
 
 export default {
 
@@ -111,6 +112,7 @@ export default {
         
     },
     methods: {
+        ...mapActions(["setNickname"]),
         fileChange(){
             // this.file = fileList[0];
             
@@ -152,6 +154,7 @@ export default {
                 UserApi.requestUpdateUser(formData
                 ,() => {
                     alert("회원정보가 수정되었습니다.");
+                    this.setNickname(this.newNickname);
                     this.$router.push("/mypage");
                 }
                 ,() => {

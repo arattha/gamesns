@@ -29,11 +29,11 @@
             <div class="info_container">
 							<div class="info">
 								<p>팔로워</p>
-								<p @click="showFollowing">{{ userFollowing.length }}</p>								
+                                <p @click="showFollower">{{ userFollower.length }}</p>
 							</div>
 							<div class="info">
 								<p>팔로잉</p>
-								<p @click="showFollower">{{ userFollower.length }}</p>							
+								<p @click="showFollowing">{{ userFollowing.length }}</p>
 							</div>
 							<div class="info">
 								<p>매너</p>
@@ -137,21 +137,18 @@ export default {
         ...mapActions(["getUserBoardItems"]),
 
         showFollowing() {
-            this.$router.push({name:"Following", params: {following : this.userFollowing, uid: this.userInfo.uid}});
+            this.$router.push({name:"Following", params: {following : this.userFollowing, id: this.userInfo.id}});
         },
         showFollower() {
-            this.$router.push({name:"Follower", params: {follower : this.userFollower, uid: this.userInfo.uid}});
+            console.log("heyhey", this.userInfo);
+            this.$router.push({name:"Follower", params: {follower : this.userFollower, id: this.userInfo.id}});
         },
         send() {
-            console.log("userInfo", this.userInfo);
-            console.log("stomp",this.stompClient);
             if (this.stompClient && this.stompClient.connected) {
-                console.log("userPage is Connected")
                 const msg = {
                     memberName: this.nickname,
                     followingName: this.userInfo.nickname
                 };
-                console.log("userpage", msg);
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
             }
 
