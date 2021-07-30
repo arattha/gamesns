@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-bottom: 50px">
+    <div class="for-empty-space-header">
     <div class="main-container" style="padding: 0px;">
         <nav>
             <ul class="header" style="padding: 25px 0px 25px 0px">
