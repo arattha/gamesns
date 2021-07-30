@@ -16,8 +16,8 @@
 
         <!-- 이미지나 내용 -->
         <div class="cardbox-item">
-          <div class="image-slider" style="padding: 0;" v-if="img_src.length > 1">
-          <div class="slider" style="padding: 0;">
+          <div class="image-slider" style="padding: 0;">
+          <div class="slider" style="padding: 0;" v-if="img_src.length > 1">
             <button class="prev" @click="prev"><i class="fas fa-chevron-left"></i></button>
             <button class="next" @click="next"><i class="fas fa-chevron-right"></i></button>
           </div>
