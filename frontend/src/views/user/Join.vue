@@ -171,7 +171,8 @@ export default {
           (res) => {
             this.isSubmit = true;
             // feed/main으로 가야함
-            this.$router.push('/main');
+
+            this.login();
           },
           (error) => {
             if (error) this.$router.push('/error');

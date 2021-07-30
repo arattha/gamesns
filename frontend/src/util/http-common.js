@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { router } from '@/main';
 
 /**
  * axios 인스턴스를 생성
@@ -87,7 +88,7 @@ instance.interceptors.response.use(
         } else {
           // 재발급 요청에 실패했을 경우
           alert('다시 로그인해주세요.');
-          this.$router.push('/');
+          router.push('/');
         }
 
         isTokenRefreshing = false;
