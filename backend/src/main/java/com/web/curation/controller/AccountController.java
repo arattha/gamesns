@@ -177,10 +177,10 @@ public class AccountController {
         }
     }
     
-    @GetMapping("/account/file/{nickname}")
+    @GetMapping("/account/file/{uid}")
     @ApiOperation(value = "내파일")
-    public Object bFile(@PathVariable final String nickname, HttpServletRequest request) throws MalformedURLException{
-    	Optional<Member> member = service.getUserByNickname(nickname);
+    public Object bFile(@PathVariable final String uid, HttpServletRequest request) throws MalformedURLException{
+    	Optional<Member> member = service.getMember(uid);
 
     	Resource resource;
 
@@ -195,6 +195,7 @@ public class AccountController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "default" + "\"")
                     .body(resource);
         } else {
+		    System.out.println("있다있어!!" + uid);
             resource =  new FileSystemResource(member.get().getPimg());
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")

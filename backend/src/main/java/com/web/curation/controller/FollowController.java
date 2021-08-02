@@ -40,9 +40,13 @@ public class FollowController {
         Optional<Member> member = accountService.getMember(to);
 
         if(member.isPresent()) {
-            List<Follower> FList = followService.getFollower(to);
 
-            return new ResponseEntity<>(FList, HttpStatus.OK);
+            List<Member> fList = followService.getFollower(to);
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            result.object = fList;
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
             final BasicResponse result = new BasicResponse();
             result.status = true;
@@ -59,10 +63,13 @@ public class FollowController {
         Optional<Member> member = accountService.getMember(from);
 
         if(member.isPresent()) {
-            System.out.println("hihihi : " + from);
-            List<Following> fList = followService.getFollowing(from);
-            System.out.println(fList);
-            return new ResponseEntity<>(fList, HttpStatus.OK);
+
+            List<Member> fList = followService.getFollowing(from);
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            result.object = fList;
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
             final BasicResponse result = new BasicResponse();
             result.status = true;
@@ -76,17 +83,24 @@ public class FollowController {
     @ApiOperation(value = "팔로잉 추가/삭제")
     public Object AddOrDeleteFollowing(@RequestBody FollowRequest followRequest) {
 
-        List<Following> list = followService.AddOrDeleteFollowing(followRequest.getFromNickname(), followRequest.getToNickname());
-
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        boolean flag = followService.AddOrDeleteFollowing(followRequest.getFromNickname(), followRequest.getToNickname());
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = flag;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/follow/AddOrDeleteFollower")
     @ApiOperation(value = "팔로워 추가/삭제")
     public Object AddOrDeleteFollower(@RequestBody FollowRequest followRequest) {
 
-        List<Follower> list = followService.AddOrDeleteFollower(followRequest.getFromNickname(), followRequest.getToNickname());
+        boolean flag = followService.AddOrDeleteFollower(followRequest.getFromNickname(), followRequest.getToNickname());
 
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = flag;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -93,9 +93,9 @@ const requestFollowing = (data, callback, errorCallback) => {
   console.log('userapi', data);
   http
     .get('/follow/following', { params: data })
-    .then((list) => {
-      console.log('list', list);
-      callback(list);
+    .then((res) => {
+      console.log('팔로잉!!', res.data.object);
+      callback(res.data.object);
     })
     .catch(() => {
       alert('팔로잉 가져오기 실패!');
@@ -106,8 +106,9 @@ const requestFollowing = (data, callback, errorCallback) => {
 const requestFollower = (data, callback, errorCallback) => {
   http
     .get('/follow/follower', { params: data })
-    .then((list) => {
-      callback(list);
+    .then((res) => {
+      console.log("팔로워!!",res.data.object);
+      callback(res.data.object);
     })
     .catch((err) => {
       alert('팔로워 가져오기 실패!');

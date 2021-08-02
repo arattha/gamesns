@@ -9,6 +9,7 @@ import com.web.curation.model.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,19 +25,31 @@ public class FollowService {
     @Autowired
     FollowingDao followingDao;
 
-    public List<Follower> getFollower(String toId) {
+    public List<Member> getFollower(String toId) {
 
-        return followerDao.findFollowerByToId(toId);
+        List<Member> list = new ArrayList<>();
+
+        for(Follower f : followerDao.findFollowerByToId(toId)) {
+            list.add(memberDao.findMemberByUid(f.getFromId()).get());
+        }
+        return list;
 
     }
 
-    public List<Following> getFollowing(String fromId) {
+    public List<Member> getFollowing(String fromId) {
 
-        return followingDao.findFollowingByFromId(fromId);
+        List<Member> list = new ArrayList<>();
+
+        for(Following f : followingDao.findFollowingByFromId(fromId)) {
+
+            list.add(memberDao.findMemberByUid(f.getToId()).get());
+        }
+
+        return list;
 
     }
 
-    public List<Following> AddOrDeleteFollowing(String fromNickname, String toNickname) {
+    public boolean AddOrDeleteFollowing(String fromNickname, String toNickname) {
 
         Optional<Member> memberOpt;
         Optional<Member> memberOpt2;
@@ -71,24 +84,21 @@ public class FollowService {
 
                     Following following = new Following();
                     following.setToId(toId);
-                    following.setToNickname(toNickname);
                     following.setFromId(fromId);
-                    following.setFromNickname(fromNickname);
                     followingDao.save(following);
-                    fList.add(following);
                 }
 
-                return fList;
+                return true;
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return false;
             }
-        } else return null;
+        } else return false;
     }
 
 
-    public List<Follower> AddOrDeleteFollower(String fromNickname, String toNickname) {
+    public boolean AddOrDeleteFollower(String fromNickname, String toNickname) {
 
         Optional<Member> memberOpt = memberDao.findMemberByNickname(toNickname);
         Optional<Member> memberOpt2 = memberDao.findMemberByNickname(fromNickname);
@@ -119,20 +129,17 @@ public class FollowService {
 
                     Follower follower = new Follower();
                     follower.setToId(toId);
-                    follower.setToNickname(toNickname);
                     follower.setFromId(fromId);
-                    follower.setFromNickname(fromNickname);
                     followerDao.save(follower);
-                    fList.add(follower);
                 }
-                return fList;
+                return true;
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return false;
             }
         } else {
-            return null;
+            return false;
         }
     }
 

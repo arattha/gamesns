@@ -11,7 +11,7 @@
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
-						<img :src="'http://localhost:8080/account/file/' + userInfo.nickname">
+						<img :src="'http://localhost:8080/account/file/' + userInfo.uid">
 					</div>
 				</div>
 				<div class="card-body">
@@ -104,6 +104,7 @@ export default {
         this.nickname = this.$store.state.nickname;
         
         this.userInfo = this.$route.params.suggest;
+        console.log("userinfo",this.userInfo);
         this.getUserBoardItems(this.userInfo.uid);
         window.addEventListener('scroll', this.handleScroll);
         // console.log("userinfo",this.userInfo);
@@ -111,7 +112,7 @@ export default {
             .requestFollowing({from:this.userInfo.uid}
             ,((res) => {
                 console.log(res);
-                this.userFollowing = res.data;
+                this.userFollowing = res;
                 
                 this.userFollowing.forEach(f => {
                     if(this.nickname == f.toNickname){
@@ -125,7 +126,7 @@ export default {
         UserApi
             .requestFollower({to:this.userInfo.uid}
             ,((res) => {
-                this.userFollower = res.data;
+                this.userFollower = res;
             })
             ,(() => {})
         )
