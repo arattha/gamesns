@@ -11,7 +11,7 @@
 			<div class="card" style="padding: 0;">
                 <div class="card-header">
 					<div class="profile_pic">
-						<img :src="'http://localhost:8080/account/file/' + nickname">
+						<img :src="'http://localhost:8080/account/file/' + uid">
 					</div>
 				</div>
 				<div class="card-body">
@@ -97,14 +97,13 @@ export default {
     created() {
 
         this.uid = this.$store.state.uid;
+        console.log("sdanfal;skdfn",this.uid);
         this.nickname = this.$store.state.nickname;
-        console.log("uid : " + this.uid);
         
         UserApi
             .requestFollowing({from: this.uid}
             ,((res) => {
-                console.log(res);
-                this.following = res.data;
+                this.following = res;
             })
             ,(() => {})
         )
@@ -112,7 +111,7 @@ export default {
         UserApi
             .requestFollower({to: this.uid}
             ,((res) => {
-                this.follower = res.data;
+                this.follower = res;
             })
             ,(() => {})
         )

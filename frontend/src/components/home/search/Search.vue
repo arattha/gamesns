@@ -9,7 +9,7 @@
           </div>
       </div>
 
-      <div class="Search-list" v-if="searched.length == 0">
+      <div class="Search-list">
         <!-- 여기는 따로 SearchList.vue 만들어서 import하자 -->
         <div class="title">최근 검색</div>
         <!-- 내가 검색했던 기록들 아래와 같이 나올 수 있게 -->

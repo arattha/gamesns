@@ -21,9 +21,7 @@ public class Follower {
     private Long fid;
 
     private String fromId;
-    private String fromNickname;
     private String toId;
-    private String toNickname;
 
 
 }

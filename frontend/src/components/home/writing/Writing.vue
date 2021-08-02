@@ -17,13 +17,14 @@
                 -->
                 <b-row>
                     <b-col sm="10" class="text-box">
-                    <b-form-textarea
+                        <editor id="textarea-content" class = "text-input" v-model="content" />
+                    <!-- <b-form-textarea
                         v-model="contents"
                         id="textarea-content"
                         size="lg"
                         placeholder="내용 (필수)"
                         class = "text-input"
-                    ></b-form-textarea>
+                    ></b-form-textarea> -->
                     </b-col>
                 </b-row>
             </b-container>
@@ -75,11 +76,14 @@
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 import { mapActions } from "vuex";
+import Editor from './Editor'
+
 export default {
     name:'Writing',
     components: {
         Header,
         Footer,
+        Editor
     },
     data() {
         return {
@@ -89,6 +93,7 @@ export default {
             nickname: '',
             contents:"",
             files:[],
+            content:'',
         }
     },
     created(){
@@ -97,7 +102,9 @@ export default {
     },
     methods:{
         ...mapActions(["addBoard"]),
-
+        input(d){
+            console.log("d",d);
+        },
         fileChange(fileList){
             fileList.forEach(file => {
                 this.files.push(file);

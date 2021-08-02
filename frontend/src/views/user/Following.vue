@@ -6,11 +6,11 @@
       <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
       <li class="list" v-for="(follow, idx) in following" :key="idx">
         <div class="small-user-img-div">
-          <img :src="'http://localhost:8080/account/file/' + follow.toNickname" class="small-user-img">
-          <span class="small-user-comment" @click="goUserPage(follow)">{{follow.toNickname}}</span>
+          <img :src="'http://localhost:8080/account/file/' + follow.uid" class="small-user-img">
+          <span class="small-user-comment" @click="goUserPage(follow)">{{follow.nickname}}</span>
         </div>
         <!-- 사용자 아이디와 같으면 삭제 버튼을 생성 : 사용자 아이디는 어떤 화면에서든 가져올 수 있다. -->
-        <button class="deny-btn"  v-if="isMe" @click="deleteFollow(follow.toNickname)">삭제</button>
+        <button class="deny-btn"  v-if="isMe" @click="deleteFollow(follow.nickname)">삭제</button>
       </li>
     </div>
     <div>
@@ -58,9 +58,15 @@ export default {
         UserApi
           .requestFollowUpdate(
             data,
-            ((res) => {
+            (() => {
               alert("삭제되었습니다.");
-              this.following = res;
+              
+              UserApi
+                .requestFollowing( { from : this.uid },
+                (res) => {
+                  this.following = res;
+                },
+                () => {})
             }),
             (() => {})
           )
