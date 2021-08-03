@@ -104,7 +104,9 @@ export default {
               this.isSubmit = true;
               // feed/main으로 가야함
 
-              this.setNickname = this.nickname;
+              this.setNickname(this.nickname);
+
+              console.log('dasda', this.uid);
 
               let status = login(this.uid);
 
