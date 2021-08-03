@@ -18,8 +18,8 @@
         </div>
         <!-- 이미지-->
         <div class="mcardbox-item">
-          <div class="mimage-slider" style="padding: 0;" v-if="img_src.length > 1">
-          <div class="mslider" style="padding: 0;">
+          <div class="mimage-slider" style="padding: 0;" >
+          <div class="mslider" style="padding: 0;" v-if="img_src.length > 1">
             <button class="prev" @click="prev"><i class="fas fa-chevron-left"></i></button>
             <button class="next" @click="next"><i class="fas fa-chevron-right"></i></button>
           </div>
@@ -110,7 +110,7 @@ export default {
     handleScroll(e) {
 
       console.log(this.replyList);
-
+      console.log(this.replyList[this.replyList.length - 1]);
       if(e.target.scrollHeight ==  e.target.scrollTop + e.target.clientHeight)
         this.getReplyList({ bid : this.boardItem.bid,
                             lastRid : this.replyList[this.replyList.length - 1].rid
