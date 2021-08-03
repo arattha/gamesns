@@ -188,5 +188,4 @@ export default new Vuex.Store({
       commit('SET_RECENTSEARCHED', val);
     },
   },
-  plugins: [createPersistedState()],
 });
