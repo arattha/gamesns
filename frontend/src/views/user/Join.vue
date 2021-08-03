@@ -106,7 +106,14 @@ export default {
 
               this.setNickname = this.nickname;
 
-              login(this.uid);
+              let status = login(this.uid);
+
+              if (status) {
+                this.$router.push('/main');
+              } else {
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+                this.$router.push('/');
+              }
             } else {
               alert('문제가 생겼습니다. 다시 시도해주세요.');
               this.$router.push('/');
