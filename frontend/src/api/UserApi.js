@@ -38,19 +38,6 @@ const requestExistUser = (data, callback, errorCallback) => {
     });
 };
 
-const requestLogin = (data, callback, errorCallback) => {
-  http
-    .post('/auth/login', data)
-    .then((res) => {
-      console.log(res.data);
-      callback(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-      errorCallback();
-    });
-};
-
 const requestDupCheck = (data, callback, errorCallback) => {
   console.log(data);
   http
@@ -107,7 +94,7 @@ const requestFollower = (data, callback, errorCallback) => {
   http
     .get('/follow/follower', { params: data })
     .then((res) => {
-      console.log("팔로워!!",res.data.object);
+      console.log('팔로워!!', res.data.object);
       callback(res.data.object);
     })
     .catch((err) => {
@@ -189,7 +176,6 @@ const UserApi = {
     requestFollowUpdate(data, callback, errorCallback),
   requestExistUser: (data, callback, errorCallback) =>
     requestExistUser(data, callback, errorCallback),
-  requestLogin: (data, callback, errorCallback) => requestLogin(data, callback, errorCallback),
   requestGetUser: (data, callback, errorCallback) => requestGetUser(data, callback, errorCallback),
 };
 
