@@ -4,7 +4,6 @@ import getters from './getters';
 import http from '@/util/http-common';
 import actions from './actions';
 import mutations from './mutations';
-import createPersistedState from 'vuex-persistedstate';
 import { router } from '../main';
 
 Vue.use(Vuex);
@@ -31,11 +30,10 @@ export default new Vuex.Store({
       state.replyList = state.replyList.concat(payload);
     },
     SET_RECENTSEARCHED(state, payload) {
-      
-      console.log("first", state.recentSearched);
-      state.recentSearched.splice(0,0,payload);
-      console.log("second",state.recentSearched);
-      
+      console.log('first', state.recentSearched);
+      state.recentSearched.splice(0, 0, payload);
+      console.log('second', state.recentSearched);
+
       var uniqueArr = [];
       state.recentSearched.forEach((element) => {
         if (!uniqueArr.includes(element)) {
@@ -44,7 +42,6 @@ export default new Vuex.Store({
       });
 
       state.recentSearched = uniqueArr;
-      
     },
     SET_REPLY_LIST(state, payload) {
       state.replyList = payload;
@@ -57,7 +54,7 @@ export default new Vuex.Store({
     },
     SET_NICKNAME(state, payload) {
       state.nickname = payload;
-    }
+    },
   },
   getters: {
     boardItems(state) {
@@ -147,7 +144,7 @@ export default new Vuex.Store({
     },
     addReply({ commit }, data) {
       http
-        .post(`/reply`, data )
+        .post(`/reply`, data)
         .then(({ data }) => {
           console.log('reply');
           console.log(data);
@@ -168,7 +165,7 @@ export default new Vuex.Store({
           console.log(data);
           alert('글이 작성되었습니다.');
         })
-        .then(() => router.push("/main"))
+        .then(() => router.push('/main'))
         .catch(() => {
           alert('에러가 발생했습니다.');
         });
@@ -188,10 +185,7 @@ export default new Vuex.Store({
         });
     },
     recentUser({ commit }, val) {
-
       commit('SET_RECENTSEARCHED', val);
-
-      
     },
   },
   plugins: [createPersistedState()],
