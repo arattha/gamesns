@@ -26,9 +26,6 @@ export default new Vuex.Store({
     SET_SEARCHED(state, payload) {
       state.searched = payload;
     },
-    GET_REPLY_LIST(state, payload) {
-      state.replyList = state.replyList.concat(payload);
-    },
     SET_RECENTSEARCHED(state, payload) {
       console.log('first', state.recentSearched);
       state.recentSearched.splice(0, 0, payload);
@@ -44,7 +41,7 @@ export default new Vuex.Store({
       state.recentSearched = uniqueArr;
     },
     SET_REPLY_LIST(state, payload) {
-      state.replyList = payload;
+      state.replyList = state.replyList.concat(payload);
     },
     // SET_ACCESS_TOKEN(state, payload) {
     //   state.accessToken = payload;
@@ -67,6 +64,8 @@ export default new Vuex.Store({
       return state.recentSearched;
     },
     replyList(state) {
+      console.log("zz");
+      console.log(state.replyList);
       return state.replyList;
     },
     // accessToken(state) {
@@ -137,6 +136,7 @@ export default new Vuex.Store({
           commit('SET_REPLY_LIST', data.object.content);
           console.log('reply');
           console.log(data);
+          console.log(data.object.content);
         })
         .catch(() => {
           alert('에러가 발생했습니다.');
