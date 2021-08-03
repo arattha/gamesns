@@ -1,0 +1,102 @@
+<template>
+  <div style="height: 100vh; background-color: #FFB937;">
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <div class="fadeIn first" style="margin-top: 50px; margin-bottom: 50px;">
+          <img src="@/assets/images/logo2.png" alt="" id="icon" />
+        </div>
+
+        <!-- Login Form -->
+        <div class="loading-container">
+          <div class="loading"></div>
+          <div id="loading-text">loading</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+import UserApi from '../../api/UserApi';
+import { mapActions } from 'vuex';
+import { login } from '../../common/UserLogin';
+
+export default {
+  name: 'App',
+  data: () => {
+    return {
+      code: '',
+      nickname: '',
+      uid: '',
+    };
+  },
+  mounted() {
+    this.create();
+  },
+  methods: {
+    ...mapActions(['setUid', 'setNickname']),
+    create() {
+      this.code = this.$route.query.code;
+
+      UserApi.requestkakaoLogin(
+        this.code,
+        (res) => {
+          this.uid = res;
+
+          this.setUid(this.uid);
+
+          this.isUser();
+        },
+        (error) => {
+          console.log(error);
+          alert('잘못된 접근입니다!');
+          this.$router.push('/');
+        }
+      );
+    },
+
+    isUser() {
+      UserApi.requestExistUser(
+        this.uid,
+        (res) => {
+          console.log(res);
+
+          if (res.status) {
+            this.nickname = res.object;
+
+            this.setNickname(this.nickname);
+
+            let status = login(this.uid);
+
+            if (status) {
+              this.$router.push('/main');
+            } else {
+              alert('오류가 발생했습니다. 다시 시도해주세요.');
+              this.$router.push('/');
+            }
+          } else {
+            console.log('회원가입이 필요!');
+            this.$router.push('/user/join');
+          }
+        },
+        (error) => {
+          console.log(error);
+          alert('잘못된 접근입니다!!');
+          this.$router.push('/');
+        }
+      );
+    },
+  },
+};
+</script>
+
+<style>
+@import '../../components/css/user/login.css';
+@import '../../components/css/user/loading.css';
+</style>

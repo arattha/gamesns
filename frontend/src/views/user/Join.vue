@@ -54,7 +54,8 @@
 
 <script>
 import UserApi from '../../api/UserApi';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import { login } from '../../common/UserLogin';
 
 export default {
   data: () => {
@@ -65,11 +66,7 @@ export default {
         nickname: false,
       },
       isSubmit: false,
-      code: '',
     };
-  },
-  created() {
-    this.create();
   },
   watch: {
     nickname: function(v) {
@@ -77,74 +74,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setUid', 'setNickname']),
-    create() {
-      this.code = this.$route.query.code;
-
-      console.log('ggg');
-      console.log(this.code);
-
-      UserApi.requestkakaoLogin(
-        this.code,
-        (res) => {
-          console.log(res);
-          this.uid = res;
-          this.isUser();
-        },
-        (error) => {
-          console.log(error);
-          alert('잘못된 접근입니다!');
-          this.$router.push('/');
-        }
-      );
-    },
-
-    isUser() {
-      UserApi.requestExistUser(
-        this.uid,
-        (res) => {
-          console.log(res);
-
-          if (res.status) {
-            this.nickname = res.object;
-            this.login();
-          }
-        },
-        (error) => {
-          console.log(error);
-          alert('잘못된 접근입니다!!');
-          this.$router.push('/');
-        }
-      );
-    },
-
-    login() {
-      UserApi.requestLogin(
-        this.uid,
-        (res) => {
-          console.log(res);
-          if (res.status) {
-            // this.accessToken = res.object;
-            // console.log(this.accessToken);
-
-            // 기존에 만든 axios create를 이용해야한다!
-            // http.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
-
-            this.setUid(this.uid);
-            console.log(this.nickname);
-            this.setNickname(this.nickname);
-            // this.setAccessToken(this.accessToken);
-            // axios.defaults.headers.common["Authorization"] = `Bearer ${this.accessToken}`;
-
-            this.$router.push('/main');
-          } else {
-            alert('로그인 실패 다시 시도해주세요.');
-            this.$router.push('/');
-          }
-        },
-        (error) => {}
-      );
-    },
+    ...mapActions(['setNickname']),
     checkForm() {
       // nickname 중복 확인 필요
       if (this.nickname.length == 0) this.error.nickname = '닉네임은 한 글자 이상이어야 합니다.';
@@ -170,10 +100,17 @@ export default {
         UserApi.requestSignUp(
           data,
           (res) => {
-            this.isSubmit = true;
-            // feed/main으로 가야함
+            if (res.status) {
+              this.isSubmit = true;
+              // feed/main으로 가야함
 
-            this.login();
+              this.setNickname = this.nickname;
+
+              login(this.uid);
+            } else {
+              alert('문제가 생겼습니다. 다시 시도해주세요.');
+              this.$router.push('/');
+            }
           },
           (error) => {
             if (error) this.$router.push('/error');
@@ -191,16 +128,19 @@ export default {
         UserApi.requestDupCheck(
           this.nickname,
           () => {
-            alert("사용 가능한 아이디 입니다.");
+            alert('사용 가능한 아이디 입니다.');
             this.isDup = true;
             this.checkForm();
           },
           () => {
-            alert("사용중인 아이디 입니다.");
+            alert('사용중인 아이디 입니다.');
           }
         );
       }
     },
+  },
+  computed: {
+    ...mapGetters(['uid']),
   },
 };
 </script>
