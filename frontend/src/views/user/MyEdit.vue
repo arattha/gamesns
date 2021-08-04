@@ -103,7 +103,7 @@ export default {
 
         UserApi.requestGetUser(this.nickname
             ,(res) => { 
-                this.profileImg = 'http://localhost:8080/account/file/' + this.nickname;
+                this.profileImg = 'http://localhost:8080/account/file/' + this.uid;
             }
             ,() => {});
 
