@@ -29,6 +29,29 @@ public class LikeService {
         return list;
     }
 
+    // 새로고침 좋아요 확인
+    public int Liked(Long bid, String uid) {
+
+        Optional<BoardLikeMember> likeOpt;
+
+        likeOpt = likeDao.findBoardLikeMemberByBidAndUid(bid, uid);
+
+        try {
+
+            if (likeOpt.isPresent()) {
+                return 1;
+            } else {
+                return 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 리턴 2 -> 에러
+            return 2;
+        }
+    }
+
+
     // 좋아요 추가/삭제
     public int AddOrDeleteLike(Long bid, String uid) {
 
