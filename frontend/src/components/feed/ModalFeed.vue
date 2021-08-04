@@ -1,7 +1,7 @@
 <template>
   <div style="display : flex;"  class="modal modal-container">
     <div class="overlay" @click="$emit('close-modal')"></div>
-    <div id = "test" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
+    <div id = "modalScroll" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
       <div class="feed-item">
         <div class="top">
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
@@ -60,8 +60,8 @@
 </template>
 <script>
 import defaultProfile from "../../assets/images/profile_default.png";
-import { mapActions, mapGetters } from "vuex";
-//import Input from '../common/Input.vue';
+import UserApi from '../../api/UserApi'
+
 export default {
   //components: { Input },
   props:["boardItem"],
@@ -72,11 +72,11 @@ export default {
       search: "",
       nickname : "",
       isModalViewed: false,
-      currentNumber: 0
+      currentNumber: 0,
+      replyList: []
     };
   },
   created() {
-
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
@@ -85,18 +85,13 @@ export default {
                         lastRid : 0
                       });
     this.nickname = this.$store.state.nickname;
-    //console.log(this.$store.state.nickname);
 
   },
   mounted(){
-    const $test = document.querySelector('#test');
-    $test.addEventListener("scroll", (e) => this.handleScroll(e));
-  },
-  computed: {
-    ...mapGetters(["replyList"]),
+    const $modalScroll = document.querySelector('#modalScroll');
+    $modalScroll.addEventListener("scroll", (e) => this.handleScroll(e));
   },
   methods: {
-    ...mapActions(["getReplyList","addReply"]),
     submitReply(){
       //console.log(this.$store.state.nickname);
       let data = {
@@ -105,12 +100,28 @@ export default {
         nickname : this.$store.state.nickname,
         content : this.search,
       }
-      this.addReply(data);
+      UserApi
+        .requestAddReply( data ,
+        (() => {
+            alert("댓글 작성이 성공하였습니다.");
+        }), 
+        (() => {
+            alert("댓글 가져오기 오류!");
+            })
+        );
+    },
+    getReplyList(data){
+      UserApi
+        .requestReplyList( data ,
+        ((list) => {
+            this.replyList = this.replyList.concat(list);
+        }), 
+        (() => {
+            alert("댓글 가져오기 오류!");
+            })
+        );
     },
     handleScroll(e) {
-
-      console.log(this.replyList);
-      console.log(this.replyList[this.replyList.length - 1]);
       if(e.target.scrollHeight ==  e.target.scrollTop + e.target.clientHeight)
         this.getReplyList({ bid : this.boardItem.bid,
                             lastRid : this.replyList[this.replyList.length - 1].rid
@@ -124,9 +135,6 @@ export default {
       e.stopPropagation();
       this.currentNumber -= 1
     }
-  },
-  destroyed(){
-    this.$store.state.replyList = [];
   },
 }
 </script>

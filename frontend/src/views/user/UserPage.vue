@@ -97,15 +97,14 @@ export default {
             isModalViewed: false,
             temp: null,
             isFollow: true,
+            boardItems: [],
         }
     },
     created() {
         this.uid = this.$store.state.uid;
         this.nickname = this.$store.state.nickname;
-        
         this.userInfo = this.$route.params.suggest;
-        console.log("userinfo",this.userInfo);
-        this.getUserBoardItems(this.userInfo.uid);
+        this.getBoardItems();
         window.addEventListener('scroll', this.handleScroll);
         // console.log("userinfo",this.userInfo);
         UserApi
@@ -131,11 +130,7 @@ export default {
             ,(() => {})
         )
     },
-    computed: {  
-        ...mapGetters(["boardItems"]),
-    },
     methods:{
-        ...mapActions(["getUserBoardItems"]),
 
         showFollowing() {
             this.$router.push({name:"Following", params: {following : this.userFollowing, id: this.userInfo.id}});
@@ -156,7 +151,29 @@ export default {
             // 팔로우 버튼 '팔로잉' 으로 변환
 
         },
-        handleScroll(e) {
+        getBoardItems(){
+            let data;
+            if (this.boardItems.length == 0) {
+                data = {
+                uid: this.userInfo.uid,
+                };
+            } else {
+                data = {
+                uid: this.userInfo.uid,
+                bid: String(this.boardItems[this.boardItems.length - 1].bid),
+                };
+            }
+            UserApi
+                .requestUserFeedList( data ,
+                ((list) => {
+                    this.boardItems = this.boardItems.concat(list);
+                }), 
+                (() => {
+                    alert("유저피드 가져오기 오류!");
+                    })
+                );
+        },
+        handleScroll() {
 
             let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
             let windowHeight = window.innerHeight; // 스크린 창
@@ -164,13 +181,11 @@ export default {
             //console.log(document.documentElement.scrollTop);
 
             if(scrollLocation + windowHeight >= fullHeight){
-                console.log('끝')
-                this.getUserBoardItems(this.userInfo.uid);
+                this.getBoardItems();
             }
         },
         modalShow(item){
             this.isModalViewed = !this.isModalViewed;
-            console.log(this.isModalViewed);
             this.temp = item;
             document.body.style.overflow = 'hidden';
         },
@@ -181,7 +196,6 @@ export default {
         }
     },
     destroyed(){
-        this.$store.state.boardItems = [];
         window.removeEventListener('scroll', this.handleScroll);
     }
 }
