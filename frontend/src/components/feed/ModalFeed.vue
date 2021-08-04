@@ -32,6 +32,18 @@
         </div><!--/ cardbox-item -->
         <div style="mcontent">{{boardItem.contents}}</div>
 
+        <div class="cardbox-base">
+          <div class="likebox">
+            <div><i class="far fa-heart fa-lg"></i></div>
+            <p>242</p>		   
+            <div><i class="far fa-comment fa-lg"></i></div>
+            <p>20</p>
+          </div>
+          <div class="sharebox">
+            <Sharelink :boardItem="boardItem"/>
+          </div>
+        </div><!--/ cardbox-base -->
+
         <ul class="img-comment-list">
           <li class="list" v-for="(reply,index) in replyList" :key="index">
             
@@ -60,11 +72,15 @@
 </template>
 <script>
 import defaultProfile from "../../assets/images/profile_default.png";
-import UserApi from '../../api/UserApi'
+import UserApi from '../../api/UserApi';
+import Sharelink from "./Sharelink";
 
 export default {
   //components: { Input },
   props:["boardItem"],
+  components: {
+    Sharelink
+  },
   data: () => {
     return {
       defaultProfile,
