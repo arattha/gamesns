@@ -40,7 +40,7 @@
             <p>20</p>
           </div>
           <div class="sharebox">
-            <div><i class="fas fa-share-alt fa-lg"></i></div>
+            <Sharelink :boardItem="boardItem" />
           </div>
         </div><!--/ cardbox-base -->
 
@@ -56,8 +56,12 @@
 <script>
 import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
+import Sharelink from "./Sharelink";
 export default {
   props:['boardItem'],
+  components: {
+    Sharelink
+  },
   data: () => {
     return { 
       defaultImage,
