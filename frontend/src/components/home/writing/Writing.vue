@@ -95,7 +95,6 @@ export default {
             //formData:new FormData(),
             uid: '',
             nickname: '',
-            contents:"",
             files:[],
             content:'',
             metaData: null,
