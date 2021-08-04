@@ -2,12 +2,6 @@ package com.web.curation.controller;
 
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.board.BoardLikeMember;
-import com.web.curation.model.follow.FollowRequest;
-import com.web.curation.model.follow.Follower;
-import com.web.curation.model.follow.Following;
-import com.web.curation.model.member.Member;
-import com.web.curation.service.AccountService;
-import com.web.curation.service.FollowService;
 import com.web.curation.service.LikeService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -41,6 +35,22 @@ public class LikeController {
 
         if (LList.isPresent()) return new ResponseEntity<>(LList.get(), HttpStatus.OK);
         else return new ResponseEntity<>(null, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/board/liked")
+    @ApiOperation(value = "새로고침 좋아요")
+    public Object Liked(@RequestParam Long bid, @RequestParam String uid) {
+
+        System.out.println();
+
+        int flag = likeService.Liked(bid, uid);
+
+        final BasicResponse result = new BasicResponse();
+        result.status = true;
+        result.data = "success";
+        result.object = flag;
+        return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
 
