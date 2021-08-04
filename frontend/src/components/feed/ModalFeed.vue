@@ -30,10 +30,20 @@
           </div>
           </div>
         </div><!--/ cardbox-item -->
-        <div style="mcontent">{{boardItem.contents}}</div>
+        <div style="mcontent">
+          <!-- <div v-html="boardItem.contents"></div> -->
+          <!-- <editor-content :editor="editor" /> -->
+          <!-- <div v-if="url != ''"> -->
+            <editor-content :editor="editor" />
+            <div id="meta" @click="go" style="cursor: pointer;">
+
+            </div>
+          <!-- </div> -->
+          <!-- <editor v-if="metaData" v-model="metaData" /> -->
+        </div>
 
         <ul class="img-comment-list">
-          <li class="list" v-for="(reply,index) in replyList" :key="index">
+          <li class="list" style="line-style: none;" v-for="(reply,index) in replyList" :key="index">
             
               <!-- <div class="small-user-img-div">
                 <img src="http://lorempixel.com/100/100/people/6" class="small-user-img" style="object-fit: fill; margin:0px">
@@ -61,10 +71,18 @@
 <script>
 import defaultProfile from "../../assets/images/profile_default.png";
 import { mapActions, mapGetters } from "vuex";
+import {Editor, EditorContent} from '@tiptap/vue-2'
+import StarterKit from '@tiptap/starter-kit'
+import Image from '@tiptap/extension-image'
+import http from '@/util/http-common.js'
+
 //import Input from '../common/Input.vue';
 export default {
   //components: { Input },
   props:["boardItem"],
+  components: {
+      EditorContent,
+    },
   data: () => {
     return {
       defaultProfile,
@@ -72,10 +90,25 @@ export default {
       search: "",
       nickname : "",
       isModalViewed: false,
-      currentNumber: 0
+      currentNumber: 0,
+      editor:null,
+      newData:null,
+      url:'',
     };
   },
-  created() {
+  mounted(){
+    const $test = document.querySelector('#test');
+    $test.addEventListener("scroll", (e) => this.handleScroll(e));
+    this.newData = this.boardItem.contents;
+    this.editor = new Editor({
+      editable: false,
+      content: this.newData,
+      extensions: [
+        StarterKit,
+        Image,
+      ],
+    });
+
 
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
@@ -85,20 +118,59 @@ export default {
                         lastRid : 0
                       });
     this.nickname = this.$store.state.nickname;
-    //console.log(this.$store.state.nickname);
 
-  },
-  mounted(){
-    const $test = document.querySelector('#test');
-    $test.addEventListener("scroll", (e) => this.handleScroll(e));
+    var arr = [];
+    
+    this.boardItem.contents.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/, function (n) {
+      arr.push(n)
+    })
+    
+    if(arr.length > 0) {
+      http
+        .get("/common/getMeta", {params: {url : arr[0]}})
+        .then((res) => {
+            if(res.data.data == "success") {
+              this.url = res.data.object.url;
+              const element = document.getElementById('meta');
+
+              const imgE = document.createElement('img'); // + addeventlistener
+              imgE.src = res.data.object.img;
+              const title = document.createElement('div');
+              title.appendChild(document.createTextNode(res.data.object.title));
+              const descE = document.createElement('div');
+              descE.appendChild(document.createTextNode(res.data.object.desc));
+              element.appendChild(imgE);
+              element.appendChild(title);
+              element.appendChild(descE);
+              // this.boardItem.contents = `<div onclick="window.open('${res.data.object.url}')" style="cursor: pointer;"><img src="${res.data.object.img}"/><span><div style="font-size: larger;" >${res.data.object.title}</div><span style="color: gray">${res.data.object.desc}</span></span></div>`
+
+            }
+        })
+        .catch(() => {})
+    }
+    // test 라는 div 에 this.boardItem.contents 를 append
+    // var currentDiv = document.getElementById("meta");
+    // const doc = new DOMParser().parseFromString(this.boardItem.contents, "text/html");
+    // console.log("doc", doc.documentElement);
+    // currentDiv.insertBefore(doc.documentElement);
+    
+    // const element = document.getElementById('meta');
+    
+    // element.innerHTML = this.boardItem.contents;
+    
+    
+
   },
   computed: {
     ...mapGetters(["replyList"]),
   },
   methods: {
     ...mapActions(["getReplyList","addReply"]),
+    go(){
+      window.open(this.url);
+    },
     submitReply(){
-      //console.log(this.$store.state.nickname);
+      
       let data = {
         uid : this.$store.state.uid,
         bid : this.boardItem.bid,
@@ -131,5 +203,8 @@ export default {
 }
 </script>
 <style>
-  @import "../css/feed/modalfeed.css"; 
+@import "../css/feed/modalfeed.css";
+li {
+  list-style: initial;
+}
 </style>

@@ -17,7 +17,10 @@
                 -->
                 <b-row>
                     <b-col sm="10" class="text-box">
-                        <editor id="textarea-content" class = "text-input" v-model="content" />
+                        <editor id="textarea-content" class = "text-input" @getMeta="getMeta" v-model="content" :isOK="true"/>
+
+                        
+
                     <!-- <b-form-textarea
                         v-model="contents"
                         id="textarea-content"
@@ -26,6 +29,7 @@
                         class = "text-input"
                     ></b-form-textarea> -->
                     </b-col>
+                    <editor v-model="metaData" />
                 </b-row>
             </b-container>
             <div class="Writing-bottom">
@@ -94,6 +98,7 @@ export default {
             contents:"",
             files:[],
             content:'',
+            metaData: null,
         }
     },
     created(){
@@ -102,8 +107,9 @@ export default {
     },
     methods:{
         ...mapActions(["addBoard"]),
-        input(d){
-            console.log("d",d);
+        getMeta(data){
+            console.log("data", data);
+            this.metaData = data;
         },
         fileChange(fileList){
             fileList.forEach(file => {
@@ -114,9 +120,7 @@ export default {
             // this.formData.append('uid',0);
             // this.formData.append('contents',this.contents);
             // this.addBoard(this.formData);
-            // for (let key of this.formData.entries()){
-            //     console.log(`${key}`);
-            // }
+            
 
 
             // let data = {
@@ -126,13 +130,17 @@ export default {
             // }
 
             let formData = new FormData();
-
+            
             formData.append('uid', this.uid);
-            formData.append('content',this.contents);
+            formData.append('content',this.content);
             
             this.files.forEach(element => {
                 formData.append('multipartFiles',element);
             });
+            
+            for (let key of formData.entries()){
+                console.log(`${key}`);
+            }
 
             this.addBoard(formData);
             //this.$router.push('/main');
