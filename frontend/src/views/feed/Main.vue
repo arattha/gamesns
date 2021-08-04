@@ -3,7 +3,7 @@
   <Header/>
   <div class="100hv" style="background-color: #FDF5E6;">
   <div class="feed newsfeed">
-    <div class="" @scroll.passive="handleScroll">
+    <div class="" @scroll="handleScroll">
       <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
       <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
         <FeedItem :boardItem ="boardItem"/>
@@ -16,16 +16,15 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import "../../components/css/feed/feed-item.scss";
 import "../../components/css/feed/newsfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 import ModalFeed from '../../components/feed/ModalFeed.vue';
+import UserApi from '../../api/UserApi';
 
 export default {
-  props: ["boardItem"],
   components: { 
       FeedItem,
       Header,
@@ -36,29 +35,52 @@ export default {
       return{
         isModalViewed: false,
         temp: null,
+        uid: 0,
+        nickname: "",
+        boardItems: [],
       }
   },
   created(){
+    this.uid = this.$store.state.uid;
+    this.nickname = this.$store.state.nickname;
     this.getBoardItems();
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-    ...mapActions(["getBoardItems"]),
-    // 무한 스크롤 정의
     handleScroll() {
-
       let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
       let windowHeight = window.innerHeight; // 스크린 창
       let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
-
-      if(scrollLocation + windowHeight >= fullHeight){
+      if(scrollLocation + windowHeight == fullHeight){
         this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
       }
 
     },
+    getBoardItems(){
+      let data;
+      if (this.boardItems.length == 0) {
+        data = {
+          uid: this.uid,
+        };
+      } else {
+        data = {
+          uid: this.uid,
+          bid: String(this.boardItems[this.boardItems.length - 1].bid),
+        };
+      }
+      UserApi
+        .requestFeedList( data ,
+          ((list) => {
+            this.boardItems = this.boardItems.concat(list);
+          }), 
+          (() => {
+            alert("메인피드 가져오기 오류!");
+            })
+        );
+    },
     modalShow(item){
       this.isModalViewed = !this.isModalViewed;
-      console.log(this.isModalViewed);
+      //console.log(this.isModalViewed);
       this.temp = item;
       document.body.style.overflow = 'hidden';
     },
@@ -68,11 +90,7 @@ export default {
       document.body.style.overflow = 'scroll';
     }
   },
-  computed: {
-    ...mapGetters(["boardItems"])
-  },
   destroyed(){
-    this.$store.state.boardItems = [];
     window.removeEventListener('scroll', this.handleScroll);
   }
 
