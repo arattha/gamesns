@@ -28,7 +28,9 @@
           </div>
           </div>
           <!-- 내용 -->
-          <div>{{boardItem.contents}}</div>
+          <!-- <editor v-model="boardItem.contents" :isOK="false"/> -->
+          <editor-content :editor="editor" />
+          <!-- <div>{{boardItem.contents}}</div> -->
         </div><!--/ cardbox-item -->
         
         <!-- 좋아요 등 -->
@@ -56,14 +58,19 @@
 <script>
 import defaultImage from "../../assets/images/img-placeholder.png";
 import defaultProfile from "../../assets/images/profile_default.png";
+import {Editor, EditorContent} from '@tiptap/vue-2'
+import StarterKit from '@tiptap/starter-kit'
 import Sharelink from "./Sharelink";
+
 export default {
   props:['boardItem'],
   components: {
-    Sharelink
-  },
+      EditorContent,
+      Sharelink,
+    },
   data: () => {
     return { 
+      editor: null,
       defaultImage,
       defaultProfile,
       img_src:[],
@@ -84,8 +91,17 @@ export default {
       this.currentNumber -= 1
     }
   },
-  destroyed(){
-
+  mounted(){
+    this.editor = new Editor({
+      editable: false,
+      content: this.boardItem.contents,
+      extensions: [
+        StarterKit,
+      ],
+    });
+  },
+  beforeDestroyed(){
+    this.editor.destroy();
   },
 };
 </script>

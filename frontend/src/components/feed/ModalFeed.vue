@@ -30,7 +30,17 @@
           </div>
           </div>
         </div><!--/ cardbox-item -->
-        <div style="mcontent">{{boardItem.contents}}</div>
+        <div style="mcontent">
+          <!-- <div v-html="boardItem.contents"></div> -->
+          <!-- <editor-content :editor="editor" /> -->
+          <!-- <div v-if="url != ''"> -->
+            <editor-content :editor="editor" />
+            <div id="meta" @click="go" style="cursor: pointer;">
+
+            </div>
+          <!-- </div> -->
+          <!-- <editor v-if="metaData" v-model="metaData" /> -->
+        </div>
 
         <div class="cardbox-base">
           <div class="likebox">
@@ -45,7 +55,7 @@
         </div><!--/ cardbox-base -->
 
         <ul class="img-comment-list">
-          <li class="list" v-for="(reply,index) in replyList" :key="index">
+          <li class="list" style="line-style: none;" v-for="(reply,index) in replyList" :key="index">
             
               <!-- <div class="small-user-img-div">
                 <img src="http://lorempixel.com/100/100/people/6" class="small-user-img" style="object-fit: fill; margin:0px">
@@ -72,6 +82,11 @@
 </template>
 <script>
 import defaultProfile from "../../assets/images/profile_default.png";
+import { mapActions, mapGetters } from "vuex";
+import {Editor, EditorContent} from '@tiptap/vue-2'
+import StarterKit from '@tiptap/starter-kit'
+import Image from '@tiptap/extension-image'
+import http from '@/util/http-common.js'
 import UserApi from '../../api/UserApi';
 import Sharelink from "./Sharelink";
 
@@ -79,8 +94,9 @@ export default {
   //components: { Input },
   props:["boardItem"],
   components: {
-    Sharelink
-  },
+      EditorContent,
+      Sharelink
+    },
   data: () => {
     return {
       defaultProfile,
@@ -89,8 +105,25 @@ export default {
       nickname : "",
       isModalViewed: false,
       currentNumber: 0,
-      replyList: []
+      editor:null,
+      newData:null,
+      url:'',
+      replyList: [],
     };
+  },
+  mounted(){
+    this.newData = this.boardItem.contents;
+    this.editor = new Editor({
+      editable: false,
+      content: this.newData,
+      extensions: [
+        StarterKit,
+        Image,
+      ],
+    });
+
+    const $modalScroll = document.querySelector('#modalScroll');
+    $modalScroll.addEventListener("scroll", (e) => this.handleScroll(e));
   },
   created() {
     this.boardItem.imgFiles.forEach(element => {
@@ -102,14 +135,41 @@ export default {
                       });
     this.nickname = this.$store.state.nickname;
 
-  },
-  mounted(){
-    const $modalScroll = document.querySelector('#modalScroll');
-    $modalScroll.addEventListener("scroll", (e) => this.handleScroll(e));
+    var arr = [];
+    
+    this.boardItem.contents.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/, function (n) {
+      arr.push(n)
+    })
+    
+    if(arr.length > 0) {
+      http
+        .get("/common/getMeta", {params: {url : arr[0]}})
+        .then((res) => {
+            if(res.data.data == "success") {
+              this.url = res.data.object.url;
+              const element = document.getElementById('meta');
+
+              const imgE = document.createElement('img'); // + addeventlistener
+              imgE.src = res.data.object.img;
+              const title = document.createElement('div');
+              title.appendChild(document.createTextNode(res.data.object.title));
+              const descE = document.createElement('div');
+              descE.appendChild(document.createTextNode(res.data.object.desc));
+              element.appendChild(imgE);
+              element.appendChild(title);
+              element.appendChild(descE);
+            }
+        })
+        .catch(() => {})
+    }
+    
   },
   methods: {
+    go(){
+      window.open(this.url);
+    },
     submitReply(){
-      //console.log(this.$store.state.nickname);
+      
       let data = {
         uid : this.$store.state.uid,
         bid : this.boardItem.bid,
@@ -155,5 +215,5 @@ export default {
 }
 </script>
 <style>
-  @import "../css/feed/modalfeed.css"; 
+@import "../css/feed/modalfeed.css";
 </style>
