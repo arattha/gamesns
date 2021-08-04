@@ -91,7 +91,6 @@ export default {
             //formData:new FormData(),
             uid: '',
             nickname: '',
-            contents:"",
             files:[],
             content:'',
         }
@@ -128,7 +127,7 @@ export default {
             let formData = new FormData();
 
             formData.append('uid', this.uid);
-            formData.append('content',this.contents);
+            formData.append('content',this.content);
             
             this.files.forEach(element => {
                 formData.append('multipartFiles',element);

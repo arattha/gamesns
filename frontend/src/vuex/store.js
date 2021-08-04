@@ -10,19 +10,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    boardItems: [],
     searched: [],
     recentSearched: [],
-    replyList: [],
     // accessToken: '',
     uid: '',
     nickname: '',
   },
   mutations: {
-    SET_BOARD_ITEMS(state, payload) {
-      state.boardItems = state.boardItems.concat(payload);
-      //state.boardItems.push(payload);
-    },
     SET_SEARCHED(state, payload) {
       state.searched = payload;
     },
@@ -40,9 +34,6 @@ export default new Vuex.Store({
 
       state.recentSearched = uniqueArr;
     },
-    SET_REPLY_LIST(state, payload) {
-      state.replyList = state.replyList.concat(payload);
-    },
     // SET_ACCESS_TOKEN(state, payload) {
     //   state.accessToken = payload;
     // },
@@ -54,19 +45,11 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    boardItems(state) {
-      return state.boardItems;
-    },
     searched(state) {
       return state.searched;
     },
     recentSearched(state) {
       return state.recentSearched;
-    },
-    replyList(state) {
-      console.log("zz");
-      console.log(state.replyList);
-      return state.replyList;
     },
     // accessToken(state) {
     //   return state.accessToken;
@@ -87,72 +70,6 @@ export default new Vuex.Store({
     },
     setNickname(context, data) {
       context.commit('SET_NICKNAME', data);
-    },
-    getBoardItems(context, data) {
-      if (context.state.boardItems.length == 0) {
-        data = {
-          uid: context.state.uid,
-        };
-      } else {
-        data = {
-          uid: context.state.uid,
-          bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid),
-        };
-      }
-      http
-        .get(`/board`, { params: data })
-        .then(({ data }) => {
-          context.commit('SET_BOARD_ITEMS', data.object);
-        })
-        .catch(() => {
-          alert('에러가 발생했습니다.');
-        });
-    },
-    getUserBoardItems(context, targerUid) {
-      let data;
-      if (context.state.boardItems.length == 0) {
-        data = {
-          uid: targerUid,
-        };
-      } else {
-        data = {
-          uid: targerUid,
-          bid: String(context.state.boardItems[context.state.boardItems.length - 1].bid),
-        };
-      }
-      http
-        .get(`/board/user`, { params: data })
-        .then(({ data }) => {
-          context.commit('SET_BOARD_ITEMS', data.object);
-        })
-        .catch(() => {
-          alert('에러가 발생했습니다.');
-        });
-    },
-    getReplyList({ commit }, data) {
-      http
-        .get(`/reply`, { params: data })
-        .then(({ data }) => {
-          commit('SET_REPLY_LIST', data.object.content);
-          console.log('reply');
-          console.log(data);
-          console.log(data.object.content);
-        })
-        .catch(() => {
-          alert('에러가 발생했습니다.');
-        });
-    },
-    addReply({ commit }, data) {
-      http
-        .post(`/reply`, data)
-        .then(({ data }) => {
-          console.log('reply');
-          console.log(data);
-          alert('댓글이 등록되었습니다.');
-        })
-        .catch(() => {
-          alert('에러가 발생했습니다.');
-        });
     },
     addBoard({ commit }, formData) {
       http

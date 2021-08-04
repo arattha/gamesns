@@ -3,7 +3,7 @@
   <Header/>
   <div class="100hv" style="background-color: #FDF5E6;">
   <div class="feed newsfeed">
-    <div class="" @scroll="handleScroll">
+    <div class="" @scroll.passive="handleScroll">
       <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
       <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
         <FeedItem :boardItem ="boardItem"/>
@@ -23,7 +23,7 @@ import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
 import ModalFeed from '../../components/feed/ModalFeed.vue';
 import UserApi from '../../api/UserApi';
-
+var timer;
 export default {
   components: { 
       FeedItem,
@@ -38,23 +38,32 @@ export default {
         uid: 0,
         nickname: "",
         boardItems: [],
+        timer : null,
       }
   },
   created(){
     this.uid = this.$store.state.uid;
     this.nickname = this.$store.state.nickname;
     this.getBoardItems();
+  },
+  mounted(){
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
     handleScroll() {
+        
       let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
       let windowHeight = window.innerHeight; // 스크린 창
       let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
-      if(scrollLocation + windowHeight == fullHeight){
-        this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
-      }
 
+      if(parseInt(scrollLocation + windowHeight) == parseInt(fullHeight) && parseInt(scrollLocation) != 0){
+        if( timer == null ){
+          this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
+          timer = setTimeout(function() {
+          timer = null;
+          }, 300);
+        }
+      }
     },
     getBoardItems(){
       let data;
@@ -80,7 +89,6 @@ export default {
     },
     modalShow(item){
       this.isModalViewed = !this.isModalViewed;
-      //console.log(this.isModalViewed);
       this.temp = item;
       document.body.style.overflow = 'hidden';
     },
@@ -90,7 +98,8 @@ export default {
       document.body.style.overflow = 'scroll';
     }
   },
-  destroyed(){
+  beforeDestroy(){
+    this.boardItems = [];
     window.removeEventListener('scroll', this.handleScroll);
   }
 
@@ -127,16 +136,6 @@ export default {
       // console.log("--------------------");
       //const body = document.body;
       //const html = document.documentElement; 
-      // console.log(body.scrollHeight);
-      // console.log(body.offsetHeight);
-      // console.log(body.clientHeight);
-      
-      
-      // console.log(html.scrollHeight);
-      // console.log(html.offsetHeight);
-      // console.log(html.clientHeight);
-      // console.log("--------------------");
-      // console.log(this.boardItems[this.boardItems.length-1]);
       
       // console.log(this.getDocumentHeight());
       //const { scrollHeight, scrollTop, clientHeight } = e.target;

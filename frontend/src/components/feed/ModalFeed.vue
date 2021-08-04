@@ -61,7 +61,7 @@
 <script>
 import defaultProfile from "../../assets/images/profile_default.png";
 import UserApi from '../../api/UserApi'
-
+var timer;
 export default {
   //components: { Input },
   props:["boardItem"],
@@ -80,10 +80,8 @@ export default {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
-
-    this.getReplyList({ bid : this.boardItem.bid,
-                        lastRid : 0
-                      });
+    this.replyList = [];
+    this.getReplyList();
     this.nickname = this.$store.state.nickname;
 
   },
@@ -110,7 +108,19 @@ export default {
             })
         );
     },
-    getReplyList(data){
+    getReplyList(){
+      let data;
+      if (this.replyList.length == 0) {
+        data = { 
+          bid : this.boardItem.bid,
+          lastRid : 0
+        };
+      } else {
+        data = { 
+          bid : this.boardItem.bid,
+          lastRid : this.replyList[this.replyList.length - 1].rid
+        }
+      }
       UserApi
         .requestReplyList( data ,
         ((list) => {
@@ -122,10 +132,14 @@ export default {
         );
     },
     handleScroll(e) {
-      if(e.target.scrollHeight ==  e.target.scrollTop + e.target.clientHeight)
-        this.getReplyList({ bid : this.boardItem.bid,
-                            lastRid : this.replyList[this.replyList.length - 1].rid
-                          });
+      if(parseInt(e.target.scrollHeight) ==  parseInt(e.target.scrollTop + e.target.clientHeight) && parseInt(e.target.scrollHeight) != 0){
+                if( timer == null ){
+                    this.getReplyList(); //다음 뉴스피드 10개를 가져오는 함수
+                    timer = setTimeout(function() {
+                    timer = null;
+                    }, 300);
+                }
+      }
     },
     next: function(e) {
       e.stopPropagation();
@@ -136,6 +150,9 @@ export default {
       this.currentNumber -= 1
     }
   },
+  beforeDestroy(){
+    this.replyList = [];
+  }
 }
 </script>
 <style>
