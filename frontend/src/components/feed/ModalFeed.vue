@@ -34,7 +34,9 @@
           <!-- <div v-html="boardItem.contents"></div> -->
           <!-- <editor-content :editor="editor" /> -->
           <!-- <div v-if="url != ''"> -->
+            <div id="origin">
             <editor-content :editor="editor" />
+            </div>
             <div id="meta" @click="go" style="cursor: pointer;">
 
             </div>
@@ -55,7 +57,7 @@
         </div><!--/ cardbox-base -->
 
         <ul class="img-comment-list">
-          <li class="list" style="line-style: none;" v-for="(reply,index) in replyList" :key="index">
+          <li class="list" v-for="(reply,index) in replyList" :key="index">
             
               <!-- <div class="small-user-img-div">
                 <img src="http://lorempixel.com/100/100/people/6" class="small-user-img" style="object-fit: fill; margin:0px">
@@ -115,7 +117,7 @@ export default {
     this.newData = this.boardItem.contents;
     this.editor = new Editor({
       editable: false,
-      content: this.newData,
+      content: this.boardItem.contents,
       extensions: [
         StarterKit,
         Image,
@@ -212,8 +214,17 @@ export default {
       this.currentNumber -= 1
     }
   },
+  beforeDestroyed(){
+    this.editor.destroy();
+  },
 }
 </script>
 <style>
+#origin  li {
+  display: list-item;
+  list-style-type: disc; 
+  padding: 0;
+  margin-left: 5px;
+}
 @import "../css/feed/modalfeed.css";
 </style>
