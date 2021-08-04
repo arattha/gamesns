@@ -159,6 +159,50 @@ const requestGetUser = (data, callback, errorCallback) => {
     });
 };
 
+const requestFeedList = (data, callback, errorCallback) => {
+  http
+    .get('/board',{ params: data })
+    .then((res) => {
+      callback(res.data.object);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+};
+
+const requestUserFeedList = (data, callback, errorCallback) => {
+  http
+    .get('/board/user',{ params: data })
+    .then((res) => {
+      callback(res.data.object);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+};
+
+const requestAddReply = (data, callback, errorCallback) => {
+  http
+    .post(`/reply`, data)
+    .then(() => {
+      callback();
+    })
+    .catch(() => {
+      errorCallback();
+    });
+};
+
+const requestReplyList = (data, callback, errorCallback) => {
+  http
+    .get(`/reply`, { params : data })
+    .then(( res ) => {
+      callback(res.data.object.content);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+};
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
@@ -177,6 +221,14 @@ const UserApi = {
   requestExistUser: (data, callback, errorCallback) =>
     requestExistUser(data, callback, errorCallback),
   requestGetUser: (data, callback, errorCallback) => requestGetUser(data, callback, errorCallback),
+  requestFeedList: (data, callback, errorCallback) =>
+    requestFeedList(data, callback, errorCallback),
+  requestUserFeedList: (data, callback, errorCallback) =>
+    requestUserFeedList(data, callback, errorCallback),
+  requestAddReply: (data, callback, errorCallback) =>
+    requestAddReply(data, callback, errorCallback),
+  requestReplyList: (data, callback, errorCallback) =>
+    requestReplyList(data, callback, errorCallback),
 };
 
 export default UserApi;

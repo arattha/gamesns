@@ -1,7 +1,7 @@
 <template>
   <div style="display : flex;"  class="modal modal-container">
     <div class="overlay" @click="$emit('close-modal')"></div>
-    <div id = "test" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
+    <div id = "modalScroll" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
       <div class="feed-item">
         <div class="top">
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
@@ -42,6 +42,18 @@
           <!-- <editor v-if="metaData" v-model="metaData" /> -->
         </div>
 
+        <div class="cardbox-base">
+          <div class="likebox">
+            <div><i class="far fa-heart fa-lg"></i></div>
+            <p>242</p>		   
+            <div><i class="far fa-comment fa-lg"></i></div>
+            <p>20</p>
+          </div>
+          <div class="sharebox">
+            <Sharelink :boardItem="boardItem"/>
+          </div>
+        </div><!--/ cardbox-base -->
+
         <ul class="img-comment-list">
           <li class="list" style="line-style: none;" v-for="(reply,index) in replyList" :key="index">
             
@@ -75,13 +87,15 @@ import {Editor, EditorContent} from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import http from '@/util/http-common.js'
+import UserApi from '../../api/UserApi';
+import Sharelink from "./Sharelink";
 
-//import Input from '../common/Input.vue';
 export default {
   //components: { Input },
   props:["boardItem"],
   components: {
       EditorContent,
+      Sharelink
     },
   data: () => {
     return {
@@ -94,11 +108,10 @@ export default {
       editor:null,
       newData:null,
       url:'',
+      replyList: [],
     };
   },
   mounted(){
-    const $test = document.querySelector('#test');
-    $test.addEventListener("scroll", (e) => this.handleScroll(e));
     this.newData = this.boardItem.contents;
     this.editor = new Editor({
       editable: false,
@@ -109,7 +122,10 @@ export default {
       ],
     });
 
-
+    const $modalScroll = document.querySelector('#modalScroll');
+    $modalScroll.addEventListener("scroll", (e) => this.handleScroll(e));
+  },
+  created() {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
@@ -142,30 +158,13 @@ export default {
               element.appendChild(imgE);
               element.appendChild(title);
               element.appendChild(descE);
-              // this.boardItem.contents = `<div onclick="window.open('${res.data.object.url}')" style="cursor: pointer;"><img src="${res.data.object.img}"/><span><div style="font-size: larger;" >${res.data.object.title}</div><span style="color: gray">${res.data.object.desc}</span></span></div>`
-
             }
         })
         .catch(() => {})
     }
-    // test 라는 div 에 this.boardItem.contents 를 append
-    // var currentDiv = document.getElementById("meta");
-    // const doc = new DOMParser().parseFromString(this.boardItem.contents, "text/html");
-    // console.log("doc", doc.documentElement);
-    // currentDiv.insertBefore(doc.documentElement);
     
-    // const element = document.getElementById('meta');
-    
-    // element.innerHTML = this.boardItem.contents;
-    
-    
-
-  },
-  computed: {
-    ...mapGetters(["replyList"]),
   },
   methods: {
-    ...mapActions(["getReplyList","addReply"]),
     go(){
       window.open(this.url);
     },
@@ -177,12 +176,28 @@ export default {
         nickname : this.$store.state.nickname,
         content : this.search,
       }
-      this.addReply(data);
+      UserApi
+        .requestAddReply( data ,
+        (() => {
+            alert("댓글 작성이 성공하였습니다.");
+        }), 
+        (() => {
+            alert("댓글 가져오기 오류!");
+            })
+        );
+    },
+    getReplyList(data){
+      UserApi
+        .requestReplyList( data ,
+        ((list) => {
+            this.replyList = this.replyList.concat(list);
+        }), 
+        (() => {
+            alert("댓글 가져오기 오류!");
+            })
+        );
     },
     handleScroll(e) {
-
-      console.log(this.replyList);
-      console.log(this.replyList[this.replyList.length - 1]);
       if(e.target.scrollHeight ==  e.target.scrollTop + e.target.clientHeight)
         this.getReplyList({ bid : this.boardItem.bid,
                             lastRid : this.replyList[this.replyList.length - 1].rid
@@ -197,14 +212,8 @@ export default {
       this.currentNumber -= 1
     }
   },
-  destroyed(){
-    this.$store.state.replyList = [];
-  },
 }
 </script>
 <style>
 @import "../css/feed/modalfeed.css";
-li {
-  list-style: initial;
-}
 </style>

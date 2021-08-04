@@ -55,8 +55,8 @@
             </div>
         </div>
       </div>
-    <Footer/>
   </div>
+    <Footer/>
   </div>
 </template>
 
@@ -71,7 +71,6 @@ import ModalFeed from '../../components/feed/ModalFeed.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
 import UserApi from '../../api/UserApi'
-import { mapActions , mapGetters } from "vuex";
 
 export default {
     name:'MyPage',
@@ -92,6 +91,7 @@ export default {
             follower: [],
             isModalViewed: false,
             temp: null,
+            boardItems: [],
         }
     },
     created() {
@@ -116,14 +116,10 @@ export default {
             ,(() => {})
         )
 
-        this.getUserBoardItems(this.uid);
+        this.getBoardItems();
         window.addEventListener('scroll', this.handleScroll);
     },
-    computed: {  
-        ...mapGetters(["boardItems"]),
-    },
     methods:{
-        ...mapActions(["getUserBoardItems"]),
 
         showFollowing() {
             this.$router.push({name:"Following", params: {following : this.following, id: this.uid}});
@@ -141,9 +137,30 @@ export default {
             let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
             //console.log(document.documentElement.scrollTop);
             if(scrollLocation + windowHeight >= fullHeight){
-                console.log('끝')
-                this.getUserBoardItems(this.uid);
+                this.getBoardItems();
             }
+        },
+        getBoardItems(){
+            let data;
+            if (this.boardItems.length == 0) {
+                data = {
+                uid: this.uid,
+                };
+            } else {
+                data = {
+                uid: this.uid,
+                bid: String(this.boardItems[this.boardItems.length - 1].bid),
+                };
+            }
+            UserApi
+                .requestUserFeedList( data ,
+                ((list) => {
+                    this.boardItems = this.boardItems.concat(list);
+                }), 
+                (() => {
+                    alert("마이피드 가져오기 오류!");
+                    })
+                );
         },
         modalShow(item){
             this.isModalViewed = !this.isModalViewed;
@@ -158,7 +175,6 @@ export default {
         }
     },
     destroyed(){
-        this.$store.state.boardItems = [];
         window.removeEventListener('scroll', this.handleScroll);
     }
 }
