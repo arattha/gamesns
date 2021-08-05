@@ -53,8 +53,7 @@
 
         <div class="cardbox-base">
           <div class="likebox">
-            <div><i class="far fa-heart fa-lg"></i></div>
-            <p>242</p>		   
+            <Like :boardItem="boardItem" />		   
             <div><i class="far fa-comment fa-lg"></i></div>
             <p>20</p>
           </div>
@@ -98,6 +97,7 @@ import Image from '@tiptap/extension-image'
 import http from '@/util/http-common.js'
 import UserApi from '../../api/UserApi';
 import Sharelink from "./Sharelink";
+import Like from "./Like";
 var timer;
 
 export default {
@@ -105,7 +105,8 @@ export default {
   props:["boardItem"],
   components: {
       EditorContent,
-      Sharelink
+      Sharelink,
+      Like,
     },
   data: () => {
     return {
