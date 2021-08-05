@@ -4,7 +4,7 @@
     <div class="chatting-container">
       <div class="chatting-contact" @click="goToInChatting">
         <div class="chatting-pic rogers"></div>
-        <div class="badge">
+        <div class="chatting-badge">
           1
         </div>
         <div class="name">
@@ -25,7 +25,7 @@
       </div>
       <div class="chatting-contact">
         <div class="chatting-pic banner"></div>
-        <div class="badge">
+        <div class="chatting-badge">
           1
         </div>
         <div class="name">
@@ -40,7 +40,7 @@
         <div class="name">
           Thor Odinson
         </div>
-        <div class="badge">
+        <div class="chatting-badge">
           3
         </div>
         <div class="message">
@@ -49,7 +49,7 @@
       </div>
       <div class="chatting-contact">
         <div class="chatting-pic danvers"></div>
-        <div class="badge">
+        <div class="chatting-badge">
           2
         </div>
         <div class="name">
@@ -61,7 +61,7 @@
       </div>
       <div class="chatting-contact">
         <div class="chatting-pic danvers"></div>
-        <div class="badge">
+        <div class="chatting-badge">
           2
         </div>
         <div class="name">
@@ -73,7 +73,7 @@
       </div>
        <div class="chatting-contact">
         <div class="chatting-pic danvers"></div>
-        <div class="badge">
+        <div class="chatting-badge">
           2
         </div>
         <div class="name">
@@ -121,12 +121,6 @@ export default {
   /* width: 50vh; */
 }
 
-.center {
-  position: absolute;
-  top: 50%;
-  left: calc(50% + 12rem);
-  transform: translate(-50%, -50%);
-}
 
 .chatting-pic {
   width: 3.8rem;
@@ -157,7 +151,7 @@ export default {
   font-size: 0.9rem;
   color: #999;
 }
-.chatting-contact .badge {
+.chatting-contact .chatting-badge {
   box-sizing: border-box;
   position: absolute;
   width: 1.5rem;

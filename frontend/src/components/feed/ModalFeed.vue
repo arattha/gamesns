@@ -34,14 +34,21 @@
           <!-- <div v-html="boardItem.contents"></div> -->
           <!-- <editor-content :editor="editor" /> -->
           <!-- <div v-if="url != ''"> -->
-            <div id="origin">
-            <editor-content :editor="editor" />
+            <div id="origin" style="padding:10px;">
+              <div style="padding:10px; margin-top:10.5px;">
+                <editor-content :editor="editor" />
+              </div>
             </div>
             <div id="meta" @click="go" style="cursor: pointer;">
 
             </div>
           <!-- </div> -->
           <!-- <editor v-if="metaData" v-model="metaData" /> -->
+        </div>
+
+        <div>
+          <button>수정</button>
+          <button>삭제</button>
         </div>
 
         <div class="cardbox-base">
