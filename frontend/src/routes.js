@@ -14,6 +14,8 @@ import Writing from './components/home/writing/Writing.vue';
 import Alarm from './views/alarm/Alarm.vue';
 import UserPage from './views/user/UserPage.vue';
 import Re from './views/user/Re.vue';
+import InChatting from './components/home/chatting/InChatting.vue';
+import Chatting from './components/home/chatting/Chatting.vue';
 
 export default [
   {
@@ -90,6 +92,16 @@ export default [
     path: '/writing',
     name: 'Writing',
     component: Writing,
+  },
+  {
+    path: '/inChatting',
+    name: 'InChatting',
+    component: InChatting,
+  },
+  {
+    path: '/chatting',
+    name: 'Chatting',
+    component: Chatting,
   },
   {
     path: '/alarm',
