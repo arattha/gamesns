@@ -20,7 +20,7 @@ public class ResponseBoard {
 	
     private Long bid;
     private String uid;
-
+    private String nickname;
     private String contents;
 
     private int likes;
@@ -28,9 +28,10 @@ public class ResponseBoard {
     
     private List<ImgFile> imgFiles;
     
-    public ResponseBoard(Board board, List<ImgFile> imgFiles) {
+    public ResponseBoard(Board board, List<ImgFile> imgFiles,String nickname) {
 		this.bid = board.getBid();
 		this.uid = board.getUid();
+		this.nickname = nickname;
 		this.contents = board.getContents();
 		this.likes = board.getLikes();
 		this.share = board.getShare();

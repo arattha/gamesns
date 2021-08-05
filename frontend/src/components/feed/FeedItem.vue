@@ -6,10 +6,10 @@
         <div class="cardbox-heading">
           <!-- 내부 사진 크기 조절 필요 -->
             <div class="fimg">
-                <img :style="{'background-image': 'url('+defaultProfile+')'}" alt="">
+                <img :src="'http://localhost:8080/account/file/' + boardItem.uid">
             </div>
             <div class="media-body">
-                <p class="m-0 name">{{boardItem.uid}}</p>
+                <p class="m-0 name">{{boardItem.nickname}}</p>
                 <p class="m-0 time">10 hours ago</p>
             </div><!--/ media -->
         </div><!--/ cardbox-heading -->
