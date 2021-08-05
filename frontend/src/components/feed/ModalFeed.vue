@@ -7,7 +7,7 @@
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
           <div class="user-info">
             <div class="media-body">
-              <p class="m-0 name">{{boardItem.nickname}} 임시</p>
+              <p class="m-0 name">{{boardItem.nickname}}</p>
               <p class="m-0 time">10 hours ago</p>
             </div>
             <!-- <p class="date">9시간 후</p> -->
@@ -53,7 +53,7 @@
 
         <div class="cardbox-base">
           <div class="likebox">
-            <Like :boardItem="boardItem" />
+            <Like :boardItem="boardItem" />		   
             <div><i class="far fa-comment fa-lg"></i></div>
             <p>20</p>
           </div>

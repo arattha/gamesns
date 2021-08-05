@@ -56,7 +56,7 @@ export default {
       let windowHeight = window.innerHeight; // 스크린 창
       let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
 
-      if(parseInt(scrollLocation + windowHeight) == parseInt(fullHeight) && parseInt(scrollLocation) != 0){
+      if(( Math.abs(parseInt(fullHeight) - parseInt(scrollLocation + windowHeight)) < 3  ) && parseInt(scrollLocation) != 0){
         if( timer == null ){
           this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
           timer = setTimeout(function() {

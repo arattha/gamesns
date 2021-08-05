@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.web.curation.dao.ImgFile.ImgFileDao;
 import com.web.curation.dao.board.BoardDao;
 import com.web.curation.dao.follow.FollowingDao;
-
+import com.web.curation.dao.member.MemberDao;
 import com.web.curation.model.board.AddBoard;
 import com.web.curation.model.board.Board;
 import com.web.curation.model.board.ResponseBoard;
@@ -31,7 +31,9 @@ public class BoardService {
 	FollowingDao followingDao;
 	@Autowired
 	ImgFileDao imgFileDao;
-
+	@Autowired
+	MemberDao memberDao;
+	
 	public Object bList(String uid,String bid){
 
 		long longbid;
@@ -49,9 +51,9 @@ public class BoardService {
 			boardList = boardDao.findFollowFeed(longbid, paging);
 		}
 		List<ResponseBoard> resboard = new ArrayList<>();
-
+		
 		for (Board board : boardList) {
-			resboard.add(new ResponseBoard(board,imgFileDao.findImgFileByBid(board.getBid())));
+			resboard.add(new ResponseBoard(board,imgFileDao.findImgFileByBid(board.getBid()),memberDao.findByUid(board.getUid()).get().getNickname()));
 		}
 
 		return resboard;
@@ -72,7 +74,7 @@ public class BoardService {
 		List<ResponseBoard> resboard = new ArrayList<>();
 
 		for (Board board : boardList) {
-			resboard.add(new ResponseBoard(board,imgFileDao.findImgFileByBid(board.getBid())));
+			resboard.add(new ResponseBoard(board,imgFileDao.findImgFileByBid(board.getBid()),memberDao.findByUid(board.getUid()).get().getNickname()));
 		}
 
 		return resboard;
