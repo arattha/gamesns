@@ -1,10 +1,13 @@
 package com.web.curation.config;
 
+import io.swagger.models.auth.In;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.channel.voice.update.VoiceChannelUpdateUserLimitEvent;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.ChannelAction;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +16,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 @Configuration
-public class JdaConfig {
+public class DiscordJdaConfig {
     private @Value("${jda.discord.guild.id}")
     Long guildId;
 
@@ -22,9 +25,7 @@ public class JdaConfig {
 
     private JDA jda;
 
-    public JdaConfig(@Value("${jda.discord.token}") String discordToken) {
-        System.out.println(discordToken);
-
+    public DiscordJdaConfig(@Value("${jda.discord.token}") String discordToken) {
         try {
             jda = JDABuilder.createDefault(discordToken)
                     .setStatus(OnlineStatus.DO_NOT_DISTURB).build();
@@ -40,12 +41,17 @@ public class JdaConfig {
 
         Category category = guild.getCategoryById(categoryId);
 
-        ChannelAction<VoiceChannel> voiceChannelChannelAction = category
-                .createVoiceChannel(channelName);
-        voiceChannelChannelAction
-                .addPermissionOverride(guild.getPublicRole(), null, EnumSet.of(Permission.VIEW_CHANNEL))
+        category.createVoiceChannel(channelName)
+//                .addPermissionOverride(guild.getPublicRole(), EnumSet.of(Permission.VOICE_CONNECT), EnumSet.of(Permission.VIEW_CHANNEL))
+                .addPermissionOverride(guild.getPublicRole(), EnumSet.of(Permission.VOICE_CONNECT), null)
                 .reason("매칭 완료 방 생성")
-                .queue();
+                .queue((r) -> {
+                    r.createInvite().setMaxAge(300).queue((rr) -> {
+                        System.out.println(rr.getUrl());
+                    });
+
+                    r.getManager().setUserLimit(5).queue();
+                });
     }
 
     public void deleteVoiceChannel() {
