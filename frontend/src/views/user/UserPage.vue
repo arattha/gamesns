@@ -72,8 +72,7 @@ import Footer from '@/components/layout/footer/Footer.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
 import ModalFeed from '../../components/feed/ModalFeed.vue'
 import UserApi from '../../api/UserApi'
-import { mapActions , mapGetters } from "vuex";
-
+var timer;
 export default {
 
     name:'UserPage',
@@ -105,7 +104,7 @@ export default {
         this.nickname = this.$store.state.nickname;
         this.userInfo = this.$route.params.suggest;
         this.getBoardItems();
-        window.addEventListener('scroll', this.handleScroll);
+        
         // console.log("userinfo",this.userInfo);
         UserApi
             .requestFollowing({from:this.userInfo.uid}
@@ -129,6 +128,9 @@ export default {
             })
             ,(() => {})
         )
+    },
+    mounted(){
+        window.addEventListener('scroll', this.handleScroll);
     },
     methods:{
 
@@ -180,8 +182,13 @@ export default {
             let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
             //console.log(document.documentElement.scrollTop);
 
-            if(scrollLocation + windowHeight >= fullHeight){
-                this.getBoardItems();
+            if(parseInt(scrollLocation + windowHeight) == parseInt(fullHeight) && parseInt(scrollLocation) != 0){
+                if( timer == null ){
+                    this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
+                    timer = setTimeout(function() {
+                    timer = null;
+                    }, 300);
+                }
             }
         },
         modalShow(item){
@@ -195,7 +202,8 @@ export default {
             document.body.style.overflow = 'scroll';
         }
     },
-    destroyed(){
+    beforeDestroy(){
+        this.boardItems = [];
         window.removeEventListener('scroll', this.handleScroll);
     }
 }

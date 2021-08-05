@@ -30,7 +30,19 @@
           </div>
           </div>
         </div><!--/ cardbox-item -->
-        <div style="mcontent">{{boardItem.contents}}</div>
+        <div style="mcontent">
+          <!-- <div v-html="boardItem.contents"></div> -->
+          <!-- <editor-content :editor="editor" /> -->
+          <!-- <div v-if="url != ''"> -->
+            <div id="origin">
+            <editor-content :editor="editor" />
+            </div>
+            <div id="meta" @click="go" style="cursor: pointer;">
+
+            </div>
+          <!-- </div> -->
+          <!-- <editor v-if="metaData" v-model="metaData" /> -->
+        </div>
 
         <div class="cardbox-base">
           <div class="likebox">
@@ -72,15 +84,22 @@
 </template>
 <script>
 import defaultProfile from "../../assets/images/profile_default.png";
+import { mapActions, mapGetters } from "vuex";
+import {Editor, EditorContent} from '@tiptap/vue-2'
+import StarterKit from '@tiptap/starter-kit'
+import Image from '@tiptap/extension-image'
+import http from '@/util/http-common.js'
 import UserApi from '../../api/UserApi';
 import Sharelink from "./Sharelink";
+var timer;
 
 export default {
   //components: { Input },
   props:["boardItem"],
   components: {
-    Sharelink
-  },
+      EditorContent,
+      Sharelink
+    },
   data: () => {
     return {
       defaultProfile,
@@ -89,27 +108,69 @@ export default {
       nickname : "",
       isModalViewed: false,
       currentNumber: 0,
-      replyList: []
+      editor:null,
+      newData:null,
+      url:'',
+      replyList: [],
     };
+  },
+  mounted(){
+    this.newData = this.boardItem.contents;
+    this.editor = new Editor({
+      editable: false,
+      content: this.boardItem.contents,
+      extensions: [
+        StarterKit,
+        Image,
+      ],
+    });
+
+    const $modalScroll = document.querySelector('#modalScroll');
+    $modalScroll.addEventListener("scroll", (e) => this.handleScroll(e));
   },
   created() {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
-
-    this.getReplyList({ bid : this.boardItem.bid,
-                        lastRid : 0
-                      });
+    this.replyList = [];
+    this.getReplyList();
     this.nickname = this.$store.state.nickname;
 
-  },
-  mounted(){
-    const $modalScroll = document.querySelector('#modalScroll');
-    $modalScroll.addEventListener("scroll", (e) => this.handleScroll(e));
+    var arr = [];
+    
+    this.boardItem.contents.replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/, function (n) {
+      arr.push(n)
+    })
+    
+    if(arr.length > 0) {
+      http
+        .get("/common/getMeta", {params: {url : arr[0]}})
+        .then((res) => {
+            if(res.data.data == "success") {
+              this.url = res.data.object.url;
+              const element = document.getElementById('meta');
+
+              const imgE = document.createElement('img'); // + addeventlistener
+              imgE.src = res.data.object.img;
+              const title = document.createElement('div');
+              title.appendChild(document.createTextNode(res.data.object.title));
+              const descE = document.createElement('div');
+              descE.appendChild(document.createTextNode(res.data.object.desc));
+              element.appendChild(imgE);
+              element.appendChild(title);
+              element.appendChild(descE);
+            }
+        })
+        .catch(() => {})
+    }
+    
   },
   methods: {
+    go(){
+      window.open(this.url);
+    },
     submitReply(){
-      //console.log(this.$store.state.nickname);
+      
       let data = {
         uid : this.$store.state.uid,
         bid : this.boardItem.bid,
@@ -126,7 +187,19 @@ export default {
             })
         );
     },
-    getReplyList(data){
+    getReplyList(){
+      let data;
+      if (this.replyList.length == 0) {
+        data = { 
+          bid : this.boardItem.bid,
+          lastRid : 0
+        };
+      } else {
+        data = { 
+          bid : this.boardItem.bid,
+          lastRid : this.replyList[this.replyList.length - 1].rid
+        }
+      }
       UserApi
         .requestReplyList( data ,
         ((list) => {
@@ -138,10 +211,14 @@ export default {
         );
     },
     handleScroll(e) {
-      if(e.target.scrollHeight ==  e.target.scrollTop + e.target.clientHeight)
-        this.getReplyList({ bid : this.boardItem.bid,
-                            lastRid : this.replyList[this.replyList.length - 1].rid
-                          });
+      if(parseInt(e.target.scrollHeight) ==  parseInt(e.target.scrollTop + e.target.clientHeight) && parseInt(e.target.scrollHeight) != 0){
+                if( timer == null ){
+                    this.getReplyList(); //다음 뉴스피드 10개를 가져오는 함수
+                    timer = setTimeout(function() {
+                    timer = null;
+                    }, 300);
+                }
+      }
     },
     next: function(e) {
       e.stopPropagation();
@@ -152,8 +229,18 @@ export default {
       this.currentNumber -= 1
     }
   },
+  beforeDestroy(){
+    this.replyList = [];
+    this.editor.destroy();
+  }
 }
 </script>
 <style>
-  @import "../css/feed/modalfeed.css"; 
+#origin  li {
+  display: list-item;
+  list-style-type: disc; 
+  padding: 0;
+  margin-left: 5px;
+}
+@import "../css/feed/modalfeed.css";
 </style>
