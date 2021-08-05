@@ -4,6 +4,7 @@ import getters from './getters';
 import http from '@/util/http-common';
 import actions from './actions';
 import mutations from './mutations';
+import createPersistedState from 'vuex-persistedstate';
 import { router } from '../main';
 
 Vue.use(Vuex);
@@ -105,4 +106,5 @@ export default new Vuex.Store({
       commit('SET_RECENTSEARCHED', val);
     },
   },
+  plugins: [createPersistedState()],
 });
