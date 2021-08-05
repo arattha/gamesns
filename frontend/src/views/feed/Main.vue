@@ -9,9 +9,9 @@
         <FeedItem :boardItem ="boardItem"/>
       </div>
     </div>
-    <Footer/>
   </div>
   </div>
+  <Footer/>
 </div>
 </template>
 
