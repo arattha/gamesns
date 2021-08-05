@@ -6,7 +6,7 @@
           <li @click="goToMain"><i class="fa fa-home"></i></li>
           <li @click="goToSearch"><i class="fa fa-search"></i></li>
           <li><i class="fas fa-gamepad"></i></li>
-          <li><i class="fas fa-users"></i></li>
+          <li @click="goToChatting"><i class="fas fa-comments"></i></li>
           <li @click="goToWriting"><i class="fas fa-edit"></i></li>
         </ul>
       </div>
@@ -23,6 +23,9 @@ export default {
     },
     goToSearch: function() {
       this.$router.push('/search');
+    },
+    goToChatting: function() {
+      this.$router.push('/chatting');
     },
     goToWriting: function() {
       this.$router.push('/writing');

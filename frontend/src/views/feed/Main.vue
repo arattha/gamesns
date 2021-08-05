@@ -51,6 +51,8 @@ export default {
       let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
       let windowHeight = window.innerHeight; // 스크린 창
       let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
+      console.log(scrollLocation + windowHeight);
+      console.log(fullHeight);
       if(scrollLocation + windowHeight == fullHeight){
         this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
       }
