@@ -46,15 +46,14 @@
           <!-- <editor v-if="metaData" v-model="metaData" /> -->
         </div>
 
-        <div>
-          <button>수정</button>
-          <button>삭제</button>
-        </div>
+        <form class="edit-form">
+          <b-button class="edit-btn" variant="outline-secondary">수정</b-button>
+          <b-button class="delete-btn" variant="outline-danger">삭제</b-button>
+        </form>
 
         <div class="cardbox-base">
           <div class="likebox">
-            <div><i class="far fa-heart fa-lg"></i></div>
-            <p>242</p>		   
+            <Like :boardItem="boardItem" />
             <div><i class="far fa-comment fa-lg"></i></div>
             <p>20</p>
           </div>
@@ -69,17 +68,24 @@
               <!-- <div class="small-user-img-div">
                 <img src="http://lorempixel.com/100/100/people/6" class="small-user-img" style="object-fit: fill; margin:0px">
               </div> -->
-           
+            <div class="small-user-img-div">
+              <img
+                src="http://lorempixel.com/30/30/people/9"
+                class="small-user-img"
+              />
+              <!-- 임의의 이미지가 들어가는거라, user의 프로필사진이 나오게 해야 함. -->
+            </div>
             <div class="comment-text">
               <strong><a href="">{{reply.nickname}}</a></strong>
               <p>{{reply.content}}</p> 
               <span class="date sub-text">on December 5th, 2016</span>
             </div>
           </li>
+          
         </ul>
-        <div class="search-bar">
-          <input v-model="search" class="search__input" type="text" placeholder="댓글 입력">
-          <button class="" @click="submitReply">게시</button>
+        <div class="putting-up">
+          <input v-model="search" class="modalfeeld-search__input" type="text" placeholder="댓글 입력">
+          <button class="modalfeed-putting-up" @click="submitReply">게시</button>
         </div>
       </div>
     </div>
@@ -98,6 +104,7 @@ import Image from '@tiptap/extension-image'
 import http from '@/util/http-common.js'
 import UserApi from '../../api/UserApi';
 import Sharelink from "./Sharelink";
+import Like from "./Like";
 var timer;
 
 export default {
@@ -105,7 +112,8 @@ export default {
   props:["boardItem"],
   components: {
       EditorContent,
-      Sharelink
+      Sharelink,
+      Like,
     },
   data: () => {
     return {

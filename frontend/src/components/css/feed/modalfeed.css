@@ -21,15 +21,16 @@
 }
 .modal-card {
   position: absolute;
-  top: 15%;
+  top: 12%;
   left: 10%;
   max-width: 80%;
   margin: auto;
   background-color: white;
-  min-height: 50%;
-  max-height: 70%;
+  min-height: 60%;
+  max-height: 75%;
   z-index: 10;
   opacity: 1;
+  border-radius: 15px;
 }
 
 .user-writing-time{
@@ -189,4 +190,61 @@ font-family: 'Nanum Gothic', sans-serif;
 
 .img-comment-list .list{
   justify-content: end;
+}
+
+.edit-form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modalfeeld-search__input {
+  width: 90%;
+  padding: 12px 8px;
+  outline: 0;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background-position: 98% center;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+.modalfeeld-search__input::placeholder {
+      color: rgba(87, 87, 86, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+  }
+
+.modalfeeld-search__input:hover,
+  .modalfeeld-search__input:focus {
+      padding: 12px 8px;
+      outline: 0;
+      border: 1px solid transparent;
+      border-radius: 0;
+      background-position: 98% center;
+      font-family: 'Nanum Gothic', sans-serif;
+  }
+
+.edit-btn, .delete-btn {
+  height: 100%;
+  box-shadow: none;
+}
+
+.modalfeed-putting-up {
+  color: #0095f6;
+  /* margin: 0 3px; */
+}
+
+.putting-up {
+  width:95%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.comment-text{
+  max-width: 75%;
+}
+
+.comment-text p{
+  min-width:40vw;
+  max-width:70vw;
+  object-fit: contain;
 }
