@@ -2,15 +2,21 @@
   <div style="display : flex;"  class="modal modal-container">
     <div class="overlay" @click="$emit('close-modal')"></div>
     <div id = "modalScroll" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
-      <div class="feed-item">
+      <div class="feed-item" style="border:0px">
         <div class="top">
-          <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
+          <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}">
+            <img :src="'http://localhost:8080/account/file/' + boardItem.uid">
+          </div>
           <div class="user-info">
             <div class="media-body">
               <p class="m-0 name">{{boardItem.nickname}}</p>
               <p class="m-0 time">10 hours ago</p>
             </div>
             <!-- <p class="date">9시간 후</p> -->
+          </div>
+          <!-- 종료 버튼 -->
+          <div class="close-icon" @click="$emit('close-modal')">
+            <i class="fas fa-times"></i>
           </div>
           <div class="ellipsis">
             <img src="@/assets/images/ellipsis.png" alt="">
@@ -25,7 +31,7 @@
           </div>
           <!-- 이미지 -->
           <div class="mffimg" style="padding: 0px;" v-for="number in [currentNumber]" v-bind:key="number" transition="fade">
-            <img class="img-fluid" alt=""
+            <img alt=""
               :src="img_src[Math.abs(currentNumber) % img_src.length]">
           </div>
           </div>
@@ -34,8 +40,8 @@
           <!-- <div v-html="boardItem.contents"></div> -->
           <!-- <editor-content :editor="editor" /> -->
           <!-- <div v-if="url != ''"> -->
-            <div id="origin" style="padding:10px;">
-              <div style="padding:10px; margin-top:10.5px;">
+            <div id="origin" style="padding:10px 5px 0px 5px;">
+              <div style="padding:10px 5px 0px 5px;">
                 <editor-content :editor="editor" />
               </div>
             </div>
@@ -62,6 +68,8 @@
           </div>
         </div><!--/ cardbox-base -->
 
+
+        <!-- 댓글 및 댓글 입력 -->
         <ul class="img-comment-list">
           <li class="list" v-for="(reply,index) in replyList" :key="index">
             
@@ -138,7 +146,7 @@ export default {
         StarterKit,
         Image,
       ],
-    });
+    },);
 
     const $modalScroll = document.querySelector('#modalScroll');
     $modalScroll.addEventListener("scroll", (e) => this.handleScroll(e));
