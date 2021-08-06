@@ -111,7 +111,7 @@ const requestFollowUpdate = (data, callback, errorCallback) => {
     toNickname: data.toNickname,
   };
 
-  if (data.type) {
+  if (data.type >= 0) {
     http
       .post('/follow/AddOrDeleteFollowing', data2)
       .then((res) => {
@@ -120,7 +120,8 @@ const requestFollowUpdate = (data, callback, errorCallback) => {
       .catch(() => {
         errorCallback();
       });
-  } else {
+  }
+  if (data.type <= 0) {
     http
       .post('/follow/AddOrDeleteFollower', data2)
       .then((res) => {

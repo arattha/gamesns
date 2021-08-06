@@ -43,8 +43,12 @@ export default {
     },
     data() {
         return{
+            nickname: '',
             search : "",
         };
+    },
+    created(){
+        this.nickname = this.$store.state.nickname;
     },
     watch: {
         search: function (val) {
@@ -58,7 +62,8 @@ export default {
         ...mapActions(["searchUser", "recentUser"]),
         userLink(suggest){
             this.recentUser(suggest.nickname);
-            this.$router.push({ name: 'UserPage', params: {suggest}})
+            if(this.nickname == suggest.nickname) this.$router.push('/mypage');
+            else this.$router.push({ name: 'UserPage', params: {suggest}});
         },
         recentSearch(user) {
             this.recentUser(user);

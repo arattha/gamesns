@@ -54,7 +54,7 @@ export default {
         let data = {
           fromNickname: u,
           toNickname: this.nickname,
-          type: false
+          type: -1
         }
         UserApi
           .requestFollowUpdate(
