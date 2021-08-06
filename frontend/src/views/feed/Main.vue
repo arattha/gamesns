@@ -101,6 +101,7 @@ export default {
   beforeDestroy(){
     this.boardItems = [];
     window.removeEventListener('scroll', this.handleScroll);
+    this.modalClose()
   }
 
 };

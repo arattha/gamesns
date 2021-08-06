@@ -82,6 +82,20 @@ export default {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
+    let data = {
+      bid : this.boardItem.bid
+    }
+      http
+      .get('/reply/cnt', {params:data})
+      .then(({data}) => {
+        console.log('ㅎ2ㅎ2 보이니??~?~?~???')
+        console.log(data)
+        this.reply_num = data;
+      })
+      .catch((err) => {
+        console.log('reply num 에러입니다')
+        console.log(err)
+      })
   },
   methods: {
     next: function(e) {
