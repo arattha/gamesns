@@ -1,5 +1,13 @@
 @charset "utf-8";
 @import '../../css/common'; 
+@import '../mixin';
+
+
+.fbody {
+	margin-bottom: 10px;
+	position: relative;
+}
+
 
 .feed-card {
     box-sizing: content-box;
@@ -188,11 +196,6 @@
     }
 }
 
-.fbody {
-    margin-bottom: 10px;
-    position: relative;
-}
-
 .cardbox {
     border-radius: 3px;
     margin-bottom: 20px;
@@ -277,6 +280,8 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+
 .media-body {
     z-index: auto;
     -ms-flex: 1;
@@ -319,9 +324,28 @@
 .ffimg img{
     z-index: initial;
     padding: 0px;
-    width: 100vw;
-    height: 100vw;
     object-fit: contain;
+}
+
+@include mobile {
+  .ffimg img {
+		width: 100vw;
+    height: 100vw;
+  }
+}
+
+@include tablet {
+  .ffimg img {
+		width: 70vw;
+    height: 70vw;
+  }
+}
+
+@include desktop {
+  .ffimg img {
+		width: 40vw;
+    height: 40vw;
+  }
 }
 
 
@@ -381,9 +405,30 @@
     display: flex;
     margin: 0;
     padding: 0;
-    width: 100vw;
+    // width: 100vw;
     height: 100vw;
     justify-content: space-between;
+}
+
+@include mobile {
+  .slider {
+    width: 100vw;
+    height: 100vw;
+  }
+}
+
+@include tablet {
+  .slider {
+    width: 70vw;
+    height: 70vw;
+  }
+}
+
+@include desktop {
+  .slider {
+    width: 40vw;
+    height: 40vw;
+  }
 }
 
 .image-slider {
@@ -394,7 +439,6 @@
 .image-slider button {
     top: 0;
     width: 2rem;
-    height: 100vw;
     background-color: rgba(0, 0, 0, 0.1);
     border: none;
     color: white;
