@@ -1,8 +1,8 @@
 <template>
-<div>
+<div style="background-color: #FDF5E6;">
   <Header/>
-  <div class="100hv" style="background-color: #FDF5E6;">
-  <div class="feed newsfeed">
+  <div>
+  <div class="mainfeed">
     <div class="" @scroll.passive="handleScroll">
       <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
       <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
@@ -17,7 +17,7 @@
 
 <script>
 import "../../components/css/feed/feed-item.scss";
-import "../../components/css/feed/newsfeed.scss";
+import "../../components/css/feed/mainfeed.scss";
 import FeedItem from "../../components/feed/FeedItem.vue";
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
