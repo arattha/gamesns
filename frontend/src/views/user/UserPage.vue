@@ -1,63 +1,83 @@
 <template>
   <div class="h-100">
-        <Header/>
-            <div>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-		<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
-	</div>
-      <div @scroll.passive="handleScroll" style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
+    <Header/>
+
+		<!-- cdn -->
+    <div>
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+			<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+		</div>
+    
+		<div @scroll.passive="handleScroll" style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
+			<!-- 프로필 페이지 -->
 			<div class="card" style="padding: 0;">
-                <div class="card-header">
+
+				<!-- 프로필 배경 이미지 -->
+        <div class="card-header">
 					<div class="profile_pic">
 						<img :src="'http://localhost:8080/account/file/' + userInfo.uid">
 					</div>
 				</div>
+
+				<!-- 프로필 -->
 				<div class="card-body">
+					<!-- 프로필 내용 -->
 					<div class="d-lfex justify-content-center flex-column">
+						<!-- 이름 -->
 						<div class="name_container">
 							<div class="name">{{userInfo.nickname}}</div>
 						</div>
-                        <div class="intro">저는 강아지를 좋아합니다.</div>
+						<!-- 상태메세지 -->
+            <div class="intro">저는 강아지를 좋아합니다.</div>
 					</div>
-                    <div class="follow">
-                        <!-- Follow 상태면 팔로잉 버튼을 보여주고 Follow 상태가 아니면 팔로우 버튼을 보여준다.  -->
-                        <div class="follow_btn" v-if="isFollow" @click="send">팔로우</div>
-                        <div class="follow_btn" style="background: blue" v-else>팔로잉</div>
-                    </div>
-            <div class="info_container">
-							<div class="info">
-								<p>팔로워</p>
-                                <p @click="showFollower">{{ userFollower.length }}</p>
-							</div>
-							<div class="info">
-								<p>팔로잉</p>
-								<p @click="showFollowing">{{ userFollowing.length }}</p>
-							</div>
-							<div class="info">
-								<p>매너</p>
-								<p>3.5</p>						
-							</div>	
+					<!-- 팔로우 팔로잉 버튼 -->
+          <div class="follow">
+            <!-- Follow 상태면 팔로잉 버튼을 보여주고 Follow 상태가 아니면 팔로우 버튼을 보여준다.  -->
+            <div class="follow_btn" v-if="isFollow" @click="send">팔로우</div>
+            <div class="follow_btn" style="background: blue" v-else>팔로잉</div>
+						<div class="chat_btn">채팅</div>
+          </div>
+				</div>
+
+				<!-- 다른 컴포넌트 -->
+				<div class="mypage">
+					<!-- 팔로우, 매너점수 -->
+          <div class="info_container">
+						<div class="info">
+							<p>팔로워</p>
+              <p @click="showFollower">{{ userFollower.length }}</p>
 						</div>
-        </div>
+						<div class="info">
+							<p>팔로잉</p>
+							<p @click="showFollowing">{{ userFollowing.length }}</p>
+						</div>
+						<div class="info">
+							<p>매너</p>
+							<p>3.5</p>						
+						</div>	
+					</div>
+				<!-- 피드, 뱃지 버튼 -->
         <div class="card-footer">
-						<div class="myfeed drop-in-underline">
-							<i class="fas fa-archive"></i>
-						</div>
-						<div class="myfeed drop-in-underline">
-							<i class="far fa-smile"></i>
-						</div>
+					<div class="myfeed drop-in-underline">
+						<i class="fas fa-archive"></i>
 					</div>
+					<div class="myfeed drop-in-underline">
+						<i class="far fa-smile"></i>
+					</div>
+				</div>
+				<!-- 피드 -->
         <div class="feeditem-box">
-            <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
-            <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
-                <FeedItem :boardItem ="boardItem"/>
-            </div>
+          <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
+          <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
+						<FeedItem :boardItem ="boardItem"/>
+          </div>
         </div>
+				</div>
       </div>
+		</div>
     <Footer/>
-  </div>
   </div>
 </template>
 
@@ -210,6 +230,7 @@ export default {
 </script>
 
 <style>
-    @import "../../components/css/user/mypage.css";
-    @import "../../components/css/user/followbtn.css";
+@import "../../components/css/user/mypage.css";
+@import "../../components/css/user/followbtn.css";
+@import "../../components/css/user/mypage.scss";
 </style>
