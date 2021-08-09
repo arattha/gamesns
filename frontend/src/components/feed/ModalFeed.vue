@@ -1,7 +1,8 @@
 <template>
   <div style="display : flex;"  class="modal modal-container">
     <div class="overlay" @click="$emit('close-modal')"></div>
-    <div id = "modalScroll" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
+    <div class="modal-res">
+    <div id = "modalScroll" class="modal-card" style="overflow:scroll;">
       <div class="feed-item" style="border:0px">
         <div class="top">
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}">
@@ -103,6 +104,7 @@
     <div>
       <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
       <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+    </div>
     </div>
   </div>
 </template>
@@ -279,4 +281,5 @@ export default {
   margin-left: 5px;
 }
 @import "../css/feed/modalfeed.css";
+@import "../css/feed/modalfeed.scss";
 </style>

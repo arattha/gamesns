@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+.modal-res {
+    margin: 0 auto;
+    width: 100vw;
+}
+
+.modal-card {
+    margin: 0 auto;
+}
+
+.mffimg img {
+    height: 100vw;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+	.modal-res, .modal-card {
+        width: 100vw;
+    }
+
+    .mffimg img {
+        height: 100vw;
+    }
+
+    .mimage-slider button {
+        height: 100vw;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+	.modal-res, .modal-card {
+        width: 70vw;
+    }
+
+    .mffimg img {
+        height: 70vw;
+    }
+
+    .mimage-slider button {
+        height: 70vw;
+    }
+}
+
+@media (min-width: 1024px) {
+	.modal-res, .modal-card {
+        width: 40vw;
+    }
+
+    .mffimg img {
+        height: 40vw;
+    }
+
+    .mimage-slider button {
+        height: 40vw;
+    }
+}
