@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+.logo {
+	width: 80px;
+	left: 7px;
+}
+
+.mypage-btn div, .alarm-btn div{
+	font-size: 20px;
+}
+
+.mypage-btn {
+	right: 10px;
+}
+
+.alarm-btn {
+	right: 60px;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+	.header{
+		width: 100vw;
+	}
+
+	.logo {
+    width: 90px;
+  }
+
+	.mypage-btn div, .alarm-btn div{
+		font-size: 20px;
+	}
+
+	.mypage-btn {
+		right: 3px;
+	}
+	
+	.alarm-btn {
+		right: 42px;
+	}	
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+	.header{
+		width: 70vw;
+	}
+
+	.logo {
+    width: 100px;
+		left: 0px;
+  }
+
+	.mypage-btn div, .alarm-btn div{
+		font-size: 22px;
+	}
+
+	.mypage-btn {
+		right: 0px;
+	}
+	
+	.alarm-btn {
+		right: 52px;
+	}	
+}
+
+@media (min-width: 1024px) {
+	.header{
+		width: 40vw;
+	}
+
+	.logo {
+    width: 110px;
+		left: 0px;
+  }
+
+	.mypage-btn div, .alarm-btn div{
+		font-size: 22px;
+	}
+
+	.mypage-btn {
+		right: 0px;
+	}
+	
+	.alarm-btn {
+		right: 50px;
+	}	
+}

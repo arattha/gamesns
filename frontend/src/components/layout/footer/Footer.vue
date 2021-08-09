@@ -36,4 +36,5 @@ export default {
 
 <style>
 @import '../../css/layout/footer.css';
+@import '../../css/layout/footer.scss';
 </style>
