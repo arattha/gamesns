@@ -62,7 +62,7 @@
         <div class="cardbox-base">
           <div class="likebox">
             <Like :boardItem="boardItem" />		   
-            <Reply :boardItem="boardItem" />
+            <Reply :boardItem="boardItem" :now_reply_num="now_reply_num"/>
           </div>
           <div class="sharebox">
             <Sharelink :boardItem="boardItem"/>
@@ -148,6 +148,7 @@ export default {
       newData:null,
       url:'',
       replyList: [],
+      now_reply_num: 0,
     };
   },
   mounted(){
@@ -205,6 +206,7 @@ export default {
     go(){
       window.open(this.url);
     },
+    
     submitReply(){
       
       let data = {
@@ -217,11 +219,27 @@ export default {
         .requestAddReply( data ,
         (() => {
             alert("댓글 작성이 성공하였습니다.");
+            this.getReplyList();
+            let data2 = {
+              bid : this.boardItem.bid
+            }
+            http
+            .get('/reply/cnt', {params:data2})
+            .then(({data}) => {
+              this.now_reply_num = data;
+              console.log('g2g2g 모달피드 댓글임')
+              console.log(data)
+            })
+            .catch((err) => {
+              console.log('reply num 에러입니다')
+              console.log(err)
+            })
         }), 
         (() => {
             alert("댓글 가져오기 오류!");
             })
         );
+
     },
     getReplyList(){
       let data;

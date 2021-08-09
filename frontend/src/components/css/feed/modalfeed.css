@@ -25,13 +25,14 @@
 }
 .modal-card {
   position: absolute;
-  top: 50px;
+  top: 45px;
+  bottom: 45px;
   /* left: 10%; */
   max-width: 100%;
   margin: auto;
   background-color: white;
-  /* min-height: 60%; */
-  max-height: 87%;
+  min-height: 95%;
+  /* max-height: 99%; */
   z-index: 10;
   opacity: 1;
   /* border-radius: 15px; */

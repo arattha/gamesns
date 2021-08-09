@@ -84,8 +84,6 @@ export default {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
-    console.log('하힝하이 여기임');
-    console.log(this.boardItem);
   },
   methods: {
     next: function(e) {
