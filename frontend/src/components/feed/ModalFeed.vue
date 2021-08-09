@@ -10,7 +10,9 @@
           <div class="user-info">
             <div class="media-body">
               <p class="m-0 name">{{boardItem.nickname}}</p>
-              <p class="m-0 time">10 hours ago</p>
+              <p class="m-0 time">
+                {{boardItem.createDate | moment("from", "now")}}
+              </p>
             </div>
             <!-- <p class="date">9시간 후</p> -->
           </div>
@@ -60,8 +62,7 @@
         <div class="cardbox-base">
           <div class="likebox">
             <Like :boardItem="boardItem" />		   
-            <div><i class="far fa-comment fa-lg"></i></div>
-            <p>20</p>
+            <Reply :boardItem="boardItem" />
           </div>
           <div class="sharebox">
             <Sharelink :boardItem="boardItem"/>
@@ -78,7 +79,7 @@
               </div> -->
             <div class="small-user-img-div">
               <img
-                src="http://lorempixel.com/30/30/people/9"
+                :src="'http://localhost:8080/account/file/' + reply.uid"
                 class="small-user-img"
               />
               <!-- 임의의 이미지가 들어가는거라, user의 프로필사진이 나오게 해야 함. -->
@@ -86,7 +87,9 @@
             <div class="comment-text">
               <strong><a href="">{{reply.nickname}}</a></strong>
               <p>{{reply.content}}</p> 
-              <span class="date sub-text">on December 5th, 2016</span>
+              <span class="date sub-text">
+                {{reply.regDate | moment("from", "now")}}
+              </span>
             </div>
           </li>
           
@@ -113,6 +116,15 @@ import http from '@/util/http-common.js'
 import UserApi from '../../api/UserApi';
 import Sharelink from "./Sharelink";
 import Like from "./Like";
+import Reply from "./Reply";
+import Vue from 'vue';
+import vueMoment from 'vue-moment';
+import moment from "moment"
+
+moment.locale("ko");
+
+Vue.use(vueMoment, {moment});
+
 var timer;
 
 export default {
@@ -122,6 +134,7 @@ export default {
       EditorContent,
       Sharelink,
       Like,
+      Reply,
     },
   data: () => {
     return {
