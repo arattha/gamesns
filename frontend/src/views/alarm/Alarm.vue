@@ -1,6 +1,7 @@
 <template>
-  <div class="alarm-container">
+  <div class="alarm-container" style="height: 100vh; background-color: #fafafa;">
     <Header />
+    <div class="alarm-res">
     <div class="form">
       <div>
         <h5 v-if="List == undefined" class="title">알림 - 0개</h5>
@@ -27,6 +28,7 @@
     </div>
     <div>
       <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
+    </div>
     </div>
     <Footer />
   </div>
@@ -90,4 +92,5 @@ export default {
 
 <style>
 @import '../../components/css/alarm/alarm.css';
+@import '../../components/css/alarm/alarm.scss';
 </style>

@@ -3,8 +3,30 @@
 /* Base styling */
 
 .Search-container{
-    width:100%;
-    }
+  width:100%;
+}
+
+.search-res {
+	margin: 0 auto;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+	.search-res {
+		width: 100vw;
+	}
+}
+		
+@media (min-width: 768px) and (max-width: 1023px) {
+	.search-res {
+		width: 70vw;
+	};
+}
+		
+@media (min-width: 1024px) {
+	.search-res {
+		width: 40vw;
+	}
+}
 
 .search-bar {
     width:95%;

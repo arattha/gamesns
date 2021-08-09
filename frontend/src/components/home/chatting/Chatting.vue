@@ -107,4 +107,6 @@ export default {
 
 <style>
   @import "../../css/home/chatting/chatting.css";
+  @import "../../css/home/chatting/chatting.scss";
+
 </style>
