@@ -1,41 +1,8 @@
 @charset "utf-8";
 
-/* .MyPage-container{
-    width:80%;
-    display:flexbox;
-    justify-content: center;
-    margin: 0 auto;
-    margin-top: 30px;
-}
-.center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.profile{
-    display: box;
-    padding: 15px;
-}
-.user-nickname{
-    margin: 40px 0;
-    font-size: 2.5rem;
-}
-.userinfo {
-    display: flex;
-    justify-content:space-between;
-}
-.my-writing {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom:4px;
-}
-.profile-box {
-    min-width: 64px;
-} */
-
 .card-header{
-    background-image: url('https://usercontents-d.styleshare.io/images/24030979/640x640') !important;
+    /* background-image: url('https://usercontents-d.styleshare.io/images/24030979/640x640') !important; */
+    /* background-color: antiquewhite; */
     padding: 0 !important;
     background-position: center;
     background-repeat: no-repeat;
@@ -109,6 +76,7 @@
 }
 
 .follow_btn{
+		width: 115px;
     background: #ff8f00;
     padding: 5px 35px;
     color: #fff;
@@ -118,6 +86,21 @@
     font-family: 'Nanum Gothic', sans-serif;
     font-size: 15px;
     /* font-weight: bolder; */
+		margin-right: 10px;
+}
+
+.chat_btn {
+	width: 115px;
+	/* background: #ff8f00; */
+	text-align: center;
+	padding: 5px;
+    /* color: #fff; */
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 15px;
+	margin-left: 10px;
 }
 
 .info_container{
@@ -125,6 +108,7 @@
     display: flex;
     justify-content: space-around;
     flex-direction: row;
+    margin-bottom: 30px;
 }
 .info{
     display: flex;
