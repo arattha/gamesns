@@ -1,170 +1,101 @@
 <template>
   <div>
-    <bubble-menu
-      class="bubble-menu"
-      :tippy-options="{ duration: 100 }"
-      :editor="editor"
-      v-if="isOK"
-    >
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .toggleBold()
-            .run()
-        "
-        :class="{ 'is-active': editor.isActive('bold') }"
-      >
-        Bold
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .toggleItalic()
-            .run()
-        "
-        :class="{ 'is-active': editor.isActive('italic') }"
-      >
-        Italic
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .toggleStrike()
-            .run()
-        "
-        :class="{ 'is-active': editor.isActive('strike') }"
-      >
-        Strike
-      </button>
-    </bubble-menu>
-
-    <floating-menu
-      class="floating-menu"
-      :tippy-options="{ duration: 100 }"
-      :editor="editor"
-      v-if="editor"
-    >
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .toggleHeading({ level: 1 })
-            .run()
-        "
-        :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-      >
-        H1
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .toggleHeading({ level: 2 })
-            .run()
-        "
-        :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-      >
-        H2
-      </button>
-      <button
-        @click="
-          editor
-            .chain()
-            .focus()
-            .toggleBulletList()
-            .run()
-        "
-        :class="{ 'is-active': editor.isActive('bulletList') }"
-      >
-        Bullet List
-      </button>
-    </floating-menu>
-
-    <editor-content :editor="editor" />
+    <div class="editor-div">
+      <editor-content class="editorContent" :editor="editor" />
+    </div>
+    <div id="metaDataDiv" class="metadata-div" v-show="metaLoading" @click="goLink"></div>
   </div>
 </template>
 
 <script>
-import { Editor, EditorContent, BubbleMenu, FloatingMenu } from "@tiptap/vue-2";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import http from "@/util/http-common.js";
+import { mapActions, mapGetters } from 'vuex';
+import { Editor, EditorContent } from '@tiptap/vue-2';
+import StarterKit from '@tiptap/starter-kit';
+import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
+import http from '@/util/http-common.js';
 
 export default {
   components: {
     EditorContent,
-    BubbleMenu,
-    FloatingMenu,
   },
-  props: {
-    value: {
-      type: String,
-      default: "",
-    },
-    isOK: Boolean,
-  },
-
   data() {
     return {
+      url: '',
+      metaLoading: false,
       editor: null,
-      metaData: null,
+      regex: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/,
     };
   },
   watch: {
-    value(value) {
-      // HTML
-      //   const isSame = this.editor.getHTML() === value
-
-      var arr = [];
-
-      value.replace(
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/,
-        function(n) {
-          arr.push(n);
-        }
-      );
-
-      if (arr.length > 0) {
-        http
-          .get("/common/getMeta", { params: { url: arr[0] } })
-          .then((res) => {
-            if (res.data.data == "success") {
-              this.metaData = res.data.object;
-
-              var tmp = `<div onclick="window.open('${this.metaData.url}')" style="cursor: pointer;"><img src="${this.metaData.img}"/><span><div style="font-size: larger;" >${this.metaData.title}</div><span style="color: gray">${this.metaData.desc}</span></span></div>`;
-
-              this.$emit("getMeta", tmp);
-            }
-          })
-          .catch(() => {});
+    url: async function(val, oldval) {
+      if (val === oldval) {
+        return;
       }
 
-      this.editor.commands.setContent(this.value, false);
+      this.metaLoading = false;
+
+      const element = document.querySelector('#metaDataDiv');
+      while (element.hasChildNodes()) {
+        element.removeChild(element.firstChild);
+      }
+
+      await http
+        .get('/common/getMeta', { params: { url: val } })
+        .then((res) => {
+          if (res.data.data == 'success') {
+            const imgE = document.createElement('img'); // + addeventlistener
+            imgE.src = res.data.object.img;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.setAttribute('class', 'metaContent');
+
+            const title = document.createElement('div');
+            title.appendChild(document.createTextNode(res.data.object.title));
+            title.setAttribute('class', 'metaTitle');
+            const descE = document.createElement('div');
+            descE.appendChild(document.createTextNode(res.data.object.desc));
+            descE.setAttribute('class', 'metaDesc');
+
+            contentDiv.appendChild(title);
+            contentDiv.appendChild(descE);
+
+            element.appendChild(imgE);
+            element.appendChild(contentDiv);
+          }
+        })
+        .catch((err) => {
+          console.err(err);
+        });
+
+      this.metaLoading = true;
     },
   },
   mounted() {
     this.editor = new Editor({
-      extensions: [StarterKit, Image],
-      editable: this.isOK,
-      content: this.value,
+      extensions: [StarterKit, Link, Image],
+      content: '',
+      autofocus: 'end',
+      // editable: this.isOK,
       onUpdate: () => {
-        // HTML
-        this.$emit("input", this.editor.getHTML());
+        this.setBoardContent(this.editor.getHTML());
+        let url = this.regex.exec(this.editor.getHTML());
 
-        // JSON
-        // this.$emit('input', this.editor.getJSON())
+        if (url) {
+          this.url = url[0];
+        } else {
+          this.metaLoading = false;
+          this.url = '';
+        }
       },
     });
   },
-
+  methods: {
+    ...mapActions(['setBoardContent']),
+    goLink() {
+      window.open(this.url);
+    },
+  },
   beforeDestroy() {
     this.editor.destroy();
   },
@@ -172,74 +103,156 @@ export default {
 </script>
 
 <style lang="scss">
-img {
-  max-width: 100%;
-  height: auto;
-}
-p, h1, h2 {
-    color: black;
-}
-li {
-    color: black;
-    list-style-type: disc;
-    list-style: initial;
+$colorWhite: #fff;
+$colorBlack: #000;
+
+/* Basic editor styles */
+.ProseMirror:focus {
+  outline: none;
 }
 .ProseMirror {
+  height: 100%;
   > * + * {
     margin-top: 0.75em;
   }
-
+  p {
+    margin: 0px;
+  }
+  ul li {
+    color: #000;
+    list-style: disc;
+  }
+  ol li {
+    color: #000;
+    list-style: decimal;
+  }
   ul,
   ol {
     padding: 0 1rem;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+  }
+
+  pre {
+    background: #0d0d0d;
+    color: #fff;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+
+    code {
+      color: inherit;
+      padding: 0;
+      background: none;
+      font-size: 0.8rem;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
   blockquote {
     padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
+    border-left: 2px solid rgba(#0d0d0d, 0.1);
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid rgba(#0d0d0d, 0.1);
+    margin: 2rem 0;
   }
 }
 
-.bubble-menu {
-  display: flex;
-  background-color: #0D0D0D;
-  padding: 0.2rem;
-  border-radius: 0.5rem;
-
-  button {
-    border: none;
-    background: none;
-    color: #FFF;
-    font-size: 0.85rem;
-    font-weight: 500;
-    padding: 0 0.2rem;
-    opacity: 0.6;
-
-    &:hover,
-    &.is-active {
-      opacity: 1;
-    }
-  }
+.editor-div {
+  border: 2px solid rgba(255, 175, 10, 1);
+  height: unquote('max(280px, 40vh)');
+  max-height: unquote('max(280px, 40vh)');
 }
 
-.floating-menu {
-  display: flex;
-  background-color: #0D0D0D10;
-  padding: 0.2rem;
-  border-radius: 0.5rem;
+.editorContent {
+  overflow: auto;
+  padding: 1.25rem 1rem;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+}
 
-  button {
-    border: none;
-    background: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    padding: 0 0.2rem;
-    opacity: 0.6;
+/* 스크롤바 설정*/
+.editorContent::-webkit-scrollbar {
+  width: 6px;
+}
 
-    &:hover,
-    &.is-active {
-      opacity: 1;
-    }
+/* 스크롤바 막대 설정*/
+.editorContent::-webkit-scrollbar-thumb {
+  height: 17%;
+  background-color: rgba(255, 175, 10, 1);
+  /* 스크롤바 둥글게 설정    */
+  border-radius: 10px;
+}
+
+/* 스크롤바 뒷 배경 설정*/
+.editorContent::-webkit-scrollbar-track {
+  background-color: rgba(255, 175, 10, 0.33);
+}
+
+.metadata-div {
+  border: 1px solid #d0d0d0;
+  height: 100px;
+  margin-top: 1em;
+
+  img {
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    border-right: 0.5px solid #d0d0d0;
+    padding: 3px;
+    height: 100%;
+    width: 100px;
+    margin-right: 15px;
+  }
+
+  .metaTitle {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-bottom: 0.4em;
+
+    // 글자수제한
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 표시하고자 하는 라인 수 */
+    -webkit-box-orient: vertical;
+  }
+
+  .metaDesc {
+    font-size: 0.5em;
+
+    // 글자수제한
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 표시하고자 하는 라인 수 */
+    -webkit-box-orient: vertical;
+  }
+
+  .metaContent {
+    overflow: hidden;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 </style>

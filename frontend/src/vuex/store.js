@@ -16,6 +16,7 @@ export default new Vuex.Store({
     // accessToken: '',
     uid: '',
     nickname: '',
+    boardContent: '',
   },
   mutations: {
     SET_SEARCHED(state, payload) {
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     SET_NICKNAME(state, payload) {
       state.nickname = payload;
     },
+    SET_BOARD_CONTENT(state, payload) {
+      state.boardContent = payload;
+    },
   },
   getters: {
     searched(state) {
@@ -61,11 +65,17 @@ export default new Vuex.Store({
     nickname(state) {
       return state.nickname;
     },
+    boardContent(state) {
+      return state.boardContent;
+    },
   },
   actions: {
     // setAccessToken(context, data) {
     //   context.commit('SET_ACCESS_TOKEN', data);
     // },
+    setBoardContent(context, data) {
+      context.commit('SET_BOARD_CONTENT', data);
+    },
     setUid(context, data) {
       context.commit('SET_UID', data);
     },
