@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ editor.getCharacterCount() }}/{{ limit }}
     <div class="editor-div">
       <editor-content class="editorContent" :editor="editor" />
     </div>
@@ -8,11 +9,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import { Editor, EditorContent } from '@tiptap/vue-2';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
+import CharacterCount from '@tiptap/extension-character-count';
 import http from '@/util/http-common.js';
 
 export default {
@@ -24,12 +26,14 @@ export default {
       url: '',
       metaLoading: false,
       editor: null,
+      limit: 1000,
       regex: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/,
     };
   },
   watch: {
     url: async function(val, oldval) {
-      if (val === oldval) {
+      if (val === oldval || !val) {
+        this.metaLoading = false;
         return;
       }
 
@@ -73,7 +77,14 @@ export default {
   },
   mounted() {
     this.editor = new Editor({
-      extensions: [StarterKit, Link, Image],
+      extensions: [
+        StarterKit,
+        Link,
+        Image,
+        CharacterCount.configure({
+          limit: this.limit,
+        }),
+      ],
       content: '',
       autofocus: 'end',
       // editable: this.isOK,
