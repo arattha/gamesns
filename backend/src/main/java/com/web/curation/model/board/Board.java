@@ -25,6 +25,8 @@ public class Board {
 
     private String contents;
 
+    private String hashtags;
+
     private int likes;
     private int share;
     
