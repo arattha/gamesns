@@ -25,7 +25,7 @@ export default {
       this.$router.push('/search');
     },
     goToMatching: function() {
-      this.$router.push('/Matching');
+      this.$router.push('/matching');
     },
     goToChatting: function() {
       this.$router.push('/chatting');

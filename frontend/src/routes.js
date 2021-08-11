@@ -10,6 +10,7 @@ import MyPage from './views/user/MyPage.vue';
 import Following from './views/user/Following.vue';
 import Follower from './views/user/Follower.vue';
 import Search from './components/home/search/Search.vue';
+import Matching from './components/home/matching/Matching.vue';
 import Writing from './components/home/writing/Writing.vue';
 import Alarm from './views/alarm/Alarm.vue';
 import UserPage from './views/user/UserPage.vue';
@@ -113,6 +114,11 @@ export default [
     path: '/alarm',
     name: 'Alarm',
     component: Alarm,
+  },
+  {
+    path: '/matching',
+    name: 'Matching',
+    component: Matching,
   },
   {
     path: '/:pathMatch(.*)*',
