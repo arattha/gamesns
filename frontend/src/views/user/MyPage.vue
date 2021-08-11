@@ -52,9 +52,12 @@
 						</div>
 						<div class="info">
 							<p>매너</p>
-							<p>3.5</p>						
+							<p><Manner/></p>						
 						</div>	
 					</div>
+                    <div>
+            <MannerSelect/>
+        </div>
 					<!-- 피드, 뱃지 버튼 -->
 					<div class="card-footer">
 						<div class="myfeed drop-in-underline">
@@ -88,6 +91,8 @@ import ModalFeed from '../../components/feed/ModalFeed.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
+import MannerSelect from '../../components/user/myPage/MannerSelect.vue'
+import Manner from '../../components/user/myPage/Manner.vue'
 import UserApi from '../../api/UserApi'
 var timer;
 export default {
@@ -99,6 +104,8 @@ export default {
         // Manner,
         FeedItem,
         ModalFeed,
+        Manner,
+        MannerSelect
     },
     data() {
         return {

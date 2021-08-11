@@ -39,6 +39,7 @@
             <div class="follow_btn" style="background: blue" v-else>팔로잉</div>
 						<div class="chat_btn">채팅</div>
           </div>
+          <MannerSelect :userInfo="userInfo"/>
 				</div>
 
 				<!-- 다른 컴포넌트 -->
@@ -55,7 +56,7 @@
 						</div>
 						<div class="info">
 							<p>매너</p>
-							<p>3.5</p>						
+							<p><Manner :userInfo="userInfo"/></p>					
 						</div>	
 					</div>
 				<!-- 피드, 뱃지 버튼 -->
@@ -91,6 +92,8 @@ import Footer from '@/components/layout/footer/Footer.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
 import ModalFeed from '../../components/feed/ModalFeed.vue'
+import Manner from '../../components/user/myPage/Manner.vue'
+import MannerSelect from '../../components/user/myPage/MannerSelect.vue'
 import UserApi from '../../api/UserApi'
 var timer;
 export default {
@@ -104,6 +107,8 @@ export default {
         // Manner,
         FeedItem,
         ModalFeed,
+        Manner,
+        MannerSelect,
     },
     data() {
         return {
