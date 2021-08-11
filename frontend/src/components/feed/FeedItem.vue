@@ -10,13 +10,15 @@
             </div>
             <div class="media-body">
                 <p class="m-0 name">{{boardItem.nickname}}</p>
-                <p class="m-0 time">10 hours ago</p>
+                <p class="m-0 time">
+                  {{boardItem.createDate | moment("from", "now")}}
+                </p>
             </div><!--/ media -->
         </div><!--/ cardbox-heading -->
 
         <!-- 이미지나 내용 -->
         <div class="cardbox-item">
-          <div class="image-slider" style="padding: 0;">
+          <div class="image-slider" style="padding: 0;"  v-if="img_src.length > 0">
           <div class="slider" style="padding: 0;" v-if="img_src.length > 1">
             <button class="prev" @click="prev"><i class="fas fa-chevron-left"></i></button>
             <button class="next" @click="next"><i class="fas fa-chevron-right"></i></button>
@@ -37,8 +39,7 @@
         <div class="cardbox-base">
           <div class="likebox">
             <Like :boardItem="boardItem" />		   
-            <div><i class="far fa-comment fa-lg"></i></div>
-            <p>20</p>
+            <Reply :boardItem="boardItem" />	
           </div>
           <div class="sharebox">
             <Sharelink :boardItem="boardItem" />
@@ -60,8 +61,8 @@ import defaultProfile from "../../assets/images/profile_default.png";
 import {Editor, EditorContent} from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
 import Sharelink from "./Sharelink";
-import http from '@/util/http-common';
 import Like from "./Like";
+import Reply from "./Reply";
 
 export default {
   props:['boardItem'],
@@ -69,6 +70,7 @@ export default {
       EditorContent,
       Sharelink,
       Like,
+      Reply,
     },
   data: () => {
     return { 
@@ -82,20 +84,6 @@ export default {
     this.boardItem.imgFiles.forEach(element => {
       this.img_src.push("http://localhost:8080/board/file/"+element.file_name);
     });
-    let data = {
-      bid : this.boardItem.bid
-    }
-      http
-      .get('/reply/cnt', {params:data})
-      .then(({data}) => {
-        console.log('ㅎ2ㅎ2 보이니??~?~?~???')
-        console.log(data)
-        this.reply_num = data;
-      })
-      .catch((err) => {
-        console.log('reply num 에러입니다')
-        console.log(err)
-      })
   },
   methods: {
     next: function(e) {

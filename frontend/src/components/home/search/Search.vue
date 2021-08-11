@@ -1,5 +1,7 @@
 <template>
   <div class="Search-container">
+      <Header/>
+      <div class="search-res">
       <div class="search-bar">
 
           <input v-model="search" class="search__input" type="text" placeholder="검색">
@@ -26,12 +28,14 @@
             <li>- 블레이드소울</li>
         </ul> -->
       </div>
+      </div>
       <Footer/>
   </div>
 </template>
 
 <script>
 import Footer from '@/components/layout/footer/Footer.vue';
+import Header from '@/components/layout/header/Header.vue';
 import http from '@/util/http-common.js'
 import { mapActions , mapGetters } from "vuex";
 import UserApi from '../../../api/UserApi';
@@ -39,7 +43,8 @@ import UserApi from '../../../api/UserApi';
 export default {
     name:'Search',
     components: {
-        Footer
+        Footer,
+        Header
     },
     data() {
         return{

@@ -1,5 +1,5 @@
 <template>
-<div style="background-color: #FDF5E6;">
+<div style="background-color: #fafafa;">
   <Header/>
   <div>
   <div class="mainfeed">
