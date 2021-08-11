@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header/>
-    <div class="chatting-container">
+    <Header />
+    <!-- <div class="chatting-container">
       <div class="chatting-contact" @click="goToInChatting">
         <div class="chatting-pic rogers"></div>
         <div class="chatting-badge">
@@ -83,28 +83,117 @@
           Hey Peter Parker, you got something for me?
         </div>
       </div>
+    </div> -->
+    <div class="search-bar">
+      <input
+        v-model="search"
+        class="search__input"
+        type="text"
+        placeholder="검색"
+      />
+      <div
+        v-for="(suggest, index) in searched"
+        :key="index"
+        id="suggestion_box"
+        @click="addRoom(suggest)"
+      >
+        <!--<img />-->
+        {{ suggest.nickname }}
+      </div>
     </div>
-    <Footer/>
+
+    <div>{{rooms}}</div>
+
+    <!-- 채팅 룸 리스트 반환 -->
+    <div v-for="(item, index) in rooms" :key="index" @click="chatLink(item)">
+      {{index}} : {{ item }}
+    </div>
+
+    <Footer />
   </div>
 </template>
 
 <script>
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
+import { mapActions , mapGetters } from "vuex";
+
 export default {
   name:'Chatting',
-  components: { 
+  components: {
       Header,
       Footer,
   },
+  data(){
+    return{
+      rooms:[],
+      search:'',
+    }
+  },
+  created(){
+
+    let tmp = this.rooms;
+
+    this.$socketio.emit('getRooms', this.$store.state.nickname);
+
+    this.$socketio.on('giveRooms', (data) => {
+      console.log("this is chat rooms", data);
+      // console.log("search",this.search);
+      this.rooms = data;
+      console.log("rooms",this.rooms)
+    })
+
+    this.$socketio.on("createRoom", (data) => {
+      console.log("createRoom", data);
+      this.rooms.push(data.sender);
+    });
+  },
+
+  watch: {
+    search: function (val) {
+        if(val != "") this.searchUser(val);
+    }
+  },
+  computed: {
+      ...mapGetters(["searched"]),
+  },
   methods: {
-    goToInChatting: function() {
-      this.$router.push('/inchatting');
+    ...mapActions(["searchUser"]),
+    chatLink(yourNickname) {
+      console.log("yourNickname",yourNickname)
+      this.$router.push({name:'InChatting', params:{yourNickname : yourNickname}});
     },
+    addRoom(suggest) {
+      
+      // 기존의 rooms 배열 안에 검색 후 선택한 유저가 있는지 확인할 변수
+      var flag = true;
+      for(var r in this.rooms) {
+
+        // rooms 안에 체크할 유저가 있다면 flag = false
+        if(suggest.nickname == r){
+          flag = false;
+          break;
+        }
+      }
+
+      // 새로 추가해야 할 유저
+      if(flag) {
+        this.rooms.push(suggest.nickname);
+        console.log("rooms",this.rooms);
+        // this.chatLink(suggest.nickname);
+      }
+      console.log("suggest nick : ", suggest.nickname);
+      this.$socketio.emit('crRoom', {
+        myNickname : this.$store.state.nickname,
+        yourNickname : suggest.nickname,
+      })
+
+
+    }
   },
 }
 </script>
 
 <style>
-  @import "../../css/home/chatting/chatting.css";
+@import "../../css/home/chatting/chatting.css";
 </style>

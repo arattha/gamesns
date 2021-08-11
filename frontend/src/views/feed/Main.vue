@@ -36,20 +36,35 @@ export default {
         isModalViewed: false,
         temp: null,
         uid: 0,
+        sockid: '',
         nickname: "",
         boardItems: [],
         timer : null,
       }
   },
   created(){
+    this.sockid = this.$socketio.id;
     this.uid = this.$store.state.uid;
     this.nickname = this.$store.state.nickname;
     this.getBoardItems();
+    // socket io 의 user 업데이트
+    this.updateSock();
   },
   mounted(){
+    // this.sockid = this.$socketio.id;
     window.addEventListener('scroll', this.handleScroll);
+    // this.updateSock();
   },
   methods: {
+    updateSock(){
+      console.log("hihiihihhihihihh");
+      var updateData = {
+        id : this.sockid,
+        nickname : this.nickname,
+      }
+      
+      this.$socketio.emit("updateUser", updateData);
+    },
     handleScroll() {
         
       let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
