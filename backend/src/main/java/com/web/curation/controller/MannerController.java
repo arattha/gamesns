@@ -1,6 +1,7 @@
 package com.web.curation.controller;
 
 import com.web.curation.model.BasicResponse;
+import com.web.curation.model.member.Manner;
 import com.web.curation.model.member.Member;
 import com.web.curation.service.MannerService;
 import io.swagger.annotations.ApiOperation;
@@ -47,11 +48,11 @@ public class MannerController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/member/manner")
+    @PutMapping("/member/manner")
     @ApiOperation(value = "매너점수 추가")
-    public Object addManner(@RequestBody String uid, int score) {
+    public Object addManner(@RequestBody Manner manner2) {
 
-        int manner = mannerService.addManner(uid, score);
+        int manner = mannerService.addManner(manner2.getUid(), manner2.getScore());
 
         final BasicResponse result = new BasicResponse();
         result.status = true;
