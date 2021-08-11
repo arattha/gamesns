@@ -5,74 +5,83 @@
 }
 
 .text-input {
-    text-align: left;
-    padding:0px 0px 0px 0px;
-    margin-top: 0px;
-    color: #9c9c9c;
-    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
-    font-family: 'Nanum Gothic', sans-serif;
+  text-align: left;
+  padding: 0px 0px 0px 0px;
+  margin-top: 0px;
+  color: #9c9c9c;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
+  font-family: 'Nanum Gothic', sans-serif;
 }
 
 .text-box {
-    border-radius: 15px;
-    margin:0px;
-    margin: 0 auto;
+  border-radius: 15px;
+  margin: 0px;
+  margin: 0 auto;
 }
 
 #textarea-title {
-    height: 50%;
+  height: 50%;
 }
 
 #textarea-content {
-    height: 300%;
+  height: 300%;
+}
+
+.Writing-top {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+  bottom: 100px;
+  width: 100%;
 }
 
 .Writing-bottom {
-    margin-top: 150px;
-    display: flex;
-    justify-content: space-around;
-    position: absolute;
-    bottom: 100px;
-    width: 100%;
+  margin-top: 150px;
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  bottom: 100px;
+  width: 100%;
 }
 
 #chooseFile {
-    height: 100%;
-    width: 100%;
-    max-width: 1580px;
-    padding: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 1580px;
+  padding: 0;
 }
 
 .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .datalist-box {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
-.input-file-button, .finish-button{
-    padding: 6px 10px;
-    background-color:#FF6600;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    width: 160px;
-    text-align: center;
-    position: relative;
-    left: 5%;
-    font-size: 16px;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-weight:bold;
+.input-file-button,
+.finish-button {
+  padding: 6px 10px;
+  background-color: #ff6600;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  width: 160px;
+  text-align: center;
+  position: relative;
+  font-size: 16px;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: bold;
 }
 .finish-button {
-    background-color:#0277bd;
-    left: 0%;
-    right: 5%;
+  background-color: #0277bd;
+  left: 0%;
+  right: 5%;
 }
 
-.input-file-button:hover, .finish-button:hover{
-    box-shadow:200px 0 0 0 rgba(8, 8, 8, 0.2) inset;
+.input-file-button:hover,
+.finish-button:hover {
+  box-shadow: 200px 0 0 0 rgba(8, 8, 8, 0.2) inset;
 }
