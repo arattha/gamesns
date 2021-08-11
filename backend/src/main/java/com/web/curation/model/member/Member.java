@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +27,8 @@ public class Member {
     private String uid;
     private String nickname;
     private String pimg;
+
+    private Integer manner;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;

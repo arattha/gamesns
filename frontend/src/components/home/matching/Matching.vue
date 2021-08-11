@@ -236,4 +236,5 @@ export default {
 </script>
 
 <style>
+  @import "../../css/home/matching/matching.css";
 </style>

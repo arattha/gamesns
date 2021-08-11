@@ -1,7 +1,8 @@
 <template>
   <div style="display : flex;"  class="modal modal-container">
     <div class="overlay" @click="$emit('close-modal')"></div>
-    <div id = "modalScroll" class="modal-card" style="overflow:scroll; width:100%; height:90%;">
+    <div class="modal-res">
+    <div id = "modalScroll" class="modal-card" style="overflow:scroll;">
       <div class="feed-item" style="border:0px">
         <div class="top">
           <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}">
@@ -10,7 +11,9 @@
           <div class="user-info">
             <div class="media-body">
               <p class="m-0 name">{{boardItem.nickname}}</p>
-              <p class="m-0 time">10 hours ago</p>
+              <p class="m-0 time">
+                {{boardItem.createDate | moment("from", "now")}}
+              </p>
             </div>
             <!-- <p class="date">9시간 후</p> -->
           </div>
@@ -60,8 +63,7 @@
         <div class="cardbox-base">
           <div class="likebox">
             <Like :boardItem="boardItem" />		   
-            <div><i class="far fa-comment fa-lg"></i></div>
-            <p>20</p>
+            <Reply :boardItem="boardItem" :now_reply_num="now_reply_num"/>
           </div>
           <div class="sharebox">
             <Sharelink :boardItem="boardItem"/>
@@ -78,7 +80,7 @@
               </div> -->
             <div class="small-user-img-div">
               <img
-                src="http://lorempixel.com/30/30/people/9"
+                :src="'http://localhost:8080/account/file/' + reply.uid"
                 class="small-user-img"
               />
               <!-- 임의의 이미지가 들어가는거라, user의 프로필사진이 나오게 해야 함. -->
@@ -86,7 +88,9 @@
             <div class="comment-text">
               <strong><a href="">{{reply.nickname}}</a></strong>
               <p>{{reply.content}}</p> 
-              <span class="date sub-text">on December 5th, 2016</span>
+              <span class="date sub-text">
+                {{reply.regDate | moment("from", "now")}}
+              </span>
             </div>
           </li>
           
@@ -101,6 +105,7 @@
       <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
       <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
     </div>
+    </div>
   </div>
 </template>
 <script>
@@ -113,6 +118,15 @@ import http from '@/util/http-common.js'
 import UserApi from '../../api/UserApi';
 import Sharelink from "./Sharelink";
 import Like from "./Like";
+import Reply from "./Reply";
+import Vue from 'vue';
+import vueMoment from 'vue-moment';
+import moment from "moment"
+
+moment.locale("ko");
+
+Vue.use(vueMoment, {moment});
+
 var timer;
 
 export default {
@@ -122,6 +136,7 @@ export default {
       EditorContent,
       Sharelink,
       Like,
+      Reply,
     },
   data: () => {
     return {
@@ -135,6 +150,7 @@ export default {
       newData:null,
       url:'',
       replyList: [],
+      now_reply_num: 0,
     };
   },
   mounted(){
@@ -192,6 +208,7 @@ export default {
     go(){
       window.open(this.url);
     },
+    
     submitReply(){
       
       let data = {
@@ -204,11 +221,27 @@ export default {
         .requestAddReply( data ,
         (() => {
             alert("댓글 작성이 성공하였습니다.");
+            this.getReplyList();
+            let data2 = {
+              bid : this.boardItem.bid
+            }
+            http
+            .get('/reply/cnt', {params:data2})
+            .then(({data}) => {
+              this.now_reply_num = data;
+              console.log('g2g2g 모달피드 댓글임')
+              console.log(data)
+            })
+            .catch((err) => {
+              console.log('reply num 에러입니다')
+              console.log(err)
+            })
         }), 
         (() => {
             alert("댓글 가져오기 오류!");
             })
         );
+
     },
     getReplyList(){
       let data;
@@ -266,4 +299,5 @@ export default {
   margin-left: 5px;
 }
 @import "../css/feed/modalfeed.css";
+@import "../css/feed/modalfeed.scss";
 </style>

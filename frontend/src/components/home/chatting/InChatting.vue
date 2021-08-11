@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header/>
     <!-- 현재 뒤로가기 버튼이 없어서 url을 적어서 이동해야함 ㅜ -->
     <div class="inchatting-container">
       <!-- 상단 프로필 바 -->
@@ -49,15 +50,24 @@
         <i class="fas fa-camera"></i><input placeholder="Type your message here!" type="text" />
       </div>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
-export default {
+import Header from '@/components/layout/header/Header.vue'
+import Footer from '@/components/layout/footer/Footer.vue'
 
+export default {
+  name:'InChatting',
+  components: { 
+      Header,
+      Footer,
+  },
 }
 </script>
 
 <style>
   @import "../../css/home/chatting/inchatting.css";
+  @import "../../css/home/chatting/inchatting.scss";
 </style>

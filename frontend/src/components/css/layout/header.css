@@ -24,7 +24,7 @@ font-family: 'Open Sans', sans-serif;
 }
 nav {
 width: 100vw;
-height: 50px;
+height: 45px;
 top: 0;
 position: fixed;
 }
@@ -43,52 +43,52 @@ position: fixed;
     margin-bottom: 0px;
 }
 
+.nav {
+    display: flex;
+    background: #FFAF0A;
+    align-content: center;
+    justify-content: center;
+}
+
 .header{
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    background: bisque;
+    background: #FFAF0A;
     padding: 5px 20px;
     /* width: 80%; */
     /* width: 200px; */
-    min-width: 100%;
-    position: absolute;
     left: 0px;
     margin-bottom: 0px;
+    height: 45px;
 }
 
 .logo {
-    position: absolute;
-    display: inline;
-    /* padding: 10px; */
-    margin: 10px 0;
-    left: 20px;
-    /* transform: translate(-50%); */
-}
-
-.logo img {
-    width: 130px;
-    object-fit: contain;
+	position: absolute;
+	display: inline;
+	/* padding: 10px; */
+	margin: 10px 0;
+	/* transform: translate(-50%); */
 }
 
 .mypage-btn {
     display: inline;
     position: absolute;
-    right: 20px;
+    right: 10px;
     text-align: center;
-    color: #ff8f00;
+    color: #ffe9c6;
 }
 
 .alarm-btn {
     display: inline;
     position: absolute;
-    right: 70px;
+    right: 60px;
     text-align: center;
-    color: #ff8f00;
+    color: #ffe9c6;
 }
 
 .mypage-btn div, .alarm-btn div{
-    font-size: 24px;
-    color: #ff8f00;
+    color: #ffe9c6;
     margin-right: 10px;
   }
 
@@ -114,5 +114,5 @@ position: fixed;
 
 .for-empty-space-header{
     display: block;
-    height: 50px;
+    height: 44px;
 }
