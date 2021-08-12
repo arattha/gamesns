@@ -7,11 +7,17 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class ReplyService {
     @Autowired
     private ReplyDao replyDao;
+
+    public int getReplyCnt(Long bid){
+        List<Reply> numList = replyDao.findReplyByBid(bid);
+        return numList.size();
+    }
 
     // 얻어오고자하는 댓글의 페이지를 얻어와 해당 페이지가 있는지를 검사
     public Slice<Reply> getReplyListByPages(Long bid, Long lastRid, int size) {

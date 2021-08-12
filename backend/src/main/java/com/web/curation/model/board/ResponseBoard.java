@@ -22,6 +22,7 @@ public class ResponseBoard {
     private String uid;
     private String nickname;
     private String contents;
+    private String hashtags;
 
     private int likes;
     private int share;
@@ -37,6 +38,7 @@ public class ResponseBoard {
 		this.share = board.getShare();
 		this.imgFiles = imgFiles;
 		this.createDate = board.getCreateDate();
+		this.hashtags = board.getHashtags();
 	}
 
     private LocalDateTime createDate;

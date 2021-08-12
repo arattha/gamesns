@@ -126,4 +126,14 @@ public class ReplyController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @GetMapping("/reply/cnt")
+    @ApiOperation(value = "댓글갯수조회")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="bid", value="현재 피드의 번호", required = true),
+    })
+    public Object cnt(@RequestParam final Long bid) {
+        int result = replyService.getReplyCnt(bid);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

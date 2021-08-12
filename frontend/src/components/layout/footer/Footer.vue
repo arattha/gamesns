@@ -5,7 +5,7 @@
         <ul>
           <li @click="goToMain"><i class="fa fa-home"></i></li>
           <li @click="goToSearch"><i class="fa fa-search"></i></li>
-          <li><i class="fas fa-gamepad"></i></li>
+          <li @click="goToMatching"><i class="fas fa-gamepad"></i></li>
           <li @click="goToChatting"><i class="fas fa-comments"></i></li>
           <li @click="goToWriting"><i class="fas fa-edit"></i></li>
         </ul>
@@ -24,6 +24,9 @@ export default {
     goToSearch: function() {
       this.$router.push('/search');
     },
+    goToMatching: function() {
+      this.$router.push('/matching');
+    },
     goToChatting: function() {
       this.$router.push('/chatting');
     },
@@ -36,4 +39,5 @@ export default {
 
 <style>
 @import '../../css/layout/footer.css';
+@import '../../css/layout/footer.scss';
 </style>

@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Member {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +27,8 @@ public class Member {
     private String uid;
     private String nickname;
     private String pimg;
+
+    private Integer manner;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
@@ -38,4 +42,5 @@ public class Member {
         this.nickname = nickname;
         this.authority = authority;
     }
+    
 }

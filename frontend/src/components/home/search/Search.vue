@@ -1,5 +1,7 @@
 <template>
   <div class="Search-container">
+      <Header/>
+      <div class="search-res">
       <div class="search-bar">
 
           <input v-model="search" class="search__input" type="text" placeholder="검색">
@@ -26,12 +28,14 @@
             <li>- 블레이드소울</li>
         </ul> -->
       </div>
+      </div>
       <Footer/>
   </div>
 </template>
 
 <script>
 import Footer from '@/components/layout/footer/Footer.vue';
+import Header from '@/components/layout/header/Header.vue';
 import http from '@/util/http-common.js'
 import { mapActions , mapGetters } from "vuex";
 import UserApi from '../../../api/UserApi';
@@ -39,7 +43,8 @@ import UserApi from '../../../api/UserApi';
 export default {
     name:'Search',
     components: {
-        Footer
+        Footer,
+        Header
     },
     data() {
         return{
@@ -76,6 +81,16 @@ export default {
         }
     },
 }
+
+// 서치에 해시태그 검색을 하면
+// #싸피
+// #싸피 선택시
+// http://localhost:8081/#싸피 이렇게해서
+// main과 비슷하게 생겼으나 #싸피가 해시태그가 존재하는 feed들을 보여준다.
+// 해당 feed들을 가져오는 방법은
+// hashtag == #광주 #싸피 #찬인 #싸피언스
+// #싸피 in hashtag == true? 
+
 </script>
 
 <style>
