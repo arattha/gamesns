@@ -17,7 +17,6 @@ import UserPage from './views/user/UserPage.vue';
 import Re from './views/user/Re.vue';
 import InChatting from './components/home/chatting/InChatting.vue';
 import Chatting from './components/home/chatting/Chatting.vue';
-import Matching from './components/home/matching/Matching.vue';
 
 export default [
   {
