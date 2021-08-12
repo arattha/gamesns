@@ -103,13 +103,3 @@ export default {
 <style>
 @import '../../css/home/writing/writing.css';
 </style>
-
-<style lang="scss" scoped>
-$colorBlack: #0d0d0d;
-$colorRed: #f98181;
-$colorWhite: #fff;
-
-.editor-view {
-  border: 3px solid $colorBlack;
-}
-</style>

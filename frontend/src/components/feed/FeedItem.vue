@@ -87,10 +87,10 @@ import { Editor, EditorContent } from '@tiptap/vue-2';
 import StarterKit from '@tiptap/starter-kit';
 import Paragraph from '@tiptap/extension-paragraph';
 import { mergeAttributes } from '@tiptap/core';
-import Link from '@tiptap/extension-link';
 import Sharelink from './Sharelink';
 import Like from './Like';
 import Reply from './Reply';
+import '@/components/css/feed/feed-item.scss';
 
 export default {
   props: ['boardItem'],
@@ -139,8 +139,9 @@ export default {
 
     let subContent = '';
 
-    const extractDivPattern = /<(\/div|div)([^>]*)>/gi;
-    let extractContent = this.boardItem.contents.replace(extractDivPattern, '');
+    // const extractDivPattern = /(<([^>]+)>)/gi;
+    const extractPattern = /<(\/div|a|p|span|li|ui|ol)([^>]*)>/gi;
+    let extractContent = this.boardItem.contents.replace(extractPattern, '');
 
     if (extractContent.length < 95) {
       subContent = extractContent;
@@ -187,7 +188,6 @@ export default {
       content: this.contentPreview,
       extensions: [
         StarterKit,
-        Link,
         Paragraph.extend({
           parseHTML() {
             return [{ tag: 'div' }];
@@ -213,28 +213,6 @@ export default {
 
 <style lang="scss">
 .boardContent {
-  word-break: normal;
-}
-
-.showContentDiv {
-  padding: 10px 15px !important;
-  a:hover {
-    color: #8899fd;
-  }
-  a:visited {
-    color: #a0a0a0;
-  }
-  a:active {
-    color: #a0a0a0;
-  }
-}
-
-.grayText {
-  color: #a0a0a0;
-  text-decoration: none;
-}
-
-.black {
-  color: #808080;
+  word-break: break-all;
 }
 </style>

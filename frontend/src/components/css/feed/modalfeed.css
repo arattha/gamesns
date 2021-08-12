@@ -31,68 +31,66 @@
   /* max-width: 100%; */
   margin: 0 auto;
   background-color: white;
-  min-height: 95%;
   /* max-height: 99%; */
   z-index: 10;
   opacity: 1;
   /* border-radius: 15px; */
 }
 
-.user-writing-time{
+.user-writing-time {
   display: flex;
   align-items: center;
   position: absolute;
   right: 45px;
 }
 
-
 /* 아래 부터 feed-item scss */
 
 .feed-item {
-    padding: 0;
-    background-color: white;
+  padding: 0;
+  background-color: white;
 }
 
 .feed-item .top {
-    display: flex;
-    padding: 0px 15px 0px 15px;
-    border-bottom: 1px solid #dcdcdc;
-    align-items: center;
+  display: flex;
+  padding: 0px 15px 0px 15px;
+  border-bottom: 1px solid #dcdcdc;
+  align-items: center;
 }
 .feed-item .profile-image {
-    float: left;
-    height: 40px;
-    width: 40px;
+  float: left;
+  height: 40px;
+  width: 40px;
 }
 .feed-item .content {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 15px;
 }
 .feed-item .user-info {
-    z-index: auto;
-    -ms-flex: 1;
-    flex: 1;
-    padding: .4rem !important;
-    margin-left: 5px;
-    display: flex;
-    flex-direction:row;
+  z-index: auto;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0.4rem !important;
+  margin-left: 5px;
+  display: flex;
+  flex-direction: row;
 }
 .user-name {
   float: left;
   display: flex;
-}            
+}
 button {
   font-weight: f600;
   align-items: center;
-            }
+}
 
 .my-image {
   display: flex;
-  width:90%;
-  height:90%;
+  width: 90%;
+  height: 90%;
   margin: 0 auto;
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
 /* 하단 부터 comment-list */
@@ -109,30 +107,29 @@ button {
 }
 
 .modal-container .img-comment-list {
-    list-style: none;  
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 .modal-container .img-comment-list li {
-    margin:0;
+  margin: 0;
 }
 
 .modal-container .img-comment-list li > div {
-    display:table-cell;
+  display: table-cell;
 }
 
 .modal-container .img-comment-list p {
-    margin: 0;
+  margin: 0;
 }
 
 .modal-container .img-comment-list span {
-    font-size: .8em; 
-    color: #aaa;
+  font-size: 0.8em;
+  color: #aaa;
 }
 
 .feed-item hr {
   margin: 5px 0px;
 }
-
 
 /* 이미지 슬라이더 */
 
@@ -145,7 +142,7 @@ button {
   margin: 0;
 }
 
-.mffimg img{
+.mffimg img {
   z-index: initial;
   padding: 0px;
   width: 100vw;
@@ -153,11 +150,10 @@ button {
   object-fit: contain;
 }
 
-
 .mcardbox-item div {
-padding: 10px 10px;
-font-size: 14px;
-font-family: 'Nanum Gothic', sans-serif;
+  padding: 10px 10px;
+  font-size: 14px;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 
 .mslider {
@@ -192,7 +188,7 @@ font-family: 'Nanum Gothic', sans-serif;
   padding: 10px;
 }
 
-.img-comment-list .list{
+.img-comment-list .list {
   justify-content: end;
 }
 
@@ -212,22 +208,23 @@ font-family: 'Nanum Gothic', sans-serif;
 }
 
 .modalfeeld-search__input::placeholder {
-      color: rgba(87, 87, 86, 0.8);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-  }
+  color: rgba(87, 87, 86, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
 
 .modalfeeld-search__input:hover,
-  .modalfeeld-search__input:focus {
-      padding: 12px 8px;
-      outline: 0;
-      border: 1px solid transparent;
-      border-radius: 0;
-      background-position: 98% center;
-      font-family: 'Nanum Gothic', sans-serif;
-  }
+.modalfeeld-search__input:focus {
+  padding: 12px 8px;
+  outline: 0;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background-position: 98% center;
+  font-family: 'Nanum Gothic', sans-serif;
+}
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
   height: 100%;
   box-shadow: none;
 }
@@ -238,18 +235,18 @@ font-family: 'Nanum Gothic', sans-serif;
 }
 
 .putting-up {
-  width:95%;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
 }
 
-.comment-text{
+.comment-text {
   max-width: 75%;
 }
 
-.comment-text p{
-  min-width:40vw;
-  max-width:70vw;
+.comment-text p {
+  min-width: 40vw;
+  max-width: 70vw;
   word-break: normal;
 }
 
