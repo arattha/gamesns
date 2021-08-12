@@ -87,7 +87,8 @@ public class AccountService {
     public boolean updateMember(Member member, ImgRequest request, String path) {
 
         member.setNickname(request.getNickname());
-        member.setPimg(path);
+
+        if(!path.equals("C://upload//")) member.setPimg(path);
 
         try{
             memberDao.save(member);

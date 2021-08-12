@@ -154,7 +154,7 @@ export default {
 
                 formData.append('uid',this.uid);
                 formData.append('nickname',this.newNickname);
-                formData.append('multipartFile', this.file);
+                if(this.file != null) formData.append('multipartFile', this.file);
 
                 UserApi.requestUpdateUser(formData
                 ,() => {

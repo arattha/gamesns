@@ -25,31 +25,46 @@ import ModalFeed from '../../components/feed/ModalFeed.vue';
 import UserApi from '../../api/UserApi';
 var timer;
 export default {
-  components: {
-    FeedItem,
-    Header,
-    Footer,
-    ModalFeed,
+  components: { 
+      FeedItem,
+      Header,
+      Footer,
+      ModalFeed, 
+    },
+    data(){
+      return{
+        isModalViewed: false,
+        temp: null,
+        uid: 0,
+        sockid: '',
+        nickname: "",
+        boardItems: [],
+        timer : null,
+      }
   },
-  data() {
-    return {
-      isModalViewed: false,
-      temp: null,
-      uid: 0,
-      nickname: '',
-      boardItems: [],
-      timer: null,
-    };
-  },
-  created() {
+  created(){
+    this.sockid = this.$socketio.id;
     this.uid = this.$store.state.uid;
     this.nickname = this.$store.state.nickname;
     this.getBoardItems();
+    // socket io 의 user 업데이트
+    this.updateSock();
   },
-  mounted() {
+  mounted(){
+    // this.sockid = this.$socketio.id;
     window.addEventListener('scroll', this.handleScroll);
+    // this.updateSock();
   },
   methods: {
+    updateSock(){
+      console.log("hihiihihhihihihh");
+      var updateData = {
+        id : this.sockid,
+        nickname : this.nickname,
+      }
+      
+      this.$socketio.emit("updateUser", updateData);
+    },
     handleScroll() {
       let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
       let windowHeight = window.innerHeight; // 스크린 창
