@@ -21,6 +21,9 @@
       <b-container fluid>
         <editor />
       </b-container>
+      <b-container fluid>
+        <textarea name="hashtag-input" id="hashtag-input" placeholder="#해시태그를입력하세요" v-model="hashtags"></textarea>
+      </b-container>
     </div>
     <div>
       <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
@@ -49,6 +52,7 @@ export default {
       files: [],
       content: '',
       metaData: null,
+      hashtags:'',
     };
   },
   created() {
@@ -67,6 +71,8 @@ export default {
 
       formData.append('uid', this.uid);
       formData.append('content', this.boardContent);
+      formData.append('hashtags',this.hashtags)
+
 
       this.files.forEach((element) => {
         formData.append('multipartFiles', element);
@@ -79,7 +85,14 @@ export default {
       this.setBoardContent('');
 
       this.addBoard(formData);
+      
     },
+    // registHashtag() {
+    //   let hashtagData = new hashtagData();
+
+    //   hashtagData.append('hashtags',this.hashtags)
+    //   this.addHashtag(this.hashtags);
+    // }
   },
   computed: {
     ...mapGetters(['boardContent']),
