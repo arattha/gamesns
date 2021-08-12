@@ -4,7 +4,7 @@
       <nav class="nav">
         <ul class="header" style="right: 0px">
           <div class="logo">
-            <img @click="goToMain" src="@/assets/images/logolight.png" alt="" />
+            <img @click="goToMain" src="@/assets/images/logolight.png" alt="" style="height:40px;"/>
           </div>
           <div class="alarm-btn">
             <div @click="goAlarm"><i class="fas fa-bell"></i></div>
