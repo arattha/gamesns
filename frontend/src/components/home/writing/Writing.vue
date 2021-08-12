@@ -11,6 +11,7 @@
           id="chooseFile"
           multiple
           style="display:none"
+          ref="fileupload"
         />
       </span>
       <span>
@@ -19,10 +20,21 @@
     </div>
     <div class="Writing-container">
       <b-container fluid>
+        <div class="imgPreviewDiv" v-if="uploadImgCnt > 0">
+          <div class="internalImgPreviewDiv" v-for="(file, index) in files" :key="index">
+            <div class="fileDeleteButton" @click="fileDelete(file.number)">
+              <i class="fas fa-times-circle red"></i>
+            </div>
+            <img v-bind:src="file.preview" style="height:100%; width: 100%;" />
+          </div>
+        </div>
         <editor />
-      </b-container>
-      <b-container fluid>
-        <textarea name="hashtag-input" id="hashtag-input" placeholder="#해시태그를입력하세요" v-model="hashtags"></textarea>
+        <textarea
+          name="hashtag-input"
+          id="hashtag-input"
+          placeholder="#해시태그를입력하세요"
+          v-model="hashtags"
+        ></textarea>
       </b-container>
     </div>
     <div>
@@ -50,9 +62,10 @@ export default {
       uid: '',
       nickname: '',
       files: [],
+      uploadImgCnt: 0,
       content: '',
       metaData: null,
-      hashtags:'',
+      hashtags: '',
     };
   },
   created() {
@@ -62,20 +75,37 @@ export default {
   methods: {
     ...mapActions(['addBoard', 'setBoardContent']),
     fileChange(fileList) {
-      fileList.forEach((file) => {
-        this.files.push(file);
+      let num = -1;
+      fileList.forEach((file, index) => {
+        this.files = [
+          ...this.files,
+          {
+            file: file,
+            preview: URL.createObjectURL(file),
+            number: index + this.uploadImgCnt,
+          },
+        ];
+
+        num = index;
       });
+      this.uploadImgCnt = this.uploadImgCnt + num + 1;
+      // 파일업로더 값을 초기화하여 동일 이미지를 올려도 올라갈 수 있게함
+      this.$refs.fileupload.value = null;
+    },
+    fileDelete(val) {
+      // const name = val.target.getAttribute('name');
+      this.files = this.files.filter((data) => data.number !== Number(val));
+      this.uploadImgCnt -= 1;
     },
     registBoard() {
       let formData = new FormData();
 
       formData.append('uid', this.uid);
       formData.append('content', this.boardContent);
-      formData.append('hashtags',this.hashtags)
-
+      formData.append('hashtags', this.hashtags);
 
       this.files.forEach((element) => {
-        formData.append('multipartFiles', element);
+        formData.append('multipartFiles', element.file);
       });
 
       for (let key of formData.entries()) {
@@ -85,7 +115,6 @@ export default {
       this.setBoardContent('');
 
       this.addBoard(formData);
-      
     },
     // registHashtag() {
     //   let hashtagData = new hashtagData();
