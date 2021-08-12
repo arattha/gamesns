@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()// httpServletRequest를 사용하는 접근을 제한하겠다는 의미
                 .antMatchers("/auth/**", "/kakaoLogin", "/existUser/**", "/dupcheck", "/alarm/**",
-                        "/account/file/**", "/board/file/**", "/common/**", "/discord/**").permitAll() // 해당 주소로 시작되면 접근을 제한하지 않는다.
+                        "/account/file/**", "/board/file/**", "/common/**", "/discord/**","/matching/**").permitAll() // 해당 주소로 시작되면 접근을 제한하지 않는다.
                 .anyRequest().authenticated() // /auth를 통해 들어오는 주소가 아니면 전부 토큰 인증이 필요
 
                 // JwtFilter를 addFilterBefore로 등록했던 JwtSecurityConfig 클래스를 등록

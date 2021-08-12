@@ -10,11 +10,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { mergeAttributes } from '@tiptap/core';
 import { Editor, EditorContent } from '@tiptap/vue-2';
 import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import CharacterCount from '@tiptap/extension-character-count';
+import HardBreak from '@tiptap/extension-hard-break';
+import Paragraph from '@tiptap/extension-paragraph';
 import http from '@/util/http-common.js';
 
 export default {
@@ -77,16 +79,31 @@ export default {
   },
   mounted() {
     this.editor = new Editor({
+      autofocus: 'end',
       extensions: [
         StarterKit,
-        Link,
         Image,
         CharacterCount.configure({
           limit: this.limit,
         }),
+        HardBreak.extend({
+          addKeyboardShortcuts() {
+            return {
+              Enter: () => this.editor.commands.setHardBreak(),
+            };
+          },
+        }),
+        Paragraph.extend({
+          parseHTML() {
+            return [{ tag: 'div' }];
+          },
+          renderHTML({ HTMLAttributes }) {
+            return ['div', mergeAttributes(this.options.HTMLAttributes), 0];
+          },
+        }),
       ],
       content: '',
-      autofocus: 'end',
+
       // editable: this.isOK,
       onUpdate: () => {
         this.setBoardContent(this.editor.getHTML());
