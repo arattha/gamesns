@@ -3,22 +3,21 @@
     <Header/>
     <div class="matching-container">
       <div class="game-kind-btns">
-        <!--
-          <button class="hard-game game-btn">빡겜</button>
-          <button class="funny-game game-btn">즐겜</button
-        -->
       </div>
       <div class="select-boxes">
         <div class="game-select-box">
           <select v-model="selectedGame" class="select-box">
-            <option value="LeagueOfLegends">리그오브레전드</option>
+            <option v-for="(game,index) in games" :key="index" >
+              {{ game }}
+            </option>
           </select>
           <p>원하는 게임을 선택하세요</p>
         </div>
         <div class="number-select-box">
           <select v-model="selectedPeople" class="select-box">
-            <option value="2">2</option>
-            <option value="5">5</option>
+            <option v-for="(people,index) in people" :key="index">
+              {{ people.num }}
+            </option>
           </select>
           <p>원하는 인원을 선택하세요</p>
         </div>
@@ -35,6 +34,7 @@
 <script>
 import Header from '@/components/layout/header/Header.vue'
 import Footer from '@/components/layout/footer/Footer.vue'
+import UserApi from '@/api/UserApi'
 
 export default {
   name:'Matching',
@@ -46,22 +46,34 @@ export default {
     return{
       selectedGame : "",
       selectedPeople: "",
+      games:[],
+      people:["게임을 선택해주세요."],
     }
+  },
+  created(){
+    UserApi
+      .requestGames("",
+      ((res) => {
+        this.games = res.object;
+      }),
+      (() => {}))
   },
   mounted(){
     const $matchStart =  document.querySelector('#matchStart');
     $matchStart.addEventListener('click',() => this.clickEvent());
   },
+  watch:{
+    selectedGame() {
+      UserApi
+        .requestPeople({
+          game: this.selectedGame
+        },
+        ((res) => {
+          this.people = res.object}),
+        (() => {}))
+    },
+  },
   methods: {
-    // clickDummy(e){
-    //   console.log(e);
-    //   var type = e.target.innerText;
-    //   if (type == '함고?') {
-    //     this.join();
-    //   } else if (type == '매칭중지') {
-    //     this.cancel();
-    //   }
-    // },
     clickEvent(){
       let data = {
         selectedGame : this.selectedGame ,

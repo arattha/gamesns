@@ -1,8 +1,12 @@
 package com.web.curation.controller;
 
+import com.web.curation.model.BasicResponse;
+import com.web.curation.model.matching.*;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,12 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import com.web.curation.model.matching.MatchingMessage;
-import com.web.curation.model.matching.MatchingRequest;
-import com.web.curation.model.matching.MatchingResponse;
-import com.web.curation.model.matching.MessageType;
 import com.web.curation.service.MatchingService;
 import com.web.curation.util.ServletUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -32,6 +35,41 @@ public class MatchingController {
 
     @Autowired
     private MatchingService matchingService;
+
+    @GetMapping("/games")// 게임 별 인원 수
+    @ApiOperation(value = "게임 목록")
+    public Object getGames(){
+        List<String> games = matchingService.getGames();
+        System.out.println("hi games : " + games);
+        final BasicResponse result = new BasicResponse();
+
+        result.status = true;
+        if(games != null) {
+            result.data = "success";
+            result.object = games;
+        } else {
+            result.data = "fail";
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/people")// 게임 별 인원 수
+    @ApiOperation(value = "게임 별 인원 수")
+    public Object getPeople(@RequestParam String game) {
+//        System.out.println("game : " + game);
+        List<Game> people = matchingService.getPeople(game);
+//        System.out.println("people : " + people);
+        final BasicResponse result = new BasicResponse();
+
+        result.status = true;
+        if(people != null){
+            result.data = "success";
+            result.object = people;
+        } else {
+            result.data = "fail";
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     // tag :: async
     @GetMapping("/join")//채팅방 요청.

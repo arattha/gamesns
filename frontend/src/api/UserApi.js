@@ -226,6 +226,28 @@ const requestHashtagBoard = (data, callback, errorCallback) => {
     });
 }
 
+const requestGames = (data, callback, errorCallback) => {
+  http
+    .get(`/matching/games`)
+    .then(({ data }) => {
+      callback(data);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+}
+
+const requestPeople = (data, callback, errorCallback) => {
+  http
+    .get(`/matching/people`, { params: data })
+    .then(({ data }) => {
+      callback(data);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+}
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
@@ -256,6 +278,10 @@ const UserApi = {
     requestSearch(data, callback, errorCallback),
   requestHashtagBoard: (data, callback, errorCallback) =>
     requestHashtagBoard(data, callback, errorCallback),
+  requestGames: (data, callback, errorCallback) =>
+    requestGames(data, callback, errorCallback),
+  requestPeople: (data, callback, errorCallback) =>
+    requestPeople(data, callback, errorCallback),
 };
 
 export default UserApi;
