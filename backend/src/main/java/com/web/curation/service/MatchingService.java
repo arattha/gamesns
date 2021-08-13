@@ -60,12 +60,12 @@ public class MatchingService {
         }
         try {
             lock.writeLock().lock();
-            if(waitingQueue.containsKey(request.getGameName())) {//이미 생성된 키가 있으면
-            	waitingQueue.get(request.getGameName()).put(request,deferredResult);
+            if(waitingQueue.containsKey(request.getKey())) {//이미 생성된 키가 있으면
+            	waitingQueue.get(request.getKey()).put(request,deferredResult);
             } else {
             	Map<MatchingRequest, DeferredResult<MatchingResponse>> newUserPool = new LinkedHashMap<>();
             	newUserPool.put(request, deferredResult);
-            	waitingQueue.put(request.getGameName(),newUserPool);
+            	waitingQueue.put(request.getKey(),newUserPool);
             }
             //waitingUsers.put(request, deferredResult);
         } finally {
@@ -77,7 +77,7 @@ public class MatchingService {
     public void cancelChatRoom(MatchingRequest matchingRequest) {
         try {
             lock.writeLock().lock();
-            setJoinResult(waitingQueue.get(matchingRequest.getGameName()).remove(matchingRequest), 
+            setJoinResult(waitingQueue.get(matchingRequest.getKey()).remove(matchingRequest), 
             		new MatchingResponse(ResponseResult.CANCEL, null, matchingRequest.getSessionId()));
         } finally {
             lock.writeLock().unlock();
@@ -87,7 +87,7 @@ public class MatchingService {
     public void timeout(MatchingRequest matchingRequest) {
         try {
             lock.writeLock().lock();
-            setJoinResult(waitingQueue.get(matchingRequest.getGameName()).remove(matchingRequest), 
+            setJoinResult(waitingQueue.get(matchingRequest.getKey()).remove(matchingRequest), 
             		new MatchingResponse(ResponseResult.TIMEOUT, null, matchingRequest.getSessionId()));
         } finally {
             lock.writeLock().unlock();
@@ -96,15 +96,15 @@ public class MatchingService {
 
     public void establishMatchingRoom(MatchingRequest request) {//웨이팅 큐
         try {
-            logger.debug("Current waiting users : " + waitingQueue.get(request.getGameName()).size());
+            logger.debug("Current waiting users : " + waitingQueue.get(request.getKey()).size());
             lock.readLock().lock();
-            if (waitingQueue.get(request.getGameName()).size() < 2) {//유저가 특정수 이하 면 컷
+            if (waitingQueue.get(request.getKey()).size() < Integer.parseInt(request.getPeopleLimit())) {//유저가 특정수 이하 면 컷
                 return;
             }
             
             //Discord -- >이곳에서 형한테 유저 정보 던져야함.
 
-            Iterator<MatchingRequest> itr = waitingQueue.get(request.getGameName()).keySet().iterator();
+            Iterator<MatchingRequest> itr = waitingQueue.get(request.getKey()).keySet().iterator();
             
             List<MatchingRequest> roomUserKey = new ArrayList<>();
             List<DeferredResult<MatchingResponse>> roomUserValue = new ArrayList<>();
@@ -118,7 +118,7 @@ public class MatchingService {
             String uuid = UUID.randomUUID().toString(); //채팅방 이름 생성.
             
             for (int i = 0; i < 2; i++) {
-            	roomUserValue.add(waitingQueue.get(request.getGameName()).remove(roomUserKey.get(i)));
+            	roomUserValue.add(waitingQueue.get(request.getKey()).remove(roomUserKey.get(i)));
 			}
             
             //DeferredResult<MatchingResponse> user1Result = waitingUsers.remove(user1);
