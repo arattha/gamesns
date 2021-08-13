@@ -19,7 +19,7 @@ export default {
 			score: 0,
 			options: [
 				{ 
-          value: 1,
+          value: -5,
           name: '너무 싫어요!'
         },
         { 
@@ -56,8 +56,8 @@ export default {
       // console.log(this.score)
 
       let data = {
-        uid: String(this.uid),
-        score: parseInt(this.score)
+        uid: this.uid,
+        score: this.score
       };
 
       console.log('dkdkljdkdsajlkadsklj')

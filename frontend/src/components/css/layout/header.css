@@ -55,7 +55,7 @@ position: fixed;
     display: flex;
     align-items: center;
     background: #FFAF0A;
-    padding: 5px 20px;
+    padding: 5px 20px 5px 0px;
     /* width: 80%; */
     /* width: 200px; */
     left: 0px;

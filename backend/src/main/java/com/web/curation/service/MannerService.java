@@ -4,6 +4,7 @@ import com.web.curation.dao.member.MemberDao;
 import com.web.curation.model.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ public class MannerService {
     @Autowired
     MemberDao memberDao;
 
+    @Transactional
     public int getManner(String uid) {
 
         try {
@@ -38,6 +40,7 @@ public class MannerService {
 
     }
 
+    @Transactional
     public int addManner(String uid, int score) {
 
         try {

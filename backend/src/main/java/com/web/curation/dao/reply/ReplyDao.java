@@ -20,4 +20,6 @@ public interface ReplyDao extends JpaRepository<Reply, Long> {
     Slice<Reply> findByBidAndRidGreaterThan(Long bid, Long rid, Pageable pageable);
 
     List<Reply> findReplyByBid(Long bid);
+
+    Long countReplyByUid(String uid);
 }

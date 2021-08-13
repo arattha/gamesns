@@ -28,5 +28,8 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
     List<Board> findBoardByUidAndBidLessThan(String uid,long bid,Pageable limitTen);
 
+    Long countBoardByUid(String uid);
+    
     List<Board> findBoardByHashtagsContainingOrderByCreateDateDesc(String hashtags);
+
 }

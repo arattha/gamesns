@@ -60,20 +60,27 @@
         </div>
 					<!-- 피드, 뱃지 버튼 -->
 					<div class="card-footer">
-						<div class="myfeed drop-in-underline">
+						<div @click="tabShow1" class="myfeed drop-in-underline">
 							<i class="fas fa-archive"></i>
 						</div>
-						<div class="myfeed drop-in-underline">
+						<div @click="tabShow2" class="myfeed drop-in-underline">
 							<i class="far fa-smile"></i>
 						</div>
 					</div>
+
+                    <!-- 탭 내용 -->
+                    <div>
 					<!-- 피드 -->
-					<div class="feeditem-box">
+					<div class="feeditem-box" v-show="currentTab==0">
             <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
 						<div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
 							<FeedItem :boardItem ="boardItem"/>
 						</div>
 					</div>
+                    <div v-show="currentTab==1">
+                        <Badge/>
+                    </div>
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -93,6 +100,7 @@ import ModalFeed from '../../components/feed/ModalFeed.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
 import MannerSelect from '../../components/user/myPage/MannerSelect.vue'
 import Manner from '../../components/user/myPage/Manner.vue'
+import Badge from '../../components/user/myPage/Badge.vue'
 import UserApi from '../../api/UserApi'
 var timer;
 export default {
@@ -105,7 +113,8 @@ export default {
         FeedItem,
         ModalFeed,
         Manner,
-        MannerSelect
+        MannerSelect,
+        Badge
     },
     data() {
         return {
@@ -117,6 +126,8 @@ export default {
             isModalViewed: false,
             temp: null,
             boardItems: [],
+            currentTab: -1,
+            tabs: ['tab title1', '2']
         }
     },
     created() {
@@ -204,7 +215,13 @@ export default {
             this.isModalViewed = !this.isModalViewed;
             this.temp = null;
             document.body.style.overflow = 'scroll';
-        }
+        },
+        tabShow1() {
+                this. currentTab = 0
+        },
+        tabShow2() {
+                this. currentTab = 1
+        },
     },
     beforeDestroy(){
         this.boardItems = [];

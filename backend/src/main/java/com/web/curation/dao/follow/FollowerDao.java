@@ -10,4 +10,6 @@ public interface FollowerDao extends JpaRepository<Follower, Long> {
 
     List<Follower> findFollowerByToId(String toId);
 
+    Long countFollowerByToId(String toId);
+
 }
