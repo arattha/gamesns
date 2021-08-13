@@ -67,7 +67,8 @@ export default {
     go(u, n) {
       // WebSocket 의 알림 리스트에서 해당 항목 삭제
       let data = {
-        memberName: u,
+        uid: u.uid,
+        memberName: u.nickname,
         followingName: this.nickname,
       };
       console.log('alarm', data);

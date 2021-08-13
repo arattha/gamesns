@@ -167,11 +167,12 @@ export default {
             this.$router.push({name:"Follower", params: {follower : this.userFollower, id: this.userInfo.id}});
         },
         send() {
+            const msg = {
+                uid: this.$store.state.uid,
+                memberName: this.nickname,
+                followingName: this.userInfo.nickname
+            };
             if (this.stompClient && this.stompClient.connected) {
-                const msg = {
-                    memberName: this.nickname,
-                    followingName: this.userInfo.nickname
-                };
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
             }
 
