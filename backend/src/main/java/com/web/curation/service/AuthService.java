@@ -48,6 +48,7 @@ public class AuthService {
         member.setNickname(nickname);
         member.setAuthority(Authority.ROLE_USER);
         member.setPassword(passwordEncoder.encode(uid));
+        member.setManner(200);
 
         System.out.println(member);
 

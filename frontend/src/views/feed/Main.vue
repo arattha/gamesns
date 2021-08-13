@@ -1,7 +1,7 @@
 <template>
-<div style="background-color: #fafafa;">
+<div>
   <Header/>
-  <div>
+  <div style="background-color: #fafafa;">
   <div class="mainfeed">
     <div class="" @scroll.passive="handleScroll">
       <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
