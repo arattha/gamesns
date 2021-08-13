@@ -6,7 +6,7 @@ var app = require("express")();
 var server = require("http").createServer(app);
 var io = require("socket.io")(server, {
     cors: {
-        origin: "http://localhost:8081",
+        origin: "http://i5c203.p.ssafy.io",
         methods: ["GET", "POST"]
       }
 });

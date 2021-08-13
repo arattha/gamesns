@@ -153,7 +153,7 @@ public class AccountController {
             Member member = memberOpt.get();
 
             // img 파일 이름 설정 및 경로 지정
-            String filePath = "C://upload//";
+            String filePath = "//home//ubuntu//upload//";
             String storedFileName = "";
 
             if(request.getMultipartFile() != null) {
@@ -191,7 +191,7 @@ public class AccountController {
 
 		if(member.get().getPimg() == null) {
 
-		    resource = new FileSystemResource("C://upload/default.png");
+		    resource = new FileSystemResource("//home//ubuntu//upload//default.png");
 
 			final BasicResponse result = new BasicResponse();
 			result.status = true;

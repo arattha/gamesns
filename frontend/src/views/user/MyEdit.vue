@@ -103,7 +103,7 @@ export default {
 
         UserApi.requestGetUser(this.nickname
             ,(res) => { 
-                this.profileImg = 'http://localhost:8080/account/file/' + this.uid;
+                this.profileImg = 'http://i5c203.p.ssafy.io/api/account/file/' + this.uid;
             }
             ,() => {});
 

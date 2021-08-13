@@ -89,7 +89,7 @@ public class BoardService {
 		board.setHashtags(newBoard.getHashtags());
 		board = boardDao.save(board);
 		
-		String path = "C:\\upload";
+		String path = "//home//ubuntu//upload";
 		File Folder = new File(path);
 		if(!Folder.exists()) Folder.mkdir();
 		
@@ -105,8 +105,8 @@ public class BoardService {
 				UUID uuid = UUID.randomUUID();
 	
 				fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
-				multipartFile.transferTo(new File("C:\\upload"+"\\"+fileName));
-				String base_url = "C:\\upload"+"\\"+fileName;
+				multipartFile.transferTo(new File("//home//ubuntu//upload"+"//"+fileName));
+				String base_url = "//home//ubuntu//upload"+"//"+fileName;
 	
 				ImgFile file = new ImgFile();//이미지 파일 세팅
 				file.setFile_name(fileName);
@@ -144,8 +144,8 @@ public class BoardService {
 				UUID uuid = UUID.randomUUID();
 	
 				fileName = uuid.toString()+"_"+multipartFile.getOriginalFilename();
-				multipartFile.transferTo(new File("C:\\upload"+"\\"+fileName));
-				String base_url = "C:\\upload"+"\\"+fileName;
+				multipartFile.transferTo(new File("//home//ubuntu//upload"+"//"+fileName));
+				String base_url = "//home//ubuntu//upload"+"//"+fileName;
 	
 				ImgFile file = new ImgFile();//이미지 파일 세팅
 				file.setFile_name(fileName);

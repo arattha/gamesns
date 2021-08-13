@@ -5,7 +5,7 @@
       <div class="cardbox-heading">
         <!-- 내부 사진 크기 조절 필요 -->
         <div class="fimg">
-          <img :src="'http://localhost:8080/account/file/' + boardItem.uid" />
+          <img :src="'http://i5c203.p.ssafy.io/api/account/file/' + boardItem.uid" />
         </div>
         <div class="media-body">
           <p class="m-0 name">{{ boardItem.nickname }}</p>
@@ -117,7 +117,7 @@ export default {
   },
   created() {
     this.boardItem.imgFiles.forEach((element) => {
-      this.img_src.push('http://localhost:8080/board/file/' + element.file_name);
+      this.img_src.push('http://i5c203.p.ssafy.io/api/board/file/' + element.file_name);
     });
 
     // 통으로 받아온 해시태그 스페이스바 기준으로 잘라서 temp_hashtaglist에 넣어주기
@@ -138,7 +138,7 @@ export default {
     // 스페이스바로 분리하여 하단에 파란색으로 보여준다.
 
     // 그리고 각기 해시태그를 누르면
-    // http://localhost:8081/#싸피 이런식으로
+    // http://i5c203.p.ssafy.io:8081/#싸피 이런식으로
     // 해당 해시태그가 나온 글들이 모두 나와야함.
 
     // console.log(this.boardItem.contents);

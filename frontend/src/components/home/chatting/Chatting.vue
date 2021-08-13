@@ -28,7 +28,7 @@
           <div class="inbox_chat">
             <div class="chat_list active_chat" v-for="(item, index) in rooms" :key="index" @click="chatLink(item.nickname)">
               <div class="chat_people">
-                <div class="chat_img"> <img class="profile_img" :src="`http://localhost:8080/account/file/` + item.id"> </div>
+                <div class="chat_img"> <img class="profile_img" :src="`http://i5c203.p.ssafy.io/api/account/file/` + item.id"> </div>
                 <div class="chat_ib">
                   <h5>{{item.nickname}}</h5>
                 </div>

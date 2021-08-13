@@ -17,7 +17,7 @@
 				<!-- 프로필 배경 이미지 -->
         <div class="card-header">
 					<div class="profile_pic">
-						<img :src="'http://localhost:8080/account/file/' + uid">
+						<img :src="'http://i5c203.p.ssafy.io/api/account/file/' + uid">
 					</div>
 				</div>
 

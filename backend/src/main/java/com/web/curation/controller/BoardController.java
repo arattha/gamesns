@@ -74,7 +74,7 @@ public class BoardController {
     @GetMapping("/board/file/{fileName}")
     @ApiOperation(value = "내파일")
     public Object bFile(@PathVariable final String fileName, HttpServletRequest request) throws MalformedURLException{
-		Resource resource =  new FileSystemResource("C://upload//"+fileName);
+		Resource resource =  new FileSystemResource("//home//ubuntu//upload" + "//"+fileName);
 		
 		if(fileName == null) {
 			final BasicResponse result = new BasicResponse();

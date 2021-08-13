@@ -10,7 +10,7 @@
       <div v-for="(user,idx) in matchedUser" :key="idx" >
         <div class="cardbox-heading">
           <div class="fimg">
-            <img :src="'http://localhost:8080/account/file/' + user.uid" />
+            <img :src="'http://i5c203.p.ssafy.io/api/account/file/' + user.uid" />
           </div>
           <div class="media-body">
             <p class="m-0 name">{{ user.uid }}</p>
@@ -156,7 +156,7 @@ export default {
     connectAndSubscribe(){
       //console.log(this.stompClient);
       if(this.stompClient == null ||  ! this.stompClient.connected) {
-        const serverURL = "http://localhost:8080/matching"
+        const serverURL = "http://i5c203.p.ssafy.io/api/matching"
         var socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({matchingRoomId : this.chatRoomId}, frame => {
