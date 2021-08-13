@@ -345,7 +345,7 @@
 .ffimg img {
   z-index: initial;
   padding: 0px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 @include mobile {
@@ -468,4 +468,11 @@
 
 .hashtag-div {
     color: #3f729b;
+}
+
+#morigin li {
+  display: list-item;
+  list-style-type: disc;
+  padding: 0;
+  margin-left: 5px;
 }

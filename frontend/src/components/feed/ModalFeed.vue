@@ -1,9 +1,10 @@
 <template>
   <div style="display : flex;" class="modal modal-container">
-    <div class="overlay" @click="$emit('close-modal')"></div>
-    <div class="modal-res">
+    <div class="overlay" @click="$emit('close-modal')"
+    style="right:0px; bottom:0px;"></div>
+    <div class="modal-res" >
       <div id="modalScroll" class="modal-card" style="overflow:scroll;">
-        <div class="feed-item" style="border:0px">
+        <div class="feed-item" style="border: 0px;">
           <div class="top">
             <div
               class="profile-image"
@@ -48,9 +49,9 @@
           </div>
           <!--/ cardbox-item -->
           <div style="mcontent">
-            <div id="origin" style="padding:10px 5px 0px 5px;">
-              <div style="padding:10px 5px 0px 5px;">
-                <editor-content :editor="editor" />
+            <div id="origin">
+              <div>
+                <editor-content  v-if="boardItem.contents" :editor="editor" />
               </div>
               <div id="metaDataDiv" class="metadata-div" v-show="metaLoading" @click="goLink"></div>
               <div id="loading" class="metadata-div" v-if="!metaLoading && metaPresent">

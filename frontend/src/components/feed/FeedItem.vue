@@ -41,8 +41,8 @@
         </div>
         <!-- 내용 -->
         <!-- <editor v-model="boardItem.contents" :isOK="false"/> -->
-        <div style="padding: 0px 5px;">
-          <editor-content :editor="editor" style="padding: 0px 5px;" />
+        <div style="padding: 0px;">
+          <editor-content v-if="boardItem.contents" :editor="editor" />
           <div class="showContentDiv">
             <a @click="showContent" class="grayText">자세히보기</a>
           </div>
@@ -121,7 +121,10 @@ export default {
     });
 
     // 통으로 받아온 해시태그 스페이스바 기준으로 잘라서 temp_hashtaglist에 넣어주기
-    this.temp_hashtaglist = this.boardItem.hashtags.split(' ');
+    if (this.boardItem.hashtags != undefined) {
+
+      this.temp_hashtaglist = this.boardItem.hashtags.split(' ');
+    }
 
     // temp_hashtaglist에서 하나씩 꺼내서 검사 해준 후에, 유효한 해시태그들만 hashtag_list에 넣어주기
     for (var i = 0; i < this.temp_hashtaglist.length; i++) {
