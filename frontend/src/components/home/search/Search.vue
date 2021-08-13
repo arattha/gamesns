@@ -37,7 +37,6 @@
 import Footer from '@/components/layout/footer/Footer.vue';
 import Header from '@/components/layout/header/Header.vue';
 import http from '@/util/http-common.js'
-import { mapActions , mapGetters } from "vuex";
 import UserApi from '../../../api/UserApi';
 
 export default {
@@ -50,21 +49,28 @@ export default {
         return{
             nickname: '',
             search : "",
+            searched: [],
         };
     },
     created(){
         this.nickname = this.$store.state.nickname;
     },
     watch: {
-        search: function (val) {
-            if(val != "") this.searchUser(val);
+        search(val) {
+        if (val == "") this.searched = [];
+        else {
+            UserApi
+            .requestSearch({
+                nickname: val
+            },
+            ((res) => {
+                this.searched = res;
+            }),
+            (() => {}))
         }
-    },
-    computed: {
-        ...mapGetters(["searched", "recentSearched"]),
+        },
     },
     methods:{
-        ...mapActions(["searchUser", "recentUser"]),
         userLink(suggest){
             this.recentUser(suggest.nickname);
             if(this.nickname == suggest.nickname) this.$router.push('/mypage');

@@ -46,7 +46,6 @@
 <script>
 import Header from "@/components/layout/header/Header.vue";
 import Footer from "@/components/layout/footer/Footer.vue";
-import { mapActions, mapGetters } from "vuex";
 import UserApi from '../../../api/UserApi';
 
 export default {
@@ -61,6 +60,7 @@ export default {
       nickname: "",
       rooms: [],
       search: "",
+      searched: [],
     };
   },
   created() {
@@ -96,25 +96,21 @@ export default {
   },
 
   watch: {
-    search: function(val) {
-      if (val != "") this.searchUser(val);
-      
+    search(val) {
+      if (val == "") this.searched = [];
+      else {
+        UserApi
+          .requestSearch({
+            nickname: val
+          },
+          ((res) => {
+            this.searched = res;
+          }),
+          (() => {}))
+      }
     },
   },
-  computed: {
-    ...mapGetters(["searched"]),
-  },
   methods: {
-    ...mapActions(["searchUser"]),
-    // getRooms(){
-
-    //   this.$socketio.emit('callRooms', this.nickname);
-
-    //   this.$socketio.on('getRooms', (data) => {
-    //     console.log("hi rooms", data);
-    //     this.rooms = data;
-    //   })
-    // },
     chatLink(yourNickname) {
       this.$socketio.emit("sendMsg", {
         id: this.id,
@@ -149,9 +145,6 @@ export default {
       }
     },
   },
-  beforeDestroy(){
-    this.$store.state.searched = [];
-  }
 };
 </script>
 
