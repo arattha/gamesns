@@ -12,6 +12,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.PostConstruct;
+
+import com.web.curation.dao.matching.MatchingDao;
+import com.web.curation.model.matching.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +23,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import com.web.curation.model.matching.MatchingMessage;
-import com.web.curation.model.matching.MatchingRequest;
-import com.web.curation.model.matching.MatchingResponse;
 import com.web.curation.model.matching.MatchingResponse.ResponseResult;
-import com.web.curation.model.matching.MessageType;
 
 @Service
 public class MatchingService {
@@ -167,4 +166,29 @@ public class MatchingService {
             result.setResult(response);
         }
     }
+
+    @Autowired
+    MatchingDao matchingDao;
+
+    public List<String> getGames(){
+
+        Set<String> game = new HashSet<>();
+
+        for(Game g : matchingDao.findAll()) {
+            game.add(g.getGameName());
+        }
+
+        return new ArrayList<>(game);
+    }
+
+    public List<Game> getPeople(String game){
+        try {
+            return matchingDao.findByGameName(game);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+
 }
