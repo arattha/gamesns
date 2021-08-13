@@ -51,7 +51,7 @@ public class BoardService {
 			boardList = boardDao.findFollowFeed(longbid, paging);
 		}
 		List<ResponseBoard> resboard = new ArrayList<>();
-		
+
 		for (Board board : boardList) {
 			resboard.add(new ResponseBoard(board,imgFileDao.findImgFileByBid(board.getBid()),memberDao.findByUid(board.getUid()).get().getNickname()));
 		}
