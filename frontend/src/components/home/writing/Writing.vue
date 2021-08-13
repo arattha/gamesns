@@ -82,7 +82,7 @@ export default {
         // 전체 이미지의 용량이 5MB를 초과한다면
         if (this.filesSize + file.size > 5242880) {
           alert('이미지는 최대 5MB 까지 업로드 가능합니다.\n다시 시도해주세요.');
-          return;
+          return false;
         }
 
         this.files = [
@@ -99,7 +99,11 @@ export default {
       });
 
       console.log(this.files);
-      this.uploadImgCnt = this.uploadImgCnt + num + 1;
+
+      if (num > -1) {
+        this.uploadImgCnt = this.uploadImgCnt + num + 1;
+      }
+
       // 파일업로더 값을 초기화하여 동일 이미지를 올려도 올라갈 수 있게함
       this.$refs.fileupload.value = null;
     },
