@@ -11,7 +11,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    searched: [],
     recentSearched: [],
     // accessToken: '',
     uid: '',
@@ -19,9 +18,6 @@ export default new Vuex.Store({
     boardContent: '',
   },
   mutations: {
-    SET_SEARCHED(state, payload) {
-      state.searched = payload;
-    },
     SET_RECENTSEARCHED(state, payload) {
       console.log('first', state.recentSearched);
       state.recentSearched.splice(0, 0, payload);
@@ -52,6 +48,9 @@ export default new Vuex.Store({
   getters: {
     searched(state) {
       return state.searched;
+    },
+    searched_hashtag_boards(state) {
+      return state.searched_hashtag_boards;
     },
     recentSearched(state) {
       return state.recentSearched;
@@ -94,20 +93,6 @@ export default new Vuex.Store({
           alert('글이 작성되었습니다.');
         })
         .then(() => router.push('/main'))
-        .catch(() => {
-          alert('에러가 발생했습니다.');
-        });
-    },
-    searchUser({ commit }, val) {
-      let data = {
-        nickname: val,
-      };
-
-      http
-        .get(`/search`, { params: data })
-        .then(({ data }) => {
-          commit('SET_SEARCHED', data);
-        })
         .catch(() => {
           alert('에러가 발생했습니다.');
         });

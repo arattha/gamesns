@@ -47,8 +47,9 @@
             <a @click="showContent" class="grayText">자세히보기</a>
           </div>
           <div v-if="hashtag_list!=0" class="hashtag-div" style="padding: 20px 10px 0px 10px;">
-            <span v-for="(hashtag,idx) in hashtag_list" :key="idx" style="margin-right:3px">
-              {{hashtag}}
+            <span v-for="(hashtag,idx) in hashtag_list" :key="idx">
+              <router-link :to="{ name: 'Hashtagsearch', params: { hashtag: hashtag.slice(1) } }"><span style="margin-right:3px">{{hashtag}}</span></router-link>
+              <!-- hashtag = #싸피 -->
             </span>
             <!-- 해시태그가 없다면 안나오는 로직 써야함 v-if length()? -->
           </div>
