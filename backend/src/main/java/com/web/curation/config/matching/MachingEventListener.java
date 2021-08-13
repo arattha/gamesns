@@ -39,7 +39,7 @@ public class MachingEventListener {
         String sessionId = headerAccessor.getSessionId();*/
 
         logger.info("[Connected] room id : {} | websocket session id : {}", matchingRoomId, sessionId);
-
+        
         matchingService.connectUser(matchingRoomId, sessionId);//여기서 게임 종류 인원에 맞는 작업을 가져와야함
     }
 

@@ -36,11 +36,11 @@ public class MatchingController {
     // tag :: async
     @GetMapping("/join")//채팅방 요청.
     @ResponseBody
-    public DeferredResult<MatchingResponse> joinRequest(@RequestParam String gameName) {
+    public DeferredResult<MatchingResponse> joinRequest(@RequestParam String gameName, @RequestParam String uid) {
         String sessionId = ServletUtil.getSession().getId();
         logger.info(">> Join request. session id : {}", sessionId);
-
-        final MatchingRequest user = new MatchingRequest(sessionId,gameName); //게임 이름을 합쳐서 새로운 생성
+        System.out.println("조인 들어올 때" + gameName+" " + sessionId);
+        final MatchingRequest user = new MatchingRequest(sessionId,gameName,uid); //게임 이름을 합쳐서 새로운 생성
         final DeferredResult<MatchingResponse> deferredResult = new DeferredResult<>(null); //비동기 프로세스 생성.
         matchingService.joinChatRoom(user, deferredResult); //채팅룸 생성으로 보임. 정보확인 필요.
 
@@ -53,11 +53,12 @@ public class MatchingController {
 
     @GetMapping("/cancel")
     @ResponseBody
-    public ResponseEntity<Void> cancelRequest(@RequestParam String gameName) {
+    public ResponseEntity<Void> cancelRequest(@RequestParam String gameName, @RequestParam String uid) {
         String sessionId = ServletUtil.getSession().getId();
+        	
         logger.info(">> Cancel request. session id : {}", sessionId);
-
-        final MatchingRequest user = new MatchingRequest(sessionId,gameName);
+        //System.out.println("캔슬 들어올 때" + gameName+" " + sessionId);
+        final MatchingRequest user = new MatchingRequest(sessionId,gameName,uid);
         matchingService.cancelChatRoom(user);
 
         return ResponseEntity.ok().build();
@@ -68,7 +69,6 @@ public class MatchingController {
     @MessageMapping("/chat.message/{matchingRoomId}")// 채팅하는 곳.
     public void sendMessage(@DestinationVariable("matchingRoomId") String matchingRoomId, @Payload MatchingMessage matchingMessage) {
         //logger.info("Request message. roomd id : {} | chat message : {} | principal : {}", chatRoomId, chatMessage);
-    	System.out.println(matchingMessage.getMessage());
         if (!StringUtils.hasText(matchingRoomId) || matchingMessage == null) {
             return;
         }
