@@ -62,6 +62,7 @@ export default {
       uid: '',
       nickname: '',
       files: [],
+      filesSize: 0,
       uploadImgCnt: 0,
       content: '',
       metaData: null,
@@ -76,7 +77,14 @@ export default {
     ...mapActions(['addBoard', 'setBoardContent']),
     fileChange(fileList) {
       let num = -1;
+
       fileList.forEach((file, index) => {
+        // 전체 이미지의 용량이 5MB를 초과한다면
+        if (this.filesSize + file.size > 5242880) {
+          alert('이미지는 최대 5MB 까지 업로드 가능합니다.\n다시 시도해주세요.');
+          return;
+        }
+
         this.files = [
           ...this.files,
           {
@@ -86,14 +94,16 @@ export default {
           },
         ];
 
+        this.filesSize += file.size;
         num = index;
       });
+
+      console.log(this.files);
       this.uploadImgCnt = this.uploadImgCnt + num + 1;
       // 파일업로더 값을 초기화하여 동일 이미지를 올려도 올라갈 수 있게함
       this.$refs.fileupload.value = null;
     },
     fileDelete(val) {
-      // const name = val.target.getAttribute('name');
       this.files = this.files.filter((data) => data.number !== Number(val));
       this.uploadImgCnt -= 1;
     },
