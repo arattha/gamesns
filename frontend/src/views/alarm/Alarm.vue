@@ -78,11 +78,11 @@ export default {
         // Follow 관련 테이블에서 해당 항목 추가
         UserApi.requestFollowUpdate(
           {
-            fromNickname: u,
+            fromNickname: u.nickname,
             toNickname: this.nickname,
             type: 0,
           },
-          () => {},
+          (res) => {},
           () => {}
         );
       }
