@@ -115,11 +115,6 @@ export default [
     component: Alarm,
   },
   {
-    path: '/matching',
-    name: 'Matching',
-    component: Matching,
-  },
-  {
     path: '/:pathMatch(.*)*',
     redirect: '/404',
   },

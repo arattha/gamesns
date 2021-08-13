@@ -1,113 +1,43 @@
 <template>
   <div>
     <Header />
-    <!-- <div class="chatting-container">
-      <div class="chatting-contact" @click="goToInChatting">
-        <div class="chatting-pic rogers"></div>
-        <div class="chatting-badge">
-          1
-        </div>
-        <div class="name">
-          Steve Rogers
-        </div>
-        <div class="message">
-          That is America's ass 🇺🇸🍑
-        </div>
-      </div>
-      <div class="chatting-contact">
-        <div class="chatting-pic stark"></div>
-        <div class="name">
-          Tony Stark
-        </div>
-        <div class="message">
-          Uh, he's from space, he came here to steal a necklace from a wizard.
-        </div>
-      </div>
-      <div class="chatting-contact">
-        <div class="chatting-pic banner"></div>
-        <div class="chatting-badge">
-          1
-        </div>
-        <div class="name">
-          Bruce Banner
-        </div>
-        <div class="message">
-          There's an Ant-Man *and* a Spider-Man?
-        </div>
-      </div>
-      <div class="chatting-contact">
-        <div class="chatting-pic thor"></div>
-        <div class="name">
-          Thor Odinson
-        </div>
-        <div class="chatting-badge">
-          3
-        </div>
-        <div class="message">
-          I like this one
-        </div>
-      </div>
-      <div class="chatting-contact">
-        <div class="chatting-pic danvers"></div>
-        <div class="chatting-badge">
-          2
-        </div>
-        <div class="name">
-          Carol Danvers
-        </div>
-        <div class="message">
-          Hey Peter Parker, you got something for me?
-        </div>
-      </div>
-      <div class="chatting-contact">
-        <div class="chatting-pic danvers"></div>
-        <div class="chatting-badge">
-          2
-        </div>
-        <div class="name">
-          Carol Danvers
-        </div>
-        <div class="message">
-          Hey Peter Parker, you got something for me?
-        </div>
-      </div>
-       <div class="chatting-contact">
-        <div class="chatting-pic danvers"></div>
-        <div class="chatting-badge">
-          2
-        </div>
-        <div class="name">
-          Carol Danvers
-        </div>
-        <div class="message">
-          Hey Peter Parker, you got something for me?
-        </div>
-      </div>
-    </div> -->
-    <div class="search-bar">
-      <input
-        v-model="search"
-        class="search__input"
-        type="text"
-        placeholder="검색"
-      />
-      <div
-        v-for="(suggest, index) in searched"
-        :key="index"
-        id="suggestion_box"
-        @click="addRoom(suggest)"
-      >
-        <!--<img />-->
-        {{ suggest.nickname }}
-      </div>
-    </div>
+    
 
-    <div>{{ rooms }}</div>
+    <div class="inbox_people mt-2">
+          <div class="headind_srch">
+            <div class="recent_heading">
+              <h4>Chat</h4>
+            </div>
+            <div class="srch_bar">
+              <div class="stylish-input-group">
+                <input type="text" class="search-bar" v-model="search" placeholder="Search" >
+                <span class="input-group-addon">
+                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                </span> </div>
+              <div
+                v-for="(suggest, index) in searched"
+                :key="index"
+                class="suggestion_box"
+                @click="addRoom(suggest)"
+              >
+                <!--<img />-->
+                {{ suggest.nickname }}
+              </div>
+            </div>
+          </div>
+          <div class="inbox_chat">
+            <div class="chat_list active_chat" v-for="(item, index) in rooms" :key="index" @click="chatLink(item.nickname)">
+              <div class="chat_people">
+                <div class="chat_img"> <img :src="`http://localhost:8080/account/file/` + item.id"> </div>
+                <div class="chat_ib">
+                  <h5>{{item.nickname}}</h5>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
 
-    <!-- 채팅 룸 리스트 반환 -->
-    <div v-for="(item, index) in rooms" :key="index" @click="chatLink(item)">
-      {{ index }} : {{ item }}
-    </div>
 
     <Footer />
   </div>
@@ -117,6 +47,7 @@
 import Header from "@/components/layout/header/Header.vue";
 import Footer from "@/components/layout/footer/Footer.vue";
 import { mapActions, mapGetters } from "vuex";
+import UserApi from '../../../api/UserApi';
 
 export default {
   name: "Chatting",
@@ -143,14 +74,31 @@ export default {
     this.$socketio.emit("callRooms", this.nickname);
 
     this.$socketio.on("getRooms", (data) => {
-      console.log("hi rooms", data);
       this.rooms = data;
+
+      let rooms = [];
+
+      for(let d of data){
+        UserApi
+          .requestGetUser(d,
+          (res) => {
+            rooms.push({
+              id: res.data.object.uid,
+              nickname: res.data.object.nickname,
+            })
+          },
+          (() => {}))
+
+      }
+      this.rooms = rooms;
+
     });
   },
 
   watch: {
     search: function(val) {
       if (val != "") this.searchUser(val);
+      
     },
   },
   computed: {
@@ -186,7 +134,7 @@ export default {
       var flag = true;
       for (const item of this.rooms) {
         // rooms 안에 체크할 유저가 있다면 flag = false
-        if (suggest.nickname == item) {
+        if (suggest.nickname == item.nickname) {
           flag = false;
           break;
         }
@@ -194,10 +142,16 @@ export default {
 
       // 새로 추가해야 할 유저
       if (flag) {
-        this.rooms.push(suggest.nickname);
+        this.rooms.push({
+          id: suggest.uid,
+          nickname: suggest.nickname
+        });
       }
     },
   },
+  beforeDestroy(){
+    this.$store.state.searched = [];
+  }
 };
 </script>
 

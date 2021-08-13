@@ -37,142 +37,12 @@ io.on('connection' , function(socket) {
     
     // users update
     socket.on('updateUser', function(data) {
-        users[data.nickname] = data.id;
         if(rooms[data.nickname] == undefined){
             rooms[data.nickname] = [];
         } 
+        users[data.nickname] = data.id;
         console.log("user", users);
     })
-
-    // 채팅 중인 채팅방 목록 가져오기
-    // socket.on('getRooms', function(data) {
-
-    //     // footer 의 채팅 버튼을 누를 때 실행
-    //     // 사용자의 닉네임에 해당하는 room list(= rooms[data.nickname]) 을 리턴
-    //     io.to(users[data]).emit('giveRooms', rooms[data]);
-    // })
-
-    // 채팅방 생성하기
-    // socket.on('crRoom', function(data) {
-    //     if(rooms[data.yourNickname] == undefined) rooms[data.yourNickname] = [];
-    //     if(rooms[data.myNickname] == undefined) rooms[data.myNickname] = [];
-        
-    //     if(rooms[data.myNickname].indexOf(data.yourNickname) == -1) {
-    //         rooms[data.myNickname].push(data.yourNickname);
-    //     }
-    //     if(rooms[data.yourNickname].indexOf(data.myNickname) == -1) {
-    //         rooms[data.yourNickname].push(data.myNickname);
-    //         io.to(users[data.yourNickname]).emit('giveRooms', rooms[data.yourNickname]);
-    //     }
-    // })
-
-    // // 채팅방 죽이기
-    // socket.on('rmRooms', function(data) {
-        
-    //     //죽은 채팅방을 rooms 배열에서 지우기 
-    //     if(rooms[data.myNickname] != undefined) {
-    //         for(let i = 0; i < rooms[data.myNickname].length; i++) {
-    //             if(rooms[data.myNickname][i] == data.yourNickname)  {
-    //                 if( (join_num[data.yourNickname][0] == data.myNickname && join_num[data.yourNickname][1] > 0) ||
-    //                 (join_num[data.myNickname][0] == data.yourNickname && join_num[data.myNickname][1] > 0)) continue;
-    //                 else {
-    //                     join_num[data.myNickname][1] = 0;
-    //                     join_num[data.yourNickname][1] = 0;
-    //                     console.log("remove rooms!!!!  " + data.myNickname + ", " + data.yourNickname);
-    //                     rooms[data.myNickname].splice(i, 1);
-    //                     i--;
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     if(rooms[data.yourNickname] != undefined) {
-    //         for(let i = 0; i < rooms[data.yourNickname].length; i++) {
-    //             if(rooms[data.yourNickname][i] == data.myNickname)  {
-    //                 if( (join_num[data.yourNickname][0] == data.myNickname && join_num[data.yourNickname][1] > 0) ||
-    //                 (join_num[data.myNickname][0] == data.yourNickname && join_num[data.myNickname][1] > 0)) continue;
-    //                 else {
-    //                     join_num[data.myNickname][1] = 0;
-    //                     join_num[data.yourNickname][1] = 0;
-    //                     console.log("remove rooms!!!!  " + data.myNickname + ", " + data.yourNickname);
-    //                     rooms[data.yourNickname].splice(i, 1);
-    //                     i--;
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     // 상대방이 채팅방에 있을 때만
-    //     // 상대방이 나갔다고 msg 보내주기
-    //     if(rooms[data.yourNickname] != undefined && rooms[data.yourNickname].indexOf(data.myNickname) != -1) {
-    //         var text = data.myNickname + "님이 채팅방을 나갔습니다.";
-    //         // console.log("text", text);
-    //         io.to(users[data.yourNickname]).emit('recvMsg', {
-    //             sender : data.myNickname,
-    //             message : text,
-    //             type: 1,
-    //         });
-    //     }
-
-    //     // 채팅방 죽인 후 rooms 배열 사용자에게 보내주기
-    //     io.to(users[data.myNickname]).emit('giveRooms', rooms[data.myNickname]);
-    // })
-
-    // // join_num 최신화
-    // socket.on('join_num', function(data) {
-
-    //     // undefined 상태라면 초기화
-    //     if(join_num[data.myNickname] == undefined) join_num[data.myNickname] = [];
-    //     if(join_num[data.yourNickname] == undefined) join_num[data.yourNickname] = [];
-        
-    //     // 채팅방을 나갈 때
-    //     if(data.type == -1){
-
-    //         console.log("퇴장 전! join_num?", join_num)
-    //         if(join_num[data.yourNickname].indexOf(data.myNickname) != -1){
-    //             join_num[data.yourNickname][1]--;
-    //             io.to(users[data.yourNickname]).emit('getJoinNum', join_num[data.yourNickname]);
-    //             io.to(users[data.myNickname]).emit('getJoinNum', join_num[data.yourNickname]);
-
-    //             if(join_num[data.yourNickname][1] == 0){
-    //                 rooms
-    //             }
-
-    //         } else if(join_num[data.myNickname].indexOf(data.yourNickname) != -1) {
-    //             join_num[data.myNickname][1]--;
-    //             io.to(users[data.yourNickname]).emit('getJoinNum', join_num[data.myNickname]);
-    //             io.to(users[data.myNickname]).emit('getJoinNum', join_num[data.myNickname]);
-    //         }
-    //         console.log("퇴장 후! join_num?", join_num)
-    //         // socket.emit('rmRooms',(data));
-    //     } else {
-
-    //         // 둘 다 서로가 없는 상태였다면
-    //         if(join_num[data.yourNickname].indexOf(data.myNickname) == -1 && join_num[data.yourNickname].indexOf(data.myNickname) == -1) {
-    //             join_num[data.myNickname] = [data.yourNickname, 1];
-    //             console.log("둘 다 서로 없는 상태!", join_num);
-    //         // } else if((join_num[data.yourNickname][0] == data.myNickname && join_num[data.yourNickname][1] == 0) ||
-    //         // (join_num[data.myNickname][0] == data.yourNickname && join_num[data.myNickname][1] == 0)){
-    //         //     join_num[data.myNickname] = [data.yourNickname, 1];
-    //         }
-
-    //         // 둘 중 한명이라도 다른 한명을 기다리는 중이었다면 혹은 기록이 있다면
-    //         else if(join_num[data.yourNickname].indexOf(data.myNickname) != -1 
-    //         || join_num[data.myNickname].indexOf(data.yourNickname) != -1){
-    //             if(join_num[data.yourNickname].indexOf(data.myNickname) != -1){
-    //                 join_num[data.yourNickname][1]++;
-    //                 io.to(users[data.yourNickname]).emit('getJoinNum', join_num[data.yourNickname]);
-    //                 io.to(users[data.myNickname]).emit('getJoinNum', join_num[data.yourNickname]);
-    //             } else if(join_num[data.myNickname].indexOf(data.yourNickname) != -1){
-    //                 join_num[data.myNickname][1]++;
-    //                 io.to(users[data.yourNickname]).emit('getJoinNum', join_num[data.myNickname]);
-    //                 io.to(users[data.myNickname]).emit('getJoinNum', join_num[data.myNickname]);
-    //             }
-    //         }
-    //     }
-    //     console.log("join_num", join_num);
-    //     console.log("rooms!", rooms);
-    // })
 
     socket.on('callRooms', function(data) {
         io.to(users[data]).emit('getRooms', rooms[data]);
@@ -201,7 +71,8 @@ io.on('connection' , function(socket) {
 
             let msg = {
                 sender : data.myNickname,
-                msg : data.myNickname + " : " + data.message + "\n"
+                msg : data.msg,
+                time : data.time,
             }
             io.to(users[data.yourNickname]).emit('recvMsg', msg);
         } else if(data.type == 0) {
@@ -209,7 +80,8 @@ io.on('connection' , function(socket) {
 
             let msg = {
                 sender : data.myNickname,
-                msg : data.myNickname + "님이 입장하셨습니다." + "\n"
+                msg : data.myNickname + "님이 입장하셨습니다." + "\n",
+                type : 0
             }
             // 입장하는 순간 상대방에게 메세지 보내기
             io.to(users[data.yourNickname]).emit('recvMsg', msg);
@@ -268,7 +140,8 @@ io.on('connection' , function(socket) {
 
             let msg = {
                 sender : data.myNickname,
-                msg : data.myNickname + "님이 퇴장하셨습니다." + "\n"
+                msg : data.myNickname + "님이 퇴장하셨습니다." + "\n",
+                type : 1
             }
             // 상대방에게 퇴장 메세지 보내기
             io.to(users[data.yourNickname]).emit('recvMsg', msg);
@@ -307,47 +180,7 @@ io.on('connection' , function(socket) {
                 io.to(users[data.yourNickname]).emit('getRooms', rooms[data.yourNickname]);
 
             }
-        }
-
-        
-        // // 2-2. 두 user 의 room 을 최신화(새로 생길 방이면 type = 0, 기존에 있는 방이면 type = 1)
-        // var type = 0;
-        // // console.log("hi1",rooms[data.myNickname]);
-        // for(var i = 0 ; i < rooms[data.yourNickname].length ; i++){
-        //     // console.log("name : " + name);
-        //     if(rooms[data.yourNickname][i] == data.myNickname){
-        //         type = 1;
-        //         break;
-        //     }
-        // }
-        
-        // var sendMsg = {
-        //     sender : data.myNickname,
-        //     message : data.message,
-        //     type: data.type,
-        // }
-        
-        // // 새로 생길 방이기 때문에 rooms 에 데이터 추가
-        // if(type == 0){
-        //     if(rooms[data.yourNickname] == undefined) rooms[data.yourNickname] = [];
-        //     if(rooms[data.myNickname] == undefined) rooms[data.myNickname] = [];
-
-        //     if(rooms[data.myNickname].indexOf(data.yourNickname) == -1) {
-        //         // console.log("my : " + data.myNickname + " has " + "your : " + data.yourNickname);
-        //         rooms[data.myNickname].push(data.yourNickname);
-        //     }
-        //     if(rooms[data.yourNickname].indexOf(data.myNickname) == -1) {
-        //         // console.log("your : " + data.yourNickname + " has " + "my : " + data.myNickname);
-        //         rooms[data.yourNickname].push(data.myNickname);
-        //     }
-      
-        //     io.to(users[data.yourNickname]).emit('giveRooms', rooms[data.yourNickname]);
-        // } else {
-        //     // 3. back 에서 특정인에게 보낸다.
-        //     io.to(users[data.yourNickname]).emit('recvMsg', sendMsg);
-        // }
-
-    
+        }    
     })
 
 }) 
