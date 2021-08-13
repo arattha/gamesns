@@ -16,9 +16,6 @@
   top: 0;
 }
 
-.modal {
-  width: 80vw;
-}
 .overlay {
   opacity: 0.5;
   background-color: black;
@@ -61,7 +58,15 @@
   float: left;
   height: 40px;
   width: 40px;
+  object-fit: cover;
 }
+
+.profile-image img {
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+}
+
 .feed-item .content {
   padding-left: 10px;
   padding-right: 10px;
@@ -147,7 +152,8 @@ button {
   padding: 0px;
   width: 100vw;
   height: 100vw;
-  object-fit: contain;
+  /* object-fit: contain; */
+  object-fit: cover;
 }
 
 .mcardbox-item div {

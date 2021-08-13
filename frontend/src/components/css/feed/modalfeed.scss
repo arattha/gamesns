@@ -10,29 +10,37 @@
 }
 
 .mffimg img {
+    width: 100vw;
     height: 100vw;
 }
 
 @media (min-width: 320px) and (max-width: 767px) {
-	.modal-res, .modal-card {
+	.modal-res {
+        margin: 0px;
         width: 100vw;
     }
 
     .mffimg img {
+        width: 100vw;
         height: 100vw;
     }
 
     .mimage-slider button {
         height: 100vw;
     }
+
+    .overlay {
+        visibility: hidden;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-	.modal-res, .modal-card {
+	.modal-res {
         width: 70vw;
     }
 
     .mffimg img {
+        width: 70vw;
         height: 70vw;
     }
 
@@ -42,11 +50,12 @@
 }
 
 @media (min-width: 1024px) {
-	.modal-res, .modal-card {
+	.modal-res {
         width: 40vw;
     }
 
     .mffimg img {
+        width: 40vw;
         height: 40vw;
     }
 
