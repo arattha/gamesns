@@ -215,6 +215,17 @@ const requestSearch = (data, callback, errorCallback) => {
     });
 }
 
+const requestHashtagBoard = (data, callback, errorCallback) => {
+  http
+    .get(`/search/hashtag`, { params: data })
+    .then(({ data }) => {
+      callback(data);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+}
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
@@ -243,6 +254,8 @@ const UserApi = {
     requestReplyList(data, callback, errorCallback),
   requestSearch: (data, callback, errorCallback) =>
     requestSearch(data, callback, errorCallback),
+  requestHashtagBoard: (data, callback, errorCallback) =>
+    requestHashtagBoard(data, callback, errorCallback),
 };
 
 export default UserApi;
