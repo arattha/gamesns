@@ -154,12 +154,17 @@ public class AccountController {
 
             // img 파일 이름 설정 및 경로 지정
             String filePath = "C://upload//";
-            String originFile = request.getMultipartFile().getOriginalFilename();
-            String originalFileExtension = originFile.substring(originFile.lastIndexOf("."));
-            String storedFileName = request.getUid() + originalFileExtension;
-            File file = new File(filePath + storedFileName);
+            String storedFileName = "";
 
-            request.getMultipartFile().transferTo(file);
+            if(request.getMultipartFile() != null) {
+                String originFile = request.getMultipartFile().getOriginalFilename();
+                String originalFileExtension = originFile.substring(originFile.lastIndexOf("."));
+                storedFileName = request.getUid() + originalFileExtension;
+                File file = new File(filePath + storedFileName);
+
+                request.getMultipartFile().transferTo(file);
+
+            }
 
             if(service.updateMember(member, request, filePath + storedFileName)) {
                 result.status = true;

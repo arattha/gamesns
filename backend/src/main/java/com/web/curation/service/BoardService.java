@@ -51,7 +51,7 @@ public class BoardService {
 			boardList = boardDao.findFollowFeed(longbid, paging);
 		}
 		List<ResponseBoard> resboard = new ArrayList<>();
-		
+
 		for (Board board : boardList) {
 			resboard.add(new ResponseBoard(board,imgFileDao.findImgFileByBid(board.getBid()),memberDao.findByUid(board.getUid()).get().getNickname()));
 		}
@@ -59,7 +59,7 @@ public class BoardService {
 		return resboard;
 
 	}
-	
+
 	public Object bEqualList(String uid, String bid){
 		
 		long longbid;
@@ -86,6 +86,7 @@ public class BoardService {
 		Board board = new Board();
 		board.setUid(newBoard.getUid());
 		board.setContents(newBoard.getContent());
+		board.setHashtags(newBoard.getHashtags());
 		board = boardDao.save(board);
 		
 		String path = "C:\\upload";

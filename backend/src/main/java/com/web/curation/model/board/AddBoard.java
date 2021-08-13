@@ -20,7 +20,11 @@ public class AddBoard {
     @ApiModelProperty(required = true)
     @NotNull
     String content;
-    
+
+    @ApiModelProperty(required = true)
+    @NotNull
+    String hashtags;
+
     @ApiModelProperty(required = false)
     MultipartFile[] multipartFiles;
     

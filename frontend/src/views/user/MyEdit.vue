@@ -154,7 +154,7 @@ export default {
 
                 formData.append('uid',this.uid);
                 formData.append('nickname',this.newNickname);
-                formData.append('multipartFile', this.file);
+                if(this.file != null) formData.append('multipartFile', this.file);
 
                 UserApi.requestUpdateUser(formData
                 ,() => {
@@ -165,6 +165,13 @@ export default {
                 ,() => {
                     this.isSubmit = true;
                 })
+
+                // 회원 정보 수정 후 socketio 에 닉네임, id 최신화
+                this.$socketio.emit('updateUser', {
+                    id: this.$socketio.id,
+                    nickname: this.nickname,
+                })
+
             } else {
                 alert("중복체크를 눌러주세요.");
             }
