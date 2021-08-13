@@ -11,17 +11,14 @@
       <div class="select-boxes">
         <div class="game-select-box">
           <select v-model="selectedGame" class="select-box">
-            <option value="1">리그오브레전드</option>
-            <option value="2">좀비 vs 플랜트</option>
-            <option value="3">후르츠닌자</option>
+            <option value="LeagueOfLegends">리그오브레전드</option>
           </select>
           <p>원하는 게임을 선택하세요</p>
         </div>
         <div class="number-select-box">
           <select v-model="selectedPeople" class="select-box">
-            <option value="1">1</option>
             <option value="2">2</option>
-            <option value="3">3</option>
+            <option value="5">5</option>
           </select>
           <p>원하는 인원을 선택하세요</p>
         </div>
