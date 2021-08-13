@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap");
 
 
-img{ width:40px;
+.profile_img{ width:40px;
   height: 40px;}
   .inbox_people {
     position: relative;

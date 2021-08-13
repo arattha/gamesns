@@ -28,7 +28,7 @@
                 class="incoming_msg"
               >
                 <div class="incoming_msg_img">
-                  <img :src="`http://localhost:8080/account/file/` + yourid" />
+                  <img class="profile_img" :src="`http://localhost:8080/account/file/` + yourid" />
                 </div>
                 <div class="received_msg">
                   <div class="received_withd_msg">

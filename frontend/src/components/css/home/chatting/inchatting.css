@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap");
 
 
-img {
+.profile_img {
   width: 25px;
   height: 25px;
   border-radius:50%;
