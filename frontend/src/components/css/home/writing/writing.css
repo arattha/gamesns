@@ -1,7 +1,38 @@
 @charset "utf-8";
 
+.imgPreviewDiv {
+  padding-top: 0.6rem;
+  height: 6em;
+  width: 100%;
+  white-space: nowrap; /* 가로스크롤시 중요한 속성 */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.internalImgPreviewDiv {
+  height: 85%;
+  width: 3rem;
+  border: 0.5px solid lightgray;
+  position: relative;
+  display: inline-block;
+  margin-right: 1em;
+}
+
+.fileDeleteButton {
+  position: absolute;
+  width: 1.2rem;
+  height: 1.2rem;
+  top: -0.8rem;
+  left: 2.5rem;
+  cursor: pointer;
+}
+
+.red {
+  color: red;
+}
+
 .Writing-container {
-    margin-top: 15%;
+  margin-top: 0;
 }
 
 .text-input {
@@ -28,7 +59,7 @@
 }
 
 .Writing-top {
-  margin-top: 30px;
+  margin: 15px 0px;
   display: flex;
   justify-content: space-around;
   bottom: 100px;
@@ -44,7 +75,7 @@
   font-family: 'Nanum Gothic', sans-serif;
   height: 25px;
   width: 100%;
-  margin-top: 15px;
+  margin: 15px 0px;
   border: 2px solid rgba(255, 175, 10, 1);
 }
 

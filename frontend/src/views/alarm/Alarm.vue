@@ -56,7 +56,7 @@ export default {
   },
   created() {
     this.nickname = this.$store.state.nickname;
-    this.List = this.recvList[this.nickname];
+    if(this.recvList[this.nickname] != undefined) this.List = this.recvList[this.nickname];
   },
   watch: {
     recvList: function() {

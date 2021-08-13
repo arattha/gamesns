@@ -204,6 +204,17 @@ const requestReplyList = (data, callback, errorCallback) => {
     });
 };
 
+const requestSearch = (data, callback, errorCallback) => {
+  http
+    .get(`/search`, { params: data })
+    .then(({ data }) => {
+      callback(data);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+}
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
@@ -230,6 +241,8 @@ const UserApi = {
     requestAddReply(data, callback, errorCallback),
   requestReplyList: (data, callback, errorCallback) =>
     requestReplyList(data, callback, errorCallback),
+  requestSearch: (data, callback, errorCallback) =>
+    requestSearch(data, callback, errorCallback),
 };
 
 export default UserApi;

@@ -62,7 +62,9 @@
       <div class="cardbox-base">
         <div class="likebox">
           <Like :boardItem="boardItem" />
-          <Reply :boardItem="boardItem" />
+          <div class="replyShowContentBtn" @click="showContent">
+            <Reply :boardItem="boardItem" />
+          </div>
         </div>
         <div class="sharebox">
           <Sharelink :boardItem="boardItem" />
@@ -118,14 +120,14 @@ export default {
       this.img_src.push('http://localhost:8080/board/file/' + element.file_name);
     });
 
-        // 통으로 받아온 해시태그 스페이스바 기준으로 잘라서 temp_hashtaglist에 넣어주기
-    this.temp_hashtaglist = this.boardItem.hashtags.split(" ");
+    // 통으로 받아온 해시태그 스페이스바 기준으로 잘라서 temp_hashtaglist에 넣어주기
+    this.temp_hashtaglist = this.boardItem.hashtags.split(' ');
 
     // temp_hashtaglist에서 하나씩 꺼내서 검사 해준 후에, 유효한 해시태그들만 hashtag_list에 넣어주기
-    for (var i = 0; i <this.temp_hashtaglist.length; i++) {
-      if (this.temp_hashtaglist[i].indexOf('#')==0) {
-        if (this.temp_hashtaglist[i].length>=2){
-          this.hashtag_list.push(this.temp_hashtaglist[i])
+    for (var i = 0; i < this.temp_hashtaglist.length; i++) {
+      if (this.temp_hashtaglist[i].indexOf('#') == 0) {
+        if (this.temp_hashtaglist[i].length >= 2) {
+          this.hashtag_list.push(this.temp_hashtaglist[i]);
         }
       }
     }
@@ -215,5 +217,9 @@ export default {
 <style lang="scss">
 .boardContent {
   word-break: break-all;
+}
+
+.replyShowContentBtn {
+  cursor: pointer;
 }
 </style>

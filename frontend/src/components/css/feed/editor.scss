@@ -1,12 +1,12 @@
 .editor-div {
   border: 2px solid rgba(255, 175, 10, 1);
-  height: unquote('max(280px, 40vh)');
-  max-height: unquote('max(280px, 40vh)');
+  height: unquote('max(200px, 15vh)');
+  max-height: unquote('max(200px, 15vh)');
 }
 
 .editorContent {
   overflow: auto;
-  padding: 1.25rem 1rem;
+  padding: 0.5rem;
   -webkit-overflow-scrolling: touch;
   height: 100%;
 }
