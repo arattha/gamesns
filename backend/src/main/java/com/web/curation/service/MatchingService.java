@@ -1,14 +1,6 @@
 package com.web.curation.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.PostConstruct;
@@ -43,6 +35,9 @@ public class MatchingService {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private DiscordService discordService;
 
     @PostConstruct
     private void setUp() {
@@ -111,7 +106,23 @@ public class MatchingService {
             for (int i = 0; i < 2; i++) {
             	roomUserKey.add(itr.next());
 			}
-            
+
+            // 여기서 계정정보를 디코로 넘겨서
+            // 디코가 생성된 방 주소를 준다.
+            List<String> userTagList = new ArrayList<String>();
+            for (MatchingRequest matchingRequest : roomUserKey) {
+//                userTagList.add();
+            }
+
+            // 방을 생성하고 초대코드를 가져온다
+            Optional<String> getUrl = discordService.createChannel("hamgo?", userTagList);
+
+            String url = "";
+            if (getUrl.isPresent()) {
+                url = getUrl.get();
+            } else {
+                // url을 못갖고 오는 경우를 처리
+            }
             //MatchingRequest user1 = itr.next();
             //MatchingRequest user2 = itr.next();
 
