@@ -11,6 +11,8 @@ import Following from './views/user/Following.vue';
 import Follower from './views/user/Follower.vue';
 import Search from './components/home/search/Search.vue';
 import Matching from './components/home/matching/Matching.vue';
+import MatchingStart from './components/home/matching/MatchingStart.vue';
+import MatchingResult from './components/home/matching/MatchingResult.vue';
 import Writing from './components/home/writing/Writing.vue';
 import Alarm from './views/alarm/Alarm.vue';
 import UserPage from './views/user/UserPage.vue';
@@ -108,6 +110,16 @@ export default [
     path: '/matching',
     name: 'Matching',
     component: Matching,
+  },
+  {
+    path: '/matchingStart',
+    name: 'MatchingStart',
+    component: MatchingStart,
+  },
+  {
+    path: '/matchingResult',
+    name: 'MatchingResult',
+    component: MatchingResult,
   },
   {
     path: '/alarm',

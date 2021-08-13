@@ -59,7 +59,6 @@ public class MatchingService {
         if (request == null || deferredResult == null) {
             return;
         }
-        
         try {
             lock.writeLock().lock();
             if(waitingQueue.containsKey(request.getGameName())) {//이미 생성된 키가 있으면
@@ -104,7 +103,7 @@ public class MatchingService {
                 return;
             }
             
-            //이곳에서 형한테 유저 정보 던져야함.
+            //Discord -- >이곳에서 형한테 유저 정보 던져야함.
 
             Iterator<MatchingRequest> itr = waitingQueue.get(request.getGameName()).keySet().iterator();
             
@@ -126,10 +125,9 @@ public class MatchingService {
             //DeferredResult<MatchingResponse> user1Result = waitingUsers.remove(user1);
             //DeferredResult<MatchingResponse> user2Result = waitingUsers.remove(user2);
             
-            //얘가 반환이 되어야함.
             
             for (int i = 0; i < 2; i++) {
-            	roomUserValue.get(i).setResult(new MatchingResponse(ResponseResult.SUCCESS, uuid, roomUserKey.get(i).getSessionId()));
+            	roomUserValue.get(i).setResult(new MatchingResponse(ResponseResult.SUCCESS, uuid, roomUserKey.get(i).getSessionId(), roomUserKey));
 			}
             
             //user1Result.setResult(new MatchingResponse(ResponseResult.SUCCESS, uuid, user1.getSessionId()));
@@ -152,6 +150,7 @@ public class MatchingService {
     }
 
     public void disconnectUser(String websocketSessionId) {
+    	System.out.println("종료 시도:"+connectedUsers.get(websocketSessionId));
         String matchingRoomId = connectedUsers.get(websocketSessionId);
         MatchingMessage matchingMessage = new MatchingMessage();
 
