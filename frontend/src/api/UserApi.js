@@ -248,6 +248,17 @@ const requestPeople = (data, callback, errorCallback) => {
     });
 }
 
+const requestDiscord = (data, callback, errorCallback) => {
+  http
+    .get(`/discord/check`, { params: data })
+    .then(({ data }) => {
+      callback(data);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+}
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
@@ -282,6 +293,8 @@ const UserApi = {
     requestGames(data, callback, errorCallback),
   requestPeople: (data, callback, errorCallback) =>
     requestPeople(data, callback, errorCallback),
+  requestDiscord: (data, callback, errorCallback) =>
+    requestDiscord(data, callback, errorCallback),
 };
 
 export default UserApi;

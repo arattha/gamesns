@@ -62,7 +62,7 @@ export default {
     this.matchingInfo = this.$route.params.data;
     if(this.matchingInfo == null) {
       alert('비정상적인 접근입니다.');
-      this.$router.push('/matching');
+      this.$router.push('/matchingBefore');
       
     }
   },
@@ -84,7 +84,7 @@ export default {
         this.join();
       } else if (type == '매칭중지') {
         this.cancel();
-        this.$router.push('/matching');
+        this.$router.push('/matchingBefore');
       }
     },
     join(){
@@ -95,7 +95,7 @@ export default {
       }, 1000);
 
       http
-        .get("/matching/join", { params: { gameName : this.matchingInfo.selectedGame , peopleLimit : this.matchingInfo.selectedPeople  , uid : this.$store.state.uid } })
+        .get("/matching/join", { params: { gameName : this.matchingInfo.selectedGame , peopleLimit : this.matchingInfo.selectedPeople ,discordId:this.matchingInfo.discordId , uid : this.$store.state.uid } })
         .then((matchingResponse) => {
 
           console.log('Success to receive join result.');
@@ -142,7 +142,7 @@ export default {
     cancel(){ //매칭 멈추기
       this.matchedUser = null;
       http
-        .get("/matching/cancel", { params: { gameName : this.matchingInfo.selectedGame , peopleLimit : this.matchingInfo.selectedPeople , uid : this.$store.state.uid } })
+        .get("/matching/cancel", { params: { gameName : this.matchingInfo.selectedGame , peopleLimit : this.matchingInfo.selectedPeople ,discordId:this.matchingInfo.discordId ,uid : this.$store.state.uid } })
         .then(() => {
           //this.updateText('', false);
           document.querySelector('#btnJoin').innerText = '함고?';
@@ -205,7 +205,7 @@ export default {
           // message += result.message + '\n';
         } else if (result.messageType == 'DISCONNECTED') {
           alert('매칭이 거절되었습니다.');
-          this.$router.push('/matching');
+          this.$router.push('/matchingBefore');
           //message = '>> Disconnected user :(';
           this.disconnect();
         }

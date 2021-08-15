@@ -46,6 +46,7 @@ export default {
     return{
       selectedGame : "",
       selectedPeople: "",
+      discordId: this.$route.params.data.discordId,
       games:[],
       people:["게임을 선택해주세요."],
     }
@@ -76,6 +77,7 @@ export default {
   methods: {
     clickEvent(){
       let data = {
+        discordId : this.discordId,
         selectedGame : this.selectedGame ,
         selectedPeople : this.selectedPeople,
       }
