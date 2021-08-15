@@ -11,6 +11,7 @@ import Following from './views/user/Following.vue';
 import Follower from './views/user/Follower.vue';
 import Search from './components/home/search/Search.vue';
 import Hashtagsearch from './components/home/search/Hashtagsearch.vue';
+import MatchingBefore from './components/home/matching/MatchingBefore.vue';
 import Matching from './components/home/matching/Matching.vue';
 import MatchingStart from './components/home/matching/MatchingStart.vue';
 import MatchingResult from './components/home/matching/MatchingResult.vue';
@@ -111,6 +112,11 @@ export default [
     path: '/chatting',
     name: 'Chatting',
     component: Chatting,
+  },
+  {
+    path: '/matchingBefore',
+    name: 'MatchingBefore',
+    component: MatchingBefore,
   },
   {
     path: '/matching',

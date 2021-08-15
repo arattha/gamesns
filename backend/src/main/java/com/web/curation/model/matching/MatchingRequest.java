@@ -10,14 +10,16 @@ public class MatchingRequest {
     private String sessionId;
     private String gameName;
     private String peopleLimit;
+    private String discordId;
     private String uid;
     private String key;
     
-	public MatchingRequest(String sessionId, String gameName, String peopleLimit, String uid) {
+	public MatchingRequest(String sessionId, String gameName, String peopleLimit, String discordId ,String uid) {
 		super();
 		this.sessionId = sessionId;
 		this.gameName = gameName;
 		this.peopleLimit = peopleLimit;
+	    this.discordId = discordId;
 		this.uid = uid;
 		this.key = this.gameName + this.peopleLimit;
 	}
