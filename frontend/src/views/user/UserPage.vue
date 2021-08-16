@@ -33,11 +33,11 @@
             <div class="intro">저는 강아지를 좋아합니다.</div>
 					</div>
 					<!-- 팔로우 팔로잉 버튼 -->
-          <div class="follow">
+          <div class="follow mb-2">
             <!-- Follow 상태면 팔로잉 버튼을 보여주고 Follow 상태가 아니면 팔로우 버튼을 보여준다.  -->
             <div class="follow_btn" v-if="isFollow" @click="send">팔로우</div>
-            <div class="follow_btn" style="background: blue" v-else>팔로잉</div>
-						<div class="chat_btn">채팅</div>
+            <div class="follow_btn" v-else style="background: #A7CDFB" @click="cancel">팔로잉</div>
+						<!-- <div class="chat_btn">채팅</div> -->
           </div>
           <MannerSelect :userInfo="userInfo"/>
 				</div>
@@ -129,54 +129,72 @@ export default {
         this.nickname = this.$store.state.nickname;
         this.userInfo = this.$route.params.suggest;
         this.getBoardItems();
+        this.getFollowing();
+        this.getFollower();
         
-        // console.log("userinfo",this.userInfo);
-        UserApi
-            .requestFollowing({from:this.userInfo.uid}
-            ,((res) => {
-                console.log(res);
-                this.userFollowing = res;
-                
-                this.userFollowing.forEach(f => {
-                    if(this.nickname == f.toNickname){
-                        this.isFollow = false;
-                    }
-                })
-            })
-            ,(() => {})
-        )
 
-        UserApi
-            .requestFollower({to:this.userInfo.uid}
-            ,((res) => {
-                this.userFollower = res;
-            })
-            ,(() => {})
-        )
+        
     },
     mounted(){
         window.addEventListener('scroll', this.handleScroll);
     },
     methods:{
+        getFollowing(){
+            UserApi
+                .requestFollowing({from:this.userInfo.uid}
+                ,((res) => {
+                    this.userFollowing = res;
+                })
+                ,(() => {})
+            )
+        },
+        getFollower(){
+            UserApi
+                .requestFollower({to:this.userInfo.uid}
+                ,((res) => {
+                    this.userFollower = res;
 
+                    for(let d of res) {
+                        if(d.nickname == this.nickname) {
+                            this.isFollow = false;
+                            break;
+                        }
+                    }
+                })
+                ,(() => {})
+            )
+        },
         showFollowing() {
             this.$router.push({name:"Following", params: {following : this.userFollowing, id: this.userInfo.id}});
         },
         showFollower() {
-            console.log("heyhey", this.userInfo);
             this.$router.push({name:"Follower", params: {follower : this.userFollower, id: this.userInfo.id}});
         },
         send() {
+            const msg = {
+                uid: this.$store.state.uid,
+                memberName: this.nickname,
+                followingName: this.userInfo.nickname
+            };
             if (this.stompClient && this.stompClient.connected) {
-                const msg = {
-                    memberName: this.nickname,
-                    followingName: this.userInfo.nickname
-                };
                 this.stompClient.send("/receive", JSON.stringify(msg), {});
             }
-
-            // 팔로우 버튼 '팔로잉' 으로 변환
-
+        },
+        cancel(){
+            // 팔로잉 취소하기
+            UserApi
+                .requestFollowUpdate({
+                    fromNickname: this.nickname,
+                    toNickname: this.userInfo.nickname,
+                    type: -1
+                },
+                (() => {
+                    alert("팔로우 관계를 취소했습니다.")
+                    this.isFollow = true;
+                    this.getFollower();
+                }),
+                (() => {})
+                )
         },
         getBoardItems(){
             let data;
@@ -205,7 +223,6 @@ export default {
             let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
             let windowHeight = window.innerHeight; // 스크린 창
             let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
-            //console.log(document.documentElement.scrollTop);
 
             if(( Math.abs(parseInt(fullHeight) - parseInt(scrollLocation + windowHeight)) < 3  ) && parseInt(scrollLocation) != 0){
                 if( timer == null ){
