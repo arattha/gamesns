@@ -104,7 +104,6 @@ const requestFollower = (data, callback, errorCallback) => {
 };
 
 const requestFollowUpdate = (data, callback, errorCallback) => {
-  console.log('data', data);
 
   let data2 = {
     fromNickname: data.fromNickname,

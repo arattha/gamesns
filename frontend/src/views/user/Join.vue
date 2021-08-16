@@ -9,9 +9,17 @@
     <div class="join-container join-res">
       <div class="login-box">
         <div class="logo-box">
-          <img src="@/assets/images/logo2.png" alt="" style="width: 90%; height: auto;" />
+          <img
+            src="@/assets/images/logo2.png"
+            alt=""
+            style="width: 90%; height: auto;"
+          />
         </div>
-        <h5 style="margin-bottom: 40px; font-family: 'Nanum Gothic', sans-serif;">회원가입</h5>
+        <h5
+          style="margin-bottom: 40px; font-family: 'Nanum Gothic', sans-serif;"
+        >
+          회원가입
+        </h5>
 
         <div>
           <input
@@ -34,7 +42,9 @@
             @click="dupCheck"
           />
           <label for="nickname"></label>
-          <div iv class="error-text" v-if="error.nickname">{{ error.nickname }}</div>
+          <div iv class="error-text" v-if="error.nickname">
+            {{ error.nickname }}
+          </div>
         </div>
         <button
           class="join-btn"
@@ -47,20 +57,23 @@
       </div>
     </div>
     <div>
-      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
+      <link
+        href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css"
+        rel="stylesheet"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import UserApi from '../../api/UserApi';
-import { mapActions, mapGetters } from 'vuex';
-import { login } from '../../common/UserLogin';
+import UserApi from "../../api/UserApi";
+import { mapActions, mapGetters } from "vuex";
+import { login } from "../../common/UserLogin";
 
 export default {
   data: () => {
     return {
-      nickname: '',
+      nickname: "",
       isDup: false,
       error: {
         nickname: false,
@@ -74,10 +87,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setNickname']),
+    ...mapActions(["setNickname"]),
     checkForm() {
       // nickname 중복 확인 필요
-      if (this.nickname.length == 0) this.error.nickname = '닉네임은 한 글자 이상이어야 합니다.';
+      if (this.nickname.length == 0)
+        this.error.nickname = "닉네임은 한 글자 이상이어야 합니다.";
       else this.error.nickname = false;
 
       let isSubmit = true;
@@ -106,23 +120,23 @@ export default {
 
               this.setNickname(this.nickname);
 
-              console.log('dasda', this.uid);
+              console.log("dasda", this.uid);
 
               let status = login(this.uid);
 
               if (status) {
-                this.$router.push('/main');
+                this.$router.push("/main");
               } else {
-                alert('오류가 발생했습니다. 다시 시도해주세요.');
-                this.$router.push('/');
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+                this.$router.push("/");
               }
             } else {
-              alert('문제가 생겼습니다. 다시 시도해주세요.');
-              this.$router.push('/');
+              alert("문제가 생겼습니다. 다시 시도해주세요.");
+              this.$router.push("/");
             }
           },
           (error) => {
-            if (error) this.$router.push('/error');
+            if (error) this.$router.push("/error");
             this.isSubmit = true;
           }
         );
@@ -136,24 +150,26 @@ export default {
       if (!this.error.nickname) {
         UserApi.requestDupCheck(
           this.nickname,
-          () => {
-            alert('사용 가능한 아이디 입니다.');
-            this.isDup = true;
-            this.checkForm();
+          (res) => {
+            if (res.data.data == "fail") {
+              alert("사용 중인 닉네임입니다.");
+            } else {
+              alert("사용가능한 닉네임입니다.");
+              this.isDup = true;
+              this.checkForm();
+            }
           },
-          () => {
-            alert('사용중인 아이디 입니다.');
-          }
+          () => {}
         );
       }
     },
   },
   computed: {
-    ...mapGetters(['uid']),
+    ...mapGetters(["uid"]),
   },
 };
 </script>
 
 <style>
-@import '../../components/css/user/join.css';
+@import "../../components/css/user/join.css";
 </style>

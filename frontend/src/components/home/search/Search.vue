@@ -108,7 +108,6 @@ export default {
     },
     recentSearch(user) {
       this.recentUser(user);
-
       UserApi.requestGetUser(
         user,
         (res) => {

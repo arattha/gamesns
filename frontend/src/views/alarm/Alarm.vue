@@ -10,7 +10,7 @@
           <li class="list" v-for="(user, index) in List" :key="index">
           <div class="small-user-img-div">
               <img
-                :src="`http://i5c203.p.ssafy.io/api/account/file/` + user.uid"
+                :src="`http://localhost:8080/account/file/` + user.uid"
                 class="small-user-img"
               />
               <!-- 임의의 이미지가 들어가는거라, user의 프로필사진이 나오게 해야 함. -->
@@ -56,7 +56,12 @@ export default {
   },
   created() {
     this.nickname = this.$store.state.nickname;
-    if(this.recvList[this.nickname] != undefined) this.List = this.recvList[this.nickname];
+    try {
+      this.List = this.recvList[this.nickname];
+    } catch(err) {
+      // console.log(err)
+    }
+    // if(this.recvList[this.nickname] != null) this.List = this.recvList[this.nickname];
   },
   watch: {
     recvList: function() {
@@ -67,17 +72,18 @@ export default {
     go(u, n) {
       // WebSocket 의 알림 리스트에서 해당 항목 삭제
       let data = {
-        memberName: u,
+        uid: u.uid,
+        memberName: u.nickname,
         followingName: this.nickname,
       };
-      console.log('alarm', data);
+      
       this.stompClient.send('/receive', JSON.stringify(data), {});
 
       if (n == 1) {
         // Follow 관련 테이블에서 해당 항목 추가
         UserApi.requestFollowUpdate(
           {
-            fromNickname: u,
+            fromNickname: u.nickname,
             toNickname: this.nickname,
             type: 0,
           },
