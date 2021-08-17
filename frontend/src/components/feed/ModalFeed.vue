@@ -19,12 +19,10 @@
                 </p>
               </div>
             </div>
+            <Dropdown v-if="mine" :boardItem="boardItem"/>
             <!-- 종료 버튼 -->
             <div class="close-icon" @click="$emit('close-modal')">
-              <i class="fas fa-times"></i>
-            </div>
-            <div class="ellipsis">
-              <img src="@/assets/images/ellipsis.png" alt="" />
+            <i class="fas fa-times"></i>
             </div>
           </div>
           <!-- 이미지-->
@@ -58,11 +56,6 @@
               </div>
             </div>
           </div>
-
-          <form class="edit-form">
-            <b-button class="edit-btn" variant="outline-secondary">수정</b-button>
-            <b-button class="delete-btn" variant="outline-danger">삭제</b-button>
-          </form>
 
           <div class="cardbox-base">
             <div class="likebox">
@@ -136,6 +129,7 @@ import UserApi from '../../api/UserApi';
 import Sharelink from './Sharelink';
 import Like from './Like';
 import Reply from './Reply';
+import Dropdown from './Dropdown';
 import Vue from 'vue';
 import vueMoment from 'vue-moment';
 import moment from 'moment';
@@ -155,6 +149,7 @@ export default {
     Sharelink,
     Like,
     Reply,
+    Dropdown,
   },
   data: () => {
     return {
@@ -172,6 +167,7 @@ export default {
       url: '',
       replyList: [],
       now_reply_num: 0,
+      mine: 0,
     };
   },
   mounted() {
@@ -204,6 +200,11 @@ export default {
     $modalScroll.addEventListener('scroll', (e) => this.handleScroll(e));
   },
   created() {
+    this.uid = this.$store.state.uid;
+    if (this.uid == this.boardItem.uid) {
+      this.mine = true
+    }
+
     this.boardItem.imgFiles.forEach((element) => {
       this.img_src.push('http://localhost:8080/board/file/' + element.file_name);
     });
