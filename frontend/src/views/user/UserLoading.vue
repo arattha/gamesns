@@ -12,7 +12,7 @@
         <!-- Login Form -->
         <div class="user-loading-container">
           <div class="user-loading"></div>
-          <div id="loading-text">loading</div>
+          <div id="user-loading-text">loading</div>
         </div>
       </div>
     </div>
