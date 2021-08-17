@@ -60,9 +60,6 @@ export default {
         score: this.score
       };
 
-      console.log('dkdkljdkdsajlkadsklj')
-      console.log(data)
-
       http
       .put('/member/manner', data)
       .then(({data}) => {
@@ -71,7 +68,6 @@ export default {
       })
       .catch((err) => {
         console.log('addmanner 실패')
-        console.log(data)
         console.log(err)
 
       })
