@@ -11,7 +11,6 @@ var io = require("socket.io")(server, {
       }
 });
 
-io.connect('https://localhost', {secure: true});
 // user 들의 socket.id
 var users = {};
 // user 들의 room list
