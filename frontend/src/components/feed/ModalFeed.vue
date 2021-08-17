@@ -392,6 +392,7 @@ export default {
 
 .modal-container .likeBtn{
   margin-right: 15px;
+}
 
 .modalContent {
   margin: 15px 10px;
