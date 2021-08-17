@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <div id="main-content" class="matching-container">
+    <div id="main-content" class="start-container">
       <!--
       <div class="row">
         <textarea id="chat-content" v-model="textarea" rows="20" style="width:100%; height:50%;" readonly></textarea>
@@ -24,17 +24,13 @@
         </div>
       </div>
 
-      <div class="loading-container" v-if="matchedUser.length == 0">
-        <div class="loading"></div>
-        <div id="loading-text">matching</div>
+      <div class="mloading-container" v-if="matchedUser.length == 0">
+        <div class="mloading"></div>
+        <div id="mloading-text">matching</div>
       </div>
 
-      <span><button class="matching-start-btn game-btn" id="btnJoin" style="">함고?</button></span>
-      <span
-        ><button class="matching-accept-btn game-btn" id="btnSend" v-if="matchedUser" style="">
-          매칭수락
-        </button></span
-      >
+      <button class="matching-start-btn game-btn" id="btnJoin" style="">함고?</button>
+      <button class="matching-accept-btn game-btn" id="btnSend" v-if="matchedUser" style="">매칭수락</button>
       <!--<button class="matching-start-btn game-btn" id="btnSend"> 보내기 </button>-->
     </div>
     <Footer />
@@ -287,33 +283,7 @@ export default {
 </script>
 <style>
 @import '../../../components/css/home/matching/matchingStart.css';
+@import '../../../components/css/home/matching/start.scss';
 @import '../../../components/css/user/login.css';
 @import '../../../components/css/user/loading.css';
-
-.loading-container,
-.loading {
-  top: 100px;
-  height: 100px;
-  position: relative;
-  width: 100px;
-  border-radius: 100%;
-}
-
-#loading-text {
-  -moz-animation: loading-text-opacity 2s linear 0s infinite normal;
-  -o-animation: loading-text-opacity 2s linear 0s infinite normal;
-  -webkit-animation: loading-text-opacity 2s linear 0s infinite normal;
-  animation: loading-text-opacity 2s linear 0s infinite normal;
-  color: #ffb937;
-  font-family: 'Helvetica Neue, ' Helvetica ', ' 'arial';
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 45px;
-  opacity: 0;
-  position: absolute;
-  text-align: center;
-  text-transform: uppercase;
-  top: 0;
-  width: 100px;
-}
 </style>
