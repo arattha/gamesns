@@ -390,6 +390,11 @@ export default {
   border-top-color: blue;
   animation: spinner 0.8s linear infinite;
 }
+
+.modal-container .likeBtn{
+  margin-right: 15px;
+}
+
 @import '../css/feed/modalfeed.css';
 @import '../css/feed/modalfeed.scss';
 </style>

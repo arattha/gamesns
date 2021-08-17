@@ -346,7 +346,11 @@
   z-index: initial;
   padding: 0px;
   object-fit: cover;
+  // object-fit: cover;
+  object-fit: contain;
+  background-color: #fafafa;
 }
+
 
 @include mobile {
   .ffimg img {

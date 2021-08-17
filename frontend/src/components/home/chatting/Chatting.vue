@@ -2,8 +2,7 @@
   <div>
     <Header />
     
-
-    <div class="inbox_people mt-2">
+    <div class="chatting-container">
           <div class="headind_srch">
             <div class="recent_heading">
               <h4>Chat</h4>

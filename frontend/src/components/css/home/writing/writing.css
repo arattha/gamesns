@@ -73,10 +73,11 @@
   color: #3f729b;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
   font-family: 'Nanum Gothic', sans-serif;
-  height: 25px;
+  height: 30px;
   width: 100%;
   margin: 15px 0px;
   border: 2px solid rgba(255, 175, 10, 1);
+  resize: none;
 }
 
 .Writing-bottom {

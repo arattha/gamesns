@@ -1,12 +1,12 @@
 <template>
-  <div class="likeBtn" @click="boardLiked" style="width: 3rem; display: flex; margin-right:5px;">
+  <div class="likeBtn" @click="boardLiked" style="width: 3rem; display: flex;">
     <div v-if="likes == 0">
       <p class="m-0" style="color:#ff8f00"><i class="far fa-heart fa-lg"></i></p>
     </div>
     <div v-if="likes > 0">
       <p class="m-0" style="color:#ff8f00"><i class="fas fa-heart fa-lg"></i></p>
     </div>
-    <p>{{ likelist.length }}</p>
+    <p style="margin-right:0px;">{{ likelist.length }}</p>
 
     <div>
       <link

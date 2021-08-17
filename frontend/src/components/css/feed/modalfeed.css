@@ -153,8 +153,9 @@ button {
   width: 100vw;
   height: 100vw;
   /* object-fit: contain; */
-  object-fit: cover;
+  object-fit: contain;
 }
+
 
 .mcardbox-item div {
   padding: 10px 10px;
@@ -259,4 +260,8 @@ button {
 .feed-item .close-icon {
   margin-right: 30px;
   font-size: 15px;
+}
+
+.modal-card :hover {
+  background-color: transparent;
 }

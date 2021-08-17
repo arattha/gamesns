@@ -99,5 +99,7 @@
 
   .for-empty-space-footer{
     display: block;
+    display: flex;
     height: 41px;
+    justify-content: center;
 }

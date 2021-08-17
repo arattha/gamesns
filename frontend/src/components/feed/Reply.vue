@@ -1,6 +1,6 @@
 <template>
-  <div style="display: flex">
-    <div><i class="far fa-comment fa-lg"></i></div>
+  <div style="display:flex; align-items: center;">
+      <i class="far fa-comment fa-lg m-0" style="width:19.5px;height:19.5px;"></i>
     <p v-if="now_reply_num > 0">{{now_reply_num}}</p>
     <p v-else>{{reply_num}}</p>
 

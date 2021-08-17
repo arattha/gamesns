@@ -1,7 +1,7 @@
 <template>
   <div>
         <a class="kakao" @click="openkakaoshare">
-            <i class="fas fa-share-alt fa-lg"></i>
+            <i class="fas fa-share-alt fa-lg" style="width:18px;height:18px"></i>
         </a>
         <head>
             <script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
@@ -16,7 +16,13 @@ export default {
     props: ['boardItem'],
     methods: {
         openkakaoshare: function () {
-            window.Kakao.init('95193d8232dc43a8e06b95a27d2bd1ce')
+            try {
+                if (window.Kakao) {
+                    window.Kakao.init('95193d8232dc43a8e06b95a27d2bd1ce');
+                }
+            }
+            catch(e) {console.log()}
+
             window.Kakao.Link.sendDefault({
                 objectType: 'feed',
                 content: {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="writing-total-container">
     <Header />
     <div class="Writing-top">
       <span>
@@ -145,4 +145,5 @@ export default {
 
 <style>
 @import '../../css/home/writing/writing.css';
+@import '../../css/home/writing/writing.scss';
 </style>

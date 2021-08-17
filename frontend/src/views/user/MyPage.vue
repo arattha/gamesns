@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100">
+  <div class="mypage-container">
     <Header/>
 
 		<!-- cdn -->
@@ -226,6 +226,7 @@ export default {
     beforeDestroy(){
         this.boardItems = [];
         window.removeEventListener('scroll', this.handleScroll);
+        this.modalClose();
     }
 }
 </script>
