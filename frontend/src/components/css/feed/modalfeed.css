@@ -51,7 +51,7 @@
 
 .feed-item .top {
   display: flex;
-  padding: 0px 15px 0px 15px;
+  padding: 0px 0px 0px 15px;
   border-bottom: 1px solid #dcdcdc;
   align-items: center;
 }
@@ -259,8 +259,13 @@ button {
 }
 
 .feed-item .close-icon {
-  margin-right: 30px;
+  padding: 15px;
   font-size: 15px;
+}
+
+.close-icon {
+  display: flex;
+  align-items: center;
 }
 
 .modal-card :hover {
