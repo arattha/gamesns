@@ -217,19 +217,19 @@ body {
     opacity: 0;
   }
 }
-.loading-container,
-.loading {
+.user-loading-container,
+.user-loading {
   height: 100px;
   position: relative;
   width: 100px;
   border-radius: 100%;
 }
 
-.loading-container {
+.user-loading-container {
   margin: 40px auto;
 }
 
-.loading {
+.user-loading {
   border: 2px solid transparent;
   border-color: transparent #ffb937 transparent #ffb937;
   -moz-animation: rotate-loading 1.5s linear 0s infinite normal;
@@ -242,11 +242,11 @@ body {
   transform-origin: 50% 50%;
 }
 
-.loading-container:hover .loading {
+.user-loading-container:hover .user-loading {
   border-color: transparent #e45635 transparent #e45635;
 }
-.loading-container:hover .loading,
-.loading-container .loading {
+.user-loading-container:hover .user-loading,
+.user-loading-container .user-loading {
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -ms-transition: all 0.5s ease-in-out;
