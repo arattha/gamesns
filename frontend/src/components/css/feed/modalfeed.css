@@ -21,6 +21,7 @@
   background-color: black;
 }
 .modal-card {
+  width: 100%;
   position: absolute;
   top: 45px;
   bottom: 45px;

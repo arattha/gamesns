@@ -2,7 +2,7 @@
   <div class="fbody">
     <div class="cardbox bg-white">
       <!-- 프로필 -->
-      <div class="cardbox-heading">
+      <div class="cardbox-heading" style="padding-right: 0px">
         <!-- 내부 사진 크기 조절 필요 -->
         <div class="fimg">
           <img :src="'http://localhost:8080/account/file/' + boardItem.uid" />
@@ -14,6 +14,8 @@
           </p>
         </div>
         <!--/ media -->
+        <!-- dropdown menu -->
+       <Dropdown/>
       </div>
       <!--/ cardbox-heading -->
 
@@ -46,9 +48,11 @@
           <div class="showContentDiv">
             <a @click="showContent" class="grayText">자세히보기</a>
           </div>
-          <div v-if="hashtag_list!=0" class="hashtag-div" style="padding: 20px 10px 0px 10px;">
-            <span v-for="(hashtag,idx) in hashtag_list" :key="idx">
-              <router-link :to="{ name: 'Hashtagsearch', params: { hashtag: hashtag.slice(1) } }"><span style="margin-right:3px">{{hashtag}}</span></router-link>
+          <div v-if="hashtag_list != 0" class="hashtag-div" style="padding: 20px 10px 0px 10px;">
+            <span v-for="(hashtag, idx) in hashtag_list" :key="idx">
+              <router-link :to="{ name: 'Hashtagsearch', params: { hashtag: hashtag.slice(1) } }"
+                ><span style="margin-right:3px">{{ hashtag }}</span></router-link
+              >
               <!-- hashtag = #싸피 -->
             </span>
             <!-- 해시태그가 없다면 안나오는 로직 써야함 v-if length()? -->
@@ -92,6 +96,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import { mergeAttributes } from '@tiptap/core';
 import Sharelink from './Sharelink';
 import Like from './Like';
+import Dropdown from './Dropdown';
 import Reply from './Reply';
 import '@/components/css/feed/feed-item.scss';
 
@@ -102,6 +107,7 @@ export default {
     Sharelink,
     Like,
     Reply,
+    Dropdown,
   },
   data: () => {
     return {
@@ -122,7 +128,6 @@ export default {
 
     // 통으로 받아온 해시태그 스페이스바 기준으로 잘라서 temp_hashtaglist에 넣어주기
     if (this.boardItem.hashtags != undefined) {
-
       this.temp_hashtaglist = this.boardItem.hashtags.split(' ');
     }
 
@@ -202,7 +207,7 @@ export default {
             return [
               'div',
               mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, HTMLAttributes, {
-                class: 'boardContent',
+                class: 'feedContent',
               }),
               0,
             ];
@@ -218,8 +223,9 @@ export default {
 </script>
 
 <style lang="scss">
-.boardContent {
+.feedContent {
   word-break: break-all;
+  padding-top: 0px !important;
 }
 
 .replyShowContentBtn {

@@ -1,13 +1,11 @@
 <template>
-  <div style="background-color: #fafafa;">
+  <div style="height: 100vh; background-color: #fafafa;">
     <Header />
-    <div>
-      <div class="mainfeed">
-        <div class="" @scroll.passive="handleScroll">
-          <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp" />
-          <div v-for="(boardItem, index) in boardItems" :key="index">
-            <FeedItem @showModal="modalShow" :boardItem="boardItem" />
-          </div>
+    <div class="mainfeed">
+      <div class="" @scroll.passive="handleScroll">
+        <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp" />
+        <div v-for="(boardItem, index) in boardItems" :key="index">
+          <FeedItem @showModal="modalShow" :boardItem="boardItem" />
         </div>
       </div>
     </div>
@@ -25,24 +23,24 @@ import ModalFeed from '../../components/feed/ModalFeed.vue';
 import UserApi from '../../api/UserApi';
 var timer;
 export default {
-  components: { 
-      FeedItem,
-      Header,
-      Footer,
-      ModalFeed, 
-    },
-    data(){
-      return{
-        isModalViewed: false,
-        temp: null,
-        uid: 0,
-        sockid: '',
-        nickname: "",
-        boardItems: [],
-        timer : null,
-      }
+  components: {
+    FeedItem,
+    Header,
+    Footer,
+    ModalFeed,
   },
-  created(){
+  data() {
+    return {
+      isModalViewed: false,
+      temp: null,
+      uid: 0,
+      sockid: '',
+      nickname: '',
+      boardItems: [],
+      timer: null,
+    };
+  },
+  created() {
     this.sockid = this.$socketio.id;
     this.uid = this.$store.state.uid;
     this.nickname = this.$store.state.nickname;
@@ -50,20 +48,20 @@ export default {
     // socket io 의 user 업데이트
     this.updateSock();
   },
-  mounted(){
+  mounted() {
     // this.sockid = this.$socketio.id;
     window.addEventListener('scroll', this.handleScroll);
     // this.updateSock();
   },
   methods: {
-    updateSock(){
-      console.log("hihiihihhihihihh");
+    updateSock() {
+      console.log('hihiihihhihihihh');
       var updateData = {
-        id : this.sockid,
-        nickname : this.nickname,
-      }
-      
-      this.$socketio.emit("updateUser", updateData);
+        id: this.sockid,
+        nickname: this.nickname,
+      };
+
+      this.$socketio.emit('updateUser', updateData);
     },
     handleScroll() {
       let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치

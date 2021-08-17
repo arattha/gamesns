@@ -96,8 +96,6 @@ public class MatchingService {
             if (waitingQueue.get(request.getKey()).size() < Integer.parseInt(request.getPeopleLimit())) {//유저가 특정수 이하 면 컷
                 return;
             }
-            
-            //Discord -- >이곳에서 형한테 유저 정보 던져야함.
 
             Iterator<MatchingRequest> itr = waitingQueue.get(request.getKey()).keySet().iterator();
             
@@ -108,10 +106,10 @@ public class MatchingService {
 			}
 
             // 여기서 계정정보를 디코로 넘겨서
-            // 디코가 생성된 방 주소를 준다.
+            // 디스코드가 생성된 방 주소를 준다.
             List<String> userTagList = new ArrayList<String>();
             for (MatchingRequest matchingRequest : roomUserKey) {
-//                userTagList.add();
+                userTagList.add(matchingRequest.getDiscordId());
             }
 
             // 방을 생성하고 초대코드를 가져온다
@@ -119,9 +117,11 @@ public class MatchingService {
 
             String url = "";
             if (getUrl.isPresent()) {
+                System.out.println(url);
                 url = getUrl.get();
             } else {
                 // url을 못갖고 오는 경우를 처리
+                return;
             }
             //MatchingRequest user1 = itr.next();
             //MatchingRequest user2 = itr.next();
@@ -137,7 +137,7 @@ public class MatchingService {
             
             
             for (int i = 0; i < 2; i++) {
-            	roomUserValue.get(i).setResult(new MatchingResponse(ResponseResult.SUCCESS, uuid, roomUserKey.get(i).getSessionId(), roomUserKey));
+            	roomUserValue.get(i).setResult(new MatchingResponse(ResponseResult.SUCCESS, uuid, roomUserKey.get(i).getSessionId(), url, roomUserKey));
 			}
             
             //user1Result.setResult(new MatchingResponse(ResponseResult.SUCCESS, uuid, user1.getSessionId()));

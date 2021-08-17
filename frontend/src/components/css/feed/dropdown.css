@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+.dropbtn {
+    color: white;
+    padding: 16.39px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    /* display: none; */
+    position: absolute;
+    background-color: white;
+    /* min-width: 160px; */
+    overflow: auto;
+    z-index: 1;
+    width: 48.75px;
+    border: 1px solid grey;
+    text-align: center;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 5px 8px;
+    text-decoration: none;
+    display: block;
+    font-size: smaller;
+    font-weight: bolder;
+}
+
