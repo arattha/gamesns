@@ -127,6 +127,9 @@ export default {
   },
   mounted() {
     this.$socketio.on("getJoinNum", (data) => {
+      console.log(this.nickname + "의 getJoinNum data 들어옴!!")
+      console.log(data);
+      console.log("");
       if (data == 2) {
         this.chatPossible = true;
       } else {
