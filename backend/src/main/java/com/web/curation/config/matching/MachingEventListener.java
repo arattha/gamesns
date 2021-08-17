@@ -37,7 +37,9 @@ public class MachingEventListener {
         System.out.println("## headerAccessor :: " + headerAccessor);
         String chatRoomId = headerAccessor.getNativeHeader("chatRoomId").get(0);
         String sessionId = headerAccessor.getSessionId();*/
-
+        System.out.println(nativeHeaders);
+        System.out.println(matchingRoomId + " " + sessionId);
+        
         logger.info("[Connected] room id : {} | websocket session id : {}", matchingRoomId, sessionId);
         
         matchingService.connectUser(matchingRoomId, sessionId);//여기서 게임 종류 인원에 맞는 작업을 가져와야함
