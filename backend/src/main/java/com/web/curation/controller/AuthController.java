@@ -94,7 +94,7 @@ public class AuthController {
                 // 일주일로 설정
                 cookie.setMaxAge(60 * 60 * 24 * 7);
 
-                cookie.setSecure(true);
+//                cookie.setSecure(true);
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");
 
@@ -149,7 +149,7 @@ public class AuthController {
                     // 일주일로 설정
                     cookie.setMaxAge(60 * 60 * 24 * 7);
 
-                    cookie.setSecure(true);
+//                    cookie.setSecure(true);
                     cookie.setHttpOnly(true);
                     cookie.setPath("/");
 

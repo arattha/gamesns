@@ -10,8 +10,8 @@
         </div>
 
         <!-- Login Form -->
-        <div class="loading-container">
-          <div class="loading"></div>
+        <div class="user-loading-container">
+          <div class="user-loading"></div>
           <div id="loading-text">loading</div>
         </div>
       </div>
@@ -24,7 +24,7 @@
 
 <script>
 import UserApi from '../../api/UserApi';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { login } from '../../common/UserLogin';
 
 export default {
@@ -33,23 +33,26 @@ export default {
     return {
       code: '',
       nickname: '',
-      uid: '',
     };
   },
   mounted() {
-    this.create();
+    if (!this.$route.params.isJoin) {
+      this.kakaoLogin();
+    } else {
+      this.isUser();
+    }
   },
   methods: {
     ...mapActions(['setUid', 'setNickname']),
-    create() {
+    kakaoLogin() {
       this.code = this.$route.query.code;
 
       UserApi.requestkakaoLogin(
         this.code,
         (res) => {
-          this.uid = res;
+          // this.uid = res;
 
-          this.setUid(this.uid);
+          this.setUid(res);
 
           this.isUser();
         },
@@ -75,7 +78,9 @@ export default {
             let status = login(this.uid);
 
             if (status) {
-              this.$router.push('/main');
+              setTimeout(() => {
+                this.$router.push('/main');
+              }, 1500);
             } else {
               alert('오류가 발생했습니다. 다시 시도해주세요.');
               this.$router.push('/');
@@ -92,6 +97,9 @@ export default {
         }
       );
     },
+  },
+  computed: {
+    ...mapGetters(['uid']),
   },
 };
 </script>
