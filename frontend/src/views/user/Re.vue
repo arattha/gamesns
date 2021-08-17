@@ -5,7 +5,7 @@
         <!-- 프로필 -->
         <div class="cardbox-heading">
             <div class="media m-0">
-                <img class="img-fluid rounded-circle" src="http://www.themashabrand.com/templates/bootsnipp/post/assets/img/users/4.jpg" alt="User">
+                <img class="img-fluid rounded-circle" src="https://www.themashabrand.com/templates/bootsnipp/post/assets/img/users/4.jpg" alt="User">
             </div>
             <div class="media-body">
                 <p class="m-0 name">Benjamin Robinson</p>
@@ -15,7 +15,7 @@
 			
         <!-- 이미지나 내용 -->
 		<div class="cardbox-item">
-			<img class="img-fluid" src="http://www.themashabrand.com/templates/bootsnipp/post/assets/img/1.jpg" alt="Image">
+			<img class="img-fluid" src="https://www.themashabrand.com/templates/bootsnipp/post/assets/img/1.jpg" alt="Image">
             <div>안녕하세요</div>
         </div><!--/ cardbox-item -->
 
@@ -33,7 +33,7 @@
 		</div><!--/ cardbox-base -->
 
             <div>
-                <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
                 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
             </div>
     </div>
