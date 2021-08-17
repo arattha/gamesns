@@ -65,7 +65,7 @@ public class JwtFilter extends OncePerRequestFilter {
             // 로그인을 한 유저일 경우에만
             if (redisTemplate.opsForValue().get(key) != null) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("request cookie token : " + jwt);
+//                System.out.println("request cookie token : " + jwt);
             }
         }
         
