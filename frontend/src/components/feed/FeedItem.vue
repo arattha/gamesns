@@ -15,7 +15,7 @@
         </div>
         <!--/ media -->
         <!-- dropdown menu -->
-       <Dropdown/>
+       <Dropdown v-if="mine" :boardItem="boardItem"/>
       </div>
       <!--/ cardbox-heading -->
 
@@ -119,9 +119,18 @@ export default {
       currentNumber: 0,
       hashtag_list: [],
       temp_hashtaglist: [],
+      mine: 0,
     };
   },
   created() {
+
+    // 피드 수정, 삭제 버튼
+    // 글 쓴 사람이면 보이게
+    this.uid = this.$store.state.uid;
+    if (this.uid == this.boardItem.uid) {
+      this.mine = true
+    }
+
     this.boardItem.imgFiles.forEach((element) => {
       this.img_src.push('http://localhost:8080/board/file/' + element.file_name);
     });

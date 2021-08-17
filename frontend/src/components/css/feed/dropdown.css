@@ -2,7 +2,7 @@
 
 .dropbtn {
     color: white;
-    padding: 16.39px;
+    padding: 16.5px;
     font-size: 16px;
     border: none;
     cursor: pointer;
@@ -21,7 +21,7 @@
     overflow: auto;
     z-index: 1;
     width: 48.75px;
-    border: 1px solid grey;
+    /* border: 1px solid #d2d2d2; */
     text-align: center;
 }
 
