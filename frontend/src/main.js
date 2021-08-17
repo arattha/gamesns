@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
 import io from "socket.io-client";
-const socketio = io("https://i5c203.p.ssafy.io:3001");
+const socketio = io("http://i5c203.p.ssafy.io:3001");
 Vue.prototype.$socketio = socketio;
 
 // Make BootstrapVue available throughout your project
