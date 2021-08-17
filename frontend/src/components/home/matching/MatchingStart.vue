@@ -13,8 +13,9 @@
             <img :src="'http://localhost:8080/account/file/' + user.uid" />
           </div>
           <div class="media-body">
-            <p class="m-0 name">{{ user.uid }}</p>
           </div>
+          <!--
+          <Badge :userInfo="user"/>-->
           <div v-if="user.checked == true">
             <p><i class="fas fa-check"></i></p>
           </div>
@@ -43,12 +44,13 @@ import Footer from '@/components/layout/footer/Footer.vue';
 import Stomp from 'webstomp-client';
 import SockJS from 'sockjs-client';
 import http from '@/util/http-common.js';
-
+import Badge from '@/components/user/myPage/Badge.vue'
 export default {
   name: 'MatchingStart',
   components: {
     Header,
     Footer,
+    //Badge,
   },
   data() {
     return {
@@ -110,7 +112,6 @@ export default {
           console.log('Success to receive join result.');
 
           console.log('여기 >> ');
-          console.log(matchingResponse.data);
 
           clearInterval(this.joinInterval);
           if (matchingResponse.data.responseResult == 'SUCCESS') {
@@ -119,11 +120,13 @@ export default {
             this.discordUrl = matchingResponse.data.discordUrl;
 
             let temp = matchingResponse.data.matchedUser;
+
             temp.forEach((element) => {
               element.checked = false;
               this.matchedUser.push(element);
+              
             });
-
+            console.log(this.matchedUser);
             //this.updateText('>> Connect anonymous user :)', false);
             this.connectAndSubscribe();
           } else if (matchingResponse.data.responseResult == 'CANCEL') {
@@ -248,8 +251,6 @@ export default {
           params: { matchedUser: this.matchedUser, discordUrl: this.discordUrl },
         });
       }
-
-      console.log(this.matchedUser);
     },
     // updateText(message,append){
     //   if (append) {

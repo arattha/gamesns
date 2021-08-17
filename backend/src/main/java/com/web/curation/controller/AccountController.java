@@ -96,7 +96,24 @@ public class AccountController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+    @GetMapping("/info")
+    public Object getNickByUid(@RequestParam("uid") String uid) {
+        final BasicResponse result = new BasicResponse();
 
+        // 비정상적으로 처리됬을때를 위한 반환값
+        result.status = false;
+        result.data = "failed";
+
+        Optional<Member> member = service.getMember(uid);
+
+        if (member.isPresent()) {
+            result.status = true;
+            result.data = "success";
+            result.object = member.get();
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
     // 원하는 nickname의 유저 정보 가져오기
     @GetMapping("/info/{nickname}")
     public Object getMemberInfo(@PathVariable("nickname") String nickname) {
