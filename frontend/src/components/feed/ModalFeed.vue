@@ -1,11 +1,10 @@
 <template>
   <div style="display : flex;" class="modal modal-container">
-    <div class="overlay" @click="$emit('close-modal')"
-    style="right:0px; bottom:0px;"></div>
-    <div class="modal-res" >
+    <div class="overlay" @click="$emit('close-modal')" style="right:0px; bottom:0px;"></div>
+    <div class="modal-res">
       <div id="modalScroll" class="modal-card" style="overflow:scroll;">
         <div class="feed-item" style="border: 0px;">
-          <div class="top">
+          <div class="top modalfeedTop">
             <div
               class="profile-image"
               :style="{ 'background-image': 'url(' + defaultProfile + ')' }"
@@ -51,7 +50,7 @@
           <div style="mcontent">
             <div id="origin">
               <div>
-                <editor-content  v-if="boardItem.contents" :editor="editor" />
+                <editor-content v-if="boardItem.contents" :editor="editor" />
               </div>
               <div id="metaDataDiv" class="metadata-div" v-show="metaLoading" @click="goLink"></div>
               <div id="loading" class="metadata-div" v-if="!metaLoading && metaPresent">
@@ -192,7 +191,7 @@ export default {
             return [
               'div',
               mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, HTMLAttributes, {
-                class: 'boardContent',
+                class: 'modalContent',
               }),
               0,
             ];
@@ -390,6 +389,18 @@ export default {
   border-top-color: blue;
   animation: spinner 0.8s linear infinite;
 }
+
+.modalContent {
+  margin: 15px 10px;
+}
+
+.modalfeedTop {
+  position: sticky;
+  top: 0px;
+  background-color: #fff;
+  z-index: 99;
+}
+
 @import '../css/feed/modalfeed.css';
 @import '../css/feed/modalfeed.scss';
 </style>
