@@ -1,16 +1,21 @@
-const { copyFileSync } = require("fs");
-const { type } = require("os");
-const { join } = require("path");
+// const { copyFileSync } = require("fs");
+// const { type } = require("os");
+// const { join } = require("path");
+
+const fs = require('fs')
+const options = {
+    cert: fs.readFileSync('/etc/letsencrypt/live/i5c203.p.ssafy.io/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/i5c203.p.ssafy.io/privkey.pem')
+};
 
 var app = require("express")();
-var server = require("http").createServer(app);
+var server = require("https").createServer(options, app);
 var io = require("socket.io")(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
       }
 });
-
 
 // user 들의 socket.id
 var users = {};
@@ -85,6 +90,10 @@ io.on('connection' , function(socket) {
             
             */
 
+            console.log("입장!!!!!!!!!")
+            console.log(data)
+            console.log("")
+
             if(join_num[data.yourNickname][0] != data.myNickname){
                 // 3번의 경우(내가 채팅하려는 사람이 다른 사람과의 채팅방에 있을 때)
 
@@ -146,11 +155,16 @@ io.on('connection' , function(socket) {
                     io.to(users[data.yourNickname]).emit('getJoinNum', 2);
                 }
             }
+
+            console.log("입장 후 console!!")
+            console.log(join_num)
+            console.log("")
         } else if(data.type == 1) {
             // 퇴장
             // console.log("퇴장!!")
             
-            /* 생각해야 될 것
+            // 생각해야 될 것
+            /*
             
             1. 다른 두 사용자가 채팅 중에 
             어떤 사용자가 그 두 명 중 한 명과의 채팅방을 만들고 입장하고 바로 퇴장한다면
