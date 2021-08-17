@@ -2,14 +2,18 @@
 @import url("https://fonts.googleapis.com/css?family=Red+Hat+Display:400,500,900&display=swap");
 
 
-.profile_img{ width:40px;
-  height: 40px;}
-  .inbox_people {
+  .profile_img{
+    width:40px;
+    height: 40px;
+  }
+
+  .chatting-container {
     position: relative;
     background: #f8f8f8 none repeat scroll 0 0;
-    float: left;
+    /* float: left; */
     overflow: hidden;
     width: 100%; border-right:1px solid #c4c4c4;
+    /* height: calc(100% - 180px); */
   }
   .inbox_msg {
     border: 1px solid #c4c4c4;
@@ -70,7 +74,7 @@
     margin: 0;
     padding: 15px 16px 15px;
   }
-  .inbox_chat { height: 550px; overflow-y: scroll;}
+  .inbox_chat { height: 565px; overflow-y: scroll;}
   
   .active_chat{ background:#ebebeb; }
   

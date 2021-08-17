@@ -2,11 +2,14 @@
 
 .alarm-container{
     font-family: 'Nanum Gothic', sans-serif;
+    height: 100%;
 }
 
 .form {
     display: block;
 }
+
+
 
 .title {
     padding: 10px 10px 10px 10px;

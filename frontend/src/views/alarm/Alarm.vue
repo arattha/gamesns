@@ -1,5 +1,5 @@
 <template>
-  <div class="alarm-container" style="height: 100vh; background-color: #fafafa;">
+  <div class="alarm-container" style="background-color: #fafafa;">
     <Header />
     <div class="alarm-res">
     <div class="form">

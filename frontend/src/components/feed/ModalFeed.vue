@@ -390,6 +390,9 @@ export default {
   animation: spinner 0.8s linear infinite;
 }
 
+.modal-container .likeBtn{
+  margin-right: 15px;
+
 .modalContent {
   margin: 15px 10px;
 }

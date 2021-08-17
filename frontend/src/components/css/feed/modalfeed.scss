@@ -32,6 +32,11 @@
     .overlay {
         visibility: hidden;
     }
+
+    .modal-card {
+        width: 100vw;
+    }
+
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -47,6 +52,10 @@
     .mimage-slider button {
         height: 70vw;
     }
+    .modal-card {
+        width: 70vw;
+    }
+
 }
 
 @media (min-width: 1024px) {
@@ -62,4 +71,8 @@
     .mimage-slider button {
         height: 40vw;
     }
+    .modal-card {
+        width: 40vw;
+    }
+
 }

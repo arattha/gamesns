@@ -3,16 +3,13 @@
     <Header/>
       <div class="hashtag-guide-wording-div">
         <h4 style="margin:0px; font-family: 'Nanum Gothic', sans-serif;">
-          #{{$route.params.hashtag}}
+          <mark class="highlight"><b>#{{$route.params.hashtag}}</b></mark>
         </h4>
       </div>
 
       <div class="mainfeed" style="margin-top:0px">
-        <!-- <div v-if="searched_hashtag_boards==0">
-          검색결과가 없습니다.
-        </div> -->
         <div class="" @scroll.passive="handleScroll">
-          <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="hashtag_board" />
+          <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp" />
           <div v-for="(hashtag_board, index) in searched_hashtag_boards" :key="index">
             <FeedItem @showModal="modalShow" :boardItem="hashtag_board" />
           </div>
@@ -44,6 +41,7 @@ export default {
   data: () => {
     return {
       isModalViewed: false,
+      temp: null,
       search:"",
       searched_hashtag_boards:[],
     }
@@ -55,7 +53,6 @@ export default {
             hashtag: this.search,
           },
           (res) => {
-            console.log(res);
             this.searched_hashtag_boards = res;
           },
           () => {}
@@ -67,6 +64,14 @@ export default {
       this.temp = item;
       document.body.style.overflow = 'hidden';
     },
+    modalClose() {
+      this.isModalViewed = !this.isModalViewed;
+      this.temp = null;
+      document.body.style.overflow = 'scroll';
+    },
+  },
+  beforeDestroy() {
+    this.modalClose();
   },
 }
 </script>
@@ -92,4 +97,13 @@ export default {
     border: 1px solid black;
   }
 
+  /* mark {
+    display: inline-block;
+    line-height: 1em;
+    padding-bottom: 0.5em;
+} */
+
+.highlight {
+  background: linear-gradient(180deg,rgba(255,255,255,0) 50%, #FFD0AE 50%);
+}
 </style>

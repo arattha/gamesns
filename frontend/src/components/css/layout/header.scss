@@ -20,6 +20,15 @@
 .alarm-btn {
 	right: 60px;
 }
+.main-container {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.nav {
+	margin: 0 auto;
+}
+
 
 @media (min-width: 320px) and (max-width: 767px) {
 	.header{
@@ -41,6 +50,15 @@
 	.alarm-btn {
 		right: 42px;
 	}	
+	.main-container {
+		width: 60%;
+		margin: 0 auto;
+	}
+	
+	.nav {
+		margin: 0 auto;
+	}
+
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -64,6 +82,15 @@
 	.alarm-btn {
 		right: 52px;
 	}	
+	.main-container {
+		width: 60%;
+		margin: 0 auto;
+	}
+	
+	.nav {
+		margin: 0 auto;
+	}
+
 }
 
 @media (min-width: 1024px) {
@@ -87,4 +114,14 @@
 	.alarm-btn {
 		right: 50px;
 	}	
+	.main-container {
+		width: 60%;
+		margin: 0 auto;
+	}
+	
+	.nav {
+		margin: 0 auto;
+		width: 40vw;
+	}
+
 }
