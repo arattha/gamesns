@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Header/>
-    <div  id="main-content" class="matching-container">
+    <Header />
+    <div id="main-content" class="matching-container">
       <!--
       <div class="row">
         <textarea id="chat-content" v-model="textarea" rows="20" style="width:100%; height:50%;" readonly></textarea>
       </div>
       -->
-      <div v-for="(user,idx) in matchedUser" :key="idx" >
+      <div v-for="(user, idx) in matchedUser" :key="idx">
         <div class="cardbox-heading">
           <div class="fimg">
             <img :src="'http://localhost:8080/account/file/' + user.uid" />
@@ -15,69 +15,76 @@
           <div class="media-body">
             <p class="m-0 name">{{ user.uid }}</p>
           </div>
-          <div v-if="user.checked == true"><p><i class="fas fa-check"></i></p></div>
-          <div v-else><p><i class="fas fa-times"></i></p></div>
+          <div v-if="user.checked == true">
+            <p><i class="fas fa-check"></i></p>
+          </div>
+          <div v-else>
+            <p><i class="fas fa-times"></i></p>
+          </div>
         </div>
       </div>
 
       <div class="loading-container" v-if="matchedUser.length == 0">
-          <div class="loading"></div>
-          <div id="loading-text">matching</div>
+        <div class="loading"></div>
+        <div id="loading-text">matching</div>
       </div>
 
       <span><button class="matching-start-btn game-btn" id="btnJoin" style="">함고?</button></span>
-      <span><button class="matching-accept-btn game-btn" id="btnSend" v-if="matchedUser" style="">매칭수락</button></span>
+      <span
+        ><button class="matching-accept-btn game-btn" id="btnSend" v-if="matchedUser" style="">
+          매칭수락
+        </button></span
+      >
       <!--<button class="matching-start-btn game-btn" id="btnSend"> 보내기 </button>-->
     </div>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 
 <script>
-import Header from '@/components/layout/header/Header.vue'
-import Footer from '@/components/layout/footer/Footer.vue'
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
-import http from '@/util/http-common.js'
+import Header from '@/components/layout/header/Header.vue';
+import Footer from '@/components/layout/footer/Footer.vue';
+import Stomp from 'webstomp-client';
+import SockJS from 'sockjs-client';
+import http from '@/util/http-common.js';
 
 export default {
-  name:'MatchingStart',
+  name: 'MatchingStart',
   components: {
     Header,
-    Footer
+    Footer,
   },
-  data(){
-    return{
-      socket : null,
-      stompClient : null,
-      sessionId : null,
-      chatRoomId : null,
-      joinInterval : null,
+  data() {
+    return {
+      socket: null,
+      stompClient: null,
+      sessionId: null,
+      chatRoomId: null,
+      joinInterval: null,
       //message : "",
-      matchingInfo : null,
-      matchedUser : [],
-    }
+      matchingInfo: null,
+      matchedUser: [],
+      discordUrl: '',
+    };
   },
-  created(){
+  created() {
     this.matchingInfo = this.$route.params.data;
-    if(this.matchingInfo == null) {
+    if (this.matchingInfo == null) {
       alert('비정상적인 접근입니다.');
       this.$router.push('/matchingBefore');
-      
     }
   },
-  mounted(){
-
+  mounted() {
     const $joinEvent = document.querySelector('#btnJoin');
-    $joinEvent.addEventListener('click',(e) => this.clickEvent(e));
+    $joinEvent.addEventListener('click', (e) => this.clickEvent(e));
     this.join();
   },
-  updated(){
+  updated() {
     const $sendEvent = document.querySelector('#btnSend');
-    if($sendEvent) $sendEvent.addEventListener('click',(e) => this.sendMessage(e));
+    if ($sendEvent) $sendEvent.addEventListener('click', (e) => this.sendMessage(e));
   },
   methods: {
-    clickEvent(e){
+    clickEvent(e) {
       console.log(e);
       var type = e.target.innerText;
       if (type == '함고?') {
@@ -87,7 +94,7 @@ export default {
         this.$router.push('/matchingBefore');
       }
     },
-    join(){
+    join() {
       document.querySelector('#btnJoin').innerText = '매칭중지';
       //this.updateText('waiting anonymous user', false);
       this.joinInterval = setInterval(() => {
@@ -95,16 +102,25 @@ export default {
       }, 1000);
 
       http
-        .get("/matching/join", { params: { gameName : this.matchingInfo.selectedGame , peopleLimit : this.matchingInfo.selectedPeople ,discordId:this.matchingInfo.discordId , uid : this.$store.state.uid } })
+        .get('/matching/join', {
+          params: {
+            gameName: this.matchingInfo.selectedGame,
+            peopleLimit: this.matchingInfo.selectedPeople,
+            discordId: this.matchingInfo.discordId,
+            uid: this.$store.state.uid,
+          },
+        })
         .then((matchingResponse) => {
-
           console.log('Success to receive join result.');
 
-          clearInterval(this.joinInterval);
-          if(matchingResponse.data.responseResult == 'SUCCESS') {
+          console.log('여기 >> ');
+          console.log(matchingResponse.data);
 
+          clearInterval(this.joinInterval);
+          if (matchingResponse.data.responseResult == 'SUCCESS') {
             this.sessionId = matchingResponse.data.sessionId;
             this.chatRoomId = matchingResponse.data.chatRoomId;
+            this.discordUrl = matchingResponse.data.discordUrl;
 
             let temp = matchingResponse.data.matchedUser;
             temp.forEach((element) => {
@@ -114,17 +130,12 @@ export default {
 
             //this.updateText('>> Connect anonymous user :)', false);
             this.connectAndSubscribe();
-
-          } else if(matchingResponse.data.responseResult == 'CANCEL') {
-
+          } else if (matchingResponse.data.responseResult == 'CANCEL') {
             //this.updateText('>> Success to cancel', false);
             document.querySelector('#btnJoin').innerText = '함고?';
-
-          } else if(matchingResponse.data.responseResult == 'TIMEOUT') {
-
+          } else if (matchingResponse.data.responseResult == 'TIMEOUT') {
             //this.updateText('>> Can`t find user :(', false);
             document.querySelector('#btnJoin').innerText = '함고?';
-
           }
         })
         .catch((jqxhr) => {
@@ -136,13 +147,20 @@ export default {
           //   //this.updateText(jqxhr, true);
           // }
           console.log(jqxhr);
-        })
-
+        });
     },
-    cancel(){ //매칭 멈추기
+    cancel() {
+      //매칭 멈추기
       this.matchedUser = null;
       http
-        .get("/matching/cancel", { params: { gameName : this.matchingInfo.selectedGame , peopleLimit : this.matchingInfo.selectedPeople ,discordId:this.matchingInfo.discordId ,uid : this.$store.state.uid } })
+        .get('/matching/cancel', {
+          params: {
+            gameName: this.matchingInfo.selectedGame,
+            peopleLimit: this.matchingInfo.selectedPeople,
+            discordId: this.matchingInfo.discordId,
+            uid: this.$store.state.uid,
+          },
+        })
         .then(() => {
           //this.updateText('', false);
           document.querySelector('#btnJoin').innerText = '함고?';
@@ -150,30 +168,30 @@ export default {
         .catch((jqxhr) => {
           console.log(jqxhr);
           console.log('Error occur. please refresh');
-        })
-        clearInterval(this.joinInterval);
+        });
+      clearInterval(this.joinInterval);
     },
-    connectAndSubscribe(){
+    connectAndSubscribe() {
       //console.log(this.stompClient);
-      if(this.stompClient == null ||  ! this.stompClient.connected) {
-        const serverURL = "http://localhost:8080/matching"
+      if (this.stompClient == null || !this.stompClient.connected) {
+        const serverURL = 'http://localhost:8080/matching';
         var socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
-        this.stompClient.connect({matchingRoomId : this.chatRoomId}, frame => {
+        this.stompClient.connect({ matchingRoomId: this.chatRoomId }, (frame) => {
           console.log('Connected: ' + frame);
           this.subscribeMessage();
-        })
+        });
       } else {
         this.subscribeMessage();
       }
     },
-    disconnect(){
-      if(this.stompClient !== null) {
+    disconnect() {
+      if (this.stompClient !== null) {
         this.stompClient.disconnect();
         this.stompClient = null;
       }
     },
-    sendMessage(){ 
+    sendMessage() {
       console.log('Check.. >> ', this.stompClient);
       console.log('send message.. >> ');
       //var $chatTarget = document.querySelector('#chat-message-input');
@@ -181,20 +199,23 @@ export default {
       //$chatTarget.val('');
 
       var matchingMessage = {
-        messageType    : 'CHAT',
-        senderSessionId : this.sessionId,
-        message : this.$store.state.uid
+        messageType: 'CHAT',
+        senderSessionId: this.sessionId,
+        message: this.$store.state.uid,
       };
 
-      this.stompClient.send('/chat.message/' + this.chatRoomId,JSON.stringify(matchingMessage),{});
+      this.stompClient.send(
+        '/chat.message/' + this.chatRoomId,
+        JSON.stringify(matchingMessage),
+        {}
+      );
     },
-    subscribeMessage(){
-      this.stompClient.subscribe('/topic/chat/' + this.chatRoomId, resultObj => {
-      console.log('>> success to receive message\n', resultObj.body);
+    subscribeMessage() {
+      this.stompClient.subscribe('/topic/chat/' + this.chatRoomId, (resultObj) => {
+        console.log('>> success to receive message\n', resultObj.body);
         var result = JSON.parse(resultObj.body);
 
         if (result.messageType == 'CHAT') {
-          
           //console.log("zz");
           //console.log(result);
           // if (result.senderSessionId === this.sessionId) {//여기다가 로직
@@ -212,27 +233,28 @@ export default {
         this.checkUserAccept(result.message);
       });
     },
-    checkUserAccept(message){
+    checkUserAccept(message) {
       this.matchedUser.forEach((element) => {
-        if(element.uid == message) element.checked = true;
+        if (element.uid == message) element.checked = true;
       });
 
       let flag = true;
       this.matchedUser.forEach((element) => {
-        if(!element.checked){
+        if (!element.checked) {
           flag = false;
           return false;
         }
       });
 
-      if(flag){
-
-
-        this.$router.push('/matchingResult');
+      if (flag) {
+        this.$router.push({
+          name: 'MatchingResult',
+          params: { matchedUser: this.matchedUser, discordUrl: this.discordUrl },
+        });
       }
 
       console.log(this.matchedUser);
-    }
+    },
     // updateText(message,append){
     //   if (append) {
     //     this.textarea += message;
@@ -256,18 +278,17 @@ export default {
     //   //$target.append(template({}));
     // },
   },
-  beforeDestroy(){
+  beforeDestroy() {
     //this.cancel();
     clearInterval(this.joinInterval);
     this.disconnect();
   },
-}
+};
 </script>
 <style>
 @import '../../../components/css/home/matching/matchingStart.css';
 @import '../../../components/css/user/login.css';
 @import '../../../components/css/user/loading.css';
-
 
 .loading-container,
 .loading {
@@ -295,5 +316,4 @@ export default {
   top: 0;
   width: 100px;
 }
-
 </style>
