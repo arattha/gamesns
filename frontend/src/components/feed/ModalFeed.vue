@@ -10,7 +10,7 @@
               class="profile-image"
               :style="{ 'background-image': 'url(' + defaultProfile + ')' }"
             >
-              <img :src="'http://i5c203.p.ssafy.io/api/account/file/' + boardItem.uid" />
+              <img :src="'https://i5c203.p.ssafy.io/api/account/file/' + boardItem.uid" />
             </div>
             <div class="user-info">
               <div class="media-body">
@@ -94,7 +94,7 @@
             <li class="list" v-for="(reply, index) in replyList" :key="index">
               <div class="small-user-img-div">
                 <img
-                  :src="'http://i5c203.p.ssafy.io/api/account/file/' + reply.uid"
+                  :src="'https://i5c203.p.ssafy.io/api/account/file/' + reply.uid"
                   class="small-user-img"
                 />
                 <!-- 임의의 이미지가 들어가는거라, user의 프로필사진이 나오게 해야 함. -->
@@ -118,7 +118,7 @@
           rel="stylesheet"
           id="bootstrap-css"
         />
-        <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
       </div>
     </div>
   </div>
@@ -206,7 +206,7 @@ export default {
   },
   created() {
     this.boardItem.imgFiles.forEach((element) => {
-      this.img_src.push('http://i5c203.p.ssafy.io/api/board/file/' + element.file_name);
+      this.img_src.push('https://i5c203.p.ssafy.io/api/board/file/' + element.file_name);
     });
 
     if (this.img_src.length == 0 || !this.img_src) {

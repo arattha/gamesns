@@ -25,7 +25,7 @@
       <button class="matching-start-btn game-btn" id = 'matchStart' style="">함고?</button>
     </div>
     <div>
-      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
     </div>
     <Footer/>
   </div>

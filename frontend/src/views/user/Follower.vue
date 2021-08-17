@@ -6,7 +6,7 @@
       <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
       <li class="list" v-for="(follow, idx) in follower" :key="idx">
         <div class="small-user-img-div">
-          <img :src="`http://i5c203.p.ssafy.io/api/account/file/` + follow.uid" class="small-user-img">
+          <img :src="`https://i5c203.p.ssafy.io/api/account/file/` + follow.uid" class="small-user-img">
           <span class="small-user-comment">
           {{follow.nickname}} 
           </span>
@@ -16,7 +16,7 @@
       </li>
     </div>
     <div>
-      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
     </div>
     <Footer/>
     </div>

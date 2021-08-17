@@ -64,7 +64,7 @@
         <Footer />
         <div>
             <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-			<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
         </div>
     </div>
 </template>
@@ -103,7 +103,7 @@ export default {
 
         UserApi.requestGetUser(this.nickname
             ,(res) => { 
-                this.profileImg = 'http://i5c203.p.ssafy.io/api/account/file/' + this.uid;
+                this.profileImg = 'https://i5c203.p.ssafy.io/api/account/file/' + this.uid;
             }
             ,() => {});
 

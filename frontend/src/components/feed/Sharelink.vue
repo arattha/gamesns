@@ -29,8 +29,8 @@ export default {
                         // this.boardItem.imgFiles ~ 로 하는 것인지?
                         // 가능하면 작성글 이미지, 아니면 기본 함고 이미지.
                     link: {
-                        mobileWebUrl: 'http://i5c203.p.ssafy.io:8081',
-                        webUrl: 'http://i5c203.p.ssafy.io:8081',
+                        mobileWebUrl: 'https://i5c203.p.ssafy.io:8081',
+                        webUrl: 'https://i5c203.p.ssafy.io:8081',
                     },
                 },
                 social: {
@@ -43,8 +43,8 @@ export default {
                 {
                     title: '웹으로 보기',
                     link: {
-                        mobileWebUrl: 'http://i5c203.p.ssafy.io:8081',
-                        webUrl: 'http://i5c203.p.ssafy.io:8081',
+                        mobileWebUrl: 'https://i5c203.p.ssafy.io:8081',
+                        webUrl: 'https://i5c203.p.ssafy.io:8081',
                     },
                 },
             ],

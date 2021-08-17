@@ -33,7 +33,7 @@ public class OAuth2Kakao {
         params.add("grant_type", "authorization_code");
         // REST api 키 주의!!
         params.add("client_id", "d9244e59520303e14f40a6a210aae21d");
-        params.add("redirect_url", "http://localhost:8080/kakaoLogin");
+        params.add("redirect_url", "https://localhost:8080/kakaoLogin");
         params.add("code", authorizeCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담는다.
