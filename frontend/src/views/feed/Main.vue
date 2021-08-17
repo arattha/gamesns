@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #fafafa;">
+  <div style="height: 100vh; background-color: #fafafa;">
     <Header />
     <div class="mainfeed">
       <div class="" @scroll.passive="handleScroll">

@@ -2,7 +2,7 @@
   <div class="fbody">
     <div class="cardbox bg-white">
       <!-- 프로필 -->
-      <div class="cardbox-heading">
+      <div class="cardbox-heading" style="padding-right: 0px">
         <!-- 내부 사진 크기 조절 필요 -->
         <div class="fimg">
           <img :src="'http://localhost:8080/account/file/' + boardItem.uid" />
@@ -14,6 +14,8 @@
           </p>
         </div>
         <!--/ media -->
+        <!-- dropdown menu -->
+       <Dropdown/>
       </div>
       <!--/ cardbox-heading -->
 
@@ -94,6 +96,7 @@ import Paragraph from '@tiptap/extension-paragraph';
 import { mergeAttributes } from '@tiptap/core';
 import Sharelink from './Sharelink';
 import Like from './Like';
+import Dropdown from './Dropdown';
 import Reply from './Reply';
 import '@/components/css/feed/feed-item.scss';
 
@@ -104,6 +107,7 @@ export default {
     Sharelink,
     Like,
     Reply,
+    Dropdown,
   },
   data: () => {
     return {
