@@ -55,9 +55,6 @@
 							<p><Manner/></p>						
 						</div>	
 					</div>
-                    <div>
-            <MannerSelect/>
-        </div>
 					<!-- 피드, 뱃지 버튼 -->
 					<div class="card-footer">
 						<div @click="tabShow1" class="myfeed drop-in-underline">
@@ -98,7 +95,6 @@ import ModalFeed from '../../components/feed/ModalFeed.vue'
 // import Badge from '@/components/user/myPage/Badge.vue'
 // import Manner from '@/components/user/myPage/Manner.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
-import MannerSelect from '../../components/user/myPage/MannerSelect.vue'
 import Manner from '../../components/user/myPage/Manner.vue'
 import Badge from '../../components/user/myPage/Badge.vue'
 import UserApi from '../../api/UserApi'
@@ -113,7 +109,6 @@ export default {
         FeedItem,
         ModalFeed,
         Manner,
-        MannerSelect,
         Badge
     },
     data() {

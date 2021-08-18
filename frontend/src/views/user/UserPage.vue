@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100">
+  <div class="mypage-container">
     <Header/>
 
 		<!-- cdn -->
@@ -39,7 +39,6 @@
             <div class="follow_btn" v-else style="background: #A7CDFB" @click="cancel">팔로잉</div>
 						<!-- <div class="chat_btn">채팅</div> -->
           </div>
-          <MannerSelect :userInfo="userInfo"/>
 				</div>
 
 				<!-- 다른 컴포넌트 -->
@@ -60,20 +59,23 @@
 						</div>	
 					</div>
 				<!-- 피드, 뱃지 버튼 -->
-        <div class="card-footer">
-					<div class="myfeed drop-in-underline">
-						<i class="fas fa-archive"></i>
+					<div class="card-footer">
+						<div @click="tabShow1" class="myfeed drop-in-underline">
+							<i class="fas fa-archive"></i>
+						</div>
+						<div @click="tabShow2" class="myfeed drop-in-underline">
+							<i class="far fa-smile"></i>
+						</div>
 					</div>
-					<div class="myfeed drop-in-underline">
-						<i class="far fa-smile"></i>
-					</div>
-				</div>
 				<!-- 피드 -->
-        <div class="feeditem-box">
+        <div class="feeditem-box" v-show="currentTab==0">
           <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp"/>
           <div v-for="(boardItem,index) in boardItems" :key="index" @click="modalShow(boardItem)">
 						<FeedItem :boardItem ="boardItem"/>
           </div>
+        </div>
+        <div v-show="currentTab==1">
+            <Badge :userInfo="userInfo"/>
         </div>
 				</div>
       </div>
@@ -93,7 +95,7 @@ import Footer from '@/components/layout/footer/Footer.vue'
 import FeedItem from '../../components/feed/FeedItem.vue'
 import ModalFeed from '../../components/feed/ModalFeed.vue'
 import Manner from '../../components/user/myPage/Manner.vue'
-import MannerSelect from '../../components/user/myPage/MannerSelect.vue'
+import Badge from '../../components/user/myPage/Badge.vue'
 import UserApi from '../../api/UserApi'
 var timer;
 export default {
@@ -108,7 +110,7 @@ export default {
         FeedItem,
         ModalFeed,
         Manner,
-        MannerSelect,
+        Badge,
     },
     data() {
         return {
@@ -122,6 +124,7 @@ export default {
             temp: null,
             isFollow: true,
             boardItems: [],
+            currentTab: -1,
         }
     },
     created() {
@@ -242,7 +245,14 @@ export default {
             this.isModalViewed = !this.isModalViewed;
             this.temp = null;
             document.body.style.overflow = 'scroll';
-        }
+        },
+        tabShow1() {
+                this. currentTab = 0
+
+        },
+        tabShow2() {
+                this. currentTab = 1
+        },
     },
     beforeDestroy(){
         this.boardItems = [];
