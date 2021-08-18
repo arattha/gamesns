@@ -2,8 +2,8 @@
   <div>
     <Header/>
     <div class="matching-container">
-      <div class="game-kind-btns">
-      </div>
+      <!-- <div class="game-kind-btns">
+      </div> -->
       <div class="select-boxes">
         <div class="game-select-box">
           <select v-model="selectedGame" class="select-box">
@@ -22,7 +22,7 @@
           <p>원하는 인원을 선택하세요</p>
         </div>
       </div>
-      <button class="matching-start-btn game-btn" id = 'matchStart' style="">함고?</button>
+      <button id = 'matchStart' style="">함고?</button>
     </div>
     <div>
       <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">

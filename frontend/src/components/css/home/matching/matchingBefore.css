@@ -1,0 +1,75 @@
+@charset "utf-8";
+
+.matching-container{
+  position: relative;
+}
+
+.discord-link-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #37474f;
+  width: 200px;
+  font-size: 20px;
+  color: white;
+  border-radius: 4px;
+  position: absolute;
+  top: 15%;
+  padding: 7px;
+}
+
+.discord-id-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 40%;
+}
+
+.matchingBefore-btn {
+  background-color:  #37474f;
+  width: 150px;
+  font-size: 20px;
+  color: white;
+  border-radius: 4px;
+  padding: 7px;
+  display: flex;
+  justify-content: center;
+}
+
+#discordCheck {
+  position: absolute;
+  bottom: 21%;
+}
+
+#matchNext {
+  position: absolute;
+  bottom: 9%;
+}
+
+#discordCheck:active{
+  bottom: 20.2%;
+  background-color: #455a64;
+}
+
+.discord-id-input {
+  outline: none;
+  border: 1px solid black;
+  font-size: 22px;
+  border-radius: 3px;
+}
+
+.discord-id-input:focus{
+  border: none;
+  border-bottom: 2px solid black;
+  font-size: 24px;
+}
+
+.discord-link-div:active{
+  background-color: #546e7a;
+}
+
+#discord-comment{
+  margin-top: 3px;
+}
+
