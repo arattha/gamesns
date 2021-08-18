@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <div id="main-content" class="matching-container">
+    <div id="main-content" class="start-container">
       <!--
       <div class="row">
         <textarea id="chat-content" v-model="textarea" rows="20" style="width:100%; height:50%;" readonly></textarea>
@@ -13,8 +13,8 @@
             <img :src="'http://localhost:8080/account/file/' + user.uid" />
           </div>
           <div class="media-body">
-            <p class="m-0 name">{{ user.uid }}</p>
           </div>
+          <Badge :userInfo="user"/>
           <div v-if="user.checked == true">
             <p><i class="fas fa-check"></i></p>
           </div>
@@ -24,17 +24,13 @@
         </div>
       </div>
 
-      <div class="loading-container" v-if="matchedUser.length == 0">
-        <div class="loading"></div>
-        <div id="loading-text">matching</div>
+      <div class="mloading-container" v-if="matchedUser.length == 0">
+        <div class="mloading"></div>
+        <div id="mloading-text">matching</div>
       </div>
 
-      <span><button class="matching-start-btn game-btn" id="btnJoin" style="">함고?</button></span>
-      <span
-        ><button class="matching-accept-btn game-btn" id="btnSend" v-if="matchedUser" style="">
-          매칭수락
-        </button></span
-      >
+      <button class="matching-start-btn game-btn" id="btnJoin" style="">함고?</button>
+      <button class="matching-accept-btn game-btn" id="btnSend" v-if="matchedUser" style="">매칭수락</button>
       <!--<button class="matching-start-btn game-btn" id="btnSend"> 보내기 </button>-->
     </div>
     <Footer />
@@ -46,13 +42,15 @@ import Header from '@/components/layout/header/Header.vue';
 import Footer from '@/components/layout/footer/Footer.vue';
 import Stomp from 'webstomp-client';
 import SockJS from 'sockjs-client';
-import http from '@/util/http-common.js';
+import Badge from '@/components/user/myPage/Badge.vue';
+import http from '@/util/http-common';
 
 export default {
   name: 'MatchingStart',
   components: {
     Header,
     Footer,
+    Badge,
   },
   data() {
     return {
@@ -114,7 +112,6 @@ export default {
           console.log('Success to receive join result.');
 
           console.log('여기 >> ');
-          console.log(matchingResponse.data);
 
           clearInterval(this.joinInterval);
           if (matchingResponse.data.responseResult == 'SUCCESS') {
@@ -123,11 +120,13 @@ export default {
             this.discordUrl = matchingResponse.data.discordUrl;
 
             let temp = matchingResponse.data.matchedUser;
+
             temp.forEach((element) => {
               element.checked = false;
               this.matchedUser.push(element);
+              
             });
-
+            console.log(this.matchedUser);
             //this.updateText('>> Connect anonymous user :)', false);
             this.connectAndSubscribe();
           } else if (matchingResponse.data.responseResult == 'CANCEL') {
@@ -252,8 +251,6 @@ export default {
           params: { matchedUser: this.matchedUser, discordUrl: this.discordUrl },
         });
       }
-
-      console.log(this.matchedUser);
     },
     // updateText(message,append){
     //   if (append) {
@@ -287,33 +284,7 @@ export default {
 </script>
 <style>
 @import '../../../components/css/home/matching/matchingStart.css';
+@import '../../../components/css/home/matching/start.scss';
 @import '../../../components/css/user/login.css';
 @import '../../../components/css/user/loading.css';
-
-.loading-container,
-.loading {
-  top: 100px;
-  height: 100px;
-  position: relative;
-  width: 100px;
-  border-radius: 100%;
-}
-
-#loading-text {
-  -moz-animation: loading-text-opacity 2s linear 0s infinite normal;
-  -o-animation: loading-text-opacity 2s linear 0s infinite normal;
-  -webkit-animation: loading-text-opacity 2s linear 0s infinite normal;
-  animation: loading-text-opacity 2s linear 0s infinite normal;
-  color: #ffb937;
-  font-family: 'Helvetica Neue, ' Helvetica ', ' 'arial';
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 45px;
-  opacity: 0;
-  position: absolute;
-  text-align: center;
-  text-transform: uppercase;
-  top: 0;
-  width: 100px;
-}
 </style>

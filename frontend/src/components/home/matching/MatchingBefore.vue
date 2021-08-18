@@ -17,8 +17,9 @@
           />
           <p id="discord-comment">디스코드 아이디를 해시태그까지 적어주세요</p>
         </div>
-      <button class="matchingBefore-btn" @click="discordCheckClick" id = 'discordCheck' >접속 확인</button>
+      <button class="matchingBefore-btn" @click="discordCheckClick" id = 'discordCheck' :disabled="gamerCheck == 0">접속 확인</button>
       <button class="matchingBefore-btn" id = 'matchNext' :disabled="validated == 0">다음</button>
+        <div class="error-text">{{error}}</div>
     </div>
     <Footer/>
   </div>
@@ -46,7 +47,15 @@ export default {
     return {
       discordId : "",
       validated : 0,
+      gamerCheck: 0,
+      error : "",
+      regex: /#[0-9]{4,4}/,
     }
+  },
+  watch: {
+    discordId() {
+      this.onUpdate();
+    },
   },
   methods: {
     check(){
@@ -63,8 +72,10 @@ export default {
           discordComment.style.color = "white";
           const discordCheckBtn = document.querySelector("#discordCheck")
           discordCheckBtn.style.backgroundColor = "#FFAF0A"
+          this.error = "";
         } else{
           this.validated = 0;
+          this.error = "접속 중이지 않은 아이디입니다.\n 함고 채널에 들어와 주세요!";
         }
       }),
       (() => {}))
@@ -82,7 +93,16 @@ export default {
       clicks = 0; 
       } 
       clicks += 1; 
-    }
+    },
+    onUpdate(){
+      let gamerTag = this.regex.exec(this.discordId);
+      this.error = "해시태그까지 적어주세요!"
+      if(gamerTag){
+        this.gamerCheck = 1;
+      } else { 
+        this.gamerCheck = 0;
+      }
+    },
   },
 }
 </script>

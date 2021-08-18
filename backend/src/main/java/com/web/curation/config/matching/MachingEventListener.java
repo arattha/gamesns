@@ -29,15 +29,26 @@ public class MachingEventListener {
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         MessageHeaderAccessor accessor = NativeMessageHeaderAccessor.getAccessor(event.getMessage(), SimpMessageHeaderAccessor.class);
         GenericMessage<?> generic = (GenericMessage<?>) accessor.getHeader("simpConnectMessage");
+        
+        
+        
         Map<String, Object> nativeHeaders = (Map<String, Object>) generic.getHeaders().get("nativeHeaders");
-        String matchingRoomId = ((List<String>) nativeHeaders.get("matchingRoomId")).get(0);
+        
+        String matchingRoomId;
+        if(nativeHeaders.containsKey("matchingRoomId")) {
+        	matchingRoomId = ((List<String>) nativeHeaders.get("matchingRoomId")).get(0);
+        } else {
+        	return;
+        }
         String sessionId = (String) generic.getHeaders().get("simpSessionId");
 
         /*StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         System.out.println("## headerAccessor :: " + headerAccessor);
         String chatRoomId = headerAccessor.getNativeHeader("chatRoomId").get(0);
         String sessionId = headerAccessor.getSessionId();*/
-
+        System.out.println(nativeHeaders);
+        System.out.println(matchingRoomId + " " + sessionId);
+        
         logger.info("[Connected] room id : {} | websocket session id : {}", matchingRoomId, sessionId);
         
         matchingService.connectUser(matchingRoomId, sessionId);//여기서 게임 종류 인원에 맞는 작업을 가져와야함
