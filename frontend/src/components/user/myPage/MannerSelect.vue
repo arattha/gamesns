@@ -1,9 +1,9 @@
 <template>
-	<div class="b-select-wrap">
-		<select v-model="score" class="form-control b-select">
+	<div class="manner-select-box">
+		<select v-model="score" class="mselect-box">
       <option v-for="(op, index) in options" :key="index" :value="op.value">{{ op.name }}</option>
     </select>
-		<input type="submit" @click="addManner">
+    <button class="mbtn" @click="addManner" v-if="showbtn"> 완료 </button>
 	</div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
 		return {
       uid: 0,
 			score: 0,
+      showbtn: 1,
 			options: [
 				{ 
           value: -5,
@@ -65,6 +66,7 @@ export default {
       .then(({data}) => {
         console.log('추가')
         console.log(data)
+        this.showbtn = 0
       })
       .catch((err) => {
         console.log('addmanner 실패')
@@ -77,42 +79,5 @@ export default {
 </script>
 
 <style>
-
-	.b-select-wrap {
-    border: none;
-    color: #1092C9;
-    overflow: hidden;
-    position: relative;
-    border-radius: 3px;
-}
-
-.b-select-wrap::after {
-    content: "⌄";
-    position: absolute;
-    right: 0px;
-    top: -15px;
-    z-index: 1;
-    text-align: center;
-    width: 10%;
-    height: 100%;
-    pointer-events: none;
-    font-size: 35px;
-}
-
-.b-select {
-    padding: 5px 15px;
-    background-color: white;
-    border: 0;
-    outline: none;
-    font-size: 22px;
-    -webkit-appearance: none; /* for webkit browsers */
-    -moz-appearance: none; /* for firefox */
-    appearance: none; /* for modern browsers */
-}
-
-/* remove default caret for ie */
-.b-select::-ms-expand {
-   display:none;
-}
-
+@import "../../../components/css/user/mannerselect.css";
 </style>

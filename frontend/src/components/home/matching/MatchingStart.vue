@@ -8,18 +8,25 @@
       </div>
       -->
       <div v-for="(user, idx) in matchedUser" :key="idx">
-        <div class="cardbox-heading">
-          <div class="fimg">
+        <div class="match-line">
+          <div class="match-fimg">
             <img :src="'http://localhost:8080/account/file/' + user.uid" />
           </div>
-          <div class="media-body">
+          <!-- 매너점수 -->
+          <div class="matchmanner">
+            <Manner :userInfo="user"/>
           </div>
-          <Badge :userInfo="user"/>
+          <div class="match-badge">
+          <MatchingBadge :userInfo="user"/>
+          </div>
+          <!-- 체크 엑스 -->
+          <div class="match-check">
           <div v-if="user.checked == true">
-            <p><i class="fas fa-check"></i></p>
+            <p style="color: #4169E1;"><i class="fas fa-check"></i></p>
           </div>
           <div v-else>
             <p><i class="fas fa-times"></i></p>
+          </div>
           </div>
         </div>
       </div>
@@ -42,7 +49,8 @@ import Header from '@/components/layout/header/Header.vue';
 import Footer from '@/components/layout/footer/Footer.vue';
 import Stomp from 'webstomp-client';
 import SockJS from 'sockjs-client';
-import Badge from '@/components/user/myPage/Badge.vue';
+import MatchingBadge from '@/components/user/MatchingBadge.vue';
+import Manner from '@/components/user/myPage/Manner.vue';
 import http from '@/util/http-common';
 
 export default {
@@ -50,7 +58,8 @@ export default {
   components: {
     Header,
     Footer,
-    Badge,
+    MatchingBadge,
+    Manner,
   },
   data() {
     return {

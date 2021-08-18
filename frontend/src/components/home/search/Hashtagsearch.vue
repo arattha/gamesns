@@ -10,7 +10,7 @@
       <div class="mainfeed" style="margin-top:0px">
         <div class="" @scroll.passive="handleScroll">
           <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp" />
-          <div v-for="(hashtag_board, index) in searched_hashtag_boards" :key="index">
+          <div v-for="hashtag_board in searched_hashtag_boards" :key="hashtag_board.bid">
             <FeedItem @showModal="modalShow" :boardItem="hashtag_board" />
           </div>
         </div>
@@ -42,23 +42,31 @@ export default {
     return {
       isModalViewed: false,
       temp: null,
-      search:"",
       searched_hashtag_boards:[],
     }
   },
   created() {
-    this.search = '#' + this.$route.params.hashtag;
-    UserApi.requestHashtagBoard(
-          {
-            hashtag: this.search,
-          },
-          (res) => {
-            this.searched_hashtag_boards = res;
-          },
-          () => {}
-        );
+    this.getHashItem('#' + this.$route.params.hashtag);
+  },
+  watch:{
+    '$route' (to) {
+      var new_hashtag = to.params.hashtag;
+      this.getHashItem('#' + new_hashtag);
+    }
   },
   methods: {
+    getHashItem(item){
+      UserApi.requestHashtagBoard(
+        {
+          hashtag: item,
+        },
+        (res) => {
+          this.searched_hashtag_boards = res;
+          window.scrollTo(0,0);
+        },
+        () => {}
+      );
+    },
     modalShow(item) {
       this.isModalViewed = !this.isModalViewed;
       this.temp = item;

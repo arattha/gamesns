@@ -9,7 +9,7 @@
 
   .chatting-container {
     position: relative;
-    background: #f8f8f8 none repeat scroll 0 0;
+    background: white none repeat scroll 0 0;
     /* float: left; */
     overflow: hidden;
     width: 100%; border-right:1px solid #c4c4c4;
@@ -23,18 +23,25 @@
   .top_spac{ margin: 20px 0 0;}
   
   
-  .recent_heading {float: left; width:40%;}
+  .recent_heading {float: left; width:40%; }
   .srch_bar {
     display: inline-block;
     text-align: right;
     width: 60%;
   }
-  .headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
+  .headind_srch{
+    padding:10px 29px 10px 20px;
+    overflow:hidden;
+    border-bottom:1px solid #c4c4c4;
+    display: flex;
+    align-items: center;
+  }
   
   .recent_heading h4 {
-    color: #05728f;
-    font-size: 21px;
+    color: #60666d;
+    font-size: 20px;
     margin: auto;
+    font-family: 'Nanum Gothic', sans-serif;
   }
   .srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
   .srch_bar .input-group-addon button {
@@ -45,7 +52,7 @@
     font-size: 18px;
   }
   .srch_bar .input-group-addon { margin: 0 0 0 -27px;}
-  
+
   .suggestion_box{
     width: 40%;
     position: absolute;
@@ -53,14 +60,22 @@
     left:54%;
     background-color: rgba(149, 149, 153, 0.3);
     color: rgb(133, 133, 136);
+    font-family: 'Nanum Gothic', sans-serif;
     /* opacity: 20; */
   }
   
-  .chat_ib h5{ font-size:15px; color:#464646; margin-top: 4%;}
+  .chat_ib h5{
+    font-size:18px;
+    color:#464646;
+    margin: 0px;
+    font-family: 'Nanum Gothic', sans-serif;
+  }
+
   .chat_img {
     float: left;
     width: 11%;
   }
+
   .chat_ib {
     float: left;
     padding: 0 0 0 15px;
@@ -68,13 +83,33 @@
     vertical-align: middle;
   }
   
-  .chat_people{ overflow:hidden; clear:both; vertical-align: middle;}
+  .search-bar{
+    font-family: 'Nanum Gothic', sans-serif;
+  }
+
+  .chat_people{
+    overflow:hidden;
+    clear:both;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+  }
   .chat_list {
     border-bottom: 1px solid #c4c4c4;
     margin: 0;
     padding: 15px 16px 15px;
   }
-  .inbox_chat { height: 565px; overflow-y: scroll;}
+
+  .chat-nickname {
+    font-family: 'Nanum Gothic', sans-serif;
+  }
+
+  .inbox_chat { height: 85vh; overflow-y: scroll;}
   
-  .active_chat{ background:#ebebeb; }
+  .active_chat{ background:#f5f4f4; }
   
+  .input_msg_write{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

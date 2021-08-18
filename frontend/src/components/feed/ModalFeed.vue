@@ -29,8 +29,8 @@
           <div class="mcardbox-item" v-if="imgShow">
             <div class="mimage-slider" style="padding: 0;">
               <div class="mslider" style="padding: 0;" v-if="img_src.length > 1">
-                <button class="prev" @click="prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="next" @click="next"><i class="fas fa-chevron-right"></i></button>
+                <button class="prev" @click="prev"><i class="black fas fa-chevron-left"></i></button>
+                <button class="next" @click="next"><i class="black fas fa-chevron-right"></i></button>
               </div>
               <!-- 이미지 -->
               <div

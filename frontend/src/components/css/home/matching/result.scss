@@ -1,17 +1,17 @@
 @charset "utf-8";
 
-.start-container {
+.result-container {
     margin: 0 auto;
     width: 100vw;
 }
 
-.match-line {
-    margin: 0 auto;
-    width: 100vw;
+.result-line {
+    display: flex;
+    justify-content: center;
 }
 
 @media (min-width: 320px) and (max-width: 767px) {
-	.start-container, .match-line {
+	.result-container{
         width: 100vw;
     }
     .matching-start-btn, .matching-accept-btn {
@@ -20,7 +20,7 @@
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-	.start-container, .match-line {
+	.result-container{
         width: 70vw;
     }
     .matching-start-btn, .matching-accept-btn {
@@ -29,7 +29,7 @@
 }
 
 @media (min-width: 1024px) {
-	.start-container, .match-line {
+	.result-container{
         width: 40vw;
     }
     .matching-start-btn, .matching-accept-btn {
