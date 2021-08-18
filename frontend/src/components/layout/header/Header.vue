@@ -30,6 +30,7 @@ export default {
     },
     goToMain: function() {
       this.$router.push('/main');
+      document.location.reload();
     },
     goAlarm: function() {
       this.$router.push('/alarm');
