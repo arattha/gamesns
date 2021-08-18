@@ -111,7 +111,7 @@ export default {
       this.isModalViewed = !this.isModalViewed;
       this.temp = null;
       document.body.style.overflow = 'scroll';
-      document.location.reload();
+      // document.location.reload();
     },
   },
   beforeDestroy() {

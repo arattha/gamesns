@@ -4,9 +4,15 @@
     margin: 0 auto;
     width: 100vw;
 }
+.type_msg {
+    width: 100vw;
+}
 
 @media (min-width: 320px) and (max-width: 767px) {
 	.inchatting-container {
+        width: 100vw;
+    }
+    .type_msg {
         width: 100vw;
     }
 }
@@ -15,10 +21,16 @@
 	.inchatting-container {
         width: 70vw;
     }
+    .type_msg {
+        width: 70vw;
+    }
 }
 
 @media (min-width: 1024px) {
 	.inchatting-container {
+        width: 40vw;
+    }
+    .type_msg {
         width: 40vw;
     }
 }
