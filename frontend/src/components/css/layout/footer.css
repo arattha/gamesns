@@ -17,6 +17,8 @@
     background-color: #FFAF0A;
     z-index: 9999;
     height: 45px;
+    left: 0px;
+    right: 0px;
   }
 
 #navigation-bar {

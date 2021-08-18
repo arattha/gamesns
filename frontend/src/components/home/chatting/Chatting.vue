@@ -5,11 +5,11 @@
     <div class="chatting-container">
           <div class="headind_srch">
             <div class="recent_heading">
-              <h4>Chat</h4>
+              <h4>채팅</h4>
             </div>
             <div class="srch_bar">
               <div class="stylish-input-group">
-                <input type="text" class="search-bar" v-model="search" placeholder="Search" >
+                <input type="text" class="search-bar" v-model="search" placeholder="검색" >
                 <span class="input-group-addon">
                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                 </span> </div>
@@ -29,7 +29,7 @@
               <div class="chat_people">
                 <div class="chat_img"> <img class="profile_img" :src="`http://localhost:8080/account/file/` + item.id"> </div>
                 <div class="chat_ib">
-                  <h5>{{item.nickname}}</h5>
+                  <h5 class="chat-nickname">{{item.nickname}}</h5>
                 </div>
               </div>
             </div>
@@ -37,7 +37,9 @@
           </div>
         </div>
 
-
+      <div>
+        <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
+      </div>
     <Footer />
   </div>
 </template>
