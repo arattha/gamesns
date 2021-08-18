@@ -1,16 +1,15 @@
 <template>
   <div>
-      <div class="badgetitle">
-        <p>✨ 배찌빼지 ✨</p>
-      </div>
-      <div class="badgecon row" style="margin-left: 0px;
+      <div class="mbadgecon" style="margin-left: 0px;
     margin-right: 0px;">
 
-        <div class="badges col-6 col-xs-6 col-sm-4 col-md-4 clear-xs-2 clear-md-2"
+        <div class="mbadges"
         style="padding-left: 0px; padding-right: 0px;"
          v-for="(badge, idx) in badgelist" :key="idx">
+            <div>
               <img :src="'http://localhost:8080/badge/file/' + badge.no">
               <p>{{badge.name}}</p>
+            </div>
         </div>
       </div>
   </div>
@@ -60,6 +59,6 @@ export default {
 </script>
 
 <style>
-@import "../../../components/css/user/badge.css";
-@import "../../../components/css/user/badge.scss";
+@import "../../components/css/user/matchbadge.css";
+@import "../../components/css/user/matchbadge.scss";
 </style>
