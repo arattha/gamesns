@@ -19,19 +19,39 @@ export default {
   name: 'Footer',
   methods: {
     goToMain: function() {
-      this.$router.push('/main');
+      this.$router.push('/main').catch(error => {
+          if(error.name === "NavigationDuplicated" ){
+            location.reload();
+          }
+      });
     },
     goToSearch: function() {
-      this.$router.push('/search');
+      this.$router.push('/search').catch(error => {
+          if(error.name === "NavigationDuplicated" ){
+              location.reload();
+          }
+      });
     },
     goToMatching: function() {
-      this.$router.push('/matchingBefore');
+      this.$router.push('/matchingBefore').catch(error => {
+          if(error.name === "NavigationDuplicated" ){
+            location.reload();
+          }
+      });
     },
     goToChatting: function() {
-      this.$router.push('/chatting');
+      this.$router.push('/chatting').catch(error => {
+          if(error.name === "NavigationDuplicated" ){
+            location.reload();
+          }
+      });
     },
     goToWriting: function() {
-      this.$router.push('/writing');
+      this.$router.push('/writing').catch(error => {
+          if(error.name === "NavigationDuplicated" ){
+            location.reload();
+          }
+      });
     },
   },
 };

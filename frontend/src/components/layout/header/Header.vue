@@ -26,14 +26,25 @@ export default {
   name: 'Header',
   methods: {
     goToMypage: function() {
-      this.$router.push('/mypage');
+      this.$router.push('/mypage').catch(error => {
+          if(error.name === "NavigationDuplicated" ){
+              location.reload();
+          }
+      });
     },
     goToMain: function() {
-      this.$router.push('/main');
-      document.location.reload();
+      this.$router.push('/main').catch(error => {
+          if(error.name === "NavigationDuplicated" ){
+              location.reload();
+          }
+      });
     },
     goAlarm: function() {
-      this.$router.push('/alarm');
+      this.$router.push('/alarm').catch(error => {
+          if(error.name === "NavigationDuplicated" ){
+              location.reload();
+          }
+      });
     },
   },
 };

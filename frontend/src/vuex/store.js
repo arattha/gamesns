@@ -16,6 +16,7 @@ export default new Vuex.Store({
     uid: '',
     nickname: '',
     boardContent: '',
+    boardState: null,
   },
   mutations: {
     SET_RECENTSEARCHED(state, payload) {
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     SET_UID(state, payload) {
       state.uid = payload;
     },
+    SET_BOARDSTATE(state, payload) {
+      state.boardState = payload;
+    },
     SET_NICKNAME(state, payload) {
       state.nickname = payload;
     },
@@ -46,6 +50,9 @@ export default new Vuex.Store({
   getters: {
     recentSearched(state) {
       return state.recentSearched;
+    },
+    boardState(state) {
+      return state.boardState;
     },
     // accessToken(state) {
     //   return state.accessToken;

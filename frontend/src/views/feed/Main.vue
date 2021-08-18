@@ -4,7 +4,7 @@
     <div class="mainfeed">
       <div class="" @scroll.passive="handleScroll">
         <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp" />
-        <div v-for="(boardItem, index) in boardItems" :key="index">
+        <div v-for="boardItem in boardItems" :key="boardItem.bid">
           <FeedItem @showModal="modalShow" :boardItem="boardItem" />
         </div>
       </div>
@@ -111,7 +111,6 @@ export default {
       this.isModalViewed = !this.isModalViewed;
       this.temp = null;
       document.body.style.overflow = 'scroll';
-      document.location.reload();
     },
   },
   beforeDestroy() {
