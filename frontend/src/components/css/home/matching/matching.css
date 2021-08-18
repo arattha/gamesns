@@ -6,7 +6,8 @@
     align-items: center;
     position: relative;
     width: 70vw;
-    /* height: 100vh; */
+    /* height:; */
+    height: 85vh;
   }
   
   .matching-container p{
