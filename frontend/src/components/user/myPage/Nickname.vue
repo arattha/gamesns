@@ -39,7 +39,8 @@ export default {
             console.log(data)
             this.nickname = data.object.nickname
           })
-          .catch(() => {
+          .catch((err) => {
+            
             console.log('getNickname 에러')
           })
       },

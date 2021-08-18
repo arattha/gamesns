@@ -29,8 +29,17 @@ public class MachingEventListener {
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         MessageHeaderAccessor accessor = NativeMessageHeaderAccessor.getAccessor(event.getMessage(), SimpMessageHeaderAccessor.class);
         GenericMessage<?> generic = (GenericMessage<?>) accessor.getHeader("simpConnectMessage");
+        
+        
+        
         Map<String, Object> nativeHeaders = (Map<String, Object>) generic.getHeaders().get("nativeHeaders");
-        String matchingRoomId = ((List<String>) nativeHeaders.get("matchingRoomId")).get(0);
+        
+        String matchingRoomId;
+        if(nativeHeaders.containsKey("matchingRoomId")) {
+        	matchingRoomId = ((List<String>) nativeHeaders.get("matchingRoomId")).get(0);
+        } else {
+        	return;
+        }
         String sessionId = (String) generic.getHeaders().get("simpSessionId");
 
         /*StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());

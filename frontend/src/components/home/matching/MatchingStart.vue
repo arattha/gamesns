@@ -14,8 +14,7 @@
           </div>
           <div class="media-body">
           </div>
-          <!--
-          <Badge :userInfo="user"/>-->
+          <Badge :userInfo="user"/>
           <div v-if="user.checked == true">
             <p><i class="fas fa-check"></i></p>
           </div>
@@ -43,14 +42,15 @@ import Header from '@/components/layout/header/Header.vue';
 import Footer from '@/components/layout/footer/Footer.vue';
 import Stomp from 'webstomp-client';
 import SockJS from 'sockjs-client';
-import http from '@/util/http-common.js';
-import Badge from '@/components/user/myPage/Badge.vue'
+import Badge from '@/components/user/myPage/Badge.vue';
+import http from '@/util/http-common';
+
 export default {
   name: 'MatchingStart',
   components: {
     Header,
     Footer,
-    //Badge,
+    Badge,
   },
   data() {
     return {

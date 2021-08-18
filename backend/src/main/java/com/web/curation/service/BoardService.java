@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.web.curation.dao.ImgFile.ImgFileDao;
@@ -33,6 +34,7 @@ public class BoardService {
 	ImgFileDao imgFileDao;
 	@Autowired
 	MemberDao memberDao;
+	
 	
 	public Object bList(String uid,String bid){
 
@@ -80,7 +82,8 @@ public class BoardService {
 		return resboard;
 
 	}
-
+	
+	@Transactional
 	public void addBoard(AddBoard newBoard) throws IllegalStateException, IOException{
 
 		Board board = new Board();
@@ -158,7 +161,8 @@ public class BoardService {
 		}
 		board = boardDao.save(board);
 	}
-
+	
+	@Transactional
 	public void deleteBoard(long bid) throws IllegalStateException, IOException{
 
 		List<ImgFile> imgList = imgFileDao.findImgFileByBid(bid); //연관된 파일 검색
