@@ -19,6 +19,7 @@
 
 <script>
 import http from '@/util/http-common';
+import {mapGetters,mapMutations} from 'vuex';
 
 export default {
   name: 'Like',
@@ -32,10 +33,22 @@ export default {
   },
   created() {
     this.uid = this.$store.state.uid;
-    this.setLiked();
+    this.getLikeList();
+  },
+  computed:{
+    ...mapGetters(["boardState"]),
+  },
+  watch:{
+    boardState(val){
+      if(val.bid == this.boardItem.bid){
+        this.setLiked();
+      }
+    },
   },
   methods: {
-    getLikeList: function() {
+    ...mapMutations(["SET_BOARDSTATE"]),
+
+    getLikeList() {
       let data;
       data = {
         bid: this.boardItem.bid,
@@ -47,14 +60,23 @@ export default {
           if (data == null) {
             this.likelist = [];
           } else {
+
             this.likelist = data;
+            this.likes = 0;
+            for(let d of data) {
+              if(d.uid == this.uid) {
+                this.likes = 1;
+                break;
+              }
+            }
+
           }
         })
         .catch(() => {
           console.log('좋아요 리스트 에러');
         });
     },
-    setLiked: function() {
+    setLiked() {
       let data;
       data = {
         bid: this.boardItem.bid,
@@ -63,8 +85,7 @@ export default {
 
       http
         .get(`/board/liked`, { params: data })
-        .then(({ data }) => {
-          this.likes = data.object;
+        .then(() => {
           this.getLikeList();
         })
         .catch(() => {
@@ -80,16 +101,32 @@ export default {
 
       http
         .post(`/board/AddOrDeleteLike`, data)
-        .then(({ data }) => {
-          this.likes = data.object;
+        .then(() => {
 
           this.getLikeList();
         })
         .catch(() => {
           console.log('좋아요 에러');
         });
+
+      this.SET_BOARDSTATE({
+        bid : this.boardItem.bid,
+        likes : this.likes
+      });
+      // EventBus.$emit('modalEvent', {
+      //   bid : this.boardItem.bid,
+      //   likes : this.likes
+      // });
     },
   },
+  // updated(){
+  //   EventBus.$on('modalEvent',(bData) => {
+  //     console.log(bData);
+  //     if(bData.bid == this.boardItem.bid){
+  //       this.likes = bData.likes;
+  //     }
+  //   })
+  // }
 };
 </script>
 

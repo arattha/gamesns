@@ -117,7 +117,6 @@
 </template>
 <script>
 import defaultProfile from '../../assets/images/profile_default.png';
-import { mapActions, mapGetters } from 'vuex';
 import { Editor, EditorContent } from '@tiptap/vue-2';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';

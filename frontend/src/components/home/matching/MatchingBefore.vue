@@ -19,7 +19,7 @@
         </div>
       <button class="matchingBefore-btn" @click="discordCheckClick" id = 'discordCheck' :disabled="gamerCheck == 0">접속 확인</button>
       <button class="matchingBefore-btn" id = 'matchNext' :disabled="validated == 0">다음</button>
-        <div class="error-text">{{error}}</div>
+      <div class="error-text">{{error}}</div>
     </div>
     <Footer/>
   </div>
