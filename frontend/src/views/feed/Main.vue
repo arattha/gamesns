@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100vh;">
     <Header />
-    <div class="mainfeed" style="height: 100vh; background-color: #fafafa;">
+    <div class="mainfeed" style="background-color: #fafafa;">
       <div class="" @scroll.passive="handleScroll">
         <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp" />
         <div v-for="boardItem in boardItems" :key="boardItem.bid">
