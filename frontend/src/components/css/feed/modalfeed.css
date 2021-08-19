@@ -57,14 +57,14 @@
 }
 .feed-item .profile-image {
   float: left;
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
   object-fit: cover;
 }
 
 .profile-image img {
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
   border-radius: 100%;
 }
 
@@ -78,7 +78,7 @@
   -ms-flex: 1;
   flex: 1;
   padding: 0.4rem !important;
-  margin-left: 5px;
+  /* margin-left: 5px; */
   display: flex;
   flex-direction: row;
 }

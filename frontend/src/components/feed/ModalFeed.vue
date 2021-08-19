@@ -13,7 +13,7 @@
             </div>
             <div class="user-info">
               <div class="media-body">
-                <p class="m-0 name">{{ boardItem.nickname }}</p>
+                <p class="m-0 fname" style="padding-right: 10px">{{ boardItem.nickname }}</p>
                 <p class="m-0 time">
                   {{ boardItem.createDate | moment('from', 'now') }}
                 </p>

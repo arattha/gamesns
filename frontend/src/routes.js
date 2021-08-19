@@ -18,7 +18,6 @@ import MatchingResult from './components/home/matching/MatchingResult.vue';
 import Writing from './components/home/writing/Writing.vue';
 import Alarm from './views/alarm/Alarm.vue';
 import UserPage from './views/user/UserPage.vue';
-import Re from './views/user/Re.vue';
 import InChatting from './components/home/chatting/InChatting.vue';
 import Chatting from './components/home/chatting/Chatting.vue';
 
@@ -42,11 +41,6 @@ export default [
     path: '/main',
     name: 'Main',
     component: Main,
-  },
-  {
-    path: '/re',
-    name: 'Re',
-    component: Re,
   },
   {
     path: '/userpage',

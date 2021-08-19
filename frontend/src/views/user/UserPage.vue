@@ -29,14 +29,12 @@
 						<div class="name_container">
 							<div class="name">{{userInfo.nickname}}</div>
 						</div>
-						<!-- 상태메세지 -->
-            <div class="intro">저는 강아지를 좋아합니다.</div>
 					</div>
 					<!-- 팔로우 팔로잉 버튼 -->
           <div class="follow mb-2">
             <!-- Follow 상태면 팔로잉 버튼을 보여주고 Follow 상태가 아니면 팔로우 버튼을 보여준다.  -->
-            <div class="follow_btn" v-if="isFollow" @click="send">팔로우</div>
-            <div class="follow_btn" v-else style="background: #A7CDFB" @click="cancel">팔로잉</div>
+            <div class="follow_btn" style="margin-right: 0px;" v-if="isFollow" @click="send">팔로우</div>
+            <div class="follow_btn" v-else style="background: #A7CDFB; margin-right: 0px;" @click="cancel">팔로잉</div>
 						<!-- <div class="chat_btn">채팅</div> -->
           </div>
 				</div>
