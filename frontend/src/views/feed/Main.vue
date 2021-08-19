@@ -3,9 +3,10 @@
     <Header />
     <div class="mainfeed" style="background-color: #fafafa;">
       <div class="" @scroll.passive="handleScroll">
-        <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" :boardItem="temp" />
+        <ModalFeed v-if="isModalViewed" @close-modal="modalClose()" @replyLengthUpdate="updateReplyLength" :boardItem="temp" />
         <div v-for="boardItem in boardItems" :key="boardItem.bid">
-          <FeedItem @showModal="modalShow" :boardItem="boardItem" />
+          <div v-if="newReplyLenData.bid == boardItem.bid"><FeedItem @showModal="modalShow" :newReplyLenData="newReplyLenData.len" :boardItem="boardItem" /></div>
+          <div v-else><FeedItem @showModal="modalShow"  :boardItem="boardItem" /></div>
         </div>
       </div>
     </div>
@@ -38,6 +39,7 @@ export default {
       nickname: '',
       boardItems: [],
       timer: null,
+      newReplyLenData:'',
     };
   },
   created() {
@@ -112,6 +114,9 @@ export default {
       this.temp = null;
       document.body.style.overflow = 'scroll';
     },
+    updateReplyLength(item){
+      this.newReplyLenData = item;
+    }
   },
   beforeDestroy() {
     this.boardItems = [];

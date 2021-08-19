@@ -289,6 +289,7 @@ export default {
             .get('/reply/cnt', { params: data2 })
             .then(({ data }) => {
               this.now_reply_num = data;
+              this.$emit('replyLengthUpdate',{ bid: this.boardItem.bid, len : data });
             })
             .catch(() => {
               console.log('reply num 에러입니다');

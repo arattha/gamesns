@@ -67,7 +67,7 @@
         <div class="likebox">
           <Like :boardItem="boardItem" />
           <div class="replyShowContentBtn" @click="showContent">
-            <Reply :boardItem="boardItem" />
+            <Reply :boardItem="boardItem" :now_reply_num="newReplyLenData" />
           </div>
         </div>
         <div class="sharebox">
@@ -102,7 +102,7 @@ import UserApi from "../../api/UserApi";
 import '@/components/css/feed/feed-item.scss';
 
 export default {
-  props: ['boardItem'],
+  props: ['boardItem','newReplyLenData'],
   components: {
     EditorContent,
     Sharelink,
