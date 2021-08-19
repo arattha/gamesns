@@ -1,7 +1,7 @@
 <template>
     <div class="myedit-container">
         <Header/>
-        <form action="" class="center">
+        <form action="" class="center" style="padding-top: 45px;">
             <!-- 타이틀 -->
             <div class="myedit-title">
                 프로필 편집

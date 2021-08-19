@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <div id="main-content" class="start-container">
+    <div id="main-content" class="start-container" style="padding-top: 45px;">
       <!--
       <div class="row">
         <textarea id="chat-content" v-model="textarea" rows="20" style="width:100%; height:50%;" readonly></textarea>

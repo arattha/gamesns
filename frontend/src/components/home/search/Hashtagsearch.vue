@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header/>
-      <div class="hashtag-guide-wording-div">
+      <div class="hashtag-guide-wording-div" style="padding-top: 45px;">
         <h4 style="margin:0px; font-family: 'Nanum Gothic', sans-serif;">
           <mark class="highlight"><b>#{{$route.params.hashtag}}</b></mark>
         </h4>

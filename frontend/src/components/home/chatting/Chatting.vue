@@ -2,7 +2,7 @@
   <div>
     <Header />
     
-    <div class="chatting-container">
+    <div class="chatting-container" style="padding-top: 45px;">
           <div class="headind_srch">
             <div class="recent_heading">
               <h4>채팅</h4>

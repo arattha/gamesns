@@ -1,7 +1,6 @@
 <template>
     <div class="main-container">
-      <nav class="nav">
-        <ul class="header" style="right: 0px">
+        <ul class="header" style="right: 0px;">
           <div class="logo">
             <img @click="goToMain" src="@/assets/images/logolight.png" alt="" style="width:120px;"/>
           </div>
@@ -15,7 +14,6 @@
             <div><i class="fas fa-sign-out-alt"></i></div>
           </div> -->
         </ul>
-      </nav>
     </div>
 </template>
 

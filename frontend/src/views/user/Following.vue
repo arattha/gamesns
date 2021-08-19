@@ -1,7 +1,7 @@
 <template>
   <div class="following-container">
     <Header/>
-    <div class="form">
+    <div class="form" style="padding-top: 45px;">
       <h4 class="title">Following - {{ following.length }}</h4>
       <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
       <li class="list" v-for="(follow, idx) in following" :key="idx">

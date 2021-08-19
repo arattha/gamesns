@@ -1,7 +1,7 @@
 <template>
   <div class="inchatting-container">
     <Header />
-    <div class="msg_area">
+    <div class="msg_area" style="padding-top: 45px;">
       <div class="mesgs">
         <div class="msg_history">
           <div
