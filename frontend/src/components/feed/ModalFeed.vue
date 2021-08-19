@@ -83,7 +83,7 @@
             </button>
           </div>
           <ul class="img-comment-list">
-            <li class="list" v-for="(reply, index) in replyList" :key="index">
+            <li class="list" v-for="reply in replyList" :key="reply.rid">
               <div class="small-user-img-div">
                 <img
                   :src="'http://localhost:8080/account/file/' + reply.uid"
@@ -100,7 +100,7 @@
                   {{ reply.regDate | moment('from', 'now') }}
                 </span>
               </div>
-              <a class="modalcomment-delete-btn" @click="deleteReply" style="color: #CD5C5C;">삭제</a>
+              <a v-if="uid == reply.uid" class="modalcomment-delete-btn" @click="deleteReply(reply.rid)" style="color: #CD5C5C;" >삭제</a>
             </li>
           </ul>
         </div>
@@ -272,7 +272,6 @@ export default {
       let data = {
         uid: this.$store.state.uid,
         bid: this.boardItem.bid,
-        nickname: this.$store.state.nickname,
         content: this.replyContent,
       };
       UserApi.requestAddReply(
@@ -290,10 +289,8 @@ export default {
             .get('/reply/cnt', { params: data2 })
             .then(({ data }) => {
               this.now_reply_num = data;
-              console.log('g2g2g 모달피드 댓글임');
-              console.log(this.now_reply_num);
             })
-            .catch((err) => {
+            .catch(() => {
               console.log('reply num 에러입니다');
             });
         },
@@ -325,13 +322,36 @@ export default {
         }
       );
     },
+    deleteReply(rid){
+      let data = {
+        rid : rid,
+        uid : this.uid,
+      }
+      let divdiv = document.getElementsByClassName("modal-card");
+      divdiv[0].scrollTop = 0;
+      
+      UserApi.requestDeleteReply(
+        data,
+        (res) => {
+          if(res.status){
+            this.replyList = [];
+            this.getReplyList();
+          } else{
+            alert('댓글 삭제 오류!');
+          }
+        },
+        () => {
+          alert('댓글 삭제 오류!');
+        }
+      );
+    },
     handleScroll(e) {
       if (
         parseInt(e.target.scrollHeight) == parseInt(e.target.scrollTop + e.target.clientHeight) &&
         parseInt(e.target.scrollHeight) != 0
       ) {
         if (timer == null) {
-          this.getReplyList(); //다음 뉴스피드 10개를 가져오는 함수
+          this.getReplyList();
           timer = setTimeout(function() {
             timer = null;
           }, 300);
@@ -346,9 +366,6 @@ export default {
       e.stopPropagation();
       this.currentNumber -= 1;
     },
-    deleteReply() {
-      
-    }
   },
   beforeDestroy() {
     this.replyList = [];
