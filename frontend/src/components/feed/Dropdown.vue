@@ -5,7 +5,7 @@
 		</button>
     <div class="dropdown-content" v-if="show">
 			<!-- <a style="color: #1E90FF; border-bottom: 1px solid grey">수정</a> -->
-			<a @click="deleteFeed" style="color: #CD5C5C">삭제</a>
+			<a @click="deleteFeed" class="dropdown-delete-btn" style="color: #CD5C5C;">삭제</a>
     </div>
   </div>
 </template>

@@ -70,7 +70,7 @@
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
-  width: 100%;
+  width: 100vw;
 }
 
 .type_msg {
@@ -89,7 +89,7 @@
   height: 33px;
   position: absolute;
   right: 0;
-  top: 11px;
+  top: 17%;
   width: 33px;
 }
 .messaging {
