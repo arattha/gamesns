@@ -29,8 +29,6 @@
 						<div class="name_container">
 							<div class="name">{{nickname}}</div>
 						</div>
-						<!-- 상태메세지 -->
-						<div class="intro">저는 고양이를 좋아합니다.</div>
 					</div>
 					<!-- 프로필설정 -->
           <div class="edit">

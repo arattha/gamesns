@@ -8,7 +8,7 @@
           <img :src="'http://localhost:8080/account/file/' + boardItem.uid" />
         </div>
         <div class="media-body">
-          <p class="m-0 name">{{ boardItem.nickname }}</p>
+          <p class="fname mb-0" @click="userSearch">{{ boardItem.nickname }}</p>
           <p class="m-0 time">
             {{ boardItem.createDate | moment('from', 'now') }}
           </p>
@@ -98,6 +98,7 @@ import Sharelink from './Sharelink';
 import Like from './Like';
 import Dropdown from './Dropdown';
 import Reply from './Reply';
+import UserApi from "../../api/UserApi";
 import '@/components/css/feed/feed-item.scss';
 
 export default {
@@ -111,6 +112,7 @@ export default {
   },
   data: () => {
     return {
+      nickname: "",
       contentPreview: '',
       editor: null,
       defaultImage,
@@ -130,6 +132,8 @@ export default {
     if (this.uid == this.boardItem.uid) {
       this.mine = true
     }
+
+    this.nickname = this.$store.state.nickname;
 
     this.boardItem.imgFiles.forEach((element) => {
       this.img_src.push('http://localhost:8080/board/file/' + element.file_name);
@@ -200,6 +204,21 @@ export default {
     },
     showContent: function() {
       this.$emit('showModal', this.boardItem);
+    },
+    goMypage(suggest) {
+      if (this.nickname == suggest.nickname) this.$router.push("/mypage");
+      else this.$router.push({ name: "UserPage", params: { suggest } })
+    },
+    userSearch() {
+      UserApi.requestGetUser(
+        this.boardItem.nickname,
+        (res) => {
+          console.log('여기!')
+          console.log(res)
+          this.goMypage(res.data.object);
+        },
+        () => {}
+      );
     },
   },
   mounted() {
