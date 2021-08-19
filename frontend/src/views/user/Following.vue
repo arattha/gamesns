@@ -6,7 +6,7 @@
       <!-- 나중에 닉네임 같은 걸로 내용 바꾸기~ -->
       <li class="list" v-for="(follow, idx) in following" :key="idx">
         <div class="small-user-img-div">
-          <img :src="'http://localhost:8080/account/file/' + follow.uid" class="small-user-img">
+          <img :src="'https://i5c203.p.ssafy.io/api/account/file/' + follow.uid" class="small-user-img">
           <span class="small-user-comment" @click="goUserPage(follow)">{{follow.nickname}}</span>
         </div>
         <!-- 사용자 아이디와 같으면 삭제 버튼을 생성 : 사용자 아이디는 어떤 화면에서든 가져올 수 있다. -->
@@ -14,7 +14,7 @@
       </li>
     </div>
     <div>
-      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
     </div>
     <Footer/>
   </div>
@@ -36,14 +36,14 @@ export default {
         uid: '',
         nickname:'',
         following: [],
-        isMe: true,
+        isMe: false,
       }
     },
     created() {
       this.following = this.$route.params.following;
       this.uid = this.$store.state.uid;
       this.nickname = this.$store.state.nickname;
-      if(this.uid == this.$route.params.uid) this.isMe = false;
+      if(this.uid == this.$route.params.id) this.isMe = true;
     },
     methods:{
       goUserPage(u){
@@ -53,7 +53,7 @@ export default {
         let data = {
           fromNickname: this.nickname,
           toNickname: u,
-          type: 1
+          type: 0
         }
         UserApi
           .requestFollowUpdate(
