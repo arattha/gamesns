@@ -2,14 +2,14 @@
 // const { type } = require("os");
 // const { join } = require("path");
 
-// const fs = require('fs')
-// const options = {
-//     cert: fs.readFileSync('/etc/letsencrypt/live/i5c203.p.ssafy.io/fullchain.pem'),
-//     key: fs.readFileSync('/etc/letsencrypt/live/i5c203.p.ssafy.io/privkey.pem')
-// };
+const fs = require('fs')
+const options = {
+    cert: fs.readFileSync('/etc/letsencrypt/live/i5c203.p.ssafy.io/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/i5c203.p.ssafy.io/privkey.pem')
+};
 
 var app = require("express")();
-var server = require("http").createServer(app);
+var server = require("https").createServer(options, app);
 var io = require("socket.io")(server, {
     cors: {
         origin: "*",
