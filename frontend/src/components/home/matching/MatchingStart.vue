@@ -37,7 +37,7 @@
       </div>
 
       <button class="matching-start-btn game-btn" id="btnJoin" style="">함고?</button>
-      <button class="matching-accept-btn game-btn" id="btnSend" v-show="matchedUser.length > 0" style="">매칭수락</button>
+      <button class="matching-accept-btn game-btn" id="btnSend" v-show="matchedUser.length != []" style="">매칭수락</button>
       <!--<button class="matching-start-btn game-btn" id="btnSend"> 보내기 </button>-->
     </div>
     <Footer />
