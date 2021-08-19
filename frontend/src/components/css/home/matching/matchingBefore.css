@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-.matching-container{
+.matching-container {
   position: relative;
 }
 
@@ -27,7 +27,8 @@
 }
 
 .matchingBefore-btn {
-  background-color:  #37474f;
+  background-color: #8197a1;
+  /* background-color:  #37474f; */
   width: 150px;
   font-size: 20px;
   color: white;
@@ -47,7 +48,7 @@
   bottom: 12%;
 }
 
-#discordCheck:active{
+#discordCheck:active {
   bottom: 20.2%;
   background-color: #455a64;
 }
@@ -59,17 +60,16 @@
   border-radius: 3px;
 }
 
-.discord-id-input:focus{
+.discord-id-input:focus {
   border: none;
   border-bottom: 2px solid black;
   font-size: 24px;
 }
 
-.discord-link-div:active{
+.discord-link-div:active {
   background-color: #546e7a;
 }
 
-#discord-comment{
+#discord-comment {
   margin-top: 3px;
 }
-

@@ -141,9 +141,12 @@ export default {
           } else if (matchingResponse.data.responseResult == 'CANCEL') {
             //this.updateText('>> Success to cancel', false);
             document.querySelector('#btnJoin').innerText = '함고?';
+            this.$router.push('/matchingBefore');
           } else if (matchingResponse.data.responseResult == 'TIMEOUT') {
             //this.updateText('>> Can`t find user :(', false);
             document.querySelector('#btnJoin').innerText = '함고?';
+            alert("매칭 시간초과입니다.")
+            this.$router.push('/matchingBefore');
           }
         })
         .catch((jqxhr) => {
