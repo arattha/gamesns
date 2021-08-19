@@ -22,7 +22,7 @@
           <p>원하는 인원을 선택하세요</p>
         </div>
       </div>
-      <button id = 'matchStart' style="">함고?</button>
+      <button id = 'matchStart' style="" :disabled="validated == 0">함고?</button>
     </div>
     <div>
       <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
@@ -49,6 +49,7 @@ export default {
       discordId: this.$route.params.data.discordId,
       games:[],
       people:["게임을 선택해주세요."],
+      validated: 0,
     }
   },
   created(){
@@ -72,6 +73,17 @@ export default {
         ((res) => {
           this.people = res.object}),
         (() => {}))
+    },
+    selectedPeople() {
+      if(this.selectedPeople != ""){
+        const discordCheckBtn = document.querySelector("#matchStart")
+        discordCheckBtn.style.backgroundColor = "#FFAF0A"
+        this.validated = 1;
+      } else{
+        const discordCheckBtn = document.querySelector("#matchStart")
+        discordCheckBtn.style.backgroundColor = "#8197a1"
+        this.validated = 0;
+      }
     },
   },
   methods: {
