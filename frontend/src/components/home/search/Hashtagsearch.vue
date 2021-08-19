@@ -17,7 +17,7 @@
       </div>
 
     <div>
-      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
     </div>
     <Footer/>
   </div>

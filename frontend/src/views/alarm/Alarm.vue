@@ -10,7 +10,7 @@
           <li class="list" v-for="(user, index) in List" :key="index">
           <div class="small-user-img-div">
               <img
-                :src="`http://localhost:8080/account/file/` + user.uid"
+                :src="`https://i5c203.p.ssafy.io/api/account/file/` + user.uid"
                 class="small-user-img"
               />
               <!-- 임의의 이미지가 들어가는거라, user의 프로필사진이 나오게 해야 함. -->
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div>
-      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
     </div>
     </div>
     <Footer />

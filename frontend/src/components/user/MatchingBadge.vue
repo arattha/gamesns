@@ -7,7 +7,7 @@
         style="padding-left: 0px; padding-right: 0px;"
          v-for="(badge, idx) in badgelist" :key="idx">
             <div>
-              <img :src="'http://localhost:8080/badge/file/' + badge.no">
+              <img :src="'https://i5c203.p.ssafy.io/api/badge/file/' + badge.no">
               <p>{{badge.name}}</p>
             </div>
         </div>

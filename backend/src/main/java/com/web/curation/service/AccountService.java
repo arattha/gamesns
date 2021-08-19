@@ -88,7 +88,7 @@ public class AccountService {
 
         member.setNickname(request.getNickname());
 
-        if(!path.equals("C://upload//")) member.setPimg(path);
+        if(!path.equals("//home//ubuntu//upload//")) member.setPimg(path);
 
         try{
             memberDao.save(member);

@@ -10,7 +10,7 @@
       <div v-for="(user, idx) in matchedUser" :key="idx">
         <div class="match-line">
           <div class="match-fimg">
-            <img :src="'http://localhost:8080/account/file/' + user.uid" />
+            <img :src="'https://i5c203.p.ssafy.io/api/account/file/' + user.uid" />
           </div>
           <!-- 매너점수 -->
           <div class="matchmanner">
@@ -179,7 +179,7 @@ export default {
     },
     connectAndSubscribe() {
       if (this.stompClient == null || !this.stompClient.connected) {
-        const serverURL = 'http://localhost:8080/matching';
+        const serverURL = 'https://i5c203.p.ssafy.io/api/matching';
         var socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({ matchingRoomId: this.chatRoomId }, (frame) => {

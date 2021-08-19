@@ -7,7 +7,7 @@ import { router } from '@/main';
     https://github.com/axios/axios 의 Request Config 챕터 확인
  */
 const instance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://i5c203.p.ssafy.io/api',
   withCredentials: true,
   headers: {
     'Content-type': 'application/json',
@@ -112,7 +112,7 @@ instance.interceptors.response.use(
 export default instance;
 
 // export default axios.create({
-//   baseURL: 'http://localhost:8080',
+//   baseURL: 'https://i5c203.p.ssafy.io/api',
 //   withCredentials: true,
 //   headers: {
 //     'Content-type': 'application/json',

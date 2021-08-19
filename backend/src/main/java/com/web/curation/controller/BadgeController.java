@@ -51,7 +51,7 @@ public class BadgeController {
     @GetMapping("/badge/file/{fileName}")
     @ApiOperation(value = "내파일")
     public Object bFile(@PathVariable final String fileName, HttpServletRequest request) throws MalformedURLException {
-        Resource resource =  new FileSystemResource("C://upload//Badge//"+fileName+".png");
+        Resource resource =  new FileSystemResource("//home//ubuntu//upload//Badge//"+fileName+".png");
 
         if(fileName == null) {
             final BasicResponse result = new BasicResponse();

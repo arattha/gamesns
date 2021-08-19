@@ -20,7 +20,7 @@
 </div>
 		<div>
 			<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-			<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
 		</div>
 	</div>
 </div>
