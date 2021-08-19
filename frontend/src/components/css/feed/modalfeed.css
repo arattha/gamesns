@@ -271,3 +271,8 @@ button {
 .modal-card :hover {
   background-color: transparent;
 }
+
+.modalcomment-delete-btn {
+  position: absolute;
+  right: 2%;
+}

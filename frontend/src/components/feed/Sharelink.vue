@@ -11,9 +11,17 @@
 </template>
 
 <script>
+import http from '@/util/http-common.js';
 export default {
     name: 'Sharelink',
     props: ['boardItem'],
+      data: () => {
+    return {
+        reply_num : 0,
+        likelist: [],
+        likelist_num: 0,
+        };
+    },
     methods: {
         openkakaoshare: function () {
             try {
@@ -22,7 +30,7 @@ export default {
                 }
             }
             catch(e) {console.log()}
-
+            console.log(this.reply_num)
             window.Kakao.Link.sendDefault({
                 objectType: 'feed',
                 content: {
@@ -40,9 +48,9 @@ export default {
                     },
                 },
                 social: {
-                    likeCount: 286,
+                    likeCount: this.likelist_num,
                     // 좋아요 수
-                    commentCount: 45,
+                    commentCount: this.reply_num,
                     //  댓글 수
                 },
                 buttons: [
@@ -56,6 +64,40 @@ export default {
             ],
             })
         }
+    },
+    created() {
+        let data = {
+      bid : this.boardItem.bid
+    }
+      http
+      .get('/reply/cnt', {params:data})
+      .then(({data}) => {
+        this.reply_num = data;
+      })
+      .catch((err) => {
+        console.log('reply num 에러입니다')
+        console.log(err)
+      })
+
+        let data2;
+      data2 = {
+        bid: this.boardItem.bid,
+      };
+
+      http
+        .get(`/board/like`, { params: data2 })
+        .then(({ data }) => {
+          if (data == null) {
+            this.likelist = [];
+            this.likelist_num = 0;
+          } else {
+            this.likelist = data;
+            this.likelist_num = this.likelist.length;
+          }
+        })
+        .catch(() => {
+          console.log('좋아요 리스트 에러');
+        });
     },
 }
 </script>
