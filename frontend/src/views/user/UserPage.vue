@@ -7,7 +7,7 @@
       <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-			<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
 		</div>
     
 		<div @scroll.passive="handleScroll" style="width:100%; margin: 0;" class="row h-100 justify-content-center align-items-center">
@@ -129,6 +129,7 @@ export default {
         this.uid = this.$store.state.uid;
         this.nickname = this.$store.state.nickname;
         this.userInfo = this.$route.params.suggest;
+        console.log("userInfo ",this.userInfo);
         this.getBoardItems();
         this.getFollowing();
         this.getFollower();
@@ -187,7 +188,7 @@ export default {
                 .requestFollowUpdate({
                     fromNickname: this.nickname,
                     toNickname: this.userInfo.nickname,
-                    type: -1
+                    type: 0
                 },
                 (() => {
                     alert("팔로우 관계를 취소했습니다.")

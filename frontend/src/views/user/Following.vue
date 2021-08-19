@@ -14,7 +14,7 @@
       </li>
     </div>
     <div>
-      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
     </div>
     <Footer/>
   </div>
@@ -36,14 +36,14 @@ export default {
         uid: '',
         nickname:'',
         following: [],
-        isMe: true,
+        isMe: false,
       }
     },
     created() {
       this.following = this.$route.params.following;
       this.uid = this.$store.state.uid;
       this.nickname = this.$store.state.nickname;
-      if(this.uid == this.$route.params.uid) this.isMe = false;
+      if(this.uid == this.$route.params.id) this.isMe = true;
     },
     methods:{
       goUserPage(u){
@@ -53,7 +53,7 @@ export default {
         let data = {
           fromNickname: this.nickname,
           toNickname: u,
-          type: 1
+          type: 0
         }
         UserApi
           .requestFollowUpdate(
