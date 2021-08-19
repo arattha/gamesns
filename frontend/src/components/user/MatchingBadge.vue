@@ -51,7 +51,6 @@ export default {
           })
           .catch((err) => {
             console.log('겟배지 에러')
-            console.log(err)
           })
       }
     }

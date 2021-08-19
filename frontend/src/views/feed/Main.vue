@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     updateSock() {
-      console.log('hihiihihhihihihh');
       var updateData = {
         id: this.sockid,
         nickname: this.nickname,

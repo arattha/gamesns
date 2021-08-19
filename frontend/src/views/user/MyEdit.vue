@@ -127,7 +127,6 @@ export default {
 
             this.file = input.files[0]
             // this.profileImg = fileList.result;
-            // console.log(this.profileImg);
 
             this.isSubmit = true;
         },

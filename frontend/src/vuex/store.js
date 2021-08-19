@@ -88,7 +88,6 @@ export default new Vuex.Store({
           },
         })
         .then(({ data }) => {
-          console.log(data);
           alert('글이 작성되었습니다.');
         })
         .then(() => router.push('/main'))

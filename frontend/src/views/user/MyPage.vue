@@ -125,7 +125,6 @@ export default {
     },
     created() {
         this.uid = this.$store.state.uid;
-        console.log("sdanfal;skdfn",this.uid);
         this.nickname = this.$store.state.nickname;
 
         UserApi
@@ -166,7 +165,6 @@ export default {
             let scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
             let windowHeight = window.innerHeight; // 스크린 창
             let fullHeight = document.body.scrollHeight; //  margin 값은 포함 x
-            //console.log(document.documentElement.scrollTop);
             if(( Math.abs(parseInt(fullHeight) - parseInt(scrollLocation + windowHeight)) < 3  ) && parseInt(scrollLocation) != 0){
                 if( timer == null ){
                     this.getBoardItems(); //다음 뉴스피드 10개를 가져오는 함수
@@ -200,7 +198,6 @@ export default {
         },
         modalShow(item){
             this.isModalViewed = !this.isModalViewed;
-            console.log(this.isModalViewed);
             this.temp = item;
             document.body.style.overflow = 'hidden';
         },

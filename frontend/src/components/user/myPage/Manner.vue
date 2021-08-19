@@ -37,8 +37,6 @@ export default {
         http
           .get(`/member/manner`, { params: data })
           .then(({data}) => {
-            console.log('여기야!')
-            console.log(data)
             this.score = data.object
           })
           .catch(() => {

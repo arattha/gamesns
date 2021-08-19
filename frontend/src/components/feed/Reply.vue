@@ -32,7 +32,6 @@ export default {
       })
       .catch((err) => {
         console.log('reply num 에러입니다')
-        console.log(err)
       })
   },
 }

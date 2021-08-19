@@ -35,12 +35,9 @@ export default {
         http
           .get(`/info`, { params: data })
           .then(({data}) => {
-            console.log('진짜')
-            console.log(data)
             this.nickname = data.object.nickname
           })
           .catch((err) => {
-            
             console.log('getNickname 에러')
           })
       },

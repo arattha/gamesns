@@ -159,8 +159,6 @@ export default {
     // http://localhost:8081/#싸피 이런식으로
     // 해당 해시태그가 나온 글들이 모두 나와야함.
 
-    // console.log(this.boardItem.contents);
-
     let subContent = '';
 
     // const extractDivPattern = /(<([^>]+)>)/gi;
@@ -213,8 +211,6 @@ export default {
       UserApi.requestGetUser(
         this.boardItem.nickname,
         (res) => {
-          console.log('여기!')
-          console.log(res)
           this.goMypage(res.data.object);
         },
         () => {}

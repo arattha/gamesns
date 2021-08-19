@@ -92,7 +92,6 @@ export default {
   },
   methods: {
     clickEvent(e) {
-      console.log(e);
       var type = e.target.innerText;
       if (type == '함고?') {
         this.join();
@@ -120,8 +119,6 @@ export default {
         .then((matchingResponse) => {
           console.log('Success to receive join result.');
 
-          console.log('여기 >> ');
-
           clearInterval(this.joinInterval);
           if (matchingResponse.data.responseResult == 'SUCCESS') {
             this.sessionId = matchingResponse.data.sessionId;
@@ -135,7 +132,7 @@ export default {
               this.matchedUser.push(element);
               
             });
-            console.log(this.matchedUser);
+
             //this.updateText('>> Connect anonymous user :)', false);
             this.connectAndSubscribe();
           } else if (matchingResponse.data.responseResult == 'CANCEL') {
@@ -157,7 +154,6 @@ export default {
           // } else {
           //   //this.updateText(jqxhr, true);
           // }
-          console.log(jqxhr);
         });
     },
     cancel() {
@@ -177,13 +173,11 @@ export default {
           document.querySelector('#btnJoin').innerText = '함고?';
         })
         .catch((jqxhr) => {
-          console.log(jqxhr);
           console.log('Error occur. please refresh');
         });
       clearInterval(this.joinInterval);
     },
     connectAndSubscribe() {
-      //console.log(this.stompClient);
       if (this.stompClient == null || !this.stompClient.connected) {
         const serverURL = 'http://localhost:8080/matching';
         var socket = new SockJS(serverURL);
@@ -227,8 +221,6 @@ export default {
         var result = JSON.parse(resultObj.body);
 
         if (result.messageType == 'CHAT') {
-          //console.log("zz");
-          //console.log(result);
           // if (result.senderSessionId === this.sessionId) {//여기다가 로직
           //   message += '[Me] : ';
           // } else {

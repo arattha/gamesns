@@ -46,7 +46,6 @@ io.on('connection' , function(socket) {
             rooms[data.nickname] = [];
         } 
         users[data.nickname] = data.id;
-        console.log("user", users);
     })
 
     socket.on('callRooms', function(data) {
@@ -90,10 +89,6 @@ io.on('connection' , function(socket) {
             
             */
 
-            console.log("입장!!!!!!!!!")
-            console.log(data)
-            console.log("")
-
             if(join_num[data.yourNickname][0] != data.myNickname){
                 // 3번의 경우(내가 채팅하려는 사람이 다른 사람과의 채팅방에 있을 때)
 
@@ -128,7 +123,6 @@ io.on('connection' , function(socket) {
             
             // 내가 처음에 입장한 사람일 경우에 입장 : flag = 0 && flag = 0
             if(flag == 0 && flag2 == 0) {
-                // console.log("내가 처음에 입장한 사람일 경우에 입장")
                 // rooms 에 데이터 추가
                 rooms[data.myNickname].push(data.yourNickname);
                 rooms[data.yourNickname].push(data.myNickname);
@@ -137,14 +131,11 @@ io.on('connection' , function(socket) {
                 join_num[data.myNickname] = [data.yourNickname,1];
 
                 // 데이터가 추가된 rooms 보내기 
-                // console.log("my", rooms[data.myNickname]);
-                // console.log("your", rooms[data.yourNickname]);
                 io.to(users[data.myNickname]).emit('getRooms', rooms[data.myNickname]);
                 io.to(users[data.yourNickname]).emit('getRooms', rooms[data.yourNickname]);
 
             } else {
                 // 방에 한명이라도 있는 경우에 입장
-                // console.log("방에 한명이라도 있는 경우에 입장")
                 if(join_num[data.yourNickname][0] == data.myNickname && join_num[data.yourNickname][1] == 1) {
                     join_num[data.yourNickname][1] = 2;
                     join_num[data.myNickname][0] = data.yourNickname;
@@ -156,12 +147,8 @@ io.on('connection' , function(socket) {
                 }
             }
 
-            console.log("입장 후 console!!")
-            console.log(join_num)
-            console.log("")
         } else if(data.type == 1) {
             // 퇴장
-            // console.log("퇴장!!")
             
             // 생각해야 될 것
             /*
@@ -219,13 +206,10 @@ io.on('connection' , function(socket) {
     
                 if(join_num[data.myNickname][1] == 1) {
                     // join_num[data.myNickname][1] == 1 이라면 내가 먼저 나온 경우
-                    // console.log("내가 먼저 나온 경우");
-                    // console.log("내 방",rooms[data.myNickname]);
                     // join_num 의 yourNickname 의 인원 수도 1 줄여줌
                     join_num[data.yourNickname][1]--;
                 } else if(join_num[data.myNickname][1] == 0) {
                     // join_num[data.myNickname][1] == 0 이라면 내가 마지막에 나온 경우
-                    // console.log("내가 마지막에 나온 경우")
     
                     // rooms 에서 방을 지워야 한다.
                     for(let i = 0; i < rooms[data.yourNickname].length; i++) {

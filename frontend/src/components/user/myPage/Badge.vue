@@ -29,7 +29,6 @@ export default {
       }
     },
     created() {
-      console.log("뱃지배십시비")
       if (this.userInfo == null) {
         this.uid = this.$store.state.uid;
       } else {
@@ -53,7 +52,6 @@ export default {
           })
           .catch((err) => {
             console.log('겟배지 에러')
-            console.log(err)
           })
       }
     }

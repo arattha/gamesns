@@ -97,8 +97,6 @@ export default {
           nickname: this.nickname,
         };
 
-        console.log(data);
-
         this.isSubmit = false;
 
         UserApi.requestSignUp(
@@ -109,8 +107,6 @@ export default {
               // feed/main으로 가야함
 
               this.setNickname(this.nickname);
-
-              console.log('dasda', this.uid);
 
               let status = login(this.uid);
 

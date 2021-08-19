@@ -5,17 +5,13 @@ import http from '@/util/http-common';
 
 const requestkakaoLogin = (data, callback, errorCallback) => {
   //백앤드와 로그인 통신하는 부분
-  // callback();
-  console.log(data);
   http
     .get('/kakaoLogin', { params: { code: data } })
     .then((res) => {
       // alert("로그인 되었습니다.");
-      console.log(res);
       callback(res.data);
     })
     .catch((err) => {
-      console.log(err);
       if (!err.response) {
         errorCallback(true);
       } else {
@@ -28,18 +24,15 @@ const requestExistUser = (data, callback, errorCallback) => {
   http
     .get(`/existUser/${data}`)
     .then((res) => {
-      // alert("로그인 되었습니다.");
-      console.log(res);
       callback(res.data);
     })
     .catch((err) => {
-      console.log(err);
       errorCallback();
     });
 };
 
 const requestDupCheck = (data, callback, errorCallback) => {
-  console.log(data);
+
   http
     .get('/dupcheck', { params: { nickname: data } })
     .then((res) => {
@@ -77,15 +70,13 @@ const logout = (data, callback, errorCallback) => {
 };
 
 const requestFollowing = (data, callback, errorCallback) => {
-  console.log('userapi', data);
+
   http
     .get('/follow/following', { params: data })
     .then((res) => {
-      console.log('팔로잉!!', res.data.object);
       callback(res.data.object);
     })
     .catch(() => {
-      alert('팔로잉 가져오기 실패!');
       errorCallback();
     });
 };
@@ -94,7 +85,6 @@ const requestFollower = (data, callback, errorCallback) => {
   http
     .get('/follow/follower', { params: data })
     .then((res) => {
-      console.log('팔로워!!', res.data.object);
       callback(res.data.object);
     })
     .catch((err) => {
@@ -148,7 +138,7 @@ const requestUpdateUser = (formData, callback, errorCallback) => {
 };
 
 const requestGetUser = (data, callback, errorCallback) => {
-  console.log(data);
+
   http
     .get('/info/' + data)
     .then((res) => {

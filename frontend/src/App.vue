@@ -30,7 +30,6 @@ export default {
         frame => {
           // 소켓 연결 성공
           this.connected = true;
-          console.log('소켓 연결 성공', frame);
           
           // 최초 한번 recvList 를 받기 위한 send
           this.stompClient.send("/receive", JSON.stringify({
@@ -41,7 +40,6 @@ export default {
           // subscribe 로 alarm List 가져오기
           this.stompClient.subscribe("/send", (res) => {
             this.recvList = JSON.parse(res.body);
-            console.log("새롭게 가져온다", this.recvList);
           })
         
         },
