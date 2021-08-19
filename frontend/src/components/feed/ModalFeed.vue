@@ -100,6 +100,7 @@
                   {{ reply.regDate | moment('from', 'now') }}
                 </span>
               </div>
+              <a class="modalcomment-delete-btn" @click="deleteReply" style="color: #CD5C5C;">삭제</a>
             </li>
           </ul>
         </div>
@@ -290,11 +291,10 @@ export default {
             .then(({ data }) => {
               this.now_reply_num = data;
               console.log('g2g2g 모달피드 댓글임');
-              console.log(data);
+              console.log(this.now_reply_num);
             })
             .catch((err) => {
               console.log('reply num 에러입니다');
-              console.log(err);
             });
         },
         () => {
@@ -346,6 +346,9 @@ export default {
       e.stopPropagation();
       this.currentNumber -= 1;
     },
+    deleteReply() {
+      
+    }
   },
   beforeDestroy() {
     this.replyList = [];

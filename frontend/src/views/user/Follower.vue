@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="follower-container">
       <Header/>
     <div class="form">
       <h4 class="title">Follower - {{ follower.length }}</h4>

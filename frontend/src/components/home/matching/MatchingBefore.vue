@@ -5,10 +5,12 @@
       <!-- <div class="game-kind-btns">
       </div> -->
       
-      <div class="discord-link-div">
-        <a style="color:white;margin:0px;text-decoration:none" href="https://discord.gg/BbcYwNcFv9" target="_blank">함고 서버링크</a>
+      <div class="discord-link-total-div">
+        <div class="discord-link-div">
+          <a class="discord-link" style="color:white;margin:0px;text-decoration:none" href="https://discord.gg/BbcYwNcFv9" target="_blank">함고 서버링크</a>
+        </div>
+        <p style="margin:0px;" id="discord-plus-comment">함고 채널에 접속하셔야 매칭이 가능합니다.</p>
       </div>
-      <div><p id="discord-comment">함고 채널에 접속하셔야 매칭이 가능합니다.</p></div>
       
         <div class="discord-id-box">
           <input

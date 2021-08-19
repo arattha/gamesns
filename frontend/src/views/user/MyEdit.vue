@@ -185,4 +185,5 @@ export default {
 </script>
 <style>
     @import "../../components/css/user/myedit.css";
+    @import "../../components/css/user/myedit.scss";
 </style>
