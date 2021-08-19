@@ -13,6 +13,12 @@
     display: inline-block;
 }
 
+.dropdown-delete-btn{
+    border:1px solid #616161;
+    border-radius: 4px;
+}
+
+
 .dropdown-content {
     /* display: none; */
     position: absolute;

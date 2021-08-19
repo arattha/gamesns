@@ -10,6 +10,7 @@
           placeholder="검색"
           @keyup.enter="hashLink(search)"
         />
+        
         <div
           v-for="(suggest, index) in searched"
           :key="index"

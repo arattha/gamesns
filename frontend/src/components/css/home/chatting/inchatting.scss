@@ -7,12 +7,18 @@
 .type_msg {
     width: 100vw;
 }
+.input_msg_write input {
+    width: 100vw;
+}
 
 @media (min-width: 320px) and (max-width: 767px) {
 	.inchatting-container {
         width: 100vw;
     }
     .type_msg {
+        width: 100vw;
+    }
+    .input_msg_write input {
         width: 100vw;
     }
 }
@@ -24,6 +30,9 @@
     .type_msg {
         width: 70vw;
     }
+    .input_msg_write input {
+        width: 70vw;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -31,6 +40,9 @@
         width: 40vw;
     }
     .type_msg {
+        width: 40vw;
+    }
+    .input_msg_write input {
         width: 40vw;
     }
 }

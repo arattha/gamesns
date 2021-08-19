@@ -43,8 +43,8 @@
       </div>
       <div class="type_msg" style="background-color:white">
         <div class="input_msg_write">
-          <div v-if="!chatPossible" style="text-align:center">
-            <p style="margin:0.5rem 0 0.5rem 0">상대방의 입장을 기다리고 있습니다.</p>
+          <div v-if="!chatPossible" style="text-align:center; ">
+            <p style="margin:0.5rem 0 0.5rem 0; ">상대방의 입장을 기다리고 있습니다.</p>
           </div>
           <div v-else>
             <input
