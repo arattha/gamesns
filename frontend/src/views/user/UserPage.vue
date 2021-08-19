@@ -17,7 +17,7 @@
 				<!-- 프로필 배경 이미지 -->
         <div class="card-header">
 					<div class="profile_pic">
-						<img :src="'https://i5c203.p.ssafy.io/api/account/file/' + userInfo.uid">
+						<img :src="'http://localhost:8080/account/file/' + userInfo.uid">
 					</div>
 				</div>
 
@@ -129,6 +129,7 @@ export default {
         this.uid = this.$store.state.uid;
         this.nickname = this.$store.state.nickname;
         this.userInfo = this.$route.params.suggest;
+        console.log("userInfo ",this.userInfo);
         this.getBoardItems();
         this.getFollowing();
         this.getFollower();

@@ -30,7 +30,7 @@
                     <!-- 현재 닉네임 보여주고/필수-->
                     <div class="input-container" style="align-content: center;">
                         <input v-model="newNickname" id="name" class="input" type="text" pattern=".+" required />
-                        <label class="label" for="name">닉네임</label>
+                        <label class="label" for="name">{{ nickname }}</label>
                         <div class="check">
                             <div class="check_btn" @click="dupCheck">중복체크</div>
                         </div>
@@ -128,6 +128,8 @@ export default {
             this.file = input.files[0]
             // this.profileImg = fileList.result;
             // console.log(this.profileImg);
+
+            this.isSubmit = true;
         },
         dupCheck(){
             if(this.newNickname.length == 0) {
@@ -151,15 +153,19 @@ export default {
                 this.isSubmit = false;
 
                 let formData = new FormData();
-
+                
                 formData.append('uid',this.uid);
-                formData.append('nickname',this.newNickname);
-                if(this.file != null) formData.append('multipartFile', this.file);
 
+                if(this.newNickname == '') formData.append('nickname',this.nickname);
+                else formData.append('nickname',this.newNickname);
+
+                if(this.file != null) formData.append('multipartFile', this.file);
+                
                 UserApi.requestUpdateUser(formData
                 ,() => {
                     alert("회원정보가 수정되었습니다.");
-                    this.setNickname(this.newNickname);
+                    
+                    if(this.newNickname != '') this.setNickname(this.newNickname);
                     this.$router.push("/mypage");
                 }
                 ,() => {
