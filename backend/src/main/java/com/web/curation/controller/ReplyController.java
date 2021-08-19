@@ -4,6 +4,7 @@ import com.web.curation.dao.reply.ReplyDao;
 import com.web.curation.model.BasicResponse;
 import com.web.curation.model.reply.Reply;
 import com.web.curation.model.reply.ReplyCreateRequest;
+import com.web.curation.model.reply.ReplyResponse;
 import com.web.curation.model.reply.ReplyUpdateRequest;
 import com.web.curation.service.ReplyService;
 import io.swagger.annotations.*;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.List;
 import java.util.Optional;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
@@ -37,7 +40,7 @@ public class ReplyController {
         final BasicResponse result = new BasicResponse();
 
         boolean flag = replyService.insert(request.getUid(), request.getBid(),
-                request.getNickname(), request.getContent());
+                 request.getContent());
 
         if (flag) {
             result.status = true;
@@ -53,17 +56,16 @@ public class ReplyController {
 
     @PutMapping("/reply")
     @ApiOperation(value = "댓글수정")
-    public Object update(@Valid @RequestBody ReplyUpdateRequest request) {
+    public Object update(@Valid @RequestBody ReplyUpdateRequest request , @RequestBody final String uid) {
         final BasicResponse result = new BasicResponse();
-
         // 만약 조회하고자하는 댓글이 db에 없거나
         // 수정하고자하는 닉네임과 기존 댓글을 작성한 닉네임이 다를 경우에
         // 비정상적으로 처리됬음을 알리기위함
         result.status = false;
         result.data = "failed";
 
-        boolean flag = replyService.update(request.getRid(),
-                request.getNickname(), request.getContent());
+        boolean flag = replyService.update(request.getRid(),uid,
+                request.getContent());
 
         if (flag) {
             result.status = true;
@@ -89,7 +91,7 @@ public class ReplyController {
 
         try {
             // 현재 페이지의 댓글들의 정보를 얻어온다.
-            Slice<Reply> curPage = replyService.getReplyListByPages(bid, lastRid,4);
+            List<ReplyResponse> curPage = replyService.getReplyListByPages(bid, lastRid,8);
 
             // 만약 아무것도 얻어오지 못했다면 이는 잘못된 처리이므로
             // curPage를 반환값에 담지 않게한다.
@@ -108,16 +110,15 @@ public class ReplyController {
 
     @DeleteMapping("/reply")
     @ApiOperation(value = "댓글삭제")
-    public Object delete(@RequestBody final Long rid, @RequestParam final String nickname) {
+    public Object delete(@RequestParam final Long rid, @RequestParam final String uid) {
         final BasicResponse result = new BasicResponse();
-
         // 만약 조회하고자하는 댓글이 db에 없거나
         // 제거하고자하는 닉네임과 기존 댓글을 작성한 닉네임이 다를 경우에
         // 비정상적으로 처리됬음을 알리기위함
         result.status = false;
         result.data = "failed";
-
-        boolean flag = replyService.delete(rid, nickname);
+        System.out.println(rid +" " +uid);
+        boolean flag = replyService.delete(rid,uid);
 
         if (flag) {
             result.status = true;

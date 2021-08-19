@@ -196,7 +196,7 @@ const requestReplyList = (data, callback, errorCallback) => {
   http
     .get(`/reply`, { params : data })
     .then(( res ) => {
-      callback(res.data.object.content);
+      callback(res.data.object);
     })
     .catch(() => {
       errorCallback();
@@ -258,6 +258,17 @@ const requestDiscord = (data, callback, errorCallback) => {
     });
 }
 
+const requestDeleteReply = (data, callback, errorCallback) => {
+  http
+    .delete(`/reply`, { params: data } )
+    .then(({ data }) => {
+      callback(data);
+    })
+    .catch(() => {
+      errorCallback();
+    });
+}
+
 const UserApi = {
   requestkakaoLogin: (data, callback, errorCallback) =>
     requestkakaoLogin(data, callback, errorCallback),
@@ -294,6 +305,8 @@ const UserApi = {
     requestPeople(data, callback, errorCallback),
   requestDiscord: (data, callback, errorCallback) =>
     requestDiscord(data, callback, errorCallback),
+  requestDeleteReply: (data, callback, errorCallback) =>
+    requestDeleteReply(data, callback, errorCallback),
 };
 
 export default UserApi;

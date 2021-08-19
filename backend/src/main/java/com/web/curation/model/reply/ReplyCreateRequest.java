@@ -21,8 +21,5 @@ public class ReplyCreateRequest {
     String uid;
     @ApiModelProperty(required = true)
     @NotNull
-    String nickname;
-    @ApiModelProperty(required = true)
-    @NotNull
     String content;
 }

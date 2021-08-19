@@ -22,8 +22,6 @@ public class Reply {
     // board id
     private Long bid;
 
-    private String nickname;
-
     private String content;
 
     private int cnt;
