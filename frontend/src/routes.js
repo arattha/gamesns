@@ -2,7 +2,6 @@ import Login from './views/user/Login.vue';
 import Loading from '@/views/user/UserLoading.vue';
 import Join from './views/user/Join.vue';
 import Main from './views/feed/Main.vue';
-import Components from './views/Components.vue';
 import NotFound from './views/error/PageNotFound.vue';
 import ErrorP from './views/error/Error.vue';
 import MyEdit from './views/user/MyEdit.vue';
@@ -66,11 +65,6 @@ export default [
     path: '/follower',
     name: 'Follower',
     component: Follower,
-  },
-  {
-    path: '/components',
-    name: 'Components',
-    component: Components,
   },
   {
     path: '/error',

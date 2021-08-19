@@ -1,6 +1,6 @@
 <template>
   <div class="Search-container">
-    <Header />
+    <Header  />
     <div class="search-res">
       <div class="search-bar">
         <input
@@ -10,7 +10,6 @@
           placeholder="검색"
           @keyup.enter="hashLink(search)"
         />
-        
         <div
           v-for="(suggest, index) in searched"
           :key="index"
@@ -96,6 +95,7 @@ export default {
     },
     hashLink(search) {
       if (search[0] == "#") {
+        this.recentUser(search);
         this.$router.push({
           name: "Hashtagsearch",
           params: {
@@ -109,13 +109,16 @@ export default {
     },
     recentSearch(user) {
       this.recentUser(user);
-      UserApi.requestGetUser(
-        user,
-        (res) => {
-          this.userLink(res.data.object);
-        },
-        () => {}
-      );
+      if(user[0] == "#") this.hashLink(user);
+      else {
+        UserApi.requestGetUser(
+          user,
+          (res) => {
+            this.userLink(res.data.object);
+          },
+          () => {}
+        );
+      }
     },
   },
 };
