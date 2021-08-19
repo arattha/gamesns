@@ -1,7 +1,7 @@
 <template>
   <div class="Search-container">
     <Header  />
-    <div class="search-res">
+    <div class="search-res" style="padding-top: 45px;">
       <div class="search-bar">
         <input
           v-model="search"

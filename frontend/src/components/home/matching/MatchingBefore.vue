@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header/>
-    <div class="matching-container">
+    <div class="matching-container" style="padding-top: 45px;">
       <!-- <div class="game-kind-btns">
       </div> -->
       

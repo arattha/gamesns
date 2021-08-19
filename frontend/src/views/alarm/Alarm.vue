@@ -1,7 +1,7 @@
 <template>
   <div class="alarm-container" style="background-color: #fafafa;">
     <Header />
-    <div class="alarm-res">
+    <div class="alarm-res" style="padding-top: 45px;">
     <div class="form">
       <div>
         <h5 v-if="List == undefined" class="title">알림 - 0개</h5>

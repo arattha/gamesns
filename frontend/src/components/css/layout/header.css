@@ -55,6 +55,7 @@ position: fixed;
 
 .header{
     margin: 0 auto;
+    margin-bottom: 50px;
     display: flex;
     align-items: center;
     background: #FFAF0A;
