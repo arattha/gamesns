@@ -81,7 +81,6 @@ export default {
       (() => {}))
     },
     next(){
-      console.log("test")
       let data = {
         discordId : this.discordId,
       }
@@ -96,11 +95,12 @@ export default {
     },
     onUpdate(){
       let gamerTag = this.regex.exec(this.discordId);
-      this.error = "해시태그까지 적어주세요!"
       if(gamerTag){
         this.gamerCheck = 1;
-      } else { 
+        this.error = ""
+      } else {
         this.gamerCheck = 0;
+        this.error = "해시태그까지 적어주세요!"
       }
     },
   },
