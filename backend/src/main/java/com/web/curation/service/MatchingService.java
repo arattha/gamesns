@@ -101,7 +101,7 @@ public class MatchingService {
             
             List<MatchingRequest> roomUserKey = new ArrayList<>();
             List<DeferredResult<MatchingResponse>> roomUserValue = new ArrayList<>();
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < Integer.parseInt(request.getPeopleLimit()); i++) {
             	roomUserKey.add(itr.next());
 			}
 
@@ -128,7 +128,7 @@ public class MatchingService {
 
             String uuid = UUID.randomUUID().toString(); //채팅방 이름 생성.
             
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < Integer.parseInt(request.getPeopleLimit()); i++) {
             	roomUserValue.add(waitingQueue.get(request.getKey()).remove(roomUserKey.get(i)));
 			}
             
@@ -136,7 +136,7 @@ public class MatchingService {
             //DeferredResult<MatchingResponse> user2Result = waitingUsers.remove(user2);
             
             
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < Integer.parseInt(request.getPeopleLimit()); i++) {
             	roomUserValue.get(i).setResult(new MatchingResponse(ResponseResult.SUCCESS, uuid, roomUserKey.get(i).getSessionId(), url, roomUserKey));
 			}
             
