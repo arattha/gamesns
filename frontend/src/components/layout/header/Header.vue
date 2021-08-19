@@ -1,5 +1,4 @@
 <template>
-  <div class="for-empty-space-header">
     <div class="main-container">
       <nav class="nav">
         <ul class="header" style="right: 0px">
@@ -18,7 +17,6 @@
         </ul>
       </nav>
     </div>
-  </div>
 </template>
 
 <script>

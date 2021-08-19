@@ -1,5 +1,4 @@
 <template>
-  <div class="for-empty-space-footer">
     <div id="menu-nav">
       <div id="navigation-bar">
         <ul>
@@ -11,7 +10,6 @@
         </ul>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
