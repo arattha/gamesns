@@ -152,9 +152,3 @@ kakao developers 에 hamgo 등록(도메인 등록)
 
 
 
-
-# 3. 데이터베이스 덤프 파일 최신본
-
-데이터베이스 : hamgo 
-
- [광주2반_3팀_SQL.sql](..\..\Downloads\광주2반_3팀_SQL.sql) 
