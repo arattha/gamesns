@@ -44,7 +44,6 @@ export default {
     },
     created() {
       this.follower = this.$route.params.follower;
-      console.log("heyhey",this.follower)
       this.uid = this.$store.state.uid;
       this.nickname = this.$store.state.nickname;
       if(this.uid == this.$route.params.id) this.isMe = true;

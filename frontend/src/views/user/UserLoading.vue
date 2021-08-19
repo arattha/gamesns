@@ -57,7 +57,6 @@ export default {
           this.isUser();
         },
         (error) => {
-          console.log(error);
           alert('잘못된 접근입니다!');
           this.$router.push('/');
         }
@@ -68,7 +67,6 @@ export default {
       UserApi.requestExistUser(
         this.uid,
         (res) => {
-          console.log(res);
 
           if (res.status) {
             this.nickname = res.object;
@@ -86,12 +84,10 @@ export default {
               this.$router.push('/');
             }
           } else {
-            console.log('회원가입이 필요!');
             this.$router.push('/user/join');
           }
         },
         (error) => {
-          console.log(error);
           alert('잘못된 접근입니다!!');
           this.$router.push('/');
         }

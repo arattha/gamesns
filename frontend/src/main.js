@@ -30,7 +30,6 @@ export const router = new VueRouter({
 // 페이지를 이동할 때마다 헤더를 재설정해준다.
 // router.beforeEach(async (to, from, next) => {
 //   const accessToken = store.getters.accessToken;
-//   console.log(accessToken);
 //   http.defaults.headers.common['Authorization'] = `Bearer ${store.state.accessToken}`;
 //   next();
 // });

@@ -48,13 +48,9 @@ export default {
       } else {
         this.uid = this.userInfo.uid;
       }
-      console.log('아아아아아')
-      console.log(this.userInfo)
     },
   methods: {
     addManner: function() {
-
-      // console.log(this.score)
 
       let data = {
         uid: this.uid,
@@ -64,13 +60,10 @@ export default {
       http
       .put('/member/manner', data)
       .then(({data}) => {
-        console.log('추가')
-        console.log(data)
         this.showbtn = 0
       })
       .catch((err) => {
         console.log('addmanner 실패')
-        console.log(err)
 
       })
     }

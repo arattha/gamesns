@@ -129,7 +129,7 @@ export default {
         this.uid = this.$store.state.uid;
         this.nickname = this.$store.state.nickname;
         this.userInfo = this.$route.params.suggest;
-        console.log("userInfo ",this.userInfo);
+
         this.getBoardItems();
         this.getFollowing();
         this.getFollower();

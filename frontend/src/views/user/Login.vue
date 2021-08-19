@@ -56,11 +56,9 @@ export default {
       UserApi.requestkakaoLogin(
         data,
         (res) => {
-          console.log('success');
           this.$router.push('/feed/main');
         },
         (error) => {
-          console.log('need signup');
           this.$router.push('/user/join');
         }
       );
