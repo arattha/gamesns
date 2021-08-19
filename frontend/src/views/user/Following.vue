@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="following-container">
     <Header/>
     <div class="form">
       <h4 class="title">Following - {{ following.length }}</h4>
@@ -78,4 +78,5 @@ export default {
 
 <style>
   @import "../../components/css/user/follow.css";
+  @import "../../components/css/user/follow.scss";
 </style>

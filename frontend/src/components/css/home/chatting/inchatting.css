@@ -22,6 +22,7 @@
   padding: 0 0 0 10px;
   vertical-align: top;
   width: 85%;
+  word-break: normal;
 }
 .received_withd_msg p {
   background: #ebebeb none repeat scroll 0 0;
@@ -31,6 +32,7 @@
   margin: 0;
   padding: 5px 10px 5px 12px;
   width: 100%;
+  word-break: normal;
 }
 .time_date {
   color: #747474;
@@ -55,6 +57,7 @@
   color: #fff;
   padding: 5px 10px 5px 12px;
   width: 100%;
+  word-break: normal;
 }
 .outgoing_msg {
   overflow: hidden;
@@ -63,6 +66,7 @@
 .sent_msg {
   float: right;
   width: 46%;
+  word-break: normal;
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
@@ -71,6 +75,7 @@
   font-size: 15px;
   min-height: 48px;
   width: 100vw;
+  word-break: normal;
 }
 
 .type_msg {
@@ -112,4 +117,5 @@
 
 .write_msg{
   width: 100%;
+  word-break: normal;
 }
