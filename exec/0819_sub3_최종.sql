@@ -174,14 +174,14 @@ CREATE TABLE IF NOT EXISTS `game` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-insert into Game(`game_name`, `num`) values('LeagueOfLegends', 2);
-insert into Game(`game_name`, `num`) values('LeagueOfLegends', 5);
-insert into Game(`game_name`, `num`) values('EternalReturn', 3);
-insert into Game(`game_name`, `num`) values('AmongUs', 5);
-insert into Game(`game_name`, `num`) values('AmongUs', 10);
-insert into Game(`game_name`, `num`) values('PayDay3', 4);
-insert into Game(`game_name`, `num`) values('LostArk', 4);
-insert into Game(`game_name`, `num`) values('DeepRockGalactic', 4);
+insert into game(`game_name`, `num`) values('LeagueOfLegends', 2);
+insert into game(`game_name`, `num`) values('LeagueOfLegends', 5);
+insert into game(`game_name`, `num`) values('EternalReturn', 3);
+insert into game(`game_name`, `num`) values('AmongUs', 5);
+insert into game(`game_name`, `num`) values('AmongUs', 10);
+insert into game(`game_name`, `num`) values('PayDay3', 4);
+insert into game(`game_name`, `num`) values('LostArk', 4);
+insert into game(`game_name`, `num`) values('DeepRockGalactic', 4);
 INSERT INTO badge VALUES (1,'아기매너','manner',5),(2,'매너왕','manner',10),(3,'댓글왕','reply',3),(4,'글왕','board',3);
 
 
