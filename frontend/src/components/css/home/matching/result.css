@@ -65,3 +65,7 @@
 	height: 40px;
 	border-radius: 4px;
 }
+
+.discordDiv:hover {
+	cursor: pointer;
+}
