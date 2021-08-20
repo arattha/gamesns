@@ -82,12 +82,14 @@
 }
 
 .matching-accept-btn {
-  padding: 7px 0px;
+  padding: 0px;
   background-color: #ffaf0a;
   /* position: absolute; */
   top: 500px;
   width: 150px;
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .game-btn:active {
