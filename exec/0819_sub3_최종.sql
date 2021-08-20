@@ -191,23 +191,3 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- show tables;
 select * from badge;
--- select * from following;
--- insert into member(uid, nickname, password, authority) values(1, '조성표', 'a');
--- insert into member(uid, nickname, password, authority) values(2, '최광진', 'a');
--- insert into member(uid, nickname, password, authority) values(3, '심찬인', 'a');
--- insert into member(uid, nickname, password, authority) values(4, '성루비', 'a');
--- insert into member(uid, nickname, password, authority) values(5, '조용일', 'a');
--- insert into follower(to_id, from_id) values(1814234071, 2);
--- insert into follower(to_id, from_id) values(1814234071, 3);
--- insert into follower(to_id, from_id) values(1814234071, 4);
--- insert into following(from_id, to_id) values(1814234071, 2);
--- insert into following(from_id, to_id) values(1814234071, 3);
--- insert into following(from_id, to_id) values(1814234071, 4);
--- insert into following(from_id, to_id) values(1814234071, 1);
--- insert into follower(to_id, from_id) values (1, 1814234071);
-
--- select * from follower;
--- select * from following;
--- select * from member;
--- select * from board;
--- desc member;
