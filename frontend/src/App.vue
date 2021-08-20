@@ -24,13 +24,13 @@ export default {
       const serverURL = "https://i5c203.p.ssafy.io/api/alarm"
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      this.stompClient.debug = () => {};
       this.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           this.connected = true;
           
+      this.stompClient.debug = () => {};
           // 최초 한번 recvList 를 받기 위한 send
           this.stompClient.send("/receive", JSON.stringify({
             memberName: "",
