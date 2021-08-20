@@ -183,7 +183,8 @@ export default {
         var socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({ matchingRoomId: this.chatRoomId }, (frame) => {
-          console.log('Connected: ' + frame);
+          
+      this.stompClient.debug = () => {};
           this.subscribeMessage();
         });
       } else {
