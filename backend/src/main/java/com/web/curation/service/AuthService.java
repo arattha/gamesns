@@ -85,7 +85,8 @@ public class AuthService {
 
         String key = authentication.getName();
         redisTemplate.opsForValue().set(key, tokenDto.getRefreshToken());
-        redisTemplate.expire(key, tokenDto.getRefreshTokenExpiresIn(), TimeUnit.SECONDS);
+        System.out.println(tokenDto.getRefreshTokenExpiresIn());
+        redisTemplate.expire(key, 60 * 60 * 24 * 7, TimeUnit.SECONDS);
 
 //        refreshTokenDao.save(refreshToken);
         System.out.println(tokenDto);
@@ -133,7 +134,7 @@ public class AuthService {
 
         // 저장소 정보 업데이트
         redisTemplate.opsForValue().set(key, tokenDto.getRefreshToken());
-        redisTemplate.expire(key, tokenDto.getRefreshTokenExpiresIn(), TimeUnit.SECONDS);
+        redisTemplate.expire(key, 60 * 60 * 24 * 7, TimeUnit.SECONDS);
 
         Optional<TokenDto> returnToken = Optional.ofNullable(tokenDto);
 
