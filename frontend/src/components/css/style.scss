@@ -52,47 +52,47 @@ span {
     transform: rotate(0.1deg);
 }
 
-input {
-    background:transparent;
-    font-size: 1em;
-    height: 50px;
-    line-height: 1em;
-    border: 1px solid $grey;
-    padding:0 20px;
-    box-sizing: border-box;
-    transition: .2s;
-    outline:none;
-    &::placeholder {
-        color: #333;
-        opacity: .5;
-        font-weight: $f600;
-    }
-    &:-ms-input-placeholder {
-        color: #333;
-        opacity: .5;
-        font-weight: $f600;
-    }
-    &:-ms-input-placeholder {
-        color: #333;
-        opacity: .5;
-        font-weight: $f600;
-    }
-    &:-webkit-autofill {
-        /*  -webkit-text-fill-color: #333;*/
-        transition: background-color 5000s ease-in-out 0s;
-        &:hover,
-        &:focus input:-webkit-autofill {
-            /*  -webkit-text-fill-color: #333;*/
-            transition: background-color 5000s ease-in-out 0s;
-        }
-    }
-    &:focus {
-        outline: 0;
-    }
-    &:hover {
-        border:2px solid #000;
-    }
-}
+// input {
+//     background:transparent;
+//     font-size: 1em;
+//     height: 50px;
+//     line-height: 1em;
+//     // border: 1px solid $grey;
+//     padding:0 20px;
+//     box-sizing: border-box;
+//     transition: .2s;
+//     outline:none;
+//     &::placeholder {
+//         color: #333;
+//         opacity: .5;
+//         font-weight: $f600;
+//     }
+//     &:-ms-input-placeholder {
+//         color: #333;
+//         opacity: .5;
+//         font-weight: $f600;
+//     }
+//     &:-ms-input-placeholder {
+//         color: #333;
+//         opacity: .5;
+//         font-weight: $f600;
+//     }
+//     &:-webkit-autofill {
+//         /*  -webkit-text-fill-color: #333;*/
+//         transition: background-color 5000s ease-in-out 0s;
+//         &:hover,
+//         &:focus input:-webkit-autofill {
+//             /*  -webkit-text-fill-color: #333;*/
+//             transition: background-color 5000s ease-in-out 0s;
+//         }
+//     }
+//     &:focus {
+//         outline: 0;
+//     }
+//     &:hover {
+//         border:2px solid #000;
+//     }
+// }
 
 textarea:-webkit-autofill {
     /*  -webkit-text-fill-color: #333;*/
@@ -113,13 +113,13 @@ select:-webkit-autofill {
     }
 }
 
-input {
-    &[type=button],
-    &[type=submit],
-    &[type=radio] {
-        -webkit-appearance: none;
-    }
-}
+// input {
+//     &[type=button],
+//     &[type=submit],
+//     &[type=radio] {
+//         -webkit-appearance: none;
+//     }
+// }
 
 button {
     border: none;
@@ -1187,6 +1187,7 @@ p {
 /*메인*/
 
 .feed {
+    position: relative;
     h1 {
         font: {
             weight: $f600;

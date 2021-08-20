@@ -63,7 +63,7 @@ body {
   overflow-x: hidden;
 }
 
-/*html {margin: 0; padding: 0; height: 100%;}*/
+html {margin: 0; padding: 0; height: 100%;}*/
 ul {
   margin: 0;
   padding: 0;
@@ -99,7 +99,7 @@ input {
   font-size: 1em;
   height: 50px;
   line-height: 1em;
-  border: 1px solid #CCCCCC;
+  /* border: 1px solid #CCCCCC; */
   padding: 0 20px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -145,14 +145,14 @@ input:-ms-input-placeholder {
 }
 
 input:-webkit-autofill {
-  /*  -webkit-text-fill-color: #333;*/
-  -webkit-transition: background-color 5000s ease-in-out 0s;
-  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #333;
+  /* -webkit-transition: background-color 5000s ease-in-out 0s;
+  /* transition: background-color 5000s ease-in-out 0s; */
 }
 
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus input:-webkit-autofill {
-  /*  -webkit-text-fill-color: #333;*/
+  -webkit-text-fill-color: #333;
   -webkit-transition: background-color 5000s ease-in-out 0s;
   transition: background-color 5000s ease-in-out 0s;
 }

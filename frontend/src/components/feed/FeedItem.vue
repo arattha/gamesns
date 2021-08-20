@@ -1,115 +1,258 @@
 <template>
-  <div class="feed-item">
-    <div class="top">
-      <div class="profile-image" :style="{'background-image': 'url('+defaultProfile+')'}"></div>
-      <div class="user-info">
-        <div class="user-name">
-          <button>SSAFY</button>
+  <div class="fbody">
+    <div class="cardbox bg-white">
+      <!-- 프로필 -->
+      <div class="cardbox-heading" style="padding-right: 0px">
+        <!-- 내부 사진 크기 조절 필요 -->
+        <div class="fimg">
+          <img :src="'http://localhost:8080/account/file/' + boardItem.uid" />
         </div>
-        <p class="date">9시간 후</p>
+        <div class="media-body">
+          <p class="fname mb-0" @click="userSearch">{{ boardItem.nickname }}</p>
+          <p class="m-0 time">
+            {{ boardItem.createDate | moment('from', 'now') }}
+          </p>
+        </div>
+        <!--/ media -->
+        <!-- dropdown menu -->
+       <Dropdown v-if="mine" :boardItem="boardItem"/>
       </div>
-      <div class="content">
-        <p>이 글은 아주 좋습니다.</p>
-      </div>
-    </div>
-    <div class="feed-card">
-      <div class="img" :style="{'background-image': 'url('+defaultImage+')'}"></div>
-      <div class="contentsWrap">
-        <h4 class="title">사용자경험(UX)을 이해하는 팀원이 되기 위하여 - 사용자에게 '기본적인' UX를 선사하기 위해 우리 모두 알아야할 사실들</h4>
-        <div class="wrap">
-          <div class="url">
-            <a href="https://brunch.co.kr/@@63JW/25">https://brunch.co.kr/@@63JW/25</a>
+      <!--/ cardbox-heading -->
+
+      <!-- 이미지나 내용 -->
+      <div class="cardbox-item">
+        <div class="image-slider" style="padding: 0;" v-if="img_src.length > 0">
+          <div class="slider" style="padding: 0;" v-if="img_src.length > 1">
+            <button class="prev" @click="prev"><i class="black fas fa-chevron-left"></i></button>
+            <button class="next" @click="next"><i class="black fas fa-chevron-right"></i></button>
           </div>
-          <p class="date">2020.06.18</p>
+          <!-- 이미지 -->
+          <div
+            class="ffimg"
+            style="padding: 0px;"
+            v-for="number in [currentNumber]"
+            v-bind:key="number"
+            transition="fade"
+          >
+            <img
+              class="img-fluid"
+              alt=""
+              :src="img_src[Math.abs(currentNumber) % img_src.length]"
+            />
+          </div>
+        </div>
+        <!-- 내용 -->
+        <!-- <editor v-model="boardItem.contents" :isOK="false"/> -->
+        <div style="padding: 0px;">
+          <editor-content v-if="boardItem.contents" :editor="editor" />
+          <div class="showContentDiv">
+            <a @click="showContent" class="grayText">자세히보기</a>
+          </div>
+          <div v-if="hashtag_list != 0" class="hashtag-div" style="padding: 20px 10px 0px 10px;">
+            <span v-for="(hashtag, idx) in hashtag_list" :key="idx">
+              <router-link :to="{ name: 'Hashtagsearch', params: { hashtag: hashtag.slice(1) } }"
+                ><span style="margin-right:3px">{{ hashtag }}</span></router-link
+              >
+              <!-- hashtag = #싸피 -->
+            </span>
+            <!-- 해시태그가 없다면 안나오는 로직 써야함 v-if length()? -->
+          </div>
+        </div>
+        <!-- <div>{{boardItem.contents}}</div> -->
+      </div>
+      <!--/ cardbox-item -->
+
+      <!-- 좋아요 등 -->
+      <div class="cardbox-base">
+        <div class="likebox">
+          <Like :boardItem="boardItem" />
+          <div class="replyShowContentBtn" @click="showContent">
+            <Reply :boardItem="boardItem" :now_reply_num="newReplyLenData" />
+          </div>
+        </div>
+        <div class="sharebox">
+          <Sharelink :boardItem="boardItem" />
         </div>
       </div>
-    </div>
-    <!---->
-    <div class="btn-group wrap">
-      <div class="like likeScrap">
-        <svg
-          class="svg-inline--fa fa-heart fa-w-16 icon full"
-          aria-hidden="true"
-          data-prefix="fas"
-          data-icon="heart"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          data-fa-i2svg
-        >
-          <path
-            fill="currentColor"
-            d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"
-          />
-        </svg>
-        <!-- <i class="fas fa-heart icon full"></i> -->
-        <svg
-          class="svg-inline--fa fa-heart fa-w-16 icon empty"
-          aria-hidden="true"
-          data-prefix="far"
-          data-icon="heart"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          data-fa-i2svg
-        >
-          <path
-            fill="currentColor"
-            d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
-          />
-        </svg>
-        <!-- <i class="far fa-heart icon empty"></i> -->
-        0
-      </div>
-      <div class="comment">
-        <svg
-          class="svg-inline--fa fa-comment-alt fa-w-16 icon"
-          aria-hidden="true"
-          data-prefix="far"
-          data-icon="comment-alt"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          data-fa-i2svg
-        >
-          <path
-            fill="currentColor"
-            d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 7.1 5.8 12 12 12 2.4 0 4.9-.7 7.1-2.4L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64zm16 352c0 8.8-7.2 16-16 16H288l-12.8 9.6L208 428v-60H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16h384c8.8 0 16 7.2 16 16v288z"
-          />
-        </svg>
-        <!-- <i class="far fa-comment-alt icon"></i> -->
-        0
-      </div>
-      <!---->
-      <div class="share">
-        <svg
-          class="svg-inline--fa fa-share-alt fa-w-14 icon"
-          aria-hidden="true"
-          data-prefix="fas"
-          data-icon="share-alt"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 448 512"
-          data-fa-i2svg
-        >
-          <path
-            fill="currentColor"
-            d="M352 320c-22.608 0-43.387 7.819-59.79 20.895l-102.486-64.054a96.551 96.551 0 0 0 0-41.683l102.486-64.054C308.613 184.181 329.392 192 352 192c53.019 0 96-42.981 96-96S405.019 0 352 0s-96 42.981-96 96c0 7.158.79 14.13 2.276 20.841L155.79 180.895C139.387 167.819 118.608 160 96 160c-53.019 0-96 42.981-96 96s42.981 96 96 96c22.608 0 43.387-7.819 59.79-20.895l102.486 64.054A96.301 96.301 0 0 0 256 416c0 53.019 42.981 96 96 96s96-42.981 96-96-42.981-96-96-96z"
-          />
-        </svg>
+      <!--/ cardbox-base -->
+
+      <div>
+        <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet" />
+        <link
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet"
+        />
       </div>
     </div>
-    <!---->
-    <!---->
   </div>
 </template>
 
 <script>
-import defaultImage from "../../assets/images/img-placeholder.png";
-import defaultProfile from "../../assets/images/profile_default.png";
+import defaultImage from '../../assets/images/img-placeholder.png';
+import defaultProfile from '../../assets/images/profile_default.png';
+import { Editor, EditorContent } from '@tiptap/vue-2';
+import StarterKit from '@tiptap/starter-kit';
+import Paragraph from '@tiptap/extension-paragraph';
+import { mergeAttributes } from '@tiptap/core';
+import Sharelink from './Sharelink';
+import Like from './Like';
+import Dropdown from './Dropdown';
+import Reply from './Reply';
+import UserApi from "../../api/UserApi";
+import '@/components/css/feed/feed-item.scss';
+
 export default {
+  props: ['boardItem','newReplyLenData'],
+  components: {
+    EditorContent,
+    Sharelink,
+    Like,
+    Reply,
+    Dropdown,
+  },
   data: () => {
-    return { defaultImage, defaultProfile };
-  }
+    return {
+      nickname: "",
+      contentPreview: '',
+      editor: null,
+      defaultImage,
+      defaultProfile,
+      img_src: [],
+      currentNumber: 0,
+      hashtag_list: [],
+      temp_hashtaglist: [],
+      mine: 0,
+    };
+  },
+  created() {
+
+    // 피드 수정, 삭제 버튼
+    // 글 쓴 사람이면 보이게
+    this.uid = this.$store.state.uid;
+    if (this.uid == this.boardItem.uid) {
+      this.mine = true
+    }
+
+    this.nickname = this.$store.state.nickname;
+
+    this.boardItem.imgFiles.forEach((element) => {
+      this.img_src.push('http://localhost:8080/board/file/' + element.file_name);
+    });
+
+    // 통으로 받아온 해시태그 스페이스바 기준으로 잘라서 temp_hashtaglist에 넣어주기
+    if (this.boardItem.hashtags != undefined) {
+      this.temp_hashtaglist = this.boardItem.hashtags.split(' ');
+    }
+
+    // temp_hashtaglist에서 하나씩 꺼내서 검사 해준 후에, 유효한 해시태그들만 hashtag_list에 넣어주기
+    for (var i = 0; i < this.temp_hashtaglist.length; i++) {
+      if (this.temp_hashtaglist[i].indexOf('#') == 0) {
+        if (this.temp_hashtaglist[i].length >= 2) {
+          this.hashtag_list.push(this.temp_hashtaglist[i]);
+        }
+      }
+    }
+    // 만들어졌을 때, get요청을 보내서 hashtags를 통으로 들고오고
+    // 스페이스바로 분리하여 하단에 파란색으로 보여준다.
+
+    // 그리고 각기 해시태그를 누르면
+    // http://localhost:8081/#싸피 이런식으로
+    // 해당 해시태그가 나온 글들이 모두 나와야함.
+
+    let subContent = '';
+
+    // const extractDivPattern = /(<([^>]+)>)/gi;
+    const extractPattern = /<(\/div|a|p|span|li|ui|ol)([^>]*)>/gi;
+    let extractContent = this.boardItem.contents.replace(extractPattern, '');
+
+    if (extractContent.length < 95) {
+      subContent = extractContent;
+    } else {
+      let idx = extractContent.indexOf('<br>');
+
+      if (idx > 95) {
+        subContent = extractContent.substr(0, 95) + '...';
+      } else if (idx < 0) {
+        subContent =
+          extractContent.length > 95 ? extractContent.substr(0, 95) + '...' : extractContent;
+      } else {
+        let secondIdx = extractContent.indexOf('<br>', idx + 4);
+
+        if (secondIdx > 95) {
+          subContent = extractContent.substr(0, 95) + '...';
+        } else if (secondIdx < 0) {
+          subContent =
+            extractContent.length > 95 ? extractContent.substr(0, 95) + '...' : extractContent;
+        } else {
+          subContent = extractContent.substr(0, secondIdx) + '...';
+        }
+      }
+    }
+
+    this.contentPreview = subContent;
+  },
+  methods: {
+    next: function(e) {
+      e.stopPropagation();
+      this.currentNumber += 1;
+    },
+    prev: function(e) {
+      e.stopPropagation();
+      this.currentNumber -= 1;
+    },
+    showContent: function() {
+      this.$emit('showModal', this.boardItem);
+    },
+    goMypage(suggest) {
+      if (this.nickname == suggest.nickname) this.$router.push("/mypage");
+      else this.$router.push({ name: "UserPage", params: { suggest } })
+    },
+    userSearch() {
+      UserApi.requestGetUser(
+        this.boardItem.nickname,
+        (res) => {
+          this.goMypage(res.data.object);
+        },
+        () => {}
+      );
+    },
+  },
+  mounted() {
+    this.editor = new Editor({
+      editable: false,
+      content: this.contentPreview,
+      extensions: [
+        StarterKit,
+        Paragraph.extend({
+          parseHTML() {
+            return [{ tag: 'div' }];
+          },
+          renderHTML({ HTMLAttributes }) {
+            return [
+              'div',
+              mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, HTMLAttributes, {
+                class: 'feedContent',
+              }),
+              0,
+            ];
+          },
+        }),
+      ],
+    });
+  },
+  beforeDestroyed() {
+    this.editor.destroy();
+  },
 };
 </script>
+
+<style lang="scss">
+.feedContent {
+  word-break: break-all;
+  padding-top: 0px !important;
+}
+
+.replyShowContentBtn {
+  cursor: pointer;
+}
+</style>

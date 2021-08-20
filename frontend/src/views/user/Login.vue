@@ -1,178 +1,86 @@
-
-
 <template>
-  <div class="user" id="login">
-    <div class="wrapC">
-      <h1>
-        로그인을 하고 나면
-        <br />좋은 일만 있을 거예요.
-      </h1>
+<div style="height: 100vh; background-color: #FFB937;">
+	<div class="wrapper fadeInDown">
+		<div id="formContent">
+    <!-- Tabs Titles -->
 
-      <div class="input-with-label">
-        <input
-          v-model="email"
-          v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
-          @keyup.enter="Login"
-          autocapitalize="off"
-          id="email"
-          placeholder="이메일을 입력하세요."
-          type="text"
-        />
-        <label for="email">이메일</label>
-        <div class="error-text" v-if="error.email">{{error.email}}</div>
-      </div>
-
-      <div class="input-with-label">
-        <input
-          v-model="password"
-          type="password"
-          v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
-          id="password"
-          @keyup.enter="Login"
-          placeholder="비밀번호를 입력하세요."
-        />
-        <label for="password">비밀번호</label>
-        <div class="error-text" v-if="error.password">{{error.password}}</div>
-      </div>
-      <button
-        class="btn btn--back btn--login"
-        @click="onLogin"
-        :disabled="!isSubmit"
-        :class="{disabled : !isSubmit}"
-      >로그인</button> 
-
-      <div class="sns-login">
-        <div class="text">
-          <p>SNS 간편 로그인</p>
-          <div class="bar"></div>
-        </div>
-
-        <kakaoLogin :component="component" />
-        <GoogleLogin :component="component" />
-      </div>
-      <div class="add-option">
-        <div class="text">
-          <p>혹시</p>
-          <div class="bar"></div>
-        </div>
-        <div class="wrap">
-          <p>비밀번호를 잊으셨나요?</p>
-          <router-link to="/user/findpwd" class="btn--text">비밀번호 찾기</router-link>
-        </div>
-        <div class="wrap">
-          <p>아직 회원이 아니신가요?</p>
-          <router-link to="/user/join" class="btn--text">가입하기</router-link>
-        </div>
-        <div class="wrap">
-          <p>비밀번호를 변경하시겠어요?</p>
-          <router-link to="/user/chpwd" class="btn--text">비밀번호 변경하기</router-link>
-        </div>
-      </div>
+    <!-- Icon -->
+    <div class="fadeIn first" style="margin-top: 50px; margin-bottom: 50px;">
+        <img src="@/assets/images/logo2.png" alt="" id="icon" />
     </div>
-  </div>
+
+    <!-- Login Form -->
+    <form class="apibox">
+		<h6 class="easy fadeIn second">간편 로그인</h6>
+		<div class="login-btn fadeIn third">
+			<img  src="@/assets/images/kakao.png"  style="width: 70%;" @click="login"/>
+        </div>
+    </form>
+
+</div>
+		<div>
+			<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+			<link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+		</div>
+	</div>
+</div>
 </template>
 
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <script>
-import "../../components/css/user.scss";
-import PV from "password-validator";
-import * as EmailValidator from "email-validator";
-import KakaoLogin from "../../components/user/snsLogin/Kakao.vue";
-import GoogleLogin from "../../components/user/snsLogin/Google.vue";
-import UserApi from "../../api/UserApi";
+import UserApi from '../../api/UserApi';
 
 export default {
-  components: {
-    KakaoLogin,
-    GoogleLogin
-  },
-  data: () => {
-    return {
-      email: "",
-      password: "",
-      passwordSchema: new PV(),
-      error: {
-        email: false,
-        passowrd: false
-      },
-      isSubmit: false,
-      component: this
-    };
-  },
-  created() {
-    this.component = this;
-
-    this.passwordSchema
-      .is()
-      .min(8)
-      .is()
-      .max(100)
-      .has()
-      .digits()
-      .has()
-      .letters();
-  },
-  watch: {
-    password: function(v) {
-      this.checkForm();
-    },
-    email: function(v) {
-      this.checkForm();
-    }
-  },
+  name: 'App',
+  components: {},
   methods: {
-    checkForm() {
-      console.log(EmailValidator.validate(this.email));
-      if (this.email.length >= 0 && !EmailValidator.validate(this.email))
-        this.error.email = "이메일 형식이 아닙니다.";
-      else this.error.email = false;
+    login() {
+      const CLIENT_ID = process.env.VUE_APP_KAKAO_ID;
+      const REDIRECT_URI = process.env.VUE_APP_KAKAO_URI;
 
-      if (
-        this.password.length >= 0 &&
-        !this.passwordSchema.validate(this.password)
-      )
-        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
-      else this.error.password = false;
-      
-      let isSubmit = true;
-      Object.values(this.error).map(v => {
-        if (v) isSubmit = false;
-      });
-      this.isSubmit = isSubmit;
+      window.location.replace(
+        'https://kauth.kakao.com/oauth/authorize?client_id=' +
+          CLIENT_ID +
+          '&redirect_uri=' +
+          REDIRECT_URI +
+          '&response_type=code'
+      );
     },
-    onLogin() {
-      if (this.isSubmit) {
-        let { email, password } = this;
-        let data = {
-          email,
-          password
-        };
+    onSuccess: function(e) {
+      let data = {
+        access_token: e.access_token,
+      };
 
-        //요청 후에는 버튼 비활성화
-        this.isSubmit = false;
-
-        UserApi.requestLogin(
-          data,
-          res => {
-            //통신을 통해 전달받은 값 콘솔에 출력
-            // console.log(res);
-
-            //요청이 끝나면 버튼 활성화
-            this.isSubmit = true;
-
-            this.$router.push("/feed/main");
-          },
-          error => {
-            if(error) this.$router.push("/error");
-            
-            //요청이 끝나면 버튼 활성화
-            this.isSubmit = true;
-            
-          }
-        );
-      }
-    }
+      UserApi.requestkakaoLogin(
+        data,
+        (res) => {
+          this.$router.push('/feed/main');
+        },
+        (error) => {
+          this.$router.push('/user/join');
+        }
+      );
+    },
+    onFailure: function(e) {
+      console.log(e);
+      console.log('failure');
+    },
+    logout(e) {
+      let data = {
+        access_token: e.access_token,
+      };
+      UserApi.logout(
+        data,
+        (res) => {},
+        (error) => {}
+      );
+    },
   },
 };
 </script>
 
-
+<style >
+  @import "../../components/css/user/login.css";
+</style>
