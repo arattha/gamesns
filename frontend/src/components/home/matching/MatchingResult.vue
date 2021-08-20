@@ -2,7 +2,7 @@
   <div>
     <Header />
     <div class="result-container" style="padding-top: 45px;">
-    <div class="durl"><a :href="discordUrl">{{ discordUrl }}</a></div>
+    <div class="durl"><a :href="discordUrl" :target="_blank">{{ discordUrl }}</a></div>
 
     <div class="result-title">이번 매칭은 어떠셨나요? :)</div>
 

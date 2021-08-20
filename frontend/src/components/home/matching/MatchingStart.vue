@@ -37,8 +37,8 @@
       </div>
 
       <button class="matching-start-btn game-btn" id="btnJoin" style="">함고?</button>
-      <button class="matching-accept-btn game-btn" id="btnSend" v-if="matchedUser" style="">매칭수락</button>
-      <!--<button class="matching-start-btn game-btn" id="btnSend"> 보내기 </button>-->
+      <div class="matching-accept-btn game-btn" v-if="matchedUser.length > 0" style="display:flex; align-self: center;" id="btnSend">매칭수락</div>
+      <!--<button class="matching-start-btn game-btn" id="btnSend"> 보내기 </button> <button   style="text-align: center;"></button>-->
     </div>
     <Footer />
   </div>
@@ -96,7 +96,7 @@ export default {
       if (type == '함고?') {
         this.join();
       } else if (type == '매칭중지') {
-        this.cancel();
+        //this.cancel();
         this.$router.push('/matchingBefore');
       }
     },
@@ -158,7 +158,7 @@ export default {
     },
     cancel() {
       //매칭 멈추기
-      this.matchedUser = null;
+      this.matchedUser = [];
       http
         .get('/matching/cancel', {
           params: {
