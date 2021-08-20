@@ -3,6 +3,9 @@
 }
 .ProseMirror {
   height: 100%;
+  * {
+    white-space: normal;
+  }
   > * + * {
     margin-top: 0.75em;
   }
