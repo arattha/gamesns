@@ -112,6 +112,10 @@ certificate file, private key 경로 지정
 
 모든 경로에 cors 허용
 
+- 채팅 서버 실행 시 
+   1. chat 폴더로 이동
+   2. su nodeuser 로 사용자 변경
+   3. node server.js 로 채팅 서버 실행
 
 
 ### 4) db 접속정보
