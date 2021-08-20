@@ -15,11 +15,12 @@ import http from '@/util/http-common.js';
 export default {
     name: 'Sharelink',
     props: ['boardItem'],
-      data: () => {
+    data: () => {
     return {
         reply_num : 0,
         likelist: [],
         likelist_num: 0,
+        contentPreview : "",
         };
     },
     methods: {
@@ -30,18 +31,14 @@ export default {
                 }
             }
             catch(e) {console.log()}
-            console.log(this.reply_num)
             window.Kakao.Link.sendDefault({
                 objectType: 'feed',
                 content: {
-                    title: this.boardItem.contents,
-                    description: this.boardItem.uid + '유저아이디',
+                    title: this.contentPreview,
+                    description: this.boardItem.nickname,
                     // '~~~님의 글'
                     imageUrl:
                         'https://ifh.cc/g/7jY7L7.png',
-                        // 이미지 url을 어떻게 얻지?
-                        // this.boardItem.imgFiles ~ 로 하는 것인지?
-                        // 가능하면 작성글 이미지, 아니면 기본 함고 이미지.
                     link: {
                         mobileWebUrl: 'https://i5c203.p.ssafy.io',
                         webUrl: 'https://i5c203.p.ssafy.io',
@@ -97,6 +94,16 @@ export default {
         .catch(() => {
           console.log('좋아요 리스트 에러');
         });
+      let subContent = '';
+      const extractPattern = /<(\/div|a|p|span|li|ui|ol|br)([^>]*)>/gi;
+      let extractContent = this.boardItem.contents.replace(extractPattern, '');
+
+      if (extractContent.length < 20) {
+        subContent = extractContent;
+      } else {
+        subContent = extractContent.substr(0, 20) + '...';
+      }
+      this.contentPreview = subContent.substr(5,);
     },
 }
 </script>
