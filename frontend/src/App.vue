@@ -24,7 +24,7 @@ export default {
       const serverURL = "https://i5c203.p.ssafy.io/api/alarm"
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-
+      this.stompClient.debug = () => {};
       this.stompClient.connect(
         {},
         frame => {
