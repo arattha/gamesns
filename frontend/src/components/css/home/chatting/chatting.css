@@ -54,10 +54,10 @@
   .srch_bar .input-group-addon { margin: 0 0 0 -27px;}
 
   .suggestion_box{
-    width: 40%;
-    position: absolute;
+    width: 70%;
+    position: relative;
     text-align: center;
-    left:54%;
+    left:28%;
     background-color: rgba(149, 149, 153, 0.3);
     color: rgb(133, 133, 136);
     font-family: 'Nanum Gothic', sans-serif;
