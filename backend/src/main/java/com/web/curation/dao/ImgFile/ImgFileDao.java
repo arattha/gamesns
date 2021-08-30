@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ImgFileDao extends JpaRepository<ImgFile, String> {
 	
 	List<ImgFile> findImgFileByBid(long bid);
+	
 }
