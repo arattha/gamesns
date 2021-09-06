@@ -28,7 +28,4 @@
 
 ## 스크린샷
 
-<img src="./img/메인피드.png" width="200" height="400"/>
-<img src="./img/마이페이지.png" width="200" height="400"/>
-<img src="./img/매칭페이지.png" width="200" height="400"/>
-<img src="./img/채팅.png" width="200" height="400"/>
+<img src="./img/메인피드.png" width="200" height="400"/><img src="./img/마이페이지.jpg" width="200" height="400"/><img src="./img/매칭페이지.png" width="200" height="400"/><img src="./img/채팅.png" width="200" height="400"/>
