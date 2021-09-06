@@ -27,10 +27,10 @@
 
 ## 스크린샷
 메인피드  
-<img src="./img/메인피드.png" width="200" height="400"/>
+<img src="./img/메인피드.png" width="200" height="400"/>  
 마이페이지  
-<img src="./img/마이페이지.jpg" width="200" height="400"/>
+<img src="./img/마이페이지.jpg" width="200" height="400"/>  
 매칭기능  
-<img src="./img/매칭페이지.png" width="200" height="400"/>
+<img src="./img/매칭페이지.png" width="200" height="400"/>  
 채팅기능  
-<img src="./img/채팅.png" width="200" height="400"/>
+<img src="./img/채팅.png" width="200" height="400"/>  
