@@ -28,6 +28,8 @@
 
 ## 스크린샷
 
+<img src="./img/메인피드.png" width="200" height="400"/>
+
 ![메인피드](./img/메인피드.png){: width="100" height="100"}
 
 ![마이페이지](./img/마이페이지.jpg){: width="100" height="100"}
